@@ -184,8 +184,15 @@ captures the realistic overlap forms and 8d confirms the final-2 rule. Scripts: 
   public among plausibly-honest candidates, different PF/beam architecture; if its novel-well honesty is
   confirmed it is a best-of-2 free-option upgrade for either slot. B4′ is NOT recommended for a slot
   (worse base than the banked DWT; override showed no public overlap capture).
-- **Remaining blockers:** 54723189 still pending (structural-surface guarded, ~3h — Kaggle rerun queue);
-  Sunny PF novel-well honesty unverified (needs its OOF / a light audit); ROGII external-data clause still
-  needs manual human confirmation (only blocks external-data S-B).
+- **Remaining blockers:** 54723189 (structural-surface guarded, prior session) **remained PENDING >4h**
+  through session close — Kaggle rerun queue backlog / slow notebook; it does not affect the final-2
+  recommendation regardless of its eventual score (it is a structural-surface guarded router, dominated
+  by the proven Gate-Safe hedge for the overlap slot). Sunny PF novel-well honesty unverified (needs its
+  OOF / a light audit — the top follow-up); ROGII external-data clause still needs manual human
+  confirmation (only blocks external-data S-B).
+- **Session close (16baec36):** queue exhausted; deliverable = robust final-2 `{DWT 9.519, Gate-Safe
+  7.212}` + documented B4′ experiment (exact override, precision-first per spec; honest negative: base
+  post-proc variance + affine hidden-overlap). Next-iteration paths recorded (Sunny-PF verification;
+  base-pinned/affine-aware B4′ if ever justified). PR #2 (draft) carries all work.
 - **Key lesson recorded:** to stack an override on the honest base, sit it on the *banked kernel version*
   or pin the post-proc — do not re-run the non-deterministic optuna (fixed CV ≠ fixed public, §7).
