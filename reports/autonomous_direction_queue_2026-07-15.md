@@ -94,9 +94,16 @@ smaller-tau draw — **same internal CV 10.40, different public (9.864 vs 9.519)
 fixed CV* (`tau` sets the drift ramp `1−e^{−md_since/τ}`; τ=55 ⇒ slower ramp ⇒ different toe). The
 override itself is sound (FP=0, exact recon, try/except self-floor); on this public split it was a
 **no-op** (B4′ was not pulled toward the ~7.2 overlap band), so the 9.864 is essentially the base.
-Two readings of the no-op, both leaving the deliverable unchanged: (a) the public split is low-overlap,
-or (b) the precision-first gate (`tvt_rmse<0.02`) is too strict to catch the real hidden-dup form that
-the proven Gate-Safe hedge (7.212) exploits. **Consequences:** re-running the DWT notebook does not
+**Why the override was a no-op — the deeper reason:** the proven Gate-Safe hedge reaches **7.212 on the
+same public split**, so exploitable overlap *does* exist there — yet my exact-match override captured
+**none** of it (B4′ stayed at the base 9.864). A true exact duplicate would clear `tvt_rmse<0.02` (the 3
+visible wells give tvt_rmse=0), so the hidden overlap is **not exact-duplicate form** — most likely
+**affine-overlaid** train wells (consistent with §1's affine-overlay evidence, 7.278/7.294). My
+precision-first *exact* gate is therefore mismatched to the actual overlap: it guarantees FP=0 but
+captures ~0 of the affine overlap that Gate-Safe exploits. A B4′ that captured this overlap would need an
+affine-aware (but still FP-safe) override — i.e. it would essentially recreate the Gate-Safe mechanism on
+a DWT base; since the Gate-Safe hedge already occupies the overlap slot, this is lower-value than it first
+appeared. (The alternative reading — a low-overlap public split — is ruled out by Gate-Safe's 7.212.) **Consequences:** re-running the DWT notebook does not
 reproduce the banked 9.519 (no local backup; optuna non-deterministic) → the **banked ref 54453597 is
 the reliable honest slot** (Kaggle reruns its frozen version on private). B4′-as-submitted is NOT a slot
 upgrade over the banked DWT. The override *mechanism* is validated and kept for future use (e.g. a
