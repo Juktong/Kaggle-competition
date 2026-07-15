@@ -564,3 +564,66 @@ V3 stratified blend audit, V4 submission-level honest-model diversity, V5 visibl
 tool. Recommended first: V1+V2 (labeled-info foundation), V4→S-A (deliverable), V5 (audit tool). No GPU
 until V1/V2 show positive labeled-info signal and (for S-B) the external-data rule is manually confirmed.
 Scripts: scratchpad_probes/ssl_gr_encoder_preflight.py, marker_predictability_probe.py.
+
+## 16. Round 2026-07-15(b) — V2 structural surfaces (oracle-positive, achievable-negative) + S-A + V5
+
+Full write-ups: `reports/v2_structural_surface_probe_2026-07-15.md`,
+`reports/final2_decision_optimization_2026-07-15.md`. Scripts:
+`scratchpad_probes/structural_surface_probe.py`, `scripts/final2_decision_analysis.py`,
+`scripts/visible_well_audit.py`. No process/GPU running this round (CPU-only box, 2 cores); no Kaggle
+submission (no achievable honest OOF improvement met the submittable bar).
+
+- **V2 — structural-surface predictability (the last untested branch of N-A).** Treated the 6 train-only
+  surfaces (ANCC/ASTNU/ASTNL/EGFDU/EGFDL/BUDA) as *predicted* auxiliary features, compliantly: surfaces
+  train the predictor; all predictor + downstream features are test-available (GR windows, trajectory,
+  distance-from-cut, known-heel anchor, typewell GR); downstream TVT-residual model consumes the
+  predictor's OOF. Target = `surf − Z` (Z-detrended structural offset; Z & surfaces share the elevation
+  frame, TVT does not). Results (773 wells, 5-fold well-OOF, DWT OOF 10.393):
+  - **Foundation PASSES** — all 6 surfaces OOF-predictable, R² **+0.59 .. +0.78** (RMSE ~28–30 ft).
+  - **ORACLE (true surf−Z as features, diagnostic/not achievable): blend weight +0.216**, stable across
+    all 5 folds (+0.20..+0.23), corr(err,DWT) 0.731→0.613, nested CV **10.393→10.140 (−0.25)**. This is
+    the **first oracle in the entire search to BEAT rather than tie DWT** (§8 oracles only tied) — the
+    structural framework is the one channel carrying information DWT does not already hold.
+  - **ACHIEVABLE (OOF-predicted surf−Z): blend weight −0.020** = base-only (−0.021), corr 0.735 →
+    blend-neutral. **V2 STOP.** A partial-oracle precision sweep shows the weight turns positive only
+    around surf-RMSE **≈14–20 ft** (≈2× better than the achievable ~29 ft) AND only when the accuracy
+    comes from genuine true-surface info, not the base features.
+  - **Why:** a surface predictor is a deterministic function `h(BASE)` of the test-available inputs, so
+    `BASE + pred_surf` is redundant with `BASE` (Stage3 ≈ Stage0). The oracle's independent signal is
+    the train-only surface residual orthogonal to the inputs — unreachable at test. **This closes N-A
+    (predicted-framework features) AND N-B (auxiliary structural heads) for GPU:** N-B's auxiliary head
+    is likewise a function of test-available inputs → blend-neutral by the same argument. **No
+    structural-label GPU direction is warranted.**
+  - **New reusable ledger category — *oracle-positive but achievable-negative*:** the independent signal
+    provably exists (in train-only labels) yet is not a function of any test-available input, so no model
+    on the current input set (any capacity) can capture it. This upgrades the "information ceiling" to a
+    precise **label-availability ceiling** — the one channel with genuine independent info (structure) is
+    train-only and not reconstructable from the test inputs DWT already saturates.
+
+- **S-A — decision-theoretic final-2 optimization** (`scripts/final2_decision_analysis.py`). Modeled each
+  submission's pooled private RMSE `= sqrt(f·r_overlap² + (1−f)·r_novel²)` under a prior on the private
+  overlap fraction `f`, with Kaggle's **best-of-2** private rule → `final(pair,f)=min` over the pair.
+  Findings: under best-of-2 a hedge is a **free option** (never hurts), so `{DWT, Gate-Safe hedge}`
+  weakly dominates `{DWT, honest2}` (honest2 is blend-neutral, adds ~0) and `{hedge, hedge}` (worst-case
+  worse). A **guarded honest+overlap submission built on the DWT base (B4′)** — DWT on novel wells +
+  exact-match override only on detected train-duplicates — dominates the separate weak-base hedge at
+  every `f`; pairing it with pure DWT makes the DWT slot a safety net that absorbs B4′'s false-positive
+  risk, so **`{B4′, DWT}` weakly dominates the current `{DWT, hedge}` pair pointwise** (max advantage
+  ~1.28 RMSE at intermediate `f`). **Recommendation:** keep `{DWT 9.519 (54453597), Gate-Safe 7.212
+  (54289934)}` if no new work; **build B4′** (gated on within-comp override compliance + V5 audit +
+  detector precision) and switch slot-2 to `{B4′, DWT}` — the evidence-supported deliverable lever.
+
+- **V5 — visible-well pre-submit audit tool** (`scripts/visible_well_audit.py`, reusable mandatory gate).
+  Checks format/row-order vs sample_submission, finiteness, sane range, diff-vs-DWT, and RMSE on the 3
+  visible test wells (which are in train with truth). Validated end-to-end: the DWT OOF scores **pooled
+  7.23** on the 3 visible wells (000d7d20 3.63 / 00bbac68 9.04 / 00e12e8b 6.78 — these wells are
+  easier-than-average vs the 10.40 full CV, useful calibration); hard checks correctly FAIL (exit 1) on
+  a NaN/out-of-range submission. Usage: `python3 scripts/visible_well_audit.py --candidate sub.csv
+  [--baseline dwt_sub.csv]`.
+
+**Round read.** V2 is the most informative negative to date: it *localizes* the honest-frontier limit to
+**label availability** (structure is the one independent channel, and it is train-only), not model
+capacity or representation — reinforcing that no GPU model on the current test-available inputs clears the
+blend-neutral wall. Effort now concentrates on the **deliverable (S-A / B4′)** rather than a new honest
+model. Honest base unchanged = DWT **9.519** (ref 54453597). Next untested CPU probe: V3 stratified blend
+audit.

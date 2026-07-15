@@ -131,6 +131,19 @@ N-A depends on V1/V2; N-B and S-B are Kaggle-GPU and gated on those.
   5-fold well-OOF R²; stack predicted surfaces as features into a TVT residual model; blend weight sign.
 - **Pass:** any surface OOF R² > 0 AND predicted-surface blend weight > 0. **Stop:** R² ≤ 0 or blend ≤0
   (surface-prediction ≈ TVT-prediction → blend-neutral).
+- **Result (2026-07-15):** target = `surf − Z` (Z-detrended structural offset; Z & surfaces share the
+  elevation frame). Foundation PASSES — all 6 surfaces OOF-predictable from test-available inputs
+  (R² +0.59 .. +0.78, RMSE ~28–30 ft). Decisive nested blend vs DWT (10.393): **ORACLE** (TRUE `surf−Z`
+  as features) gives a stable **POSITIVE** blend weight **+0.216** (folds +0.20..+0.23; nested-blend
+  10.393→**10.140**; corr(err,DWT) 0.613) — the **first positive oracle in the whole search**: the
+  structural framework genuinely carries information independent of DWT. **ACHIEVABLE** (OOF-PREDICTED
+  `surf−Z`) gives blend weight **−0.020** = base-only (−0.021), corr 0.735, nested-blend 10.417 →
+  blend-neutral. A surface predictor is a function of the test-available inputs, so predicted surfaces
+  are redundant with the base model (Stage3 ≈ Stage0); the oracle's independent signal lives in the
+  train-only surface residual, not reconstructable from test inputs. **V2 STOP condition met**
+  (achievable blend weight ≤ 0); a stronger (GPU) predictor on the same inputs cannot recover it.
+  Script `scratchpad_probes/structural_surface_probe.py`; report
+  `reports/v2_structural_surface_probe_2026-07-15.md`.
 
 ## SMALL V3 — Stratified blend audit (is blend-neutral uniform, or is there an exploitable stratum?)
 - **Hypothesis:** the blend-neutral property was measured pooled; a specific stratum (e.g. near-toe ×
@@ -217,3 +230,30 @@ rule is manually confirmed.
   signal (the facies route is closed by V1). If V2 is also negative, no GPU direction remains supported
   and the honest base stays DWT 9.519; effort shifts to S-A (submission strategy) as the deliverable
   lever.
+
+## Update 2026-07-15 (after V2) — structural route closed on achievable evidence; effort → S-A
+- **V2 outcome:** structural surfaces (`surf − Z`) are OOF-predictable (R² 0.59–0.78) and — as an
+  **ORACLE** (true surfaces) — give the first stable **POSITIVE** nested blend weight (**+0.216**,
+  10.39→10.14): the structural framework is the one channel carrying information DWT does not already
+  hold. BUT the **ACHIEVABLE** path (OOF-PREDICTED surfaces from test-available inputs) is blend-neutral
+  (**−0.020** ≈ base-only −0.021): any surface predictor is a function of the test-available inputs DWT
+  already consumes, so predicted surfaces add nothing independent (Stage3 ≈ Stage0). The oracle signal
+  lives in the train-only surface residual, unreachable at test.
+- **Consequence for N-A / N-B:** both structural branches were gated on V2 showing an *achievable*
+  positive-weight signal; V2's achievable weight is ≤ 0, so **N-A (predicted-framework features) and
+  N-B (multi-task auxiliary structural heads) are NOT GPU-warranted** — N-B's auxiliary head is likewise
+  a function of test-available inputs, predicted blend-neutral by the same redundancy argument. The
+  facies branch was already closed by V1. → **no structural-label GPU direction is currently supported.**
+- **Reusable finding:** an *oracle-positive but achievable-negative* result is a new ledger category —
+  the independent signal provably exists (in train-only labels) yet is not a function of any
+  test-available input, so no model on the current input set (however large) can capture it. This
+  sharpens the "information ceiling": it is a *label-availability* ceiling, not a model-capacity one.
+- **Remaining evidence-supported priorities (all CPU / deliverable):**
+  1. **S-A** final-2 decision optimization — DONE (`reports/final2_decision_optimization_2026-07-15.md`):
+     keep {DWT 9.519, Gate-Safe hedge 7.212} now; build B4′ (guarded honest+overlap on the DWT base) →
+     {B4′, DWT} weakly dominates at every overlap fraction (gated on within-comp override compliance +
+     V5 audit + detector precision).
+  2. **V5** visible-well pre-submit audit tool — DONE (`scripts/visible_well_audit.py`); mandatory gate.
+  3. **V3** stratified blend audit (CPU) — remaining untested small probe.
+- Honest final base unchanged = DWT 9.519 (ref 54453597). The deliverable lever is now **S-A (build
+  B4′)**, not a new honest model.
