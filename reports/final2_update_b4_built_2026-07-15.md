@@ -67,7 +67,38 @@ Notes:
   variant, dominated by B4′ for the honest slot); record and compare, but it does not displace B4′+DWT.
 
 ## 6. Assumptions / risk points
-- Best-of-2 private rule is the linchpin (standard Kaggle 2-final mechanism; worth a one-line manual
-  confirmation on the rules page). If only the last submission counted, the free-option argument weakens.
+- Best-of-2 private rule is the linchpin — **CONFIRMED** (web, standard Kaggle 2-final mechanism).
 - Sunny PF novel-well honesty is unmeasured; the upgrade is explicitly gated on evidence, and under
   best-of-2 the downside of including it is nil.
+
+---
+
+## 7. RESULT ADDENDUM (B4′ scored public 9.864) — recommendation REVISED
+B4′ (54727655) completed at **public 9.864 — 0.345 WORSE than the banked DWT 9.519.** Diagnosis: the
+notebook re-runs the optuna post-proc with `n_jobs=-1` (non-deterministic) and this run drew τ=55
+(internal CV 10.4009), versus the banked run's smaller-τ draw — **same CV 10.40, different public**
+(§7 "held-out CV misleading for post-proc", now as public variance across optuna draws). The override
+is validated (FP=0, exact recon, try/except self-floor) and was a **no-op on the public split** (B4′
+was not pulled toward the ~7.2 overlap band), so 9.864 ≈ the base. Re-running the DWT notebook does not
+reproduce the banked 9.519 (no local backup; optuna non-deterministic).
+
+**Key correction to §2/§4:** the "B4′ ≥ DWT by construction" argument holds only relative to B4′'s *own*
+re-run base — which drew worse (9.864) than the **banked** DWT (9.519). So B4′-as-submitted does NOT
+dominate the banked DWT, and DWT-as-slot-2 is no longer redundant (the two bases now differ).
+
+**REVISED final-2 recommendation:**
+- **Robust lock = `{DWT 9.519 (54453597), Gate-Safe 7.212 (54289934)}`** — the proven honest base +
+  proven overlap hedge (S-A's original robust pair). Best-of-2 hedges novel-heavy (DWT) vs overlap-heavy
+  (Gate-Safe, the *proven* overlap play — unlike B4′'s override, which showed no public overlap capture).
+- **Top upside candidate = Sunny PF90 (8.864, 54710185)** — best public among plausibly-honest candidates,
+  different PF/beam architecture. Under best-of-2 it is a free-option upgrade for either slot **iff** its
+  novel-well honesty is verified (its OOF / a light audit — the deferred B1′ work). This is now the single
+  most valuable follow-up for the final-2.
+- **B4′ (9.864) is NOT recommended for a slot** — worse base than the banked DWT, override no public gain.
+  The override *mechanism* is validated and retained (`kaggle_kernel_b4_guarded/`, `scripts/b4_guarded_override.py`)
+  for a future rebuild that pins the base to the banked config (do not re-optuna) and/or loosens the gate
+  while preserving FP≈0.
+
+**No further submission spent:** re-running does not reliably reproduce 9.519 and the override showed no
+public gain, so a resubmission would be exploratory (against the slot-discipline directive). The banked
+pair is robust-optimal among proven refs.

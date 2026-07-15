@@ -21,7 +21,7 @@ the private proxy; public-hedge kept strictly separate from honest work.
 | # | Direction | Status | Compute | Submission | Key metric | Decision |
 |---|---|---|---|---|---|---|
 | 0 | Init/hygiene: worktree, artifacts, submissions, processes | done | CPU | — | 54723189 PENDING; no live proc; no local GPU | proceed |
-| 1 | **B4′ guarded honest+overlap** (highest priority) | **SUBMITTED (54727655, pending)** | CPU+notebook | **54727655** | FP=0, visible recon RMSE **0.000**, V5 PASS, clean Kaggle run | submitted; monitor |
+| 1 | **B4′ guarded honest+overlap** (highest priority) | **COMPLETE — public 9.864** | CPU+notebook | **54727655** | FP=0, visible recon 0.000; but base post-proc variance → 9.864 > banked DWT 9.519 | mechanism validated; NOT a slot upgrade |
 | 2 | Duplicate-detector hardening variants | done (folded into B4′) | CPU | — | tight gate tvt_rmse<0.02, 0 FP incl hard near-collision | adopted |
 | 3 | V3 stratified blend audit | done — negative | CPU | — | pooled OOS gain **−0.0024**; 2/16 cells +0.03 (noise) | close |
 | 4 | B3′ hidden-batch transductive diagnostic | done — negative | CPU | — | corr(e,e_nn)**+0.03** (−0.10 densest); oracle transduct worse | close (no Kaggle diag) |
@@ -85,6 +85,24 @@ already-banked hedge (ref 54289934) and the public 7.2 plateau. Worst case (nove
 → B4′ == DWT exactly (override never fires). Low-risk / established. Notebook `kaggle_kernel_b4_guarded/`,
 kernel `joezzzzz/rogii-b4-guarded-codex`.
 
+**RESULT (public 9.864) — honest diagnosis.** B4′ scored **public 9.864**, i.e. **0.345 WORSE than the
+banked DWT 9.519** — not the expected `≤ DWT`. Root cause is **DWT-base post-proc variance, NOT the
+override:** the notebook re-runs the optuna post-proc with `n_jobs=-1` (non-deterministic), and this run
+drew `{alpha 1.0, tau 55, w_pf 0.08}` (best trial 231, internal CV **10.4009**) versus the banked run's
+smaller-tau draw — **same internal CV 10.40, different public (9.864 vs 9.519)**. This is exactly §7's
+"held-out CV is misleading for post-proc," now manifesting as *public variance across optuna draws at
+fixed CV* (`tau` sets the drift ramp `1−e^{−md_since/τ}`; τ=55 ⇒ slower ramp ⇒ different toe). The
+override itself is sound (FP=0, exact recon, try/except self-floor); on this public split it was a
+**no-op** (B4′ was not pulled toward the ~7.2 overlap band), so the 9.864 is essentially the base.
+Two readings of the no-op, both leaving the deliverable unchanged: (a) the public split is low-overlap,
+or (b) the precision-first gate (`tvt_rmse<0.02`) is too strict to catch the real hidden-dup form that
+the proven Gate-Safe hedge (7.212) exploits. **Consequences:** re-running the DWT notebook does not
+reproduce the banked 9.519 (no local backup; optuna non-deterministic) → the **banked ref 54453597 is
+the reliable honest slot** (Kaggle reruns its frozen version on private). B4′-as-submitted is NOT a slot
+upgrade over the banked DWT. The override *mechanism* is validated and kept for future use (e.g. a
+looser-but-still-safe gate, or if private overlap is confirmed). **Lesson:** to stack an override on the
+honest base, sit it on the banked kernel version / pin the post-proc — do not re-optuna.
+
 ## Direction 3 — V3 stratified blend audit (negative)
 Row-level nested well-split blend of DWT + matcher (corr 0.65, most decorrelated candidate) across
 distance-from-cut × DWT-drift-magnitude quartiles (test-available strata). **Pooled out-of-sample gain
@@ -144,13 +162,23 @@ captures the realistic overlap forms and 8d confirms the final-2 rule. Scripts: 
 `d8e_shrink.py`.
 
 ## Conclusion (queue exhausted)
-- **Delivered:** B4′ built, locally validated (FP=0, visible recon 0.000, V5 PASS), and **submitted
-  (54727655, pending)** — the strongest single submission per S-A, self-flooring at DWT. Audit harness +
-  submission ledger + reproducible notebook shipped. Final-2 recommendation updated (best-of-2 confirmed).
+- **Delivered:** B4′ built, locally validated (FP=0, visible recon 0.000, V5 PASS), submitted, and
+  **scored (54727655 = public 9.864)**. Audit harness + submission ledger + reproducible notebook shipped.
+- **B4′ outcome (honest):** public **9.864 > banked DWT 9.519** due to **DWT-base post-proc optuna
+  variance** (this run drew τ=55, internal CV 10.40, same CV / worse public), NOT override harm (override
+  validated, was a no-op on the public split). Re-running the DWT notebook does not reproduce the banked
+  9.519 → **the banked ref 54453597 is the reliable honest slot.** B4′-as-submitted is not a slot upgrade.
 - **Closed this round (honest negatives):** V3 stratified blend (−0.0024), B3′ transductive (no spatial
   error structure), B1′ blend (matcher −0.0024; new GPU pipeline not warranted), 8b/8c/8e. All consistent
-  with the established label-availability / information ceiling for the honest RMSE frontier.
-- **Recommended final-2 now:** `{B4′ 54727655, DWT 54453597}` (robust), with `{B4′, Sunny PF90 54710185}`
-  as the evidence-gated best-of-2 upside upgrade.
-- **Remaining blockers:** two pending public scores (B4′ 54727655, spatial-surface 54723189); ROGII
-  external-data clause still needs manual human confirmation (only blocks external-data S-B, not B4′).
+  with the label-availability / information ceiling for the honest RMSE frontier.
+- **Recommended final-2 now (REVISED):** **`{DWT 9.519 (54453597), Gate-Safe 7.212 (54289934)}`** — the
+  robust, proven pair (S-A's original): proven honest base + proven overlap hedge, best-of-2 hedged across
+  private-composition scenarios. **Top upside candidate to verify:** Sunny PF90 (8.864, 54710185) — best
+  public among plausibly-honest candidates, different PF/beam architecture; if its novel-well honesty is
+  confirmed it is a best-of-2 free-option upgrade for either slot. B4′ is NOT recommended for a slot
+  (worse base than the banked DWT; override showed no public overlap capture).
+- **Remaining blockers:** 54723189 still pending (structural-surface guarded, ~3h — Kaggle rerun queue);
+  Sunny PF novel-well honesty unverified (needs its OOF / a light audit); ROGII external-data clause still
+  needs manual human confirmation (only blocks external-data S-B).
+- **Key lesson recorded:** to stack an override on the honest base, sit it on the *banked kernel version*
+  or pin the post-proc — do not re-run the non-deterministic optuna (fixed CV ≠ fixed public, §7).

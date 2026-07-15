@@ -7,12 +7,12 @@ the submission; the B4′ notebook lives in this branch.
 
 | ref | public | role | source (kernel / notebook) | commit | pre-submit audit | decision |
 |---|---|---|---|---|---|---|
-| **54727655** | pending | **B4′ guarded honest+overlap** (slot-1 candidate) | `joezzzzz/rogii-b4-guarded-codex` v1 = `kaggle_kernel_b4_guarded/rogii-b4-guarded-codex.ipynb` | `codex/autonomous-queue-2026-07-15` | V5 PASS, visible RMSE 0.000, FP=0 | **submitted 2026-07-15 13:52; monitor** |
-| **54453597** | **9.519** | honest primary / anchor | `joezzzzz/rogii-dwt-honest-codex` (LAM=1.0, 5-model) | banked | (banked) | keep — final-2 slot-2 (robust) |
-| 54289934 | 7.212 | overlap/public hedge (kept separate) | Plane Top2 Gate-Safe | banked | (banked) | dominated by B4′; not a final slot |
-| 54710185 | 8.864 | Sunny PF90 — independent PF/beam architecture | `henry_v10_sunny80_blend` | banked | — | final-2 slot-2 UPGRADE candidate (best-of-2 free option; gate: verify novel-well honesty) |
+| **54453597** | **9.519** | **honest primary / FINAL-2 slot-1** | `joezzzzz/rogii-dwt-honest-codex` (banked frozen version) | banked | (banked) | **SELECT — robust honest slot** |
+| **54289934** | **7.212** | **overlap hedge / FINAL-2 slot-2 (robust)** | Plane Top2 Gate-Safe | banked | (banked) | **SELECT — proven overlap play** |
+| 54710185 | **8.864** | Sunny PF90 — independent PF/beam arch (best public among plausibly-honest) | `henry_v10_sunny80_blend` | banked | — | **top upside**: best-of-2 free-option upgrade IF novel-well honesty verified |
 | 54672680 | 8.874 | Sunny PF75 — same class | (sunny) | banked | — | alt to PF90 |
-| 54723189 | pending | spatial-surface guarded router (V2 structural direction) | codex | banked | — | monitor; likely overlap-guarded (dominated by B4′ for honest slot) |
+| 54727655 | **9.864** | B4′ guarded honest+overlap (attempted upgrade) | `joezzzzz/rogii-b4-guarded-codex` v1 = `kaggle_kernel_b4_guarded/` | `codex/autonomous-queue-2026-07-15` | V5 PASS, visible RMSE 0.000, FP=0 | **NOT a slot** — base post-proc variance → 9.864 > banked 9.519; override no public gain |
+| 54723189 | pending | spatial-surface guarded router (V2 structural direction) | codex | banked | — | monitor; likely overlap-guarded |
 
 ## B4′ (54727655) full record
 - **Source:** `kaggle_kernel_b4_guarded/rogii-b4-guarded-codex.ipynb` (28 cells) = the DWT honest
@@ -29,10 +29,18 @@ the submission; the B4′ notebook lives in this branch.
 - **Kaggle run:** clean (5-model DWT base loaded, cb3 absent as expected; override fired on 3 duplicate
   wells, 14151 rows, tvt_rmse=0; no errors). Downloaded submission re-audited: visible pooled RMSE 0.000.
 - **Audit record:** `experiments/presubmit/B4_guarded_54727655_presubmit.{json,md}`.
-- **Why this submission was spent:** S-A identifies B4′ as the strongest single submission (weakly
-  dominates DWT+hedge at every overlap fraction); it self-floors at DWT (≥ DWT by construction), so the
-  downside is nil and the upside (private overlap capture on a strong honest base) is real. Compliance:
-  within-competition overlap only, identical mechanism to the already-banked hedge (54289934).
+- **Why this submission was spent:** S-A identified B4′ as the strongest single submission on the
+  assumption its base = the banked DWT 9.519. Compliance: within-competition overlap only, identical
+  mechanism to the already-banked hedge (54289934).
+- **OUTCOME — public 9.864 (0.345 worse than banked DWT 9.519).** Diagnosis: **DWT-base post-proc optuna
+  variance** (this run drew τ=55, internal CV 10.4009; the banked run drew a smaller τ — same CV, different
+  public, per §7). The override is validated (FP=0, exact recon, try/except self-floor) and was a **no-op
+  on the public split** (9.864 ≈ base, not pulled toward ~7.2). Re-running the DWT notebook does NOT
+  reproduce 9.519 (no local backup; `optuna` `n_jobs=-1` non-deterministic) → the **banked ref 54453597 is
+  the reliable honest slot**. **B4′-as-submitted is NOT a final-2 slot.** The override mechanism is retained
+  for a future rebuild that pins the base to the banked config (do not re-optuna) and/or loosens the gate
+  while keeping FP≈0. Lesson: fixed internal CV ≠ fixed public for post-proc; stack overrides on the frozen
+  banked kernel version, not a fresh optuna run.
 
 ## Reproduce any candidate
 ```
