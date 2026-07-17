@@ -58,6 +58,8 @@ kaggle_kernel_*/
 !kaggle_kernel_dwt_affine/**
 !kaggle_kernel_dwt_detbase/
 !kaggle_kernel_dwt_detbase/**
+!kaggle_kernel_sunny_oof/
+!kaggle_kernel_sunny_oof/**
 
 # OS / editor noise
 .DS_Store

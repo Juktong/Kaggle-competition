@@ -20,7 +20,7 @@
 - **相对平台：** 8.864 在诚实流形内（8–14），**高于 overlap 平台**（不是 overlap 玩法）→ Sunny 是**真诚实模型，
   很可能强于 DWT**（诚实模型 public≈private；公开诚实模型可达 ~8.1）。
 - **CV 验证：** partial OOF fork（`joezzzzz/rogii-sunny-oof-codex`，FLAG_MODEL 模式，TEST_SIZE=120，GPU）运行中；
-  报告 meta OOF CV = `<CV_PENDING>`（gate：显著 < DWT 10.40）。**即便 CV 未出，泄漏审计已决定性证明 Sunny 诚实。**
+  报告 meta OOF CV = (CV fork errored — leakage audit decisive)（gate：显著 < DWT 10.40）。**即便 CV 未出，泄漏审计已决定性证明 Sunny 诚实。**
 - **结论：能用 —— 作为诚实 slot 候选**（final-2 的诚实多样化第二槽；若 CV<10.40 且 fold 稳定，可作诚实 slot-1，
   DWT 作兜底 slot-2）。
 

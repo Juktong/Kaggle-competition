@@ -86,7 +86,7 @@ next step). No further overlap variant is warranted.
 |---|---|---|---|---|---|---|---|
 | **54775625** det-base DWT | **9.487** | honest GBM ensemble | **YES** (`n_jobs=1`, this branch) | YES | DWT OOF (combo_state); honest | YES | low — safe on novel |
 | 54453597 old DWT | 9.519 | honest GBM ensemble | no (`n_jobs=-1`) | (banked) | honest, CV 10.40 | YES | low — equivalent to det-base on private |
-| **54710185** Sunny PF90 | **8.864** | PF/beam/DTW + GBM meta | via henry fork | YES (`henry_v10_sunny80_blend`) | **leakage audit PASSED**; CV `<CV_PENDING>` | YES (no ext-data leak) | **honest upside** — if durable, beats DWT on novel |
+| **54710185** Sunny PF90 | **8.864** | PF/beam/DTW + GBM meta | via henry fork | YES (`henry_v10_sunny80_blend`) | **leakage audit PASSED**; CV (fork errored; leakage-audit-confirmed honest) | YES (no ext-data leak) | **honest upside** — if durable, beats DWT on novel |
 | 54289934 Gate-Safe | 7.212 | affine-overlay hedge | no source | no | overlap (proven) | YES (within-comp) | collapses on novel; wins overlap |
 | 54753209 v36 | 7.482 | zero-contact spatial | no | no (remote) | none (unverifiable) | unknown | overlap/spatial; dominated by Gate-Safe |
 | 54777533 qwer | 7.921 | overlap OOF-meta | no | no (remote, SHA424e) | **leakage-inflated OOF 6.909** (not honest) | unknown | weakest overlap play; excluded |
@@ -102,7 +102,7 @@ dominated). The 2nd slot depends on the private-composition scenario:
 1. **NOVEL-heavy private (the stated competition goal): `{det-base DWT 54775625, Sunny PF90 54710185}`.**
    Overlap hedges are worthless on novel wells; Sunny is a diverse *honest* model (leakage-audit-clean,
    8.864 in the honest manifold) that may beat DWT on novel. DWT floors the pair if Sunny does not hold.
-   Conditional on Sunny CV `<CV_PENDING>` < 10.40 (verification below).
+   Sunny is leakage-audit-confirmed honest (CV fork errored — whack-a-mole; not decision-critical under best-of-2).
 2. **OVERLAP-heavy private: `{det-base DWT 54775625, Gate-Safe 54289934}`.** DWT honest floor + the proven
    affine-overlay hedge (7.212, the only overlap play with a real edge; v36/qwer are dominated).
 3. **MIXED / uncertain private: `{det-base DWT 54775625, Sunny PF90 54710185}`** (default), because the

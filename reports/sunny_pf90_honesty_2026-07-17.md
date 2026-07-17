@@ -28,19 +28,28 @@ Structural audit of the pipeline (65 code cells):
 **Leakage verdict: CLEAN.** Sunny is a genuinely honest model (no overlap-copy, no gold-prefix, proper
 GroupKFold OOF, test-available inputs). This is the decisive honesty signal, and it is positive.
 
-## 3. CV verification (partial OOF fork)
+## 3. CV verification (partial OOF fork) — BLOCKED by a fork bug
 - Fork `joezzzzz/rogii-sunny-oof-codex` = the henry v34 notebook with `FLAG_MODEL=True, IS_SUBMISSION=False`
-  (activates the OOF path), partial `TEST_SIZE=120` for a fast CV estimate, GPU, offline; datasets
-  henryjavier + needless090 + ravaghi + the two kernel_sources.
-- **Reported meta OOF CV (real RMSE): `<CV_PENDING>`.** (Filled on completion. Gate: CV materially below
-  DWT's 10.40 → Sunny is a stronger honest base.)
+  (activates the OOF path), partial `TEST_SIZE=120`, GPU, offline; datasets henryjavier + needless090 +
+  ravaghi + the two kernel_sources.
+- **Result: ERROR after ~1 h.** It ran successfully through the full feature build + the beam/NCC forward
+  (`beam_cons_d/beam_mean_d/...` features produced) + the base ensemble on a Tesla **P100**, then failed in
+  the OOF-meta cell (`In [51]`) with `ValueError: Cannot describe a DataFrame without columns` — a
+  fork/reduced-mode bug (the `FLAG_TEST` 120-well subset produced an empty intermediate DataFrame in the
+  OOF path). **The exact CV was not extracted.** A clean full-data run (`FLAG_TEST=False`) would avoid the
+  empty-subset bug but costs ~2 h + further whack-a-mole (per §3 fork discipline) and is not
+  decision-critical (see §4).
+- **This is a real blocker (heavy-fork whack-a-mole), not a negative result.** The leakage audit (§2) is
+  the decisive honesty signal and is positive; the CV would only tell us *how much* stronger Sunny is.
 
 ## 4. Verdict & use in final-2
 - **Honesty: CONFIRMED clean** (leakage audit) — Sunny is a legitimate honest model, not a public/overlap
   trick. Its 8.864 public (better than DWT 9.519) is therefore expected to reflect genuine novel-well
   quality (honest models: public ≈ private).
 - **Use:** Sunny is a **viable honest slot candidate** — the diverse honest 2nd slot in `{det-base DWT,
-  Sunny}` (best-of-2), which for a novel-private goal weakly dominates `{DWT, Gate-Safe}`. Whether Sunny
-  should *replace* DWT as slot-1 depends on its CV (`<CV_PENDING>`): if CV < 10.40 with stable folds, Sunny
-  is the stronger honest base and could be slot-1, with DWT as the safety floor slot-2.
+  Sunny}` (best-of-2), which for a novel-private goal weakly dominates `{DWT, Gate-Safe}`. Under best-of-2
+  this holds **regardless of the exact CV**: Sunny is selected on private iff it beats DWT there (a free
+  option floored by the DWT slot). If a future full-data OOF confirms CV < 10.40 with stable folds, Sunny
+  is the stronger honest base and could be named slot-1 (DWT the floor slot-2) — but the *pair* is
+  unchanged. The exact CV is therefore not decision-critical for the final-2 selection.
 - **Not a public-only / overlap candidate** — the leakage audit rules that out.
