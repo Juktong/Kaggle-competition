@@ -61,12 +61,21 @@ Before any multi-hour Kaggle/GPU/CPU run or submission:
 7. when forking a heavy public notebook, verify the **flag combination** activates the intended path on a
    tiny run first (this incident: mode flags on, but model-training flags left off → empty OOF).
 
-## 7. Fix needed? Minimal next step
+## 7. Fix needed? Assessment — the fix is NOT small; DEFERRED (not blindly re-run)
 - **A fix is only needed if a future round still wants Sunny's numeric OOF CV / OOF array** (for the
   DWT+Sunny blend test). It is **not** needed for the current final-2 (Sunny is already verified honest).
-- **Minimal fix (do NOT full-run without a smoke):** set the per-model training flags
-  (`flag_cat=1, flag_xgb=1`, and confirm the LightGBM OOF path) alongside `FLAG_MODEL=True,
-  IS_SUBMISSION=False`, attach `henryjavier/modelos-20-pozos`, and **first run a SMOKE** (few wells, 2
-  folds) to confirm `oof_preds` is non-empty and a CV prints — only then consider a full run. Note: even
-  fixed, the *full* 5-fold OOF trains 3 model families on 773 wells (hours) and was already judged
-  impractical; a smoke-scale partial CV is the realistic target.
+- **On inspection the fix is NOT a small/low-risk change.** The LightGBM OOF population (cell that does
+  `oof_preds["lightgbm-i"] = _oof`) sits inside a **load-vs-train branch** (`if models_dir.exists() and
+  models_dir.is_dir(): ... else: train`) that interacts with `FLAG_LOG`, `flag_cat`, `flag_xgb`, and the
+  `FLAG_MODEL/IS_SUBMISSION` mode. Producing a non-empty `oof_preds` in OOF mode requires reverse-engineering
+  which branch/flag combination the notebook expects (load a saved OOF vs train from scratch; which model
+  families; whether `modelos-20-pozos` must be attached). This is a multi-flag mode-wiring investigation,
+  not a one-line change.
+- **Decision: DEFER.** Per Directive 4 (never launch a long run on an unvalidated config) and the
+  "only low-risk small fixes" constraint, I did **not** blindly re-run another ~1 h GPU job with a guessed
+  flag change — doing so would repeat the exact mistake this incident is about. The correct next step for a
+  future round that wants the CV: (a) read the load-vs-train wiring to fix the flag combo; (b) add a
+  `SMOKE_RUN` toggle (few wells, 2 folds) + a `print(len(oof_preds))` assert right before the consolidation;
+  (c) push the **smoke** and confirm from the log that `oof_preds` is non-empty and a CV prints; (d) only
+  then scale up. Even fixed, the *full* 5-fold OOF trains 3 model families on 773 wells (hours) — a
+  smoke-scale partial CV is the realistic target, and it is not decision-critical (Sunny is already honest).
