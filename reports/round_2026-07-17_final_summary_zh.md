@@ -44,14 +44,19 @@
 - **不入选：** v36（overlap/spatial，无源）、B4′（基线方差）、spatial-formation 9.150（部分 overlap guard，不可验证）、
   DWT+affine（FP 不安全对冲，被 Gate-Safe 支配）。
 
-## 4. 本轮新提交（ref + public score）
-| ref | 候选 | 目的 | public |
-|---|---|---|---|
-| 54775625 | DWT 确定性基线（optuna n_jobs=1） | 固定可复现基线水平、隔离 affine 贡献 | 待定 |
-| 54775626 | DWT + bounded affine overlay | 经验验证：隐藏 overlap 能否在 DWT 基线上被 affine 捕获 | 待定 |
+## 4. 本轮新提交（ref + public score）—— 已出分
+| ref | 候选 | 目的 | public | 结论 |
+|---|---|---|---|---|
+| 54775625 | DWT 确定性基线（optuna n_jobs=1） | 固定可复现基线、隔离 affine 贡献 | **9.487** | ≈ banked DWT 9.519（略优）。**基线方差已解决**：n_jobs=1 可靠复现 ~9.5；B4′ 的 9.864 是 n_jobs=-1 抽到 τ=55 的坏签。 |
+| 54775626 | DWT + bounded affine overlay | 验证隐藏 overlap 能否在 DWT 基线上被 affine 捕获 | **9.823** | **比基线差 +0.336** → affine 覆盖在隐藏 public split 上**有害**（FP 主导），未捕获 overlap。 |
 
-（上一轮 B4′ 54727655 = 9.864。本轮先做 v36 溯源、affine 机理分析（task 4）、风险矩阵（task 2）、Sunny 审计
-（task 6），再据结论做上述 2 个诊断提交；不做无解释扫射。scores 出分后回填并更新 final2 推荐的回退槽判断。）
+**task 4 经验结论：** affine − 基线 = +0.336 —— DWT+affine 覆盖**没有捕获 overlap**、反而净增 FP 损害，
+**经验证实**了 train 分析（affine FP 不安全、净负；heel↔toe 墙）。它命中的是巧合 affine FP（heel 匹配、toe 发散），
+而非 Gate-Safe 精炼机制捕获的真 overlap（7.212）。→ **naive DWT+affine 对冲不可行，被 Gate-Safe 支配**；
+"能否把 overlap 捕获安全叠到强诚实基线上"的问题答案是**否**（heel↔toe 墙）。两个正面副产品：(a) 确定性基线
+（n_jobs=1）可靠复现 ~9.49（干净可复现的诚实基线，不像 B4′ 有方差）；(b) 彻底关闭了 DWT+overlap 单提交方向。
+主推荐 {DWT, Sunny} 不变；overlap 回退槽 = Gate-Safe（非 DWT+affine）。（上一轮 B4′ 54727655 = 9.864。）
+本轮共 2 个新提交，均有明确目的，未做无解释扫射。
 
 ## 5. 哪些候选不再考虑及原因
 - **v36 / spatial-formation：** overlap/spatial 对冲，novel 回撤；且**源码不可复现**、不可做变体或审计。

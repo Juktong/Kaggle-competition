@@ -46,11 +46,19 @@ structurally, without the csvs:
   wells (localized), and that divergence is FP-prone (heel↔toe wall). No same-source fingerprint can be
   computed without the csvs → recorded as a hard limitation of the offline environment.
 
-## New submission this round
-- **DWT+affine (`joezzzzz/rogii-dwt-affine-codex`)** — deterministic DWT base (optuna `n_jobs=1` to remove
-  the post-proc public variance that hit B4′) + a bounded affine-overlap override (same-id then
-  fingerprint tier; gate: geometry median<0.5 ft, affine residual<3 ft, |a−1|<0.06, |b|<800 ft, ≥60 rows;
-  try/except → DWT). Local: captures the 3 visible wells (same-id, a=1,b=0) at RMSE 0.000; valid/finite.
-  **Purpose:** empirically test whether the hidden overlap is affine-capturable on a DWT base (validating
-  the central finding) and whether a DWT-base affine hedge is competitive with Gate-Safe for the overlap
-  fallback. Ref + public score appended on completion.
+## New submissions this round (COMPLETE)
+| ref | candidate | public | conclusion |
+|---|---|---|---|
+| **54775625** | DWT deterministic base (optuna `n_jobs=1`, LAM=1.0) | **9.487** | ≈ banked DWT 9.519 (marginally better). **Base variance RESOLVED:** `n_jobs=1` reliably reproduces ~9.5; B4′'s 9.864 was the unlucky `n_jobs=-1` τ=55 draw. |
+| **54775626** | DWT base + bounded affine-overlap override | **9.823** | **+0.336 WORSE than the 9.487 base** → the affine override HURT on the hidden public split (FPs dominate). |
+
+**Empirical conclusion (task 4):** `affine − detbase = +0.336` — the DWT+affine override **did not capture
+the overlap**; it added net FP harm. This **empirically confirms** the train analysis (affine matching is
+FP-unsafe / net-negative, heel↔toe wall) and shows a naive DWT-base affine hedge is **not viable** — it
+fires on coincidental affine FPs (heel-match, toe-diverge) rather than the true overlap that Gate-Safe's
+refined mechanism captures (7.212). So **Gate-Safe remains the proven overlap-slot hedge**; a DWT+affine
+does not compete for it. Two useful positives: (a) a **deterministic-base DWT** (`n_jobs=1`) reliably
+reproduces ~9.49 (a clean, reproducible honest base, unlike B4′'s variance); (b) the affine result closes
+the last "can we put overlap on a DWT base?" question — no, not safely. The primary final-2 recommendation
+{DWT, Sunny} is unchanged; the overlap fallback is {DWT, Gate-Safe} (not DWT+affine).
+Kernels: `joezzzzz/rogii-dwt-detbase-codex` v1, `joezzzzz/rogii-dwt-affine-codex` v2 (this branch).

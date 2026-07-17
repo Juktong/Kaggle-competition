@@ -63,13 +63,19 @@ train-duplicate (overlap) wells** — which contradicts the "novel wells" goal a
   B4′ (base variance, no overlap capture), spatial-formation (structural-guard, partial/unclear),
   two-overlap pairs (no honest floor).
 
-## 4. Why no new overlap submission this round
-Task 4 (DWT + affine override) was built and validated: it is **FP-unsafe and net-negative on the honest
-(novel) proxy** (NET −2.9M sq-error; §2 of the provenance report). For a novel-private goal an overlap
-hedge is low-value by construction, and a DWT-base affine hedge is additionally cruder than and dominated
-by the proven Gate-Safe. Submitting it would not inform the recommendation (it would at best confirm
-"Gate-Safe is the better hedge"), so a leaderboard slot is not spent on it. The relaxed budget is better
-directed at the **Sunny OOF verification** (a diagnostic run), which resolves the actual pivot (slot-1/2).
+## 4. The DWT+affine override — built, submitted, EMPIRICALLY CONFIRMED net-negative
+Task 4 (DWT + affine override) was built, validated, and submitted with a deterministic-base control:
+- **det-base (54775625) = public 9.487** — deterministic DWT base (`optuna n_jobs=1`); reproduces ≈ banked
+  DWT 9.519. Resolves B4′'s post-proc variance (use `n_jobs=1`).
+- **DWT+affine (54775626) = public 9.823** — **+0.336 WORSE than the base**. The affine override HURT the
+  hidden public split: it fired on coincidental affine FPs (heel-match, toe-diverge) rather than the true
+  overlap that Gate-Safe captures (7.212). This **empirically confirms** the train analysis (affine is
+  FP-unsafe / net-negative; §2 of the provenance report, NET −2.9M).
+**Conclusion:** a naive DWT-base affine hedge is **not viable** and does not compete with the proven
+Gate-Safe for the overlap slot. The last "can we safely put overlap capture on a strong honest base?"
+question is answered **no** (the heel↔toe wall). For a novel-private goal an overlap hedge is low-value
+anyway; the remaining pivot is the **Sunny OOF verification** (a diagnostic run — the highest-value
+next step). No further overlap variant is warranted.
 
 ## 5. Open risk points
 - **Sunny durability** (the pivot): architecturally honest but OOF-unverified; prior sessions framed it as
