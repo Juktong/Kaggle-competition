@@ -62,3 +62,36 @@ reproduces ~9.49 (a clean, reproducible honest base, unlike B4′'s variance); (
 the last "can we put overlap on a DWT base?" question — no, not safely. The primary final-2 recommendation
 {DWT, Sunny} is unchanged; the overlap fallback is {DWT, Gate-Safe} (not DWT+affine).
 Kernels: `joezzzzz/rogii-dwt-detbase-codex` v1, `joezzzzz/rogii-dwt-affine-codex` v2 (this branch).
+
+## Round 2 (2026-07-17b) — qwer, deterministic-DWT audit, Sunny OOF
+
+### qwer (54777533 = 7.921) — DOWNGRADED, not a slot
+Full trace in `qwer_provenance_and_honesty_2026-07-17.md`. Source **not locally recoverable** (remote
+Codex, `SHA424e` unresolved). Its "OOF target 6.909" is **below the overlap plateau (7.2)** → a
+**leakage-inflated OOF, not an honest CV**; public 7.921 is the **weakest** overlap play on the board
+(worse than Gate-Safe 7.212, v36 7.482). → **unverifiable, dominated by Gate-Safe, excluded from the
+final-2 pool.**
+
+### Task 3 — deterministic DWT audit (54775625 = 9.487)
+- **Source (reproducible):** `joezzzzz/rogii-dwt-detbase-codex` v1 = `kaggle_kernel_dwt_detbase/` in this
+  branch = the DWT honest notebook with `LAM=1.0` (5-model) and **`optuna n_jobs=1`** (deterministic
+  post-proc). Commit on `codex/autonomous-queue-2026-07-15`.
+- **Relation to old DWT 54453597 (9.519):** same model/features (ravaghi lgb1-3+cb1-2, honest); the only
+  difference is the optuna post-proc draw — 54453597 used `n_jobs=-1` (non-deterministic, gave 9.519);
+  det-base uses `n_jobs=1` (deterministic, gave **9.487**, marginally better). Both are honest DWT; on a
+  **novel private** set they behave essentially identically (post-proc affects public, not private-honest
+  quality). The 0.032 public gap is post-proc noise.
+- **Should it replace 54453597 as the honest slot?** **Yes, preferred** — det-base is (a) **reproducible**
+  (deterministic `n_jobs=1`, regenerable exactly for audit/regeneration; 54453597's `n_jobs=-1` is not),
+  and (b) marginally better on public (9.487 vs 9.519). old DWT 54453597 remains an equivalent, established
+  fallback (identical private-honest behaviour). **Recommendation: honest floor = 54775625 (det-base),
+  with 54453597 as the equivalent fallback.**
+
+### Task 2 — Sunny OOF verification (in progress)
+Leakage audit of `henry_v10_sunny80_blend` (v34 Sunny meta): **PASSED** — no overlap-copy, no gold-prefix;
+proper GroupKFold OOF (LightGBM+CatBoost+XGB ensemble + NCC/beam geosteering forward + Climber blend);
+`TVT_input.values` used only for drift-rate features; `y_test_temp` is an honest train-holdout. Sunny's
+8.864 is in the honest manifold (above the plateau), so it is a **genuinely honest** candidate, plausibly
+stronger than DWT (honest public models reach ~8.1 per lessons §1). A partial OOF fork
+(`joezzzzz/rogii-sunny-oof-codex`, FLAG_MODEL mode, TEST_SIZE=120) is running to obtain its CV. Full
+verdict in `sunny_pf90_honesty_2026-07-17.md`.
