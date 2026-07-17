@@ -111,6 +111,24 @@ dominated). The 2nd slot depends on the private-composition scenario:
    does {DWT, Gate-Safe} win. Given the novel framing (f likely low), the mixed default is {DWT, Sunny},
    with {DWT, Gate-Safe} as the explicit hedge if a high private-overlap fraction is suspected.
 
+### Task 4 (备线 A) — honest meta / selector: CLOSED (gate not met)
+Mandatory this round; evaluated and **not submitted**, with reasons:
+1. **Best-of-2 IS the honest selector.** Kaggle scores the better of the 2 selected submissions on private
+   → selecting `{det-base DWT, Sunny}` already realizes a submission-level honest selector (pick DWT or
+   Sunny per private scenario). A *within-submission* blend/selector would REPLACE one slot and must beat
+   BOTH DWT and Sunny individually on private to help — a strictly higher bar than the free best-of-2.
+2. **Within-submission blends are blend-neutral** (20 rounds of evidence: every honest OOF blend with DWT
+   lands on ρ≈σ_D/σ_M with weight ≈0; V3 pooled OOS gain −0.0024). Per-well selectors are non-identifiable
+   (§8/§14 synthetic-selector 16.32 > best-cost). So a DWT+Sunny blend/selector is very unlikely to beat
+   selection.
+3. **The one untested hope** (Sunny is *strong-AND-decorrelated* → a positive blend) is **not affordably
+   testable**: it needs a full 773-well Sunny OOF aligned with DWT, but the partial 120-well OOF fork
+   already runs >30 min → a full OOF is impractical (hours), and qwer (the other candidate) is unverifiable.
+**Decision:** no separate honest-meta submission (gate not met, per the stop condition "don't submit
+without evidence"). The honest meta/selector is delivered as the **final-2 selection `{det-base DWT,
+Sunny}`** (best-of-2). If a future session obtains a full Sunny OOF, the DWT+Sunny blend weight is the
+single check that would reopen this.
+
 ## 5. Open risk points
 - **Sunny durability** (the pivot): architecturally honest but OOF-unverified; prior sessions framed it as
   a "hedge". Resolve via a Kaggle OOF diagnostic.
