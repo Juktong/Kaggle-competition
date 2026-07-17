@@ -43,6 +43,23 @@ banked honest base is the DWT fork — public **9.519**, internal native-mask CV
   not as "X is dead / we hit the ceiling". Wording should not imply a direction must be abandoned
   when the evidence only shows it did not improve on this attempt.
 
+## Directive 3 — one remote Claude context and session hygiene
+
+- For this ROGII project, use one main Claude continuation context by default. Do **not** start a
+  new independent Claude background session for each follow-up, and do **not** leave multiple
+  independent ROGII agents running unless the user explicitly asks for parallel work.
+- Before sending new instructions, inspect active Claude agents with
+  `/home/ubuntu/.local/bin/claude agents --json --all`. Stop stale ROGII agents that are still
+  marked `working` but are not the current main continuation.
+- Continue with `claude attach` or `claude --resume` whenever possible. If `--resume` creates a new
+  handle, treat it as the same continuity chain, not as a separate research session.
+- If a genuinely new independent session is required because the old one is blocked, corrupted, or
+  complete with handoff, document the old session id, new session id, reason, and current state in
+  project docs before continuing.
+- Put the full task requirements into the same main continuation prompt. Do not fragment related
+  project instructions across several chats.
+- Use max reasoning effort for ROGII Claude work unless the user later changes this rule.
+
 ## Directive 4 — Notebook preflight / smoke test before any long Kaggle run
 
 Set after a Sunny-OOF fork ran ~60 min on a GPU and then failed at the OOF-consolidation cell because
