@@ -77,6 +77,40 @@ question is answered **no** (the heel↔toe wall). For a novel-private goal an o
 anyway; the remaining pivot is the **Sunny OOF verification** (a diagnostic run — the highest-value
 next step). No further overlap variant is warranted.
 
+---
+
+## ROUND 2 (2026-07-17b) — full candidate matrix + three final-2 recommendations
+
+### Candidate pool attributes
+| ref | public | class | reproducible? | source? | OOF / honesty support | compliant? | public/private risk |
+|---|---|---|---|---|---|---|---|
+| **54775625** det-base DWT | **9.487** | honest GBM ensemble | **YES** (`n_jobs=1`, this branch) | YES | DWT OOF (combo_state); honest | YES | low — safe on novel |
+| 54453597 old DWT | 9.519 | honest GBM ensemble | no (`n_jobs=-1`) | (banked) | honest, CV 10.40 | YES | low — equivalent to det-base on private |
+| **54710185** Sunny PF90 | **8.864** | PF/beam/DTW + GBM meta | via henry fork | YES (`henry_v10_sunny80_blend`) | **leakage audit PASSED**; CV `<CV_PENDING>` | YES (no ext-data leak) | **honest upside** — if durable, beats DWT on novel |
+| 54289934 Gate-Safe | 7.212 | affine-overlay hedge | no source | no | overlap (proven) | YES (within-comp) | collapses on novel; wins overlap |
+| 54753209 v36 | 7.482 | zero-contact spatial | no | no (remote) | none (unverifiable) | unknown | overlap/spatial; dominated by Gate-Safe |
+| 54777533 qwer | 7.921 | overlap OOF-meta | no | no (remote, SHA424e) | **leakage-inflated OOF 6.909** (not honest) | unknown | weakest overlap play; excluded |
+| 54723189 spatial-formation | 9.150 | structural-surface guard | no | no (remote) | partial/unclear | unknown | partial overlap; reverts on novel |
+| 54727655 B4′ | 9.864 | DWT + exact override | yes (this branch) | YES | override no-op | YES | dominated by det-base DWT |
+| 54775626 DWT+affine | 9.823 | DWT + affine override | yes (this branch) | YES | **FP-unsafe, +0.336 worse** | YES | net-negative; not a slot |
+
+### Three final-2 recommendations
+Best-of-2 = min of two pooled **private** scores. Honest slot = **det-base DWT 54775625** (reproducible,
+9.487; old DWT 54453597 equivalent fallback). qwer/v36/spatial/B4′/affine are excluded (unverifiable or
+dominated). The 2nd slot depends on the private-composition scenario:
+
+1. **NOVEL-heavy private (the stated competition goal): `{det-base DWT 54775625, Sunny PF90 54710185}`.**
+   Overlap hedges are worthless on novel wells; Sunny is a diverse *honest* model (leakage-audit-clean,
+   8.864 in the honest manifold) that may beat DWT on novel. DWT floors the pair if Sunny does not hold.
+   Conditional on Sunny CV `<CV_PENDING>` < 10.40 (verification below).
+2. **OVERLAP-heavy private: `{det-base DWT 54775625, Gate-Safe 54289934}`.** DWT honest floor + the proven
+   affine-overlay hedge (7.212, the only overlap play with a real edge; v36/qwer are dominated).
+3. **MIXED / uncertain private: `{det-base DWT 54775625, Sunny PF90 54710185}`** (default), because the
+   competition goal frames the private as novel (low overlap fraction f). Quantitatively the crossover is
+   ~f≈0.4: for f<0.4 the Sunny honest edge (min→~8.9) beats the Gate-Safe overlap capture; only for f>0.4
+   does {DWT, Gate-Safe} win. Given the novel framing (f likely low), the mixed default is {DWT, Sunny},
+   with {DWT, Gate-Safe} as the explicit hedge if a high private-overlap fraction is suspected.
+
 ## 5. Open risk points
 - **Sunny durability** (the pivot): architecturally honest but OOF-unverified; prior sessions framed it as
   a "hedge". Resolve via a Kaggle OOF diagnostic.
