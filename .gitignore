@@ -60,6 +60,8 @@ kaggle_kernel_*/
 !kaggle_kernel_dwt_detbase/**
 !kaggle_kernel_sunny_oof/
 !kaggle_kernel_sunny_oof/**
+!kaggle_kernel_sunny_oof_smoke/
+!kaggle_kernel_sunny_oof_smoke/**
 
 # OS / editor noise
 .DS_Store
