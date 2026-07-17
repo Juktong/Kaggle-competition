@@ -54,6 +54,8 @@ kaggle_kernel_*/
 !kaggle_kernel_david_v12_budget_guarded_clean_gpu/**
 !kaggle_kernel_b4_guarded/
 !kaggle_kernel_b4_guarded/**
+!kaggle_kernel_dwt_affine/
+!kaggle_kernel_dwt_affine/**
 
 # OS / editor noise
 .DS_Store
