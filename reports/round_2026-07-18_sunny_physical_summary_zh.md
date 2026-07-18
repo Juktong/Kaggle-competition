@@ -2,6 +2,22 @@
 
 链路：`16baec36 → dacc2829 → b2229931 → 99fff121 → 276bd506 → 06dd2efb`。用词中性技术性。
 
+## 续（同会话，Kaggle smoke+submit 链路完成）— DWT+PF blend 已提交并公榜验证
+- **Kaggle smoke 通过**：kernel `joezzzzz/rogii-dwt-pf-blend-codex` v1 push 后 interactive 运行（3 可见井）
+  COMPLETE、0 error、日志含 `[PF-blend]` 执行证据、PF 覆盖 100%；submission.csv 行数/id 序/finite/range 全过；
+  执行日志 grep 无 `tvt_from_contacts`/EGFDU/泄漏项。pre-submit 审计通过。
+- **正式提交**（code-comp kernel submission）：**ref 54804893 → PUBLIC 8.080**。
+- **迁移已验证并略微放大**：blend 公榜 8.080 vs DWT 9.487 = **+1.41（14.9%）**，大于 OOF 增益（+1.10 / 10.6%）；
+  同时**优于 Sunny PF90（8.864）**。诚实模型（无 overlap 利用）在公榜上同时胜过诚实基线与被 overlap 泄漏抬升的
+  Sunny → 去相关增益是真实、可迁移的，非本地 OOF 假象。私榜隐藏至 2026-08-05（OOF 9.30 为其代理）。
+- **final-2 更新（已验证）**：**`{DWT+PF blend 54804893（public 8.080, OOF 9.30，最强诚实，取代 DWT 与 Sunny 的
+  诚实槽）, Gate-Safe 54289934（public 7.212，overlap 兜底）}`**。取代原 `{DWT, Sunny PF90}` 与 `{DWT, Gate-Safe}`。
+- **次线 Lucifer PF-stack 关闭（诚实负结果）**：15 井去相关复核（75,083 行，代表性：DWT 9.90≈全局 10.40）显示其额外
+  诚实 forward（beam-DP 14.30/corrDWT 0.68、ANCC-PF 13.73/corrPF 0.67、Z-PF 17.83/corrDWT 0.49）均**弱于** DWT/plain-PF
+  且**部分相关** → blend-中性，不提供超出已入列 DWT+PF blend 的去相关信号。不做全量 OOF、不提交。extract
+  `scripts/lucifer_honest_forward.py`，报告 `lucifer_pf_stack_oof_plan_2026-07-18.md`。
+- 报告：`dwt_pf_blend_kaggle_submit_2026-07-18.md`。本节以下为 OOF 隔离原始总结（保留）。
+
 ## 0. 是否有 agent/process 冲突
 无。本会话 06dd2efb 为当前主延续；未发现其它 ROGII agent 处于 working。计算集中在一个本地后台 OOF 作业。
 

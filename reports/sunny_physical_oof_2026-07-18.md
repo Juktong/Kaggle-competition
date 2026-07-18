@@ -103,12 +103,20 @@ floor), DWT+PF blend (honest upside)}** — DWT floors any transfer shortfall, t
 substitute Gate-Safe for one slot ({DWT+PF blend, Gate-Safe 7.212} covers novel + overlap, at the cost of
 DWT's proven floor).
 
-**Caveats / honesty:** (1) transfer is **untested** — this background environment has no kaggle CLI/creds, so
-the blend was not submitted; the OOF gain is decorrelation-driven (the transfer-robust kind), but §7 warns
-some local gains do not transfer, so the **public/private check must be done at submit time** (interactive
-run on the 3 visible wells = the Directive-4 smoke; then Submit for the hidden rerun). (2) n_seeds=24 is a
-conservative PF; the submission uses NS=64 (≥ OOF), which can only help. (3) The blend is a **pure honest
-play** (no overlap override) — its value is on the novel/private set, by design.
+**Caveats / honesty:** (1) n_seeds=24 is a conservative PF; the submission uses NS=64 (≥ OOF), which can only
+help. (2) The blend is a **pure honest play** (no overlap override) — its value is on the novel/private set,
+by design. (3) Private is hidden until 2026-08-05; the OOF 9.30 is its proxy.
+
+## 7. SUBMITTED + PUBLIC-VERIFIED (2026-07-18, next session) — transfer confirmed
+The notebook was pushed, interactive smoke PASS (COMPLETE, 0 errors, 0 leak-terms, 100% PF coverage,
+format-valid), pre-submit audit PASS, and **submitted (code-comp kernel submission): ref 54804893 → PUBLIC
+8.080.** The honest gain **transferred and slightly amplified**: blend public 8.080 vs DWT 9.487 = **+1.41
+(14.9%)**, > the OOF gain (+1.10 / 10.6%); the blend also **beats Sunny PF90 (8.864)** — an honest model (no
+overlap exploitation) beating both the honest base and the overlap-leaked Sunny on public. The earlier concern
+that PF would add noise on an in-sample-DWT public set did not materialize. **Final-2 (verified):
+{DWT+PF blend 54804893 (public 8.080, OOF 9.30 — best honest, supersedes DWT & Sunny), Gate-Safe 54289934
+(public 7.212 — overlap hedge)}.** Detail: `dwt_pf_blend_kaggle_submit_2026-07-18.md`. The Lucifer PF-stack
+line was closed as a clean negative (`lucifer_pf_stack_oof_plan_2026-07-18.md`).
 
 ## 6. Secondary scan — other honest forward / sequence / alignment pipelines (map, verified)
 Repo-wide audit for distinct honest novel-well models beyond DWT/Sunny/Gate-Safe. Verified by direct
