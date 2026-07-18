@@ -38,7 +38,19 @@ arrays (index by hw row); `run_pf_ancc` / `run_pf_z` return `(pts, std)` where `
   `run_pf_lik_ensemble_scales` ≈ 0.3 s/well at tiny params. Beam is the bottleneck (~1.6 h for 773 wells on
   2 cores without numba). Defaults: lik-PF n_seeds=128/n_particles=500/scales=(3,5,8,12); ancc/z N=600; beam
   14 configs (bs∈{8..30}).
-- **Decorrelation smoke (6 wells, NS=8, `scripts`→`$JOB/tmp/lucifer_smoke.py`): <SMOKE_RESULT>**
+- **Decorrelation smoke — 15 wells, 75,083 toe rows, NS=8 (serial, `$JOB/tmp/lucifer_serial.py`; sample is
+  representative: DWT RMSE 9.90 ≈ global 10.40, corr(DWT,plainPF)=0.43 ≈ the full-773 0.51):**
+
+  | model | RMSE | RMSE (p97-trim) | corr(err,DWT) | corr(err,plainPF) |
+  |---|---|---|---|---|
+  | DWT | 9.90 | 9.11 | 1.000 | 0.430 |
+  | plain lik-PF | 12.21 | 9.79 | 0.430 | 1.000 |
+  | beam-DP | 14.30 | 12.83 | 0.676 | 0.122 |
+  | ANCC-PF | 13.73 | 11.81 | 0.516 | 0.668 |
+  | Z-PF | 17.83 | 15.41 | 0.485 | 0.120 |
+
+  (6-well seed-7 preview was consistent but dominated by one pathological well, 389ae58f DWT RMSE 53; the
+  15-well seed-11 sample above is representative.)
 
 ## 4. Decision gate (before any full OOF or submission)
 Run the full honest OOF (773 wells) for a Lucifer forward ONLY if the smoke shows it is (a) comparably strong
@@ -49,5 +61,18 @@ as the DWT+PF blend). **Resource rule:** do not launch the full (slow, no-numba)
 contend with an active critical run; install numba first if a full run is warranted. **No Lucifer submission
 without honest OOF + blend gate + audit.**
 
+## 4b. Decision (gate NOT met)
+The gate = "comparably strong to DWT/PF AND decorrelated from BOTH." **None of beam-DP / ANCC-PF / Z-PF meets
+it:** all are **weaker** (RMSE 13.7–17.8 vs DWT 9.90 / plain-PF 12.21), and each is **partially correlated**
+(beam corrDWT 0.68; ANCC-PF corrPF 0.67; Z-PF corrDWT 0.49) — i.e. not both-decorrelated. This is exactly the
+blend-neutral situation ([[honest-frontier-state]]): a weak and/or correlated component gets ≈0 (or negative)
+blend weight. The one Lucifer forward that IS comparably-strong-and-decorrelated is the **plain likelihood-PF**
+— which is the SAME family already banked in the DWT+PF blend (OOF 9.30). **So the Lucifer PF-stack provides
+no additional decorrelated honest signal beyond the DWT+PF blend.** → **No full 773-well Lucifer OOF** (also
+avoids the slow no-numba beam), and **no Lucifer submission.** The negative result is itself the deliverable:
+the DWT+PF blend already captures the honest physics-forward signal; the beam/ANCC/Z variants do not add to it.
+
 ## 5. Status
-- Extract + honesty verified; decorrelation smoke: <SMOKE_STATUS>. Full OOF: not started (gated on smoke).
+- Extract + honesty verified (`scripts/lucifer_honest_forward.py`); decorrelation smoke COMPLETE (15 wells,
+  representative). **Gate not met → full OOF not started, no submission.** Line closed for this round with a
+  clear negative; the plain-PF (already banked in DWT+PF) is the valuable honest forward.
