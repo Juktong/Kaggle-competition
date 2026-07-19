@@ -72,10 +72,26 @@ of `r`, the target's own heel supplies the **level** — which is why large abso
 **Verdict: the +0.49 nested gain is honest offset-well structural correlation, not duplicate reconstruction.**
 This is the first genuinely new honest signal since the PF.
 
-## 5. Status
-- **Full 773-well / 54-group OOF is RUNNING** (detached; `min_sep=150`, k=12, anchor=100) → the decisive
-  number against the 9.2969 baseline. Expect a **smaller** gain than +0.49: the 3 densest groups have the most
-  close neighbours, while sparse/singleton groups (13 groups are singletons) will contribute little or nothing.
+## 5. FULL-SCALE RESULT (760 wells, 3,721,471 toe rows, all 54 groups, min_sep=150) — clears the OOF gate
+```
+struct RMSE 26.002   DWT 10.289   PF 11.056   blend0.5 9.299   (baseline reproduces 9.2969)
+corr(struct, DWT) = +0.239   corr(struct, PF) = +0.081
+NESTED: blend0.5 9.2987 -> +struct 9.1626   gain = +0.1361
+        fitted w per fold: [0.069, 0.069, 0.082, 0.066, 0.073]   (positive and stable in ALL 5 folds)
+```
+Mate separation at full scale: closest mate min 0 / p05 133 / median 378 / max 13,910 ft; 39/760 targets have
+a mate <150 ft (excluded by the guard), 475/760 have one <500 ft. Mean surviving neighbours fall **56.8 → 28.1**
+vs the dense-group subset.
+
+**Interpretation.** The gain drops from +0.4938 (165 dense-group wells) to **+0.1361** at full scale, exactly
+as expected: the signal needs a train well within ~500 ft, and sparse/singleton groups have none. What
+survives is a **small (w≈0.07) but positive and fold-stable** contribution that takes the honest OOF from
+**9.2987 → 9.1626 (−1.5 %)**. Correlation with DWT rises to +0.239 at full scale (still low, and far from the
+0.68–0.73 of the rejected geometry family, which additionally required *negative* weights).
+
+**Gate status:** nested OOF 9.1626 < 9.2969 ✔ · weights positive and stable across all folds ✔ · honesty
+(duplicate) gate ✔. **Still required before any submission:** stress-scenario check, a built + smoked
+inference notebook, and a format/leakage audit. **Not submitted in this sprint.**
 - Wells with no surviving neighbour must fall back to weight 0 (degrades to the current blend) — that fallback
   is already the script's behaviour and must be preserved in any deployable version.
 - **No submission yet**: gate requires the full-set nested OOF < 9.2969 with stable bootstrap plus a stress
