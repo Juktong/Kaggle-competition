@@ -40,3 +40,13 @@ overlap-driven, not novel-quality → excluded. Private hidden until 2026-08-05.
   analysis shows the DWT/PF complementarity is oracle-only, so more of the same PF family won't help).
 - A reproducible honest source for any remote-Codex submission (qwer/v36/spatial) would change their status;
   none is currently recoverable.
+
+## FINAL-SELECTION AUDIT (session 8de8cbed) — 2nd slot resolved to 54174151 vs Gate-Safe
+Full board (50 subs) + 54174151 provenance recovered: **54174151 = Lucifer baseline repro
+(`joezzzzz/rogii-lucifer-baseline-repro-codex` v1)**, overlap-exploitation (RMSE 0.005 on visible overlap),
+public 7.182, exact-id gate → FP-safe on novel, reproducible + audit-pass, submission.csv on disk. It is the
+ONLY overlap play below Gate-Safe (7.212); all others (7.22–7.92: Hongwei/HMM/Top1/affine/v36/Amged/qwer)
+dominated. **Recommended final-2 = {54804893 DWT+PF blend (honest, 8.080/OOF 9.30), 54174151 Lucifer (7.182,
+overlap hedge)}**; conservative alternative keeps Gate-Safe 54289934 (7.212) if private overlap is affine-only.
+No new submission. Deadline 2026-08-05. Reports: `final_overlap_slot_audit`, `historical_submission_board_audit`,
+`final2_scenario_table`, `final_selection_package`, `teammate_final_selection_note_zh` (all 2026-07-19).
