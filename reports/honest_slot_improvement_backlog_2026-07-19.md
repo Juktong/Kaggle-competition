@@ -23,7 +23,7 @@ feature tested was SYMMETRIC** (|PF−DWT| disagreement, GR roughness, curvature
 | C | top-K path search + ranker | multiple TVT paths + a learned ranker beats the single averaged path | **DONE — quantified partial-neg** | oracle gap is REAL: blend 5.628 → **oracle-seed 4.935 (−0.69)**; but likelihood ranks paths only at r=0.343 and the deployable max-likelihood pick (7.148) is **worse than averaging (6.729)**. Ranker must clear +0.42 just to reach parity. Report written; build deferred (needs PF re-run retaining all K paths). |
 | D | CNN/Siamese GR local scorer + DP | learned local GR-window similarity replaces hand-written NCC/DTW cost | TODO | tiny→medium→full smoke; Kaggle GPU if needed |
 | E | MTP multi-hypothesis residual paths | min-of-K loss yields diverse paths; selector picks | TODO | high cost; only after B/C signal |
-| F | external / industry honest pipeline OOF | a genuinely different correlation method decorrelates from GBM+PF | RUNNING (scan agent) | audit ≥2, run 1 feasible OOF |
+| F | external / industry honest pipeline OOF | a genuinely different correlation method decorrelates from GBM+PF | **DONE-POS (gate passed), full OOF RUNNING** | **Discovery: 773 typewells = ~54 master logs → group = structural unit.** Group-anchored cross-well `r=TVT+Z` field: corr +0.073 vs DWT, −0.048 vs PF (near-orthogonal), **nested gain +0.4938 at min_sep=150** on 165 wells. Honesty gate PASSED: closest mates differ by median 64 ft TVT at matched XY, GR corr 0.10, **0/52 are duplicates**. Full 773-well OOF running. |
 | G | submission audit | only if B–F clears the gate | TODO | ≤2 submissions this sprint |
 
 ## Per-direction records
