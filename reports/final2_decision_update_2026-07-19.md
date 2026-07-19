@@ -4,6 +4,26 @@ Session `dcdcec05`. Supersedes `final2_decision_update_2026-07-17.md` and the 20
 that the DWT+PF blend is submitted + public-verified and qwer has been re-audited. Goal = private/final rank
 on NOVEL wells. Best-of-2 = min of two pooled private scores. Neutral technical language.
 
+## CONTINUATION (session `1a07ce3e`) — 7-direction audit (A–G) confirms the decision, NO new submission
+Ran the full A→G program. Summary (detail in the per-direction reports):
+- **A (final2_risk_audit):** both slots selectable/consistent. FOUND a marginally-better overlap play —
+  `54174151` (public **7.182** < Gate-Safe 7.212, "active-account base+overlap stack"). {blend, 54174151}
+  weakly dominates {blend, Gate-Safe} for pure best-of-2 overlap optimization (0.03 better on overlap, equal
+  on novel); Gate-Safe is the more controlled/audited mechanism. Overlap slot = Gate-Safe (default) or 54174151.
+- **B (private_risk_stress_test):** the DWT+PF blend beats BOTH DWT and PF in 7/8 private-composition
+  scenarios; the only exception (all-easy-well) is oracle-defined and not routable → blend confirmed robust.
+- **C+D (router_and_weight_search):** weight optimum W≈0.44 (9.2775) is only 0.019 below the current 0.5
+  (within transfer noise → no resubmit); no test-available router beats the fixed blend (disagreement predicts
+  hardness not direction; nested router 9.319 WORSE than 0.5). Fixed blend = deployable optimum.
+- **E (qwer_forensic_recovery):** 4th confirmation — source/predictions unrecoverable; qwer excluded (leakage
+  OOF, per the frontier argument).
+- **F+G (public_notebook_honest_scan):** one net-new honest distinct family (GR-free trajectory geometry +
+  change-point, precomputed OOF matrix). Faithfully tested: weak (RMSE 15.8–17.2), correlated with DWT (0.68),
+  adds only +0.076 via NEGATIVE weights (λ-disguise, non-transferring) → blend-neutral, does NOT clear the gate.
+- **Net:** no direction cleared the honest submission gate → **no new submission this round** (budget preserved).
+  Final-2 unchanged: **{DWT+PF blend 54804893, Gate-Safe 54289934}** (overlap slot may optionally be 54174151).
+
+
 ## 1. Board (verified public scores)
 | candidate | ref | public | honest OOF | class | novel-private behavior |
 |---|---|---|---|---|---|

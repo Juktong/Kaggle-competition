@@ -21,6 +21,15 @@ Best-of-2 = min of two pooled private scores. Neutral technical language. Detail
 No new submission. Router gain over the fixed-0.5 blend is negligible (+0.025), qwer is leakage, and no new
 honest candidate cleared a gate. Budget preserved (2026-07-18 used 1: the DWT+PF blend 54804893).
 
+**A→G audit continuation (session 1a07ce3e):** confirmed no submittable candidate. Weight W=0.44 gains only
+0.019 (within noise); expanded router HURTS (nested 9.319 vs fixed 9.297); GR-free geometry/change-point
+family is weak+DWT-correlated (0.68), adds +0.076 via NEGATIVE λ-disguise weights (non-transferring); qwer
+unrecoverable (4th check). **A finding for the overlap slot:** `54174151` (public **7.182**, active-account
+base+overlap stack) captures marginally more overlap than Gate-Safe (7.212) — an optional overlap-slot upgrade
+({blend, 54174151} weakly dominates {blend, Gate-Safe} for best-of-2 overlap optimization; Gate-Safe is the
+more controlled mechanism). Reports: `final2_risk_audit`, `private_risk_stress_test`, `router_and_weight_search`,
+`qwer_forensic_recovery`, `public_notebook_honest_scan` (all 2026-07-19).
+
 ## Final-2 recommendation (verified)
 **{DWT+PF blend 54804893 (public 8.080, OOF 9.30), Gate-Safe 54289934 (public 7.212)}** — best of both private
 scenarios (blend holds ~9.3 on novel; Gate-Safe wins ~7.2 on overlap). qwer's better public (7.921) is
