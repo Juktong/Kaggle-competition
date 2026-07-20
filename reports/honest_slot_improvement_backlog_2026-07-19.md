@@ -67,3 +67,30 @@ would orphan checkpoints), and are launched **detached via `setsid nohup`** so t
   `CKPT=`/`LOG=` env.
 - **A error decomposition** — pid 24571, log `a_decomp.out` → `decomp_features.csv`.
 - **F external-pipeline scan** — analysis agent (read-only).
+
+---
+## SPRINT CONTINUATION (session `4d6cd351`, 2026-07-20) — structural field SUBMITTED
+
+| mainline | status | outcome |
+|---|---|---|
+| **A structural-field candidate** | **DONE → SUBMITTED `54844628`** | reproduced (9.2987→9.1626 blanket) → stress → **gated** (nnb≥4 & closest<1000ft, W=0.15) → nested **8.8626 (+0.4361)**, bootstrap 100 % positive (5th pct +0.2356) → notebook built → Kaggle smoke COMPLETE 0 errors → audit all PASS → submitted. Public score pending. |
+| **B PF-uncertainty selector** | **DONE-NEG (closed)** | full 773-well re-test: corr(pf_unc, eD−eP) **flipped sign** +0.169 (96 wells) → −0.172 (773). fixed0.5 9.2969 · global_a 9.2939 · unc_router 9.2854 · monotonic 9.2806 (+0.016 best) · well_router 9.4418. Negligible; not a candidate. |
+| **C structural variants** | **DONE (no change)** | 18 combos (k×power×anchor) in one pass: nested band 8.9392–8.9663; deployed config within **0.0125** of best; IDW power has no effect. Hyper-parameter insensitivity recorded as robustness. |
+| D top-K path ranker | OPEN — highest-value remaining | oracle gap quantified earlier (blend 5.628 → oracle-seed 4.935); needs a PF re-run retaining all K paths + nested ranker; must clear +0.42 to beat plain averaging. |
+| E CNN/Siamese GR scorer | OPEN | needs GPU; tiny→medium→full smoke protocol defined. |
+| F MTP multi-hypothesis | OPEN | lower priority; depends on the selector problem D isolates. |
+
+### Running / recoverable
+- **Submission `54844628` scoring.** Detached waiter (`setsid`, PPID=1) appends to
+  `rogii_sprint_shared/tmp/substatus.log`. Manual check:
+  `kaggle competitions submissions rogii-wellbore-geology-prediction --csv | grep 54844628`.
+- Artefacts for reuse: `struct_oof.npz` (per-row struct OOF + neighbour metadata),
+  `pf_unc.npz` (773-well PF uncertainty), `decomp_features.npz` (3.78 M-row feature table).
+- Scripts committed: `struct_oof_produce.py`, `struct_field_gate.py`, `struct_field_stress.py`,
+  `struct_field_variants.py`, `pf_uncertainty_oof.py`, `dwt_pf_error_decomposition.py`, `topk_path_oracle_gap.py`.
+
+### Next automatic step
+1. Read the public score of `54844628`; if it improves on 8.080 it replaces 54804893 as the honest slot and
+   the final-2 becomes `{54844628, overlap hedge}`; if not, 54804893 is retained (public is the overlap game,
+   so a null move does not refute the +0.436 honest OOF gain).
+2. Then mainline **D** (top-K path ranker) — the one direction with a demonstrated, still-unclaimed upper bound.
