@@ -101,5 +101,17 @@ for name in (['ridge'] + (['lgbm'] if HAVE_LGB else [])):
     missing = [w for w in wells if w not in sel]
     for w in missing: sel[w] = maxlik_sel[w]
     print(f"  NESTED ranker [{name}]          = {assemble(sel):.4f}   (wells selected {len(wells)-len(missing)}/{len(wells)})")
+    # SHRINKAGE: averaging is variance reduction, so blend the picked path toward the weighted mean
+    for lam in [0.25, 0.5, 0.75]:
+        num, den = 0.0, 0
+        for w in wells:
+            S = store[w]
+            pf = (1 - lam) * S['mean'] + lam * S['paths'][sel[w]]
+            base = 0.5 * S['dwt'] + 0.5 * pf
+            out = base.copy()
+            if nnb.get(w, 0) >= 4 and np.isfinite(closest.get(w, np.nan)) and closest.get(w, 1e9) < 1000 and np.isfinite(S['struct']).all():
+                out = (1 - W_STRUCT) * base + W_STRUCT * S['struct']
+            num += float(np.sum((out - S['truth']) ** 2)); den += len(S['truth'])
+        print(f"      shrink lam={lam:.2f}            = {float(np.sqrt(num/den)):.4f}")
 
 print("\nGATE: a ranker must beat the deployed pipeline (and materially, given transfer noise) to be a candidate.")
