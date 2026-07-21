@@ -81,3 +81,45 @@ comparison and the correlation are informative.
   GR matching) and the structural field (cross-well geometry). Candidates that do **not** qualify, now
   on evidence: other-log forwards (no such channel at test), formation-top/stratigraphic state (train-only
   labels, line already closed), and GR-reweighted geometry (this smoke, +0.92 correlated).
+
+## Step 4 — second mechanism tested and closed: GR difference as a level correction
+
+The structural field assumes a mate's `r = TVT + Z` transfers directly at matched XY; it never checks
+whether the two wells are actually at the same structural level. If the local GR-vs-TVT gradient (from
+the typewell, test-available) converted a GR difference into a TVT difference, that would be a usable
+correction the field currently ignores — and a genuinely different computation.
+
+Tested on TRAIN pairs where both true TVTs are known (`scripts/l5_gr_offset_probe.py`):
+
+```
+pairs sampled: 4508 matched points
+  true dTVT      std=220.06 ft   mean=-48.11
+  GR diff        std=30.06       |dGR/dTVT| median=0.703 /ft
+  predicted dTVT std=60.04 ft
+
+  corr(predicted dTVT, true dTVT) = +0.0197
+  corr(raw GR diff,   true dTVT)  = -0.0872
+  best scalar a=0.0832 -> residual std 220.02 vs baseline 220.06, variance explained 0.0%
+```
+
+**The mechanism does not exist.** A pointwise GR difference carries essentially no information about the
+TVT difference between two wells. The reason is structural: the typewell GR profile oscillates with
+depth and is not monotonic, so a given GR value is consistent with many depths and a GR *difference* is
+ambiguous about a depth *difference*. This is precisely the ambiguity the PF resolves by sequential
+filtering along a whole trajectory rather than by pointwise inversion — which is why the PF works and
+this does not.
+
+## L5 status after two mini-smokes
+
+Both GR-based routes to a decorrelated cross-well computation are now closed on evidence:
+
+| route | result |
+|---|---|
+| GR-weighted IDW (point similarity) | +0.0395 over geometry-only, but **corr(err) = +0.9194** — a re-weighting, not a new source |
+| GR-difference level correction | **0.0% variance explained**, corr +0.0197 — mechanism absent |
+
+What survives as the remaining L5 shape: a computation that uses GR **as a sequence along the
+trajectory** (the property that makes the PF work) but referenced against **neighbouring horizontal
+wells** rather than the vertical typewell. That is the one combination not yet occupied by an existing
+component. It is also substantially more expensive than either smoke above, so it should only be started
+against a concrete headroom estimate rather than on plausibility.
