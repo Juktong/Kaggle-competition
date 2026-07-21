@@ -16,16 +16,34 @@ language.
 - **Probe 1 (row-level structural weighting)** — executed to completion, negative (above).
   Script: `scripts/probe_rowlevel_struct_weight.py`.
 
+## OUTCOMES (session `6bf66c88`) — D full verdict + probes 1–3
+- **D FULL VERDICT (773 wells): +0.0939, DOES NOT meet the +0.10 gate.** deployed 8.8682 → best
+  ranker[lgbm] shrink λ=0.5 **8.7742**; bootstrap mean +0.0920, **5th pct +0.0073**, 96 % positive.
+  Gain scaled monotonically (128 losing → 256 +0.038 → 384 +0.053 → 773 +0.0939) and the mechanism is
+  confirmed (hard pick loses to averaging; shrinkage toward the mean roughly doubles the hard-pick gain),
+  but the lower bound is not stably positive. **No submission.** Detail:
+  `topk_path_ranker_followup_2026-07-20.md`.
+- **Probe 1 (row-position weight schedules): NEGATIVE.**
+- **Probe 2 (per-ROW nearest-neighbour distance gate/decay): NEGATIVE** — and informative: row gates improve
+  as they loosen, so well-level is the correct gating granularity.
+- **Probe 3 (typewell-group local dip plane): NEGATIVE** — gradient integration accumulates error; IDW's
+  per-point absolute level is what makes it robust. Detail: `structural_field_probes_2026-07-20.md`.
+- Net: the deployed structural configuration is a **local optimum** for this method family; further gains
+  need a different channel, not re-tuning.
+
 ## Next probes (ordered by expected value / cost)
-1. **Per-row neighbour distance for the structural field.** The current gate uses a *per-well* closest-mate
+0. ~~Per-row neighbour distance~~ — **DONE, negative (Probe 2)**. Superseded item retained below for context.
+1. ~~**Per-row neighbour distance for the structural field.**~~ The current gate uses a *per-well* closest-mate
    distance; the field's local reliability should depend on each row's own distance to the nearest
    neighbour point. Probe 1 showed row-position schedules fail, but row-level *distance* was not tested
    (it needs the struct producer to also save per-row `min(dd)`), which is a ~20 min re-run of
    `scripts/struct_oof_produce.py` with one extra saved array. **Highest-value remaining structural item.**
-2. **Typewell-group local affine / dip plane.** The deployed field is isotropic IDW; a locally-fitted
+2. ~~**Typewell-group local affine / dip plane.**~~ — **DONE, negative (Probe 3)**. The deployed field is isotropic IDW; a locally-fitted
    plane `r ≈ a + b·x + c·y` over group-mates uses the dip direction the IDW ignores. Sketch and smoke test
    already written up in `external_pipeline_oof_scan_2026-07-19.md` §4 (#2).
-3. **Finish D at full scale.** The dump completes on its own; the decision rule is recorded in
+3. ~~**Finish D at full scale.**~~ — **DONE: +0.0939, gate not met.** Remaining D lever: **K=48 seeds**
+   (every scale increase raised the gain) plus a listwise ranker target and a stricter bootstrap requirement.
+4b. **Finish D at full scale (original text).** The dump completes on its own; the decision rule is recorded in
    `topk_path_ranker_followup_2026-07-20.md`: build the inference path only if the full-scale shrinkage gain
    reaches **≥ +0.10** with a stably positive well-bootstrap.
 4. **Residual correction by group + trajectory features.** Model the *residual* of the current blend against
