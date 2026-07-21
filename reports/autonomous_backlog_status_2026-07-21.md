@@ -172,3 +172,33 @@ python3 scripts/probes_d7.py               # direction 7 probes P1-P5
 ```
 Shared artifacts live in `/home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/` (stable across sessions
 by design — per-session job dirs would orphan checkpoints). Logs under `reports/logs/`.
+
+## 8. Parallel round while `54878409` was pending (2026-07-21, later)
+
+Four tasks were run concurrently with the pending submission. **No further submission was made** — the
+discipline was to hold unless a candidate was both clearly independent of `54878409` and passed the same
+gate. None qualified.
+
+| task | result | disposition |
+|---|---|---|
+| **1. L4 variant grid** (27 configs) | All positive, +0.0950 … +0.2081. `54878409` has the **highest bootstrap 5th in the grid (+0.0579)**. A=20 ≈ A=50 within noise; A=100 degrades. W=0.30 and gate=1200 degrade stability at every A. Joint nested (A,W,gate) = +0.1268 < the +0.1606 with W capped. | robustness confirmed, no submission |
+| **2. L4 + K=96 seeds-only** | Increment over `54878409` +0.0278 but bootstrap 5th **−0.0418**, frac>0 73%. Also the deployed kernel already runs `PF_NS=64` while the OOF used 24, so the measured 24→96 effect overstates the deployable 64→96 one. | validated-negative |
+| **3. L6 multi-seed DWT** | **Already implemented**: 6-model mean over 3 seeds × 2 libraries (LGB+CatBoost) × 3 learning rates. Closed by source inspection; no experiment needed. | closed |
+| **4. L5 decorrelated forward** | Data audit: **the only test-available log channel is GR**; ANCC/ASTNU/EGFDU/BUDA are train-only formation-surface depths. Two GR routes tested and closed: GR-weighted IDW (+0.0395 but corr(err)=+0.9194) and GR-difference level correction (**0.0% variance explained**). | both routes closed |
+
+### What task 1 changes about the submitted candidate
+
+The grid upgrades `54878409` from "a candidate that passed the gate" to "**the most stable point of a
+broad positive plateau**" — every one of 27 neighbouring configurations is positive, and none is better
+on both OOF and stability. It also independently confirms two constraints that were chosen *before* the
+grid existed: the `W ≤ 0.25` cap (from the 2026-07-20 stress test) and `gate = 1000`.
+
+A methodological note worth carrying forward: the joint nested search over the **full** grid returned a
+**worse** honest result (+0.1268) than the search with `W` capped at 0.25 (+0.1606), because 5 of 12
+folds selected `W = 0.30`. A wider hyper-parameter search is not automatically a better one.
+
+### Remaining open shape for L5
+
+GR used **as a sequence along the trajectory** (the property that makes the PF work) but referenced
+against **neighbouring horizontal wells** rather than the vertical typewell — the one combination no
+existing component occupies. Expensive; should be started only against a concrete headroom estimate.
