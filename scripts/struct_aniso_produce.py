@@ -69,7 +69,7 @@ for n, wid in enumerate(targets):
     if len(ridx) < 10: continue
     X = hw['X'].values; Y = hw['Y'].values; Z = hw['Z'].values
     tgt_xy = np.column_stack([X, Y])
-    px, py, pr, seps = [], [], [], []
+    px, py, pr, seps, surv_seps = [], [], [], [], []
     for m in groups.get(gkey[wid], []):
         if m == wid: continue
         try: mh = get(m)
@@ -80,9 +80,11 @@ for n, wid in enumerate(targets):
         if sep < MIN_SEP: continue                       # duplicate guard
         rr = mh['TVT'].values + mh['Z'].values; ok = np.isfinite(rr)
         px.append(mh['X'].values[ok][::4]); py.append(mh['Y'].values[ok][::4]); pr.append(rr[ok][::4])
+        surv_seps.append(sep)                      # separations of mates that SURVIVED the guard
     nnb = len(px); closest = float(min(seps)) if seps else np.nan
+    closest_surv = float(min(surv_seps)) if surv_seps else np.nan
     if nnb == 0:
-        META.append((wid, 0, closest, len(ridx), 0.0, 0.0)); continue
+        META.append((wid, 0, closest, len(ridx), 0.0, 0.0, np.nan)); continue
     PX = np.concatenate(px); PY = np.concatenate(py); PR = np.concatenate(pr)
 
     # dip direction from a plane fit over the mates
@@ -111,14 +113,15 @@ for n, wid in enumerate(targets):
         anchor = float(np.nanmean(hw['TVT_input'].values[kn_idx] + Z[kn_idx] - r_pred[kn_idx]))
         OS[a].append((r_pred + anchor - Z)[ridx].astype(np.float32))
     OW.append(np.full(len(ridx), wid)); OR.append(ridx)
-    META.append((wid, nnb, closest, len(ridx), gn, float(np.degrees(np.arctan2(u[1], u[0])))))
+    META.append((wid, nnb, closest, len(ridx), gn, float(np.degrees(np.arctan2(u[1], u[0]))), closest_surv))
 
 out = dict(well=np.concatenate(OW).astype(str), ridx=np.concatenate(OR).astype(np.int32),
            meta_well=np.array([m[0] for m in META]).astype(str),
            meta_nnb=np.array([m[1] for m in META], dtype=np.int32),
            meta_closest=np.array([m[2] for m in META], dtype=np.float32),
            meta_gradmag=np.array([m[4] for m in META], dtype=np.float32),
-           meta_dipdeg=np.array([m[5] for m in META], dtype=np.float32))
+           meta_dipdeg=np.array([m[5] for m in META], dtype=np.float32),
+           meta_closest_surv=np.array([m[6] for m in META], dtype=np.float32))
 for a in ANISOS: out[f'struct_a{a:g}'] = np.concatenate(OS[a])
 np.savez_compressed(OUT, **out)
 print(f"\nsaved {OUT}: wells={len(OW)} rows={sum(len(x) for x in OR)} anisos={ANISOS}")
