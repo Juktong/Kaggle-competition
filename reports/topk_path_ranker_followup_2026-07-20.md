@@ -44,7 +44,38 @@ at W=0.15), i.e. exactly what a submission would ship, differing only in how the
 4. **Oracle headroom stays large and unclaimed** (−0.66 → −1.10 as wells accumulate); the deployable share
    captured so far is roughly 5 % of it.
 
-## Gate status
+## FULL VERDICT — 773 wells / 18,552 paths (artifacts verified complete: 773×24 rows, 0 errors, 773 path files)
+```
+deployed (PF weighted mean)  = 8.8682   <- incumbent 54844628 pipeline
+max-likelihood path pick     = 8.9978   (worse, as at every scale)
+ORACLE best path             = 7.6871   (headroom -1.18, ~92% unclaimed)
+ranker[ridge] hard-pick      = 8.8301   (+0.0380)
+ranker[ridge] shrink 0.75    = 8.8185   (+0.0496)
+ranker[lgbm]  hard-pick      = 8.8312   (+0.0369)
+ranker[lgbm]  shrink 0.75    = 8.7839   (+0.0843)
+ranker[lgbm]  shrink 0.50    = 8.7742   (+0.0939)  <- BEST
+ranker[lgbm]  shrink 0.25    = 8.8024   (+0.0657)
+bootstrap (200 well-resamples): mean +0.0920 · 5th pct +0.0073 · frac>0 = 96%
+```
+**Scaling held exactly as predicted:** best shrinkage gain 128 wells (losing) → 256 **+0.038** → 384
+**+0.053** → 773 **+0.0939**. The mechanism is confirmed at full scale: hard max-likelihood selection is
+worse than averaging, hard ranker selection recovers only +0.037, and **shrinking the ranker pick toward the
+weighted mean (λ=0.5) roughly doubles that**.
+
+**Decision vs the pre-registered threshold (≥ +0.10 with a stably positive bootstrap): DOES NOT MEET.**
+- gain **+0.0939**, i.e. 94 % of the threshold — close, but below it;
+- bootstrap **5th pct +0.0073** with 4 % of resamples negative — this is *not* a stably positive lower bound
+  (contrast the structural field: 5th pct +0.2356, 100 % positive).
+The threshold was registered in advance precisely so a near-miss is not re-argued after the fact.
+**No submission from D.** The incumbent 54844628 (public 7.891 / OOF 8.8626) stands.
+
+### What would move D over the line (recorded for the next round)
+1. **More seeds per well (K = 48 instead of 24).** Every scale increase so far raised the gain, and more
+   paths give both a better oracle pool and more ranking evidence. Cost ≈ one more PF dump (~2 h detached).
+2. A richer ranker target (pairwise/listwise rather than normalised RMSE regression).
+3. Re-check the bootstrap lower bound: the gate should require 5th pct comfortably > 0, not merely > 0.
+
+## Gate status (superseded by the FULL VERDICT above)
 The best measured gain (**+0.053** at 384 wells) is above the ~0.02 transfer-noise threshold used in this
 project but remains an **order of magnitude below the structural field's +0.436**, while the inference build
 is materially heavier: the notebook would have to retain K PF paths, recompute all path features at test
