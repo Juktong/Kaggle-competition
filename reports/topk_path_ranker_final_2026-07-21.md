@@ -93,16 +93,78 @@ And the gain scales with the number of seeds, as the variance-reduction account 
 The ORACLE path (7.4726) remains far above what is achievable — consistent with direction 4, an oracle
 number is not evidence of an achievable gain.
 
-## Next step, already running
+## K=96 follow-up — completed, and it closes the line
 
-**K=96 launched** (proposal L2), pid 77156, detached with **PPID = 1**, checkpointing to
-`topk96_feat.csv`, `todo=773`. Rationale: the mean gain is rising with K while the bootstrap spread is
-roughly constant (5th ≈ mean − 0.154). If K=96 adds the ~+0.02–0.03 the trend implies, the 5th
-percentile crosses zero and the gate is met on both conditions rather than one. Expected ~3 h.
+K=96 ran to completion (773/773 wells, 74,209 rows = 773 × 96).
 
-A secondary, zero-risk result to keep in view: the **seeds-only effect** (+0.0198 from 24→48 seeds, no
-ranker, no new model) is currently at the ~0.02 transfer-noise threshold, but it may become
-independently useful if it also grows with K.
+```
+deployed pipeline with K=96 PF mean   8.8398
+  seeds-only effect, 24 -> 96, NO ranker              +0.0228
+
+lam=0.25 +0.0978 | lam=0.50 +0.1512 | lam=0.75 +0.1593 | lam=1.00 +0.1221
+NESTED-lambda = 8.7134   gain vs K=96 deployed +0.1264 / vs SUBMITTED 8.8626 +0.1492
+bootstrap(400): mean +0.1558   5th -0.0158   1st -0.1040   frac>0 92%
+
+GATE: DOES NOT MEET
+```
+
+Scaling across three values of K:
+
+| K | nested gain | bootstrap 5th | frac>0 |
+|---|---|---|---|
+| 24 | +0.0939 | — | — |
+| 48 | +0.1125 | −0.0230 | 91% |
+| 96 | +0.1264 | −0.0158 | 92% |
+
+The mean gain keeps rising, but the **5th percentile improved only +0.0072 for a doubling of K**.
+Crossing zero on that trajectory would need K ≈ 384+ at 2× cost per doubling, with visibly diminishing
+returns. **More seeds is not the path to the gate.**
+
+### Why the tail does not close — and why a guard is unavailable
+
+Per-well decomposition at K=96 (λ=0.75):
+
+```
+wells helped 54.1%   hurt 45.7%     per-well gain: mean +0.076, median +0.011
+worst 5 wells: -12.34 -11.62 -7.71 -7.52 -5.42
+best  5 wells: +10.67 +10.45 +10.03 +9.34 +7.40
+SSE change from HELPED wells -2.939e7   vs   HURT wells +1.883e7   (net -1.06e7)
+```
+
+The pooled gain is a **net of two large opposing flows**, not a broad consistent improvement: it is
+close to a coin flip per well (54/46) with a near-zero median, and the aggregate is carried by the
+tails. That is exactly why well-resampling keeps producing negative draws — the bootstrap is reporting
+real transfer risk, not excess conservatism.
+
+Project precedent said to try a **guard**: gating is what turned the structural field from hazardous
+(≤3-mate wells 10.19 → 15.61) into the submitted slot. Every test-available guard signal was tested
+against the per-well gain:
+
+```
+dmean_min +0.131 | wmax +0.090 | wstd +0.084 | dmean +0.082 | smooth +0.047
+likdisp   -0.045 | hd   -0.042 | neval +0.009 | sel_w  -0.007
+```
+
+**No signal identifies which wells the ranker helps** (max |corr| 0.131). A guarded variant is therefore
+not constructible, unlike the structural-field case where `nnb` and `closest` were strongly predictive.
+
+This is the same structure direction 4 found for the router: the per-well outcome is noise-determined
+rather than feature-identifiable.
+
+### Decision
+
+**No submission, at K=48 or K=96.** The pre-registered gate fails on stability at both. The per-well
+diagnosis makes the candidate look *weaker* than its headline, not stronger: 45.7% of wells are hurt,
+the median well gains +0.011, and no safe sub-family can be carved out. Directive 1's submission
+authority is for a *stable* gain or a stable gain on a **clearly-defined well-family via a guarded
+router**; neither condition holds.
+
+The line is characterized rather than merely unfinished: shrinkage is the real mechanism, it scales with
+seeds, and it is capped by well-level variance that no available signal resolves.
+
+A secondary, zero-risk result: the **seeds-only effect** (+0.0228 at K=96, up from +0.0198 at K=48, no
+ranker and no new model) remains at the ~0.02 transfer-noise threshold — worth noting but not
+independently actionable, and it would cost PF compute in the Kaggle inference notebook.
 
 ## Reproduction
 
