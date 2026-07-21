@@ -17,7 +17,7 @@ SH = '/home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp'
 D = '/home/ubuntu/workstation/JoeProject/Kaggle-competition/data/rogii/train'
 code = open('/home/ubuntu/.claude/jobs/06dd2efb/tmp/SUNNY_CODE.py').read()
 cut = code.find("sample = pd.read_csv(os.path.join(INPUT_DIR, 'sample_submission.csv')")
-funcs = code[:cut].replace("INPUT_DIR = find_input_dir()", "INPUT_DIR = os.path.abspath('data/rogii')")
+funcs = code[:cut].replace("INPUT_DIR = find_input_dir()", "INPUT_DIR = '/home/ubuntu/workstation/JoeProject/Kaggle-competition/data/rogii'")
 ns = {}; exec(funcs, ns)
 run_pfilter = ns['run_particle_filter']; load_well = ns['load_well']; TRAIN_DIR = ns['TRAIN_DIR']
 
