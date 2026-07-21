@@ -1,0 +1,17 @@
+K96 wells=773  struct wells=760
+aligned rows=3721471 wells=760 skipped_wells=0
+
+PF component alone: K24=11.0563  K96=10.9905
+base:               K24=9.2987  K96=9.2555  seeds-only +0.0432
+
+deployed 54844628 (iso W.15, K24) = 8.8626
+submitted 54878409 (A50 W.25, K24) = 8.6825   gain vs deployed +0.1802
+candidate  L4+K96  (A50 W.25, K96) = 8.6547   gain vs deployed +0.2080
+                                        INCREMENT vs 54878409 +0.0278
+
+bootstrap:
+  [L4+K96 vs deployed] boot mean=+0.2079 5th=+0.0510 frac>0=99% | helped=55.5% worst=-7.45
+  [L4+K96 vs 54878409  <-- the decision-relevant one] boot mean=+0.0291 5th=-0.0418 frac>0=73% | helped=54.6% worst=-6.93
+
+GATE for a NEW submission while 54878409 is pending:
+  needs stable increment over 54878409 (bootstrap 5th > 0): DOES NOT MEET
