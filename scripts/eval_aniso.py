@@ -64,4 +64,31 @@ for a in ANIS:
             p[ap]=base[ap]+c[0]*(S['1'][ap]-base[ap])+c[1]*(S[a][ap]-base[ap])
         outs.append(rmse(p))
     print(f"  A=1 + A={a:>2}: nested={np.mean(outs):.4f}   gain vs deployed {rmse(ref)-np.mean(outs):+.4f}")
+
+print("\nwell-level bootstrap of the best single-field variant:")
+best_a=None; best_r=np.inf
+for a in ANIS:
+    outs=[]
+    for seed in range(3):
+        p2=base.copy()
+        for tr,te in halves(seed):
+            m=tr&gate; d=(S[a]-base)[m]
+            c=float(np.clip(np.dot(d,(Y-base)[m])/max(np.dot(d,d),1e-9),0,1))
+            ap=te&gate; p2[ap]=base[ap]+c*(S[a][ap]-base[ap])
+        outs.append(rmse(p2))
+    if np.mean(outs)<best_r: best_r, best_a = float(np.mean(outs)), a
+print(f"  best A={best_a} nested={best_r:.4f}")
+pb=base.copy()
+for tr,te in halves(0):
+    m=tr&gate; d=(S[best_a]-base)[m]
+    c=float(np.clip(np.dot(d,(Y-base)[m])/max(np.dot(d,d),1e-9),0,1))
+    ap=te&gate; pb[ap]=base[ap]+c*(S[best_a][ap]-base[ap])
+idxw={w:np.where(well==w)[0] for w in uw}
+rb=np.random.RandomState(7); gains=[]
+for _ in range(400):
+    samp=uw[rb.randint(0,len(uw),len(uw))]
+    rows=np.concatenate([idxw[w] for w in samp])
+    gains.append(np.sqrt(np.mean((ref[rows]-Y[rows])**2))-np.sqrt(np.mean((pb[rows]-Y[rows])**2)))
+g=np.array(gains)
+print(f"  bootstrap(400): mean={g.mean():+.4f} 5th={np.percentile(g,5):+.4f} frac>0={100*np.mean(g>0):.0f}%")
 print("\nGATE: >= +0.10 vs deployed with stably positive bootstrap.")
