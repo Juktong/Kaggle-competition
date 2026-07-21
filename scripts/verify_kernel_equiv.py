@@ -43,7 +43,7 @@ for wid in targets:
     kn=hw['TVT_input'].notna().values
     if kn.sum()<ANCHOR_N or not mates: continue
     X=hw['X'].values; Y=hw['Y'].values; Z=hw['Z'].values; txy=np.column_stack([X,Y])
-    px,py,pr,seps=[],[],[],[]
+    px,py,pr,seps,surv_seps=[],[],[],[],[]
     for m in mates:
         try: mh=_tr(m)
         except Exception: continue
@@ -51,8 +51,8 @@ for wid in targets:
         d,_=_tr_tree(m).query(txy[::10],k=1); sep=float(np.median(d)); seps.append(sep)
         if sep<MIN_SEP: continue
         rrv=mh['TVT'].values+mh['Z'].values; ok=np.isfinite(rrv)
-        px.append(mh['X'].values[ok][::4]); py.append(mh['Y'].values[ok][::4]); pr.append(rrv[ok][::4])
-    _closest=float(min(seps)) if seps else float('nan')
+        px.append(mh['X'].values[ok][::4]); py.append(mh['Y'].values[ok][::4]); pr.append(rrv[ok][::4]); surv_seps.append(sep)
+    _closest=float(min(surv_seps)) if surv_seps else float('nan')
     if not px: continue
     if len(px)<MIN_NB or not np.isfinite(_closest) or _closest>=MAX_CLOSEST:
         gated_off+=1; continue
