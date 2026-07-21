@@ -38,7 +38,7 @@ mates are TRAIN wells' `(X, Y, TVT+Z)`. `A = 1` reproduces the previously submit
 | kernel vs OOF producer | **bit-exact** (88,229 rows, max diff 0.00000000 ft) |
 | smoke | PASS, no errors |
 | pre-submit HARD checks | **PASS** (format, finite, range, diff-vs-baseline) |
-| visible-well pooled RMSE | 3.677 → **3.496** (+0.181, independently matches the OOF estimate) |
+| visible-well pooled RMSE | 3.677 → **3.496** (+0.181) — *overweighted at the time; see post-mortem §3: it compares train copies with a different heel/toe split, so it is not independent confirmation* |
 
 This is the **first candidate of the queue to satisfy both gate conditions**. Directions 2, 3, 4, 6, 7
 and the top-K line (K=24/48/96) were all held back — the top-K candidate reached a +0.1492 point
