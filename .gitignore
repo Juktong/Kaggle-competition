@@ -72,3 +72,6 @@ Thumbs.db
 !kaggle_kernel_dwt_pf_blend/**
 !kaggle_kernel_struct_field_blend/
 !kaggle_kernel_struct_field_blend/**
+
+# evidence logs referenced by reports/ are deliberately tracked
+!reports/logs/*.log

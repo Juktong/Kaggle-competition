@@ -1,0 +1,20 @@
+=== K=96 dump finished: 74209 rows, 773 path files ===
+wells=773
+  deployed pipeline w/ K=48 PF mean = 8.8398   (submitted 54844628 used a 24-seed PF: 8.8626)
+  -> seeds-only effect (24 -> 48, NO ranker) = +0.0228
+
+  lam=0.00: 8.8398  gain +0.0000
+  lam=0.25: 8.7420  gain +0.0978
+  lam=0.50: 8.6886  gain +0.1512
+  lam=0.75: 8.6805  gain +0.1593
+  lam=1.00: 8.7177  gain +0.1221
+
+=== NESTED lambda (chosen on training-half wells, applied to held-out half; 5 seeds) ===
+  lambda picks: [0.75, 0.75, 0.5, 0.75, 0.5, 0.75, 1.0, 0.5, 1.0, 0.5]
+  NESTED-lambda result = 8.7134   gain vs deployed(K48) +0.1264
+                                        gain vs SUBMITTED 8.8626 +0.1492
+
+  deployable lambda (most-picked) = 0.75
+  bootstrap(400) gain vs K48 deployed: mean=+0.1558 5th=-0.0158 1st=-0.1040 frac>0=92%
+
+  GATE (+0.10 AND stably positive bootstrap): DOES NOT MEET

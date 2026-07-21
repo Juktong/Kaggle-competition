@@ -1,0 +1,20 @@
+saved /home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/struct_aniso_surv.npz: wells=760 rows=3721471 anisos=[1.0, 50.0]
+rows=3721471 wells=760
+  gate on ALL-mates min  : 87.3% rows, 657 wells
+  gate on SURVIVING min  : 87.2% rows, 655 wells
+  wells gated ON by old but OFF by new: 2
+
+deployed (A=1,W=.15, old gate) = 8.8626
+
+fixed A=50, W=0.25 under each gate:
+  [old gate (all-mates min)] rmse=8.6818 gain=+0.1808 | boot mean=+0.1794 5th=+0.0499 1st=+0.0006 frac>0=99% | helped=47.9% worst=-6.99
+  [NEW gate (surviving min)] rmse=8.6825 gain=+0.1802 | boot mean=+0.1788 5th=+0.0490 1st=-0.0000 frac>0=99% | helped=47.8% worst=-6.99
+
+nested W (A=50) under the NEW gate, W grid capped at 0.25:
+  nested W picks=[0.2, 0.25] mean=0.242
+  NESTED = 8.7020  gain +0.1606
+
+  DEPLOYABLE: A=50, W=0.25, gate on closest SURVIVING mate
+  [A=50 W=0.25 new gate] rmse=8.6825 gain=+0.1802 | boot mean=+0.1788 5th=+0.0490 1st=-0.0000 frac>0=99% | helped=47.8% worst=-6.99
+
+  GATE (+0.10 AND stably positive bootstrap): MEETS
