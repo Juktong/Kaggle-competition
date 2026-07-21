@@ -53,7 +53,7 @@ Two further mechanisms were confirmed, both consistent with prior rounds:
 
 | # | direction | headline result | gain vs 8.8626 | verdict |
 |---|---|---|---|---|
-| 1 | D top-K path ranker, K=48 | dump running (112/773 at last check) | — | in progress |
+| 1 | D top-K path ranker, K=48 | 773/773 done; nested-λ 8.7303; bootstrap 5th −0.0230, frac>0 91% | **+0.1125** (gate fails on stability) | no submission |
 | 2 | residual correction | ridge nested 8.8626; hgb nested 8.9156 | **+0.0000 / −0.053** | negative |
 | 3 | group offset / trend | offset −0.5153 · shrunk −0.1366 · trend −0.6255 | **−0.14 … −0.63** | negative |
 | 4 | multi-signal router | oracle 7.3763 vs nested 9.4684 | **−0.6057** | negative |
@@ -123,9 +123,17 @@ routing/selection, fitted blend weights, monotone recalibration, and local-windo
 
 ## 5. Currently running
 
-- **K=48 top-K path dump** — pid 73986, **detached with PPID = 1**, survives disconnection.
-  Checkpointed to `topk48_feat.csv` (resumable). ~112/773 wells at last check, ~5.9 wells/min,
-  roughly 1.9 h remaining. Verdict → `reports/topk_path_ranker_final_2026-07-21.md`.
+- **K=48 — COMPLETE** (773/773, 37,104 paths). Verdict in
+  `reports/topk_path_ranker_final_2026-07-21.md`: nested-λ **8.7303**, **+0.1125** vs the K=48 deployed
+  reference and **+0.1323** vs the submitted slot. λ=0.75 survives nested re-selection (7/10 folds), so
+  unlike direction 2 this is not a sweep artifact. **Blocked on bootstrap stability alone** —
+  5th pct −0.0230, frac>0 91% — so the pre-registered gate is not met and no submission was made.
+  Secondary: the **seeds-only** effect (24→48 seeds, no ranker) is **+0.0198**.
+- **K=96 top-K path dump — RUNNING** (proposal L2), pid 77156, **detached with PPID = 1**, checkpointed
+  to `topk96_feat.csv`, `todo=773`, ~3 h. Rationale: the mean gain rises with K while the bootstrap
+  spread stays roughly constant (5th ≈ mean − 0.154), so the ~+0.02–0.03 the trend implies would push
+  the 5th percentile across zero and satisfy **both** gate conditions rather than one. A waiter is
+  chained to run the nested-λ verdict automatically on completion.
 
 A defect was fixed in this run: `pf_topk_path_dump.py` derived `INPUT_DIR` from a **cwd-relative** path,
 so resuming from a different working directory silently globbed an empty dataset and exited with
