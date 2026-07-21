@@ -1,7 +1,8 @@
 # Autonomous backlog status — 2026-07-21
 
 Continuous optimization queue, directions 0–9. Neutral technical language throughout.
-Live update: the K=48 top-K dump is still running; its verdict lands in
+Round complete. One submission made: **`54878409`** (L4 anisotropic structural field) — see
+`reports/submission_anisotropic_field_2026-07-21.md`. The top-K line is closed in
 `reports/topk_path_ranker_final_2026-07-21.md`.
 
 ## 0. True current state (judged from artifacts, not from state files)
@@ -16,7 +17,7 @@ processes existed** — K=48 had never run. State was therefore re-derived from 
 | deployment gate | `nnb ≥ 4` AND `closest_mate < 1000 ft`, fixed `W = 0.15` |
 | coverage | 87.3% of rows gated; 760 wells / 3,721,471 toe rows |
 | component standalone OOF | DWT 10.2891 · PF 11.0563 · struct 26.0024 · base 9.2987 |
-| submissions used this round | **0** |
+| submissions used this round | **1** (`54878409`, L4 anisotropic field) of 5 daily |
 | git | clean, all work committed and pushed |
 
 ## 1. The organizing result of this round
@@ -62,8 +63,10 @@ Two further mechanisms were confirmed, both consistent with prior rounds:
 | 6 | sequence / MTP / MDN | nested smoothing +0.0160; GMM k=2 ≫ k=1 | **+0.016** (≤ noise) | negative |
 | 7 | five cheap probes (P1–P5) | all negative, best is the incumbent | **−0.065 … −0.886** | negative |
 
-Nothing reached the pre-registered **+0.10** gate, so **no submission was made** — consistent with
-quota discipline (direction 8).
+Of these, only **L4 reached the pre-registered +0.10 gate with a stably positive bootstrap**, and it was
+the only candidate submitted. The top-K line reached a +0.1492 point estimate at K=96 but failed the
+stability condition at both K=48 and K=96, and was held back — consistent with quota discipline
+(direction 8).
 
 ### Direction 5 detail — why GPU was deliberately not spent
 
