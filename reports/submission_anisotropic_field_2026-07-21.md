@@ -1,7 +1,12 @@
 # Submission record — anisotropic structural field (2026-07-21)
 
-**Submission ref `54878409`** · kernel `joezzzzz/rogii-struct-aniso-codex` v1 · public score: pending at
-time of writing. First submission of this queue; 1 of 5 daily slots used.
+**Submission ref `54878409`** · kernel `joezzzzz/rogii-struct-aniso-codex` v1 · **public 7.953**
+(deployed `54844628` = 7.891, lower is better) · commit at submission time recorded below.
+First submission of this queue; 1 of 5 daily slots used. Submitted at commit `2f35be1`.
+
+> **Outcome: the OOF gain did NOT confirm on public.** Public is **0.062 worse** while OOF predicted
+> **+0.16 better**. See the post-mortem at the end of this report before using this in a final-2
+> decision.
 
 ## What was submitted
 
@@ -112,8 +117,46 @@ api.competition_submit_code(file_name='submission.csv', message=...,
 Recorded because the CSV route silently looks like a candidate problem when it is a competition-type
 constraint. Competition limits: `max_daily_submissions = 5`, deadline 2026-08-05 23:59.
 
-## Final-2 implication
+## Post-mortem — local/public gap (required record)
 
-`54844628` (public 7.891) remains banked and is unaffected. If `54878409` scores better on public and
-the OOF/visible-well agreement holds, it supersedes `54844628` for the honest slot; otherwise the
-existing recommendation stands. No decisions were made around any teammate/external submission.
+| | OOF (760 wells, nested) | public |
+|---|---|---|
+| `54844628` deployed | 8.8626 | **7.891** |
+| `54878409` anisotropic | 8.7020 (**+0.1606**) | **7.953** (**−0.062**) |
+
+**The OOF gain did not transfer.** Recording the diagnosis rather than explaining it away:
+
+**1. OOF predicted these very wells would improve.** The public test set is 3 wells, all visible
+(duplicated in train). Their OOF per-well gains were **+0.287, +0.539, −0.019** (mean +0.269) — i.e. the
+local evidence pointed the same way and still missed.
+
+**2. Three wells cannot resolve an effect this size.** Resampling 3 wells from the 655 gated wells gives
+a mean-gain spread of **5th −1.182 / 95th +1.443**, and **42.6%** of random 3-well draws are negative,
+against a true mean per-well gain of +0.119. The public leaderboard for this competition is therefore a
+very weak discriminator at the ±0.06 scale — it separated the earlier large steps (9.519 → 8.080 →
+7.891) but cannot separate these two.
+
+**3. The visible-well local check was weaker than it was treated as.** It compared against the *train*
+copies of those wells (pooled RMSE 3.677 → 3.496, +0.181), but the test versions have a **different
+heel/toe split**, so the anchor and the scored rows differ. That check should not have been presented as
+an independent confirmation of the OOF number — it is a related but not equivalent quantity, which is
+also why its absolute level (≈3.5) is nowhere near the public level (≈7.9).
+
+**What this does and does not overturn.** It does not invalidate the OOF result (760 wells, nested
+(A,W), bootstrap 5th +0.0490, 99% positive, leakage cleared, kernel bit-exact). It does show the gain is
+unconfirmed on real held-out data, and that our only public signal is too small to confirm it either
+way. Under a strategy that targets the private ranking on novel wells and treats OOF as the proxy, this
+is a candidate with strong local evidence and no public corroboration.
+
+## Final-2 implication — recommendation, not a decision
+
+`54844628` (public 7.891, OOF 8.8626) remains the **primary honest slot**: it is the only candidate
+verified on both axes.
+
+`54878409` is the OOF-superior variant of the same pipeline, differing only in the structural kernel.
+Because final selection is best-of-2, using it as the **second** slot is a reasonable hedge — the two are
+highly correlated and the choice is essentially "isotropic vs dip-aware structural field". But this is a
+final-selection decision with a hard deadline, so it is left as a recommendation for the project owner
+rather than actioned here.
+
+No decisions were made around any teammate/external submission.
