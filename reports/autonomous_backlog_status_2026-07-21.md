@@ -53,7 +53,8 @@ Two further mechanisms were confirmed, both consistent with prior rounds:
 
 | # | direction | headline result | gain vs 8.8626 | verdict |
 |---|---|---|---|---|
-| 1 | D top-K path ranker, K=48 | 773/773 done; nested-λ 8.7303; bootstrap 5th −0.0230, frac>0 91% | **+0.1125** (gate fails on stability) | no submission |
+| 1 | D top-K path ranker, K=48 / K=96 | K=96 nested-λ 8.7134; bootstrap 5th −0.0158, frac>0 92%; no guard constructible | **+0.1264** (gate fails on stability) | no submission |
+| **L4** | **anisotropic structural field** | nested (A,W) 8.7020; bootstrap 5th **+0.0490**, frac>0 **99%**; leakage cleared | **+0.1606** | **SUBMITTED `54878409`** |
 | 2 | residual correction | ridge nested 8.8626; hgb nested 8.9156 | **+0.0000 / −0.053** | negative |
 | 3 | group offset / trend | offset −0.5153 · shrunk −0.1366 · trend −0.6255 | **−0.14 … −0.63** | negative |
 | 4 | multi-signal router | oracle 7.3763 vs nested 9.4684 | **−0.6057** | negative |
@@ -111,7 +112,7 @@ largely unobservable at test time — which promotes the structural-information 
 
 | # | proposal | rationale | est. cost | risk |
 |---|---|---|---|---|
-| **L4** ↑ | **Anisotropic / dip-aware structural kernel** | Now the top candidate: the dominant error term is per-well **drift**, and a dip-aware kernel attacks drift rather than level. The deployed IDW is isotropic. The earlier dip probe was negative but used gradient-only integration, a different formulation. | ~3–6 h | medium — variant sweep suggests a local optimum |
+| **L4** ✓ | **Anisotropic / dip-aware structural kernel** — *run this round, MET the gate, SUBMITTED `54878409`* | The prediction held: the dominant error term is per-well **drift**, and a dip-aware kernel attacks drift rather than level. Nested (A,W) gain **+0.1606**, bootstrap 5th **+0.0490**, frac>0 99%. Leakage cleared; kernel bit-exact; visible-well +0.181 matches OOF. | done | shipped |
 | **L3** ✗ | **Separate conservative path for the 12.7% ungated rows** — *run this round, negative* | Tested immediately since it needed only existing arrays. On ungated rows the structural field has **RMSE 62.23** against base 12.81, so there is nothing to add: the nested weight fits to **0.0109** (≈ zero) and the nested result is **−0.0218**. A sub-gate at `closest < 2000 ft` gives **+0.0208**, at `< 3000 ft` **+0.0181** — both at or below the ~0.02 transfer-noise threshold and far under the gate. **The deployed gate is correctly placed**; this is a further robustness confirmation of the submitted slot. | done (~2 min) | closed |
 | **L5** ↑ | **A third decorrelated forward model** | Both historical wins came from new decorrelated information, and section 1 argues that is now the only class that can reach the dominant error term. Candidates: a resistivity/other-log-driven forward model, or a differently-parameterized particle filter. | 1–2 days | high cost, but the only class with a track record here |
 | **L2** = | **Seed scaling of the PF weighted mean (K=96)** | Extends the one confirmed mechanism (shrinkage/averaging). Gain already scaled with data: 128 losing → 256 +0.038 → 384 +0.053 → 773 +0.0939. K=48 is the live test of scaling in seeds. | ~4 h if K=48 shows scaling | low — mechanism confirmed, but gains are sub-gate so far |
@@ -129,11 +130,15 @@ routing/selection, fitted blend weights, monotone recalibration, and local-windo
   unlike direction 2 this is not a sweep artifact. **Blocked on bootstrap stability alone** —
   5th pct −0.0230, frac>0 91% — so the pre-registered gate is not met and no submission was made.
   Secondary: the **seeds-only** effect (24→48 seeds, no ranker) is **+0.0198**.
-- **K=96 top-K path dump — RUNNING** (proposal L2), pid 77156, **detached with PPID = 1**, checkpointed
-  to `topk96_feat.csv`, `todo=773`, ~3 h. Rationale: the mean gain rises with K while the bootstrap
-  spread stays roughly constant (5th ≈ mean − 0.154), so the ~+0.02–0.03 the trend implies would push
-  the 5th percentile across zero and satisfy **both** gate conditions rather than one. A waiter is
-  chained to run the nested-λ verdict automatically on completion.
+- **K=96 — COMPLETE, and it closes the top-K line.** Nested-λ **8.7134** (+0.1264), but bootstrap 5th
+  **−0.0158** (frac>0 92%). The 5th percentile improved only **+0.0072 per doubling of K**, so reaching
+  zero would need K≈384+ with diminishing returns. Per-well: helped 54.1% / hurt 45.7%, median +0.011 —
+  the pooled gain is a net of two large opposing flows, so well-resampling genuinely flips it. A guard
+  is **not constructible**: every test-available guard signal has near-zero correlation with per-well
+  gain (best `dmean_min` +0.131). No submission.
+- **L4 anisotropic structural field — COMPLETE and SUBMITTED (`54878409`).** See
+  `reports/submission_anisotropic_field_2026-07-21.md` and
+  `reports/anisotropic_structural_field_2026-07-21.md`. Public score pending at time of writing.
 
 A defect was fixed in this run: `pf_topk_path_dump.py` derived `INPUT_DIR` from a **cwd-relative** path,
 so resuming from a different working directory silently globbed an empty dataset and exited with
@@ -141,9 +146,15 @@ so resuming from a different working directory silently globbed an empty dataset
 
 ## 6. Submission and quota discipline (direction 8)
 
-- **0 submissions used this round.** No candidate reached the +0.10 gate, and none was close enough to
-  justify a slot on an exploratory basis.
-- The honest slot remains `54844628` (public 7.891). The final-2 recommendation is unchanged.
+- **1 submission used** (`54878409`, L4 anisotropic field), of 5 daily. Every other candidate was held
+  back: directions 2/3/4/6/7 were negative, and the top-K line reached a +0.1492 point estimate but
+  failed bootstrap stability at both K=48 and K=96.
+- `54844628` (public 7.891) remains banked and unaffected. If `54878409` scores better on public and the
+  OOF / visible-well agreement holds, it supersedes it for the honest slot; otherwise the existing
+  recommendation stands.
+- **Submission mechanics:** this competition is kernels-only (`is_kernels_submissions_only = True`), so
+  `kaggle competitions submit -f` returns **400 by design**. Use
+  `api.competition_submit_code(kernel=..., kernel_version=...)`.
 - Per standing instruction, no decisions were made around any teammate/external pending submission.
 
 ## 7. Reproduction
