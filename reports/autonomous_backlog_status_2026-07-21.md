@@ -202,3 +202,38 @@ folds selected `W = 0.30`. A wider hyper-parameter search is not automatically a
 GR used **as a sequence along the trajectory** (the property that makes the PF work) but referenced
 against **neighbouring horizontal wells** rather than the vertical typewell — the one combination no
 existing component occupies. Expensive; should be started only against a concrete headroom estimate.
+
+## 9. `54878409` scored — and the gate itself was measuring the wrong thing
+
+**Public 7.953 vs the banked 7.891 — the candidate is 0.062 worse**, against an OOF prediction of
++0.1802. Full post-mortem: `reports/mismatch_audit_54878409_2026-07-21.md`.
+
+The cause is a methodology error in this queue's own gate, not a property of the candidate:
+
+```
+resample 760 wells: mean +0.1794  5th +0.0479  frac<0  0.9%   <- what every gate decision used
+resample   3 wells: mean +0.1053  5th -1.3090  frac<0 42.0%   <- the competition's actual scale
+per-well gain: mean +0.099, MEDIAN +0.000, std 1.301, 38.7% of wells hurt
+```
+
+The whole test set is **3 wells / 14,151 rows**. Every "bootstrap 5th > 0" judgement in this round — the
+one that passed L4, and the one that held back the top-K line — was computed on a 760-well resample and
+therefore never constrained the quantity that decides the result.
+
+Two further corrections:
+
+- **The visible-well check is not independent confirmation.** It reuses train copies of the same 3 wells
+  with a different heel/toe split (test `TVT_input` is known on 26.4% of rows). OOF said +0.287/+0.539/
+  −0.019 on exactly those wells and public still went −0.062.
+- **A hypothesis discarded honestly:** the 3 test wells are *not* in the weak twin subgroup
+  (`closest_all` 291.7/343.6/354.5, all > 150 ft). The `closest_all = 0 ft` in the smoke was the
+  inference-side train copy that `MIN_SEP` drops; the surviving-mate gate fix made OOF and inference
+  equivalent. The twin subgroup does not explain this outcome.
+
+**Final-2 status: `54844628` (7.891) remains the honest slot.** Because the test set is 3 wells, public
+and private are row splits of the *same* wells, and within-well residual autocorrelation is +0.9998 at
+lag 1 — so the public result is materially informative about private rather than dismissable noise.
+
+**Standing rule added:** bootstrap at the number of wells actually scored. Under that rule no candidate
+produced in this round — including the top-K line, which also fails it and has a worse per-well profile
+(45.7% hurt) — currently qualifies for a slot. L4-family submissions are paused; today 1/5 used.
