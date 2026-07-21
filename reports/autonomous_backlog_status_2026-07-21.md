@@ -104,14 +104,19 @@ Ranked by fit to the organizing result: the target is the **smooth per-well bias
 historical wins (PF forward, structural field) both came from adding **decorrelated information**, not
 from re-processing existing predictions.
 
+**Re-ranked after `reports/per_well_bias_structure_2026-07-21.md`**, which located the remaining error:
+60.3% of residual variance is a **per-well offset**, dominated by **drift along the toe** (slope std
+13.28 ft) rather than an initial level offset (std 4.72 ft). Since truth stops at the heel, that drift is
+largely unobservable at test time — which promotes the structural-information proposals and demotes L1.
+
 | # | proposal | rationale | est. cost | risk |
 |---|---|---|---|---|
-| **L1** | **Heel-residual bias carry** | Directly targets the coherence finding. Truth **is** known on heel rows, so a measurable per-well bias exists there; with a 500–2000-row coherence length it should partly carry into the toe. Untested: `heel_drift` in the current feature set is the dip *rate* (`median\|dTVT/dMD\|`), **not** the model's heel residual. Targets the DWT specifically — PF and struct anchor on the heel by construction. | re-run DWT OOF retaining heel rows, ~2–4 h CPU | medium — the toe may sit beyond the coherence length |
-| **L2** | **Seed scaling of the PF weighted mean (K=96)** | Extends the one confirmed mechanism (shrinkage/averaging). Gain already scaled with data: 128 losing → 256 +0.038 → 384 +0.053 → 773 +0.0939. K=48 is the live test of scaling in seeds. | ~4 h if K=48 shows scaling | low — mechanism confirmed, but gains are sub-gate so far |
-| **L3** | **Separate conservative path for the 12.7% ungated rows** | Currently these rows get no structural information at all. A weaker, separately-tuned treatment cannot disturb the gated majority, so downside is bounded by construction. | ~2–3 h | low |
-| **L4** | **Anisotropic / kriging-style structural kernel** | The deployed IDW is isotropic. A dip-aware anisotropic kernel could track the smooth bias the current field misses. The earlier dip probe was negative but used gradient-only integration, a different formulation. | ~3–6 h | medium — variant sweep suggests a local optimum |
-| **L5** | **A third decorrelated forward model** | Both historical wins came from new decorrelated information. Candidates: a resistivity/other-log-driven forward model, or a differently-parameterized particle filter. | 1–2 days | high cost, but the only class with a track record here |
-| **L6** | **Multi-seed DWT averaging** | Applies the confirmed variance-reduction mechanism to the DWT component rather than the PF. | moderate | low |
+| **L4** ↑ | **Anisotropic / dip-aware structural kernel** | Now the top candidate: the dominant error term is per-well **drift**, and a dip-aware kernel attacks drift rather than level. The deployed IDW is isotropic. The earlier dip probe was negative but used gradient-only integration, a different formulation. | ~3–6 h | medium — variant sweep suggests a local optimum |
+| **L3** ↑ | **Separate conservative path for the 12.7% ungated rows** | These rows currently receive no structural information at all. A weaker, separately-tuned treatment cannot disturb the gated majority, so the downside is bounded by construction. | ~2–3 h | low |
+| **L5** ↑ | **A third decorrelated forward model** | Both historical wins came from new decorrelated information, and section 1 argues that is now the only class that can reach the dominant error term. Candidates: a resistivity/other-log-driven forward model, or a differently-parameterized particle filter. | 1–2 days | high cost, but the only class with a track record here |
+| **L2** = | **Seed scaling of the PF weighted mean (K=96)** | Extends the one confirmed mechanism (shrinkage/averaging). Gain already scaled with data: 128 losing → 256 +0.038 → 384 +0.053 → 773 +0.0939. K=48 is the live test of scaling in seeds. | ~4 h if K=48 shows scaling | low — mechanism confirmed, but gains are sub-gate so far |
+| **L6** = | **Multi-seed DWT averaging** | Applies the confirmed variance-reduction mechanism to the DWT component rather than the PF. | moderate | low |
+| **L1** ↓ | **Heel-residual bias carry** — *downgraded, do not run as specified* | The mechanism is real and large (within-well carry upper bounds +0.46 … +1.43), but those bounds use toe-row truth. The test-available part is small (a bias from the first 100 rows explains only 5% of whole-well bias variance) and the existing heel anchor already removes it by construction. | would have been 2–4 h | now assessed low-value |
 
 Deprioritized as a class, on this round's evidence: post-hoc residual correction, group calibration,
 routing/selection, fitted blend weights, monotone recalibration, and local-window learned scorers.
