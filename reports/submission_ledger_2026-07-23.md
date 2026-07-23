@@ -26,3 +26,11 @@ exits on terminal status or timeout. Results will be appended here.
 ## Our-side submissions today: 0. No new our-side submission is planned unless a candidate passes the
 corrected gate and the source-audit conditions (see policy). Remaining team quota is primarily the
 teammate line's to use today given their two in flight.
+
+## Watcher update (11:21 UTC)
+
+First watcher (6-min interval) reached its 60-min cap with **both refs still PENDING** (pending >3 h
+since 08:03/08:21 — consistent with heavy GPU frontier notebooks in the rerun queue). A long-horizon
+watcher is now running: 15-min interval, 6-h cap, ref-matched only, self-terminating. Ledger and
+final-slot package update automatically when either ref goes terminal (rule: a score below 6.669
+promotes that ref to slot-1 candidate).
