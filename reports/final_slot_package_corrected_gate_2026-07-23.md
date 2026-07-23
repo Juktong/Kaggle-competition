@@ -6,8 +6,9 @@ Supersedes the 2026-07-22 package. Final selection is best-of-2 across the team'
 
 | ref | public | side | role |
 |---|---|---|---|
-| **`54896975`** | **6.669** | teammate | **team best-public** (Kaiwalya PF frontier reproduction; overlap + prefix-calibration + bimodal midpoint family) |
-| `54922806` / `54923144` | PENDING | teammate | PF-frontier reruns/branches; watcher polling |
+| **`54922806`** | **6.563** | teammate | **team best-public** (PF frontier "independent hidden-runtime rerun"; promoted per the pre-registered rule) |
+| `54896975` | 6.669 | teammate | superseded on public by 54922806 (same frontier family) |
+| `54923144` | 6.678 | teammate | frontier "GR sigma 1.0" branch; does not supersede |
 | **`54844628`** | **7.891** | ours | **honest slot** — fully owned, fully reproducible, no overlap/runtime constructions |
 | `54878409` | 7.953 | ours | **excluded** (measured regression) |
 | `54853492` | 7.360 | teammate | earlier hidden-mode architecture |
@@ -15,11 +16,12 @@ Supersedes the 2026-07-22 package. Final selection is best-of-2 across the team'
 
 ## Recommendation structure (two slots, two evidence types)
 
-- **Slot 1 (team best-public line): `54896975`** — or the better of the pending pair if one completes
-  below 6.669. Rationale: best measured public; substance-reproducible from a public notebook; its
-  private robustness depends on the H-visible/H-hidden question (see the candidate audit) — under
-  H-hidden its overlap component goes inert and it reverts toward its fallback pipeline; under
-  H-visible its public advantage carries.
+- **Slot 1 (team best-public line): `54922806` (6.563)** — promoted from the pending pair per the
+  pre-registered rule (completed below 6.669). Same PF-frontier family as `54896975` (which remains the
+  family's fallback candidate at 6.669); private robustness still hinges on H-visible/H-hidden — under
+  H-hidden the family's visible-set components go inert and it reverts toward its fallback pipeline;
+  under H-visible its public advantage carries. Its "hidden-runtime rerun" construction remains the
+  compliance-gray point flagged to the final-selection owner.
 - **Slot 2 (honest/conservative line): `54844628`** — the strongest fully-owned candidate with
   760-well OOF validation and no visible-set-specific constructions. Under H-hidden (private = novel
   wells), this evidence type is exactly matched to the private task; it hedges the frontier line's risk.
@@ -36,7 +38,7 @@ build around teammate submissions — this package records the structure, not a 
 
 ## Conditions that would change this package
 
-1. A pending ref completes **below 6.669** → it becomes slot-1 candidate; ledger + this file update.
+1. ~~A pending ref completes below 6.669~~ — happened: `54922806` = 6.563, promoted (this revision).
 2. Resolution of H-visible vs H-hidden (e.g. organizer clarification or teammate's rerun evidence) →
    if H-visible is confirmed, the frontier family's public advantage is more likely to carry to private
    and slot 2's hedge value drops; if H-hidden, slot 2's weight rises.
