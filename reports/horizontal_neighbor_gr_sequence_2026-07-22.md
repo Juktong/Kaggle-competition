@@ -24,7 +24,14 @@ show at most a small, correlated effect. It is run to confirm rather than assume
 
 ## Result
 
-*(Smoke running — the full O(rows × mates × window) version was too slow; a strided fast variant
-[toe stride 8, 3 mates, window step 6, 25 wells] is running. Result and error-correlation with the
-geometry field appended on completion. Disposition will follow the pre-registered gate: the sequence
-match must both beat geometry AND decorrelate to be a candidate.)*
+**No result was produced.** The full O(rows × mates × window) smoke was too slow and was killed at
+0/40 wells; the strided fast variant was relaunched but its process did not survive the session teardown
+and produced no output file (`hnbr2.out` absent). The stale "smoke running" status and its background
+waiter were cleaned up on 2026-07-23.
+
+**Status: stale waiter killed; no active smoke process found; result unavailable — needs rerun.**
+
+Priority note: given the medium-scale PF-variant outcome (standalone signal vanished at 60 wells) and
+the direction-C transfer threshold, this direction's expected value is bounded by the same prior GR-shape
+weakness (pointwise 0.0% variance, CNN AUC 0.66). A rerun is queued behind any direction with a concrete
+transfer argument, not ahead of it.

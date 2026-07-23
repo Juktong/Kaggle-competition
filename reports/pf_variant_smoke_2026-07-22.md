@@ -29,10 +29,25 @@ improvement is ~**+0.15 at the full-pipeline level** — squarely in the small-m
 C showed does **not** transfer to the leaderboard. So even a confirmed improvement here is not expected
 to be submittable, and no submission is made from the smoke.
 
-## Status
+## Medium smoke result (60 wells, 32 seeds — completed 2026-07-22 04:54; recorded 2026-07-23)
 
-A medium smoke (60 wells, 32 seeds) is running to confirm the standalone signal holds at scale. If it
-does, a full 773-well PF re-run at `gs×1.6` is the top knowledge-building item (hours of CPU), explicitly
-flagged as below the transfer threshold rather than as a submission candidate.
+```
+deployed PF                RMSE 10.8517
+v1 wider emission (gs×1.6) RMSE 10.8171   corr(err, base_err) = 0.8755
+v2 trim + process-noise    RMSE 10.8682   corr = 0.9290
+blend base + 0.5·(v1−base) RMSE 10.4897   (+0.3619 vs deployed PF)
+blend base + 0.3·(v1−base) RMSE 10.5527   (+0.2989)
+```
 
-*(Medium-smoke result appended when complete.)*
+**The standalone advantage did not hold at scale:** +0.31 on 24 wells shrank to **+0.035** on 60 wells —
+within noise. What remains is a *blend* gain (+0.36 at the PF-component level) driven by partial
+decorrelation (corr 0.876), which after the 0.5-weight base and structural dilution is ~0.18 at pipeline
+level — inside the small-margin regime that direction C showed does not transfer to the leaderboard.
+
+## Disposition (2026-07-23)
+
+Closed as **no standalone improvement; blend-level gain below the transfer threshold.** The full
+773-well re-run is de-prioritised: its expected value was contingent on the standalone signal, which the
+medium smoke removed. A note on process: the previous status line ("medium smoke running") went stale
+after the session's background waiter was killed — the smoke had in fact completed; this section records
+the actual result.
