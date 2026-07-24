@@ -77,3 +77,60 @@ spend quota on a direct reproduction of the public 6.626 line that is homogeneou
 **no submission of a plain rerun is warranted**. Value, if any, is in *variants* (task 7), not in
 re-running the identical notebook. A FAST smoke from our account is run only to confirm our-side
 runnability, not to submit.
+
+## FAST smoke result (task 4/5) — our-account reproducibility CONFIRMED
+
+`joezzzzz/rogii-kaiwalya-6626-smoke` (same notebook + 9 datasets + GPU; prepended cell set
+`FAST=1, N_TRAIN_WELLS=40, ROGII_GOLD_MAX_WELLS=40`) → **COMPLETE**.
+
+```
+[SMOKE] FAST=1 N_TRAIN_WELLS=40 ROGII_GOLD_MAX_WELLS=40
+submission.csv written (14151 rows) in 48s
+final submission.csv: columns [id,tvt], 14151 rows, all finite, range 11589-12240
+id set AND order identical to sample_submission / 54844628
+```
+
+Our account runs the full pipeline end-to-end (imports, all 9 datasets attach, LightGBM/CatBoost GPU,
+PF + model-package + prefix-calibration + overlap + bimodal stages, schema-valid write). **Reproducible
+from our side.** (FAST/40-well mode → the *values* are reduced-fidelity, not the real 6.6 output; this
+smoke validates runnability and schema, not the score.)
+
+### The overlap mechanism, made explicit by the smoke's own report
+
+`guarded_overlap_override_report.csv` for the three visible test wells:
+
+```
+well      status    ref_col  known_prefix_rmse  rows_overridden / rows_total
+000d7d20  override  EGFDU    0.0101             3836 / 3836   (100%)
+00bbac68  override  EGFDU    0.0090             6014 / 6014   (100%)
+00e12e8b  override  EGFDU    ~0.01              4301 / 4301   (100%)
+```
+
+For all three visible wells the pipeline **overrides 100% of the toe rows** by matching each test well to
+its train duplicate (via `EGFDU`, a train-only structural-surface column available precisely because
+these test wells have train copies) at a near-zero known-prefix RMSE (~0.01 ft = same well). In effect
+the frontier family **retrieves the train copy's toe TVT for the visible wells**. This is the concrete
+source of the 6.5 public line, and it is LB-legal (uses provided data) but overlap-based.
+
+### Direct private-risk consequence (H-visible vs H-hidden, now concrete)
+
+- **H-visible** (private = same 3 visible wells): the override returns near-truth → the 6.5 line carries.
+- **H-hidden** (private = novel wells): novel wells have no train duplicate → `status != override` →
+  the pipeline falls back to base PF/beam → the line reverts toward ~7.x. **The overlap advantage does
+  not transfer to novel wells.**
+
+Structural diff (FAST smoke, indicative): 6626-line vs `54844628` rmse-diff 4.02 ft, corr 0.9999, 81% of
+rows differ by >1 ft — the two lines agree on the trend but the frontier's per-row values are dominated
+by the override on the visible wells.
+
+## Final decision (tasks 5/6) — HOLD, no submission
+
+- Reproducibility: **confirmed** from our account.
+- Homogeneity: the package is byte-identical to the public source and to the already-submitted
+  `54922806`/`54896975`; a rerun adds nothing.
+- **No submission.** Quota preserved (0/5 today). The frontier line is teammate-owned and already
+  represented on the board at 6.563.
+- **Added intelligence for final selection**: the 6.5 line is substantially an overlap lookup on the
+  visible wells (100% override via EGFDU), so its private value is conditional on H-visible. Our honest
+  slot `54844628` (no overlap, 760-well-OOF-validated) is the H-hidden-robust hedge — the two-slot
+  package in `reports/final_slot_package_corrected_gate_2026-07-23.md` covers both hypotheses.
