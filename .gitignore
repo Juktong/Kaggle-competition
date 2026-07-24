@@ -75,3 +75,4 @@ Thumbs.db
 
 # evidence logs referenced by reports/ are deliberately tracked
 !reports/logs/*.log
+!kaggle_kernel_kaiwalya_6626_smoke/kernel-metadata.json
