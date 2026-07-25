@@ -27,4 +27,14 @@ Team = "lee Marc223" (`joezzzzz` + `leemarc223`), quota 5/day (team-wide).
 - **B1/B2**: origin/main unchanged since a589fa8; no new teammate/public line to integrate; new-direction
   queue written (`new_direction_queue_2026-07-25.md`).
 
-**No submission YET this session** (A2 full-run submission pending its completion). Quota so far 0/5.
+## Submission made this session
+
+**`54968060`** — overlap-OFF frontier diagnostic (kernel `joezzzzz/rogii-kaiwalya-overlap-off-full` v1),
+submitted 05:38 UTC, **PENDING** (frontier-family scoring takes hours; 6h watcher running). Purpose:
+measure the frontier's public WITHOUT the visible-well overlap lookup. **Today: 1/5 used, 4 remaining.**
+
+D3 finding elevates it: on the 3 wells' train-copy TVT the overlap-OFF frontier RMSE **3.259 beats**
+`54844628`'s 3.677, so it may be a **candidate slot-2 H-hidden hedge**, not just a diagnostic — pending
+its public score (`reports/frontier_vs_honest_error_decorrelation_2026-07-25.md`).
+
+Board best-public unchanged: `54922806` 6.563; our honest hedge `54844628` 7.891.
