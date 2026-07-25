@@ -17,8 +17,14 @@ Team = "lee Marc223" (`joezzzzz` + `leemarc223`), quota 5/day (team-wide).
 
 - **A3/A4/A5 ablations**: done from the baseline FAST smoke's staged intermediates (no new GPU). All
   HOLD (homogeneous). `reports/kaiwalya_modelpkg_prefix_bimodal_ablations_2026-07-25.md`.
-- **A2 overlap-OFF**: `joezzzzz/rogii-kaiwalya-overlap-off-smoke` pushed (FAST, overlap forced OFF);
-  watcher polling. If smoke proves `rows_overridden=0` → full run → diff → submit-if-worthy.
-- **A1 seed-variance**: queued (no submit).
+- **A1 seed-variance**: done (no submit) — frontier is deterministic given seed config; 0.115 public
+  spread is config variance. `reports/kaiwalya_seed_variance_audit_2026-07-25.md`.
+- **A2 overlap-OFF**: smoke COMPLETE (overlap proven OFF; `overlap probe 3/3` copies exist but override
+  skipped). Overlap contributes ~3.2 ft rmse on visible wells. **Full run RUNNING**
+  (`joezzzzz/rogii-kaiwalya-overlap-off-full`) to produce a real output for the authorized H-hidden
+  diagnostic submission. D1 ensemble preview: overlap-OFF frontier corr 0.99996 with 54844628 → no
+  distinct blend gain. Reports: `kaiwalya_overlap_off_ablation_2026-07-25.md`.
+- **B1/B2**: origin/main unchanged since a589fa8; no new teammate/public line to integrate; new-direction
+  queue written (`new_direction_queue_2026-07-25.md`).
 
-No submission made this session. Quota preserved (0/5).
+**No submission YET this session** (A2 full-run submission pending its completion). Quota so far 0/5.
