@@ -65,3 +65,27 @@ The overlap-OFF **full run** (`joezzzzz/rogii-kaiwalya-overlap-off-full`) is run
 a direct read on how much of 6.5 is overlap vs modeling, and the frontier's H-hidden proxy. This is the
 one authorized, information-bearing submission (materially different from the 6.5 family; a clean
 H-hidden diagnostic). Result appended when the run + submission complete.
+
+## A2 full run + submission (COMPLETE)
+
+`joezzzzz/rogii-kaiwalya-overlap-off-full` v1 COMPLETE (overlap OFF confirmed; 14151 rows in 64s).
+Sanity: columns [id,tvt], 14151 rows, finite, no dup ids, id set+order == sample_submission,
+range 11593.7–12239.2. Diffs (full fidelity):
+
+```
+A2 (overlap-OFF frontier) vs 54844628 (7.891) : rmse 2.537  corr 0.99997  78% rows >1ft
+A2 (overlap-OFF)          vs overlap-ON base   : rmse 3.105  corr 0.99995   (materially different by construction)
+per-well vs 54844628: 000d7d20 mean -1.32 / 00bbac68 +1.05 / 00e12e8b +2.98
+```
+
+**Submitted: ref `54968060`** (kernels-only code submission, kernel v1), description marks it an
+overlap-OFF H-hidden diagnostic. Today 1/5 used. It is materially different from the 6.5 family (overlap
+removed) and from our honest slot, and its purpose is to read the frontier's public score WITHOUT the
+overlap lookup — quantifying how much of the 6.5 line is the visible-well overlap vs genuine modeling.
+Score watcher running; result appended below.
+
+Interpretation guide (pre-registered): if `54968060` scores near the 6.5 family → overlap contributes
+little and the frontier's modeling is genuinely strong (favors H-visible robustness). If it scores
+materially worse (toward ~7.x, near our honest slot) → the 6.5 line is largely overlap on visible wells,
+confirming the H-hidden risk that the frontier reverts on novel wells and reinforcing `54844628` as the
+H-hidden hedge.
