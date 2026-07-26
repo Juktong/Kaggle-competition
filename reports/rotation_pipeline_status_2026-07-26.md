@@ -67,7 +67,10 @@ spending a Kaggle run. See `reports/frontier_oof_component_validation_2026-07-26
 a final cell that writes `sp45_projection_submission.csv` as the submission, and asserts row count and
 finiteness so the patch cannot silently no-op.
 
-- kernel `joezzzzz/rogii-frontier-sp45-only-smoke` v1 — **smoke_running** (FAST=1, 40 wells).
+- kernel `joezzzzz/rogii-frontier-sp45-only-smoke` v1 — **smoke_passed** (FAST=1, 40 wells, 47 s).
+  Patch proof in the log: `[G2.1] FINAL submission.csv <- sp45_projection_submission.csv rows=14151
+  mean=11903.637`. Audit: HARD PASS; proxy RMSE **1.958**; rmse **2.520 vs `54968060`** → non-homogeneous.
+- kernel `joezzzzz/rogii-frontier-sp45-only-full` v1 — **full_running**.
 - Note: Kaggle resolved the slug from the title (`...sp45-only-smoke`, not `...sp45only-smoke`);
   `kernel-metadata.json` was corrected to match so later pushes stay on one slug.
 - On smoke pass → full run → `scripts/rotation_candidate_audit.py` → submit gate.
