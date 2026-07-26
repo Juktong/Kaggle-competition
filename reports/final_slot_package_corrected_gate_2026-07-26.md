@@ -1,55 +1,78 @@
-# Final-slot package — 2026-07-26
+# Final-slot package — 2026-07-26 (rewritten; supersedes all earlier versions)
 
-Deadline **2026-08-05 23:59 UTC** (~10.9 days). Supersedes the 2026-07-25 package; the recommendation is
-unchanged but now rests on stronger validation.
+Deadline **2026-08-05 23:59 UTC**. Final score = **best of the 2 selected submissions** on the private
+set, so the object being chosen is a **pair**, not two independent picks.
 
-## Recommendation (REVISED 2026-07-26 by the G3.4 pair simulator)
+This version replaces the earlier text, which contained a contradiction: the top recommended
+`54844628` for slot 2 while a later section still recommended `54968060` unless provenance was weighted.
+The three criteria are now separated explicitly and each is stated in full.
 
-- **Slot 1 — `54922806` (6.563)**: best measured public. Unchanged.
-- **Slot 2 — `54844628` (7.891).** Revised from the earlier `54968060` preference.
+## Board (live 2026-07-26 15:09 UTC)
 
-**Why the change.** Final score is **best-of-2**, so the object to optimise is the pair, not the
-individual candidate. `scripts/final_selection_simulator.py` finds four pairs tied at worst-case
-**6.643**, including both `54922806 + 54968060` and `54922806 + 54844628`. The tie is broken on
-robustness to the estimation rules being wrong: `54968060` is the **same pipeline family** as slot 1
-(prediction corr 0.99998) and would fail with it, whereas `54844628` is a **structurally independent**,
-fully-owned, 760-well-OOF-validated pipeline. Identical modelled worst case → diversity is free.
+| ref | public | side | family | provenance | OOF |
+|---|---|---|---|---|---|
+| `54922806` | **6.563** | teammate | frontier (overlap-ON) | public-derived | no |
+| `54968060` | 6.643 | ours | frontier (overlap-OFF, validated no-retrieval) | public-derived | no |
+| `54896975` | 6.669 | teammate | frontier (overlap-ON) | public-derived | no |
+| `54923144` | 6.678 | teammate | frontier (GR-sigma) | public-derived | no |
+| `54990075` | 6.690 | ours | frontier (SP45-only) | public-derived | no |
+| `54844628` | 7.891 | ours | **honest** (DWT+PF+structural field) | **fully owned** | **yes** |
+| `54878409` | 7.953 | ours | honest variant | fully owned | yes — excluded (regression) |
 
-The earlier recommendation compared candidates individually (6.643 beats 7.891). That was the wrong unit
-of analysis once slot 1 already holds the frontier line: a second frontier candidate is redundant, while
-the honest slot is insurance. Full reasoning: `reports/final_selection_simulator_2026-07-26.md`.
+## The three recommendations
 
-`54968060` remains fully validated and is the natural replacement for **slot 1** if an our-account,
-no-retrieval frontier representative is ever wanted.
+Produced by `scripts/final_selection_simulator.py` (pair-level best-of-2 under H-visible / H-hidden /
+mixed; retrieval penalty = the **measured** 0.080 = 6.643 − 6.563).
 
-## What round 1 added to the slot-2 case
+### score-first → `54922806` (6.563) + `54844628` (7.891)
+Minimise the modelled private score, ignoring lineage. Worst case **6.643**, mean **6.603** — the best
+available. Note that **9 pairs tie** within 0.01 of this worst case, because under H-hidden `54922806`
+degrades exactly to 6.643, which is the level of every no-retrieval candidate. Score alone therefore
+does **not** pick a unique pair.
 
-`54968060` was **validated as a genuine no-retrieval run** (G1.2 §2): the selected prefix-calibration
-profile applied `alpha = 0.0` / `applied_wells = 0`, on top of `guarded_overlap_override: False`. Its
-6.643 therefore measures the frontier **without any train-copy lookup** — exactly the quantity that
-matters if the private set contains novel wells.
+### diversity-first → `54922806` (6.563) + `54844628` (7.891)
+Among the score-tied pairs, prefer members that fail independently. Every frontier+frontier pair has
+family diversity 0 — a family-wide problem in the frontier stack (third-party artifacts, or a
+visible-well-specific fit beyond the measured overlap term) would remove **both** slots at once. Pairing
+the frontier with the honest line gives family diversity 1 at **the same worst case (6.643)**, so the
+insurance is free. Among the diverse pairs, `54922806` has the better mean (6.603 vs 6.643).
 
-Round 1 also quantified why the retrieval mechanism matters less than its mechanics suggest: the
-`contact_md_lookup` candidates reach ~0.008 ft RMSE against the train copy on held-out prefix rows, yet
-enabling that path is worth only ~0.080 public. **Near-exact retrieval of train-copy TVT does not convert
-into leaderboard score**, which both confirms the 07-22 truth-space finding and bounds the H-visible
-advantage of the overlap-ON branches.
+### provenance-first → `54922806` (6.563) + `54844628` (7.891)
+Require at least one slot to be a fully-owned, OOF-validated pipeline. `54844628` is the only candidate
+meeting that bar (760-well nested OOF + bootstrap, every component built and audited in this repo).
+Among pairs containing it, the best worst case is again with `54922806`.
 
-| | `54968060` | `54844628` |
-|---|---|---|
-| public | **6.643** | 7.891 |
-| retrieval used | **none** (validated this round) | none (by construction) |
-| local proxy (train-copy TVT) | **3.259** | 3.677 |
-| validation depth | public + per-stage component validation (G1.2) | 760-well nested OOF + bootstrap |
-| provenance | derives from the public Kaiwalya notebook + 9 third-party public datasets | fully owned, built and audited in this repo |
+## Consolidated recommendation
 
-**Recommendation stands:** unless the final-selection owner weights fully-owned provenance and
-OOF-backed validation above measured score, `54968060` is the better slot-2 pick. `54844628` remains the
-fully-owned fallback.
+**All three criteria converge on `54922806` + `54844628`.** There is no criterion under which a second
+frontier candidate improves the pair: slot 1 already represents the frontier line, so adding
+`54968060` / `54990075` / `54896975` / `54923144` as slot 2 is redundant (family diversity 0, identical
+worst case), while `54844628` supplies independent-failure insurance at no modelled cost.
 
-## Open item that could still change slot 2
+## Where the other candidates stand
 
-G2.1 **SP45-projection-only** (round 2): the frontier's SP45 stage alone has the best local proxy
-(2.581 vs 3.259) and is non-homogeneous with everything scored. If it submits and scores below 6.643 it
-becomes the stronger slot-2 candidate. The proxy saturation caveat (above) means this is a test, not an
-expectation.
+- `54968060` (6.643) — fully validated no-retrieval frontier run, and the natural **replacement for
+  slot 1** if an our-account frontier representative is ever preferred over the teammate branch. It is
+  redundant as a *second* slot.
+- `54990075` (6.690) — SP45-only. Its result **settled an open question** (below), but it is neither the
+  best frontier variant nor diverse, so it is not a slot candidate.
+- `54878409` (7.953) — excluded, measured regression.
+
+## What `54990075` = 6.690 settled
+
+Pre-registered reading (2026-07-26 round 2): `< 6.643` → post-SP45 stages are net-negative;
+`6.643–6.678` → neutral; `> 6.678` → the stages earn their place. **Result 6.690 → the last branch.**
+
+The frontier's post-SP45 stages (learned-trajectory blend, prefix calibration, model-package correction,
+bimodal hedge) **do** contribute on the leaderboard, and the local proxy that favoured SP45-only
+(2.703 vs 3.259 vs train-copy TVT) pointed the **wrong way**. This is a direct, independent confirmation
+of the G1.2 §3 saturation finding: proximity to train-copy TVT is a weak and sometimes misleading signal.
+Practical consequence for the pipeline: **a proxy-only preference is not sufficient evidence to re-rank
+candidates** — it must be paired with either a large effect or a structural argument.
+
+## Sensitivity
+
+The only input that could move this is the retrieval penalty (measured 0.080). If the true H-hidden
+degradation of overlap-ON branches were much larger, `54922806` would fall behind `54844628` under
+H-hidden and the pair's worst case would be set by the honest slot — which strengthens, not weakens, the
+case for keeping `54844628` in slot 2. The recommendation is stable across the plausible range.

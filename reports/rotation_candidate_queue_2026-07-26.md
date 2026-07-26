@@ -6,9 +6,9 @@ consume if it reached the submit gate.
 | id | candidate | state | exp_gain_public | H-hidden robustness | non-homogeneity | impl_cost | provenance risk | quota_cost | smoke_ready | proxy support |
 |---|---|---|---|---|---|---|---|---|---|---|
 | **G1.2** | frontier OOF-style component validation | **audited** | n/a (no submit) | 5 | n/a | 4 | 5 | 0 | 5 | **5 — done this round** |
-| G2.1 | small variant matrix (overlap/mpkg/prefix/bimodal/seed) | static_audited | 2 | 3 | 2 | 3 | 3 | 0–1 | 4 | 4 (intermediates already mapped) |
+| G2.1 | SP45-only variant | **submitted → 6.690** | — | — | — | — | — | 1 used | — | settled: post-SP45 stages earn their place |
 | G2.2 | well-level selector across variants | not_started | 3 | 4 | 4 | 2 | 3 | 1 | 2 | 2 |
-| G3.4 | robust final-selection simulator | not_started | n/a (no submit) | 5 | n/a | 5 | 5 | 0 | 5 | 4 |
+| G3.4/H | final-selection simulator (3 criteria) | **audited** | n/a (no submit) | 5 | n/a | 5 | 5 | 0 | 5 | 5 — all criteria converge |
 | G1.1 | full-fidelity overlap-OFF ownership run | **effectively done** | n/a | 5 | 1 (would duplicate `54968060`) | 5 | 4 | 0 | 5 | 5 |
 | G1.3 | dependency/provenance audit | static_audited | n/a | 4 | n/a | 4 | 5 | 0 | 5 | 3 |
 | G3.1 | stratigraphic heatmap + top-K path search | not_started | 2 | 4 | 5 | 2 | 5 | 0–1 | 3 | 2 (prior top-K work was negative) |
@@ -34,3 +34,20 @@ consume if it reached the submit gate.
 1. **G3.4** robust final-selection simulator (no quota, directly decision-relevant).
 2. **G1.3** dependency/provenance audit (closes the one open reservation about `54968060` as slot 2).
 3. G2.2 well-level selector — only if G1.2/G3.4 surface a well-level signal worth selecting on.
+
+## Re-prioritisation after round 2 (`54990075` = 6.690)
+
+The SP45-only result removes the main reason to keep exploring frontier stage-truncation variants: the
+post-SP45 stages are net-positive on the leaderboard, so removing components is not a productive axis.
+Combined with the earlier A3/A4/A5 finding (model-package is a bounded ±2 ft top-up; prefix-aggressiveness
+and bimodal are inert on the visible wells), **G (small variant matrix) drops to the bottom** — the
+remaining knobs are either inert or already shown to be net-positive as configured.
+
+Revised order:
+1. **G2.2 well-level selector** — the one remaining way to combine existing scored outputs without a new
+   pipeline. Local-only first.
+2. **G3.1 heatmap + top-K path search** — a genuinely different alignment formulation.
+3. **G3.5 honest prefix calibration** — improves the fully-owned hedge, which all three selection
+   criteria now place in slot 2.
+4. G3.2 / G3.3 — higher cost, weaker prior support.
+5. G (variant matrix) — deprioritised per above.

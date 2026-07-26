@@ -9,7 +9,8 @@ stated justification · accurate description.
 | 1 | G1.2 frontier component validation | **no submit (by design)** | Diagnostic only; produces no new submission artifact. Delivered the round's main findings. |
 | 1 | G1.1 full-fidelity overlap-OFF ownership run | **HOLD** | Already satisfied by `54968060` (our account, our kernel, patch tracked in repo). A rerun would be homogeneous with a scored submission. |
 | 1 | A3/A4/A5 frontier intermediates | **HOLD** (carried from 07-25) | Homogeneous intermediates of an already-submitted family. |
-| 1 | G2.1 **SP45-projection-only** | **queued for round 2** | Passes homogeneity (rmse 1.809 vs `54968060`) and HARD sanity; best proxy RMSE (2.581). Needs its own kernel (smoke → full) before the gate can be applied. |
+| 2 | G2.1 **SP45-projection-only** | **SUBMITTED `54990075` → 6.690** | Passed all six gate conditions (quota, HARD sanity, non-homogeneous rmse 1.640 vs `54968060`, clear decision value, documented, accurate description). Result settled the post-SP45 question: the stages earn their place; the proxy pointed the wrong way. |
+| 2 | H final-selection simulator upgrade | **no submit (by design)** | Analysis only. Now emits score-first / diversity-first / provenance-first separately; all three converge on `54922806 + 54844628`. |
 
 ## Standing constraints
 
