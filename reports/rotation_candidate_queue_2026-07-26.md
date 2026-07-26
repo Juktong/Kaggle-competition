@@ -7,11 +7,11 @@ consume if it reached the submit gate.
 |---|---|---|---|---|---|---|---|---|---|---|
 | **G1.2** | frontier OOF-style component validation | **audited** | n/a (no submit) | 5 | n/a | 4 | 5 | 0 | 5 | **5 — done this round** |
 | G2.1 | SP45-only variant | **submitted → 6.690** | — | — | — | — | — | 1 used | — | settled: post-SP45 stages earn their place |
-| G2.2 | well-level selector across variants | not_started | 3 | 4 | 4 | 2 | 3 | 1 | 2 | 2 |
+| G2.2 | well-level selector across variants | **closed** | — | — | — | — | — | 0 | — | oracle margin +0.0000; proxy inverts within-family |
 | G3.4/H | final-selection simulator (3 criteria) | **audited** | n/a (no submit) | 5 | n/a | 5 | 5 | 0 | 5 | 5 — all criteria converge |
 | G1.1 | full-fidelity overlap-OFF ownership run | **effectively done** | n/a | 5 | 1 (would duplicate `54968060`) | 5 | 4 | 0 | 5 | 5 |
 | G1.3 | dependency/provenance audit | static_audited | n/a | 4 | n/a | 4 | 5 | 0 | 5 | 3 |
-| G3.1 | stratigraphic heatmap + top-K path search | not_started | 2 | 4 | 5 | 2 | 5 | 0–1 | 3 | 2 (prior top-K work was negative) |
+| G3.1 | stratigraphic heatmap + top-K path search | **closed** | — | — | — | — | — | 0 | — | DP converges to flat-anchor from above; emission adds no info |
 | G3.5 | honest prefix calibration for `54844628` | not_started | 2 | 4 | 3 | 3 | 5 | 0–1 | 3 | 2 (heel explains ~5% of toe bias) |
 | G3.2 | learned local alignment scorer + DP | not_started | 1 | 3 | 4 | 2 | 5 | 0–1 | 3 | 1 (NCC baseline 0.52; ~34× scale mismatch) |
 | G3.3 | multi-hypothesis trajectory model | not_started | 2 | 4 | 5 | 1 | 5 | 0–1 | 2 | 2 |

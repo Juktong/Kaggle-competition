@@ -78,3 +78,26 @@ finiteness so the patch cannot silently no-op.
   the leaderboard and SP45-only becomes the stronger slot-2 candidate; if **above**, those stages earn
   their place and `54968060` stays. Either way the result is decision-relevant, which is what justifies
   the slot under the gate.
+
+## Round 3 — 2026-07-26 15:09 UTC
+
+**Live refresh:** today 1/5 used (4 remaining); `54990075` COMPLETE **6.690**; no local processes or
+Kaggle kernels running; git clean; `origin/main` unchanged at `a589fa8`; no new teammate submission.
+
+| item | result |
+|---|---|
+| **A** final-slot contradiction | **fixed** — three criteria stated separately; all converge on `54922806 + 54844628` |
+| **H** simulator upgrade | **done** — adds `54990075`, family/provenance/OOF flags, measured prediction correlations; emits score-first / diversity-first / provenance-first. Fixed a tiebreak flaw treating an unmeasurable correlation as worst-case |
+| **G2.1** result | `54990075` = **6.690** → the `> 6.678` branch: post-SP45 stages **earn their place**; the local proxy pointed the wrong way |
+| **B / G2.2** well-level selector | **closed** — oracle margin **+0.0000**; and the proxy **inverts** the within-family ranking |
+| **C / G3.1** heatmap + top-K path search | **closed** — DP converges to the flat-anchor baseline from above and never crosses it; emission adds no information |
+
+**Submissions this round: 0** (the round's one submission, `54990075`, was made in round 2 and scored
+this round). Quota 1/5 used today.
+
+### Methodological result carried forward
+
+Two independent findings this round converge on the same rule: **the train-copy proxy must not be used
+to rank candidates that are close together.** `54990075` (proxy-best) scored worst of the frontier pair
+on public, and the G2.2 table shows the proxy inverting the within-family ordering while ranking across
+families correctly. Only a structural argument or a leaderboard result can separate close candidates.
