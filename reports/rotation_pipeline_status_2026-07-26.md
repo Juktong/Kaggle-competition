@@ -60,3 +60,18 @@ spending a Kaggle run. See `reports/frontier_oof_component_validation_2026-07-26
 - `reports/rotation_submission_decisions_2026-07-26.md` — every submit/HOLD decision with reasons.
 - `reports/submission_ledger_2026-07-26.md` — daily quota and board.
 - `reports/final_slot_package_corrected_gate_2026-07-26.md` — current final-2 recommendation.
+
+## Round 2 — 2026-07-26 02:36 UTC (in progress)
+
+**Candidate: G2.1 SP45-projection-only.** Built from the overlap-OFF notebook (retrieval stays off) with
+a final cell that writes `sp45_projection_submission.csv` as the submission, and asserts row count and
+finiteness so the patch cannot silently no-op.
+
+- kernel `joezzzzz/rogii-frontier-sp45-only-smoke` v1 — **smoke_running** (FAST=1, 40 wells).
+- Note: Kaggle resolved the slug from the title (`...sp45-only-smoke`, not `...sp45only-smoke`);
+  `kernel-metadata.json` was corrected to match so later pushes stay on one slug.
+- On smoke pass → full run → `scripts/rotation_candidate_audit.py` → submit gate.
+- Pre-registered read: if it scores **below 6.643**, the frontier's post-SP45 stages are net-negative on
+  the leaderboard and SP45-only becomes the stronger slot-2 candidate; if **above**, those stages earn
+  their place and `54968060` stays. Either way the result is decision-relevant, which is what justifies
+  the slot under the gate.
