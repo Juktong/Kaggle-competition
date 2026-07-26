@@ -42,9 +42,32 @@ score of `54968060` is the real test:
 - `54968060` **materially worse (> 8)** → its local strength did not transfer; `54844628` (OOF-validated)
   remains the slot-2 hedge.
 
+## PUBLIC CONFIRMATION: `54968060` = 6.643
+
+The pending test resolved, and **it agrees with the local D3 measurement in direction and in magnitude
+class**:
+
+```
+local (train-copy TVT):  overlap-OFF frontier 3.259   vs   54844628 3.677     -> frontier better
+public:                  overlap-OFF frontier 6.643   vs   54844628 7.891     -> frontier better by 1.248
+```
+
+The pre-registered thresholds were: `54968060` ≤ ~7.5 → better H-hidden hedge than `54844628`;
+> 8 → local strength did not transfer. The result (**6.643**) is far inside the first branch.
+
+Two points worth recording:
+
+1. **This local→public transfer succeeded**, unlike the `54878409` case (2026-07-21) where a local gain
+   of +0.18 became a public loss of −0.062. The difference in scale explains it: here the local gap was
+   0.42 ft RMSE between structurally different pipelines and the public gap is 1.25 — a *large*
+   difference, the regime where local evidence does track the leaderboard. The 54878409 case was a ~0.1
+   difference, the regime where it does not (2026-07-22 finding). The two results are consistent.
+2. **Error-corr 0.765 with the min-var weight at 0.97** still means no useful blend: the frontier
+   dominates rather than decorrelates. That verdict is unchanged.
+
 ## Disposition
 
-D3 revises the H-hidden hedge analysis: the overlap-OFF frontier is a live slot-2 candidate pending its
-public score, not just a diagnostic. No blend is warranted (frontier dominates). The final-slot package
-weighting will be set once `54968060` scores. Local error-corr is 0.765 (moderate); the frontier is the
-stronger single model locally.
+D3's revision is confirmed by public: the overlap-OFF frontier is a **live slot-2 candidate**, better on
+both local and public than our honest slot, with a lineage/provenance caveat (public-notebook derivative
++ third-party datasets, no 760-well OOF). No blend is warranted. Weighting recorded in
+`reports/final_slot_package_corrected_gate_2026-07-25.md`.

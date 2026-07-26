@@ -89,3 +89,35 @@ little and the frontier's modeling is genuinely strong (favors H-visible robustn
 materially worse (toward ~7.x, near our honest slot) → the 6.5 line is largely overlap on visible wells,
 confirming the H-hidden risk that the frontier reverts on novel wells and reinforcing `54844628` as the
 H-hidden hedge.
+
+## RESULT: `54968060` public = **6.643** — the "near 6.5" branch
+
+```
+54968060 overlap-OFF                       6.643
+  vs its family reference (6.626 package)  +0.017
+  vs best overlap-ON branch (54922806)     +0.080
+  vs our honest 54844628 (7.891)           -1.248
+A1 config-variance noise floor             ~0.115
+```
+
+**Removing the overlap lookup costs at most 0.080 on public — inside the noise floor.** `54968060` even
+outscores two overlap-ON family members (`54896975` 6.669, `54923144` 6.678).
+
+### This corrects the hypothesis stated earlier in this report
+
+The FAST-smoke evidence (100% toe override on all 3 visible wells, ~3.2 ft rmse movement) made the
+overlap mechanism look dominant, and this report concluded "the entire 6.5→7.9 public gap is the overlap
+lookup on the visible wells." **The public result does not support that.** The mechanism is large in ft
+but small in score: the override largely reproduces values the frontier's own model already predicts
+well, so replacing them changes the RMSE little. The honest decomposition is:
+
+```
+7.891 -> 6.643  = 1.248   frontier MODELING without any overlap
+6.643 -> 6.563  = 0.080   overlap + config differences, within noise
+```
+
+Consequence for the H-visible / H-hidden fork: the frontier family's advantage is **not** contingent on
+the test wells being duplicated in train. On novel wells it would retain the modeling that produces
+~6.64. This raises the frontier line's expected private value and makes `54968060` a live slot-2
+candidate rather than a pure diagnostic — see
+`reports/final_slot_package_corrected_gate_2026-07-25.md`.

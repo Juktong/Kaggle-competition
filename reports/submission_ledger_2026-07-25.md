@@ -30,11 +30,43 @@ Team = "lee Marc223" (`joezzzzz` + `leemarc223`), quota 5/day (team-wide).
 ## Submission made this session
 
 **`54968060`** — overlap-OFF frontier diagnostic (kernel `joezzzzz/rogii-kaiwalya-overlap-off-full` v1),
-submitted 05:38 UTC, **PENDING** (frontier-family scoring takes hours; 6h watcher running). Purpose:
-measure the frontier's public WITHOUT the visible-well overlap lookup. **Today: 1/5 used, 4 remaining.**
+submitted 2026-07-25 05:38 UTC, **COMPLETE — public 6.643**. Commit at submission: `9857c3a`.
+**2026-07-25 usage: 1/5 used, 4 remaining.** (2026-07-26 is a fresh day: 0/5 as of 02:13 UTC.)
 
-D3 finding elevates it: on the 3 wells' train-copy TVT the overlap-OFF frontier RMSE **3.259 beats**
-`54844628`'s 3.677, so it may be a **candidate slot-2 H-hidden hedge**, not just a diagnostic — pending
-its public score (`reports/frontier_vs_honest_error_decorrelation_2026-07-25.md`).
+## Board after 54968060
 
-Board best-public unchanged: `54922806` 6.563; our honest hedge `54844628` 7.891.
+| ref | public | side | note |
+|---|---|---|---|
+| `54922806` | **6.563** | teammate | best-public (frontier, overlap-ON) |
+| **`54968060`** | **6.643** | **ours** | **overlap-OFF frontier** — 2nd best on the board |
+| `54896975` | 6.669 | teammate | frontier overlap-ON (Kaiwalya repro) |
+| `54923144` | 6.678 | teammate | frontier GR-sigma branch |
+| `54844628` | 7.891 | ours | fully-owned honest slot |
+| `54878409` | 7.953 | ours | excluded |
+
+## What 6.643 means — a correction to the earlier overlap hypothesis
+
+Removing the visible-well overlap lookup costs **very little on public**:
+
+```
+vs its own family reference (the 6.626 package, overlap-ON) : 6.643 - 6.626 = +0.017
+vs current best-public 54922806 (overlap-ON, other branch)  : 6.643 - 6.563 = +0.080
+A1-established config-variance noise floor                   : ~0.115
+```
+
+Both gaps are **at or below the noise floor**, so the overlap override's measurable public contribution
+is small. The earlier hypothesis — that the 6.5→7.9 gap was essentially the overlap lookup — is **not
+supported**. The correct decomposition is the opposite:
+
+```
+7.891 (our honest)  ->  6.643 (frontier WITHOUT overlap)   = 1.248  <- the frontier's MODELING
+6.643 (no overlap)  ->  6.563 (best overlap-ON branch)     = 0.080  <- overlap + config, within noise
+```
+
+The frontier's PF/beam/SP45/visible-prefix stack, **independent of the overlap lookup**, accounts for
+essentially all of the advantage over our honest line. `54968060` also beats two overlap-ON family
+members (6.669, 6.678), which is only possible if the modeling — not the lookup — carries the score.
+
+Also notable: the local D3 measurement (overlap-OFF frontier RMSE 3.259 < honest 3.677) **agreed
+directionally with public** (6.643 < 7.891). That is the opposite of the 54878409 case, where a local
+gain did not transfer.
