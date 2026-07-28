@@ -72,4 +72,13 @@ Revised order:
   the NCC alignment baseline scored AUC 0.52 (chance) on 2026-07-20, a pointwise GR difference explained
   0.0% of TVT-difference variance on 07-21, and G3.1 (07-26) found a DP over a GR misfit matrix converges
   to the flat-anchor baseline from above. A learned scorer must beat those, not merely exist.
+## 2026-07-28 update (G3.2)
+
+- **G3.2 learned alignment scorer — signal found, not a standalone candidate.** Learned scorer AUC 0.7242
+  vs NCC 0.5010 / level 0.6423; its DP beats the flat-anchor baseline (12.527 vs 13.103, interior optimum
+  at lam=60) where G3.1's hand-coded emission never did. Still ~42% worse than the deployed pipeline
+  (~8.86), so no Kaggle run, no submission, 0 quota.
+- Follow-up worth its own prompt: use the learned scorer as an **extra emission term inside the PF**
+  rather than as a standalone DP.
+- Next runnable: **`g33_multi_hypothesis_smoke`** (priority 40).
 

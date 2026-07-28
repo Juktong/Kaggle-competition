@@ -197,3 +197,29 @@ Final-slot risk language narrowed accordingly; **the slot recommendation is unch
 Mitigation queue recorded (detach 5 vestigial + 1 guard-rejected dataset, verified by FAST smoke, no
 quota cost).
 
+## Round 7 — 2026-07-28 07:18 UTC (autopilot `g32_learned_alignment_smoke`)
+
+Live refresh: quota **0/5** (no submission); no Kaggle kernels running; branch in sync; `origin/main`
+unchanged. Local `torch 2.12.1+cpu`, no local GPU — smoke run on CPU per the standing rules.
+
+**G3.2: real signal, first positive result in the alignment line, but far below the deployed pipeline.**
+Report: `reports/g32_learned_alignment_smoke_2026-07-28.md`.
+
+```
+scorer (identical val pairs):  NCC 0.5010 | level 0.6423 | LEARNED 0.7242
+DP vs flat-anchor:  lam 5 -> 16.167 worse | lam 20 -> 12.885 BEATS | lam 60 -> 12.527 BEATS | lam 150 -> 12.912 BEATS
+reference: flat-anchor 13.103 | deployed honest pipeline OOF ~8.86
+```
+
+Two design corrections were the operative change (matched vertical extent; level cue preserved by not
+z-scoring), not extra capacity — a 17-feature MLP beats the 2026-07-21 CNNs that plateaued at 0.647.
+The DP optimum is **interior** (best at lam=60), the signature of an informative emission; G3.1's
+hand-coded `|GR diff|` emission never crossed flat.
+
+**But 12.527 ft is ~42% worse than the deployed pipeline (~8.86).** Per the task rule, the masked split
+does not support a full Kaggle run, so none was launched and the submit gate was never reached.
+
+Refines an earlier conclusion: *pointwise hand-coded* GR costs add nothing (G3.1), but a *learned,
+level-aware, extent-matched* scorer does. Kept open as a possible extra emission term inside a stronger
+sequential model (the PF reaches ~11.0 ft standalone), which needs its own prompt.
+

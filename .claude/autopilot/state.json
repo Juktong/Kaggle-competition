@@ -2,18 +2,18 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "6b114540-6ad5-43ac-b280-60dd7cc22764",
-  "current_handle": "b5cb427e",
-  "current_task_id": "g13_dependency_provenance_audit",
-  "last_started_at": "2026-07-28T06:03:04Z",
-  "last_finished_at": "2026-07-28T06:20:00Z",
+  "resume_session_id": "b5cb427e-ae28-4967-bc28-50500bbc6d5f",
+  "current_handle": "acb94d4c",
+  "current_task_id": "g32_learned_alignment_smoke",
+  "last_started_at": "2026-07-28T07:18:06Z",
+  "last_finished_at": "2026-07-28T07:40:00Z",
   "last_result": {
-    "task_id": "g13_dependency_provenance_audit",
-    "outcome": "completed",
+    "task_id": "g32_learned_alignment_smoke",
+    "outcome": "signal_found_not_submittable",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "frontier dependency surface narrowed from 9 datasets to 1 prediction-affecting third-party dataset (fleongg, ~0.047 public); 5 vestigial, 1 guard-rejected, 1 pip-wheels-only, 1 shared with our honest line",
-    "next_task_id": "g32_learned_alignment_smoke"
+    "headline": "learned scorer AUC 0.7242 vs NCC 0.5010; DP with learned emission 12.527 BEATS flat-anchor 13.103 (interior optimum lam=60) where G3.1 never crossed; still ~42% worse than deployed ~8.86",
+    "next_task_id": "g33_multi_hypothesis_smoke"
   }
 }

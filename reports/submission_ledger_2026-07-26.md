@@ -50,4 +50,5 @@ Deadline 2026-08-05 23:59 UTC.
   calibration prerequisite does not hold once the same-run confound is removed.
 
 - Round 6 `g13_dependency_provenance_audit`: **completed, no submission**. Quota still **0/5 today**.
+- Round 7 `g32_learned_alignment_smoke`: **completed, no submission**. Quota still **0/5 today**.
 
