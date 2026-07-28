@@ -69,3 +69,5 @@ Deadline 2026-08-05 23:59 UTC.
 - Round 15 `n6_public_solution_audit`: **no submission** (`can_submit=false`, survey; named repo 404, substitute audited). Quota still **0/5 today**.
 
 - Round 16 `n5_typewell_fingerprint_families`: **no submission** (`can_submit=false`, diagnostic). Quota still **0/5 today**.
+
+- Round 17 `n8_azimuth_matched_neighbours`: **no submission** (3-well gate fails at every tolerance). Quota still **0/5 today**.

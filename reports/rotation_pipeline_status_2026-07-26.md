@@ -566,3 +566,50 @@ report prose, and every fragment was recoverable from git because each round was
 
 **Guard added:** `scripts/append_section.py`, which reads and closes before opening for write. Use it for
 all future report appends.
+
+## Round 17 — 2026-07-28 13:48 UTC (autopilot `n8_azimuth_matched_neighbours`)
+
+Live refresh: quota **0/5**, no Kaggle kernel running, branch in sync. **No submission** — the 3-well gate
+fails at every tolerance, so the task's step 6 never triggers.
+
+**Preflight byte-exact.** Reusing the N2 builder machinery, the no-filter control `az_tol=180` reproduces
+the banked `struct_oof.npz` to `max|d| = 0.00000000` and the banked pooled **8.8626** to `-0.0000` on the
+full 760-well split. Every difference below is attributable to the filter alone.
+
+**The filter is not inert, but the deployed selection is already azimuth-coherent.** It halves the
+neighbour count (28.1 -> 11.8-15.0) and removes the *nearest* well for **10.9-12.2%** of targets. Yet the
+median azimuth spread among surviving neighbours is only **26.7 deg** — typewell-group membership plus
+spatial proximity already deliver similarly-oriented wells.
+
+**Every tolerance is worse than no filter, and all fail the gate:**
+
+```
+variant        pooled   vs 8.8626   3-well 5th   P(gain>0)   gate
+struct_az15    8.9323     -0.0697      -0.8622      0.4999   FAIL
+struct_az30    8.9361     -0.0735      -0.9021      0.4945   FAIL
+struct_az45    8.9372     -0.0746      -0.9011      0.4894   FAIL
+struct_az90    8.9415     -0.0789      -0.9011      0.4862   FAIL
+struct_az180   8.8626     -0.0000            --          --   byte-exact control
+```
+
+Per-well median gain is exactly +0.0000 at every tolerance (helped ~42%, hurt ~44%): for most wells the
+filter changes nothing, and where it acts it hurts slightly more often than it helps. The ordering is
+non-monotone (90 deg worst, 15 deg least bad) because a tighter tolerance pushes more wells to an EMPTY
+neighbour set, which falls back to plain `base` — a neutral outcome — whereas a surviving-but-degraded set
+actively injects a worse estimate.
+
+**Why the idea has little room here.** The public methodology it came from applies azimuth matching to an
+offset-well prior in a LightGBM FEATURE pipeline, where a mis-oriented neighbour is one noisy feature among
+many. Our deployed field feeds a single IDW estimate that N2 measured to be effectively **single-well**
+(99.38% of the k=12 points share the nearest point's well), so removing the dominant neighbour does not
+shift a weighted average — it replaces the estimator's only real input.
+
+**This closes the loop on the component.** N5: the group key is a lossless proxy for typewell identity, so
+neighbour MEMBERSHIP is already right. N8: neighbour ORIENTATION is already right (spread 26.7 deg) and
+forcing it tighter costs score. N2: the anchor is already the correctly-referenced increment estimator.
+Three independent one-factor probes, all landing on "the deployed construction is already the right one".
+
+Not queued: azimuth as a soft IDW *weight* rather than a hard membership gate. The measured headroom is
+small (no change for ~58% of wells) against N4's 3-well draw spread of 3.49-15.14 for a fixed model.
+
+Report: `reports/n8_azimuth_matched_neighbours_2026-07-28.md`. Next queued: `n7_q3d_tortuosity_features` (180).

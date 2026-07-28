@@ -2,18 +2,18 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "1e7b202f-f496-4cad-9212-2ca457ff2ac0",
-  "current_handle": "e7d00202",
-  "current_task_id": "n5_typewell_fingerprint_families",
-  "last_started_at": "2026-07-28T13:33:24Z",
-  "last_finished_at": "2026-07-28T14:05:00Z",
+  "resume_session_id": "e7d00202-c41f-4891-8cd5-668dfc63dcfb",
+  "current_handle": "2b2ae8bf",
+  "current_task_id": "n8_azimuth_matched_neighbours",
+  "last_started_at": "2026-07-28T13:48:26Z",
+  "last_finished_at": "2026-07-28T15:05:00Z",
   "last_result": {
-    "task_id": "n5_typewell_fingerprint_families",
+    "task_id": "n8_azimuth_matched_neighbours",
     "outcome": "completed_no_submission",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "N5 CLOSED inside its 30-min box: the typewell fingerprint reproduces the deployed group-key neighbour set EXACTLY on all 3 test wells (13/13, 40/40, 13/13, zero difference either way), so it adds nothing over production. Corrects M3 - the byte-hash measured FILE identity, not CURVE identity (files are truncated to different TVT ranges), so typewell sharing is common (13/40/13 near-identical curves), not rare. Byproduct: the deployed round(max(typewell.TVT),1) group key is validated as a lossless proxy, which means n8 must gain from weighting rather than membership.",
-    "next_task_id": "n8_azimuth_matched_neighbours"
+    "headline": "N8 negative at every azimuth tolerance; no submission. The no-filter control is byte-exact against the banked field (8.8626, -0.0000). The filter removes the NEAREST well for 10.9-12.2% of targets, but the deployed selection is already azimuth-coherent (median neighbour spread 26.7 deg), so all four variants lose (-0.0697 to -0.0789 pooled) and all fail the 3-well gate (5th -0.86..-0.90, P(gain>0) ~0.49). Confirms the N2 risk: the neighbourhood is effectively single-well. Together with N5 (membership) and N2 (referencing), the structural field is now probed on three axes and unchanged on all three.",
+    "next_task_id": "n7_q3d_tortuosity_features"
   }
 }

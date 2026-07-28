@@ -214,3 +214,18 @@ scalar GR only).
   weighting.
 - Next runnable: **`n8_azimuth_matched_neighbours`** (170) — the only queued item with a submission path —
   then `n7` (180), `n9` (190).
+
+## 2026-07-28 update (N8 azimuth-matched neighbours)
+
+- **Closed: azimuth filtering of the structural field's neighbour set.** All four tolerances are worse
+  than no filter (-0.0697 to -0.0789 pooled) and all fail the 3-well gate (5th -0.86 to -0.90,
+  P(gain>0) ~0.49). The no-filter control is byte-exact against the banked field.
+- **Measured context:** the deployed selection is already azimuth-coherent (median neighbour spread
+  26.7 deg), so the filter is largely redundant; it does remove the nearest well for 10.9-12.2% of targets,
+  and that is what costs the score.
+- **Component now probed on three independent axes and unchanged on all three:** membership (N5, group key
+  lossless), orientation (N8, already coherent), referencing (N2, anchor already correct). Any further work
+  on the structural field should target the WEIGHTING, not these.
+- **Not queued:** azimuth as a soft IDW weight instead of a hard gate — plausible but the headroom is small
+  (no change for ~58% of wells) against the 3-well gate's demands.
+- Next runnable: **`n7_q3d_tortuosity_features`** (180), then `n9_self_correlation_prefix_template` (190).
