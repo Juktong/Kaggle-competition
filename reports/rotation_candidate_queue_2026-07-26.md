@@ -1,4 +1,204 @@
+# Rotation candidate queue — 2026-07-26
 
+Scores are 1–5 (5 = best/cheapest/safest). `quota_cost` is the number of submissions a candidate would
+consume if it reached the submit gate.
+
+| id | candidate | state | exp_gain_public | H-hidden robustness | non-homogeneity | impl_cost | provenance risk | quota_cost | smoke_ready | proxy support |
+|---|---|---|---|---|---|---|---|---|---|---|
+| **G1.2** | frontier OOF-style component validation | **audited** | n/a (no submit) | 5 | n/a | 4 | 5 | 0 | 5 | **5 — done this round** |
+| G2.1 | SP45-only variant | **submitted → 6.690** | — | — | — | — | — | 1 used | — | settled: post-SP45 stages earn their place |
+| G2.2 | well-level selector across variants | **closed** | — | — | — | — | — | 0 | — | oracle margin +0.0000; proxy inverts within-family |
+| G3.4/H | final-selection simulator (3 criteria) | **audited** | n/a (no submit) | 5 | n/a | 5 | 5 | 0 | 5 | 5 — all criteria converge |
+| G1.1 | full-fidelity overlap-OFF ownership run | **effectively done** | n/a | 5 | 1 (would duplicate `54968060`) | 5 | 4 | 0 | 5 | 5 |
+| G1.3 | dependency/provenance audit | static_audited | n/a | 4 | n/a | 4 | 5 | 0 | 5 | 3 |
+| G3.1 | stratigraphic heatmap + top-K path search | **closed** | — | — | — | — | — | 0 | — | DP converges to flat-anchor from above; emission adds no info |
+| G3.5 | honest prefix calibration for `54844628` | not_started | 2 | 4 | 3 | 3 | 5 | 0–1 | 3 | 2 (heel explains ~5% of toe bias) |
+| G3.2 | learned local alignment scorer + DP | not_started | 1 | 3 | 4 | 2 | 5 | 0–1 | 3 | 1 (NCC baseline 0.52; ~34× scale mismatch) |
+| G3.3 | multi-hypothesis trajectory model | not_started | 2 | 4 | 5 | 1 | 5 | 0–1 | 2 | 2 |
+
+## Notes that change the default order
+
+- **G1.1 is effectively already satisfied.** `54968060` *is* a full-fidelity overlap-OFF run executed
+  from our account (`joezzzzz/rogii-kaiwalya-overlap-off-full` v1), with the notebook, patch and metadata
+  tracked in this repo. Re-running it would produce a homogeneous output and is not scheduled.
+- **G1.2 completed without a Kaggle run** — the frontier writes its own masked-split component reports;
+  they were read from the completed full run. This is the round's main result.
+- **G2.1's intermediates are already mapped** (A3/A4/A5, 2026-07-25): model-package = bounded ~1.1 ft
+  top-up; prefix-aggressiveness and bimodal are inert on the visible wells. A new variant matrix has low
+  expected information beyond what those diffs already showed, so it drops below G3.4.
+- **G3.4 rises**: it costs no quota, needs no GPU, and directly serves the final-2 decision, which is the
+  binding question with ~10.9 days left.
+
+## Execution order for round 2
+
+1. **G3.4** robust final-selection simulator (no quota, directly decision-relevant).
+2. **G1.3** dependency/provenance audit (closes the one open reservation about `54968060` as slot 2).
+3. G2.2 well-level selector — only if G1.2/G3.4 surface a well-level signal worth selecting on.
+
+## Re-prioritisation after round 2 (`54990075` = 6.690)
+
+The SP45-only result removes the main reason to keep exploring frontier stage-truncation variants: the
+post-SP45 stages are net-positive on the leaderboard, so removing components is not a productive axis.
+Combined with the earlier A3/A4/A5 finding (model-package is a bounded ±2 ft top-up; prefix-aggressiveness
+and bimodal are inert on the visible wells), **G (small variant matrix) drops to the bottom** — the
+remaining knobs are either inert or already shown to be net-positive as configured.
+
+Revised order:
+1. **G2.2 well-level selector** — the one remaining way to combine existing scored outputs without a new
+   pipeline. Local-only first.
+2. **G3.1 heatmap + top-K path search** — a genuinely different alignment formulation.
+3. **G3.5 honest prefix calibration** — improves the fully-owned hedge, which all three selection
+   criteria now place in slot 2.
+4. G3.2 / G3.3 — higher cost, weaker prior support.
+5. G (variant matrix) — deprioritised per above.
+
+## 2026-07-28 update
+
+- **G3.5 honest prefix calibration — closed on evidence.** Deployment-honest prefix-cut signal explains
+  3.5% (CUT 0.70) / 0.5% (CUT 0.50) of toe-bias variance, in-sample upper bound; the apparent 43.4% was a
+  same-run confound. Weaker than the raw heel level (~5–17%) already exploited by the deployed anchor.
+  0 quota used. Report: `reports/g35_honest_prefix_calibration_2026-07-28.md`.
+- Next runnable: **`g13_dependency_provenance_audit`** (priority 20, no GPU, `can_submit=false`) — closes
+  the one open reservation about the frontier line's third-party dataset dependencies.
+
+## 2026-07-28 update (G1.3)
+
+- **G1.3 dependency/provenance audit — completed.** Frontier dependency surface narrows from 9 datasets
+  to **1 frontier-specific prediction-affecting dataset** (`fleongg/rogii-claude-models-pub`, measured
+  public value ≈0.047). Report: `reports/frontier_dependency_provenance_audit_2026-07-28.md`. 0 quota.
+- New low-cost follow-ups added to the mitigation queue (both output-neutral, verified by FAST smoke,
+  no quota): detach the 5 vestigial datasets; drop the guard-rejected `pilkwang/rogii-model-package`.
+- Next runnable: **`g32_learned_alignment_smoke`** (priority 30). Note the prior evidence bounding it:
+  the NCC alignment baseline scored AUC 0.52 (chance) on 2026-07-20, a pointwise GR difference explained
+  0.0% of TVT-difference variance on 07-21, and G3.1 (07-26) found a DP over a GR misfit matrix converges
+  to the flat-anchor baseline from above. A learned scorer must beat those, not merely exist.
+## 2026-07-28 update (G3.2)
+
+- **G3.2 learned alignment scorer — signal found, not a standalone candidate.** Learned scorer AUC 0.7242
+  vs NCC 0.5010 / level 0.6423; its DP beats the flat-anchor baseline (12.527 vs 13.103, interior optimum
+  at lam=60) where G3.1's hand-coded emission never did. Still ~42% worse than the deployed pipeline
+  (~8.86), so no Kaggle run, no submission, 0 quota.
+- Follow-up worth its own prompt: use the learned scorer as an **extra emission term inside the PF**
+  rather than as a standalone DP.
+- Next runnable: **`g33_multi_hypothesis_smoke`** (priority 40).
+
+## 2026-07-28 update (G3.3)
+
+- **G3.3 multi-hypothesis trajectory — closed on evidence.** Smoke checks all pass (loss decreases,
+  diversity 9.734 ft, sane trajectories) but K=1 regression (18.475) is worse than the flat-anchor
+  baseline (15.833) and the best achievable K=5 configuration (16.877) still is. Oracle +5.707 vs
+  achievable +1.598. 0 quota. Report: `reports/g33_multi_hypothesis_smoke_2026-07-28.md`.
+- Recorded minimal next smoke: condition K hypotheses on the PF's own per-well posterior spread
+  (`pf_unc.npz`) and train only on high-spread wells.
+- Next runnable: **`frontier_variant_matrix_lite`** (priority 50).
+
+## 2026-07-28 update (frontier variant matrix lite)
+
+- **Static diff completed at zero cost** from the existing full-run intermediates. Corrected a published
+  error: the **bimodal hedge is the largest post-SP45 effect** (+2.0 ft on all 4,301 rows of `00e12e8b`),
+  not zero as A5 recorded. G1.3's ~0.047 becomes a joint bound over two stages.
+- **No variant promoted** — prefix-aggressive would re-confirm G3.5; bimodal fires on 1 of 3 wells so any
+  public delta sits under the ~0.115 noise floor. 0 quota.
+- Concrete next variant if revisited: lower `skip_separation` so the bimodal hedge also fires on
+  `00bbac68` (separation 3.594 ft) — a multi-well effect would be resolvable.
+- Next runnable: **`new_direction_search`** (priority 90).
+
+## 2026-07-28 update (new direction search)
+
+Implementation round complete. Six new directions queued at 110–160, each with a CPU-only smoke and no
+quota cost:
+
+| pri | id | submission path | smallest smoke |
+|---|---|---|---|
+| 110 | `n4_conformal_well_uncertainty` | none (decision support) | split conformal on the banked 760-well OOF; check coverage per feature bin |
+| 120 | `n2_increment_structural_field` | **yes** (gate required) | swap the deployed field's target level -> heel-referenced increment, gate/W fixed |
+| 130 | `n1_geometry_bounded_alignment` | none | per-row admissible band on the G3.2 DP from `dZ`/`dH`, sweep the dip bound |
+| 140 | `n3_multiscale_gr_matching` | none | 4-level DWT, scorer AUC per level vs G3.2's 0.7242 |
+| 150 | `n6_public_solution_audit` | none | method diff of a second public solution vs our ledger (methods only, no external data) |
+| 160 | `n5_typewell_fingerprint_families` | none | 30-min time-box: GR-vs-TVT curve match, does it beat the deployed spatial gate |
+
+Closed this round: **single-dip geometric reparametrization** (oracle 7.65 vs honest 80.29 vs flat 15.91),
+**train-only PNG images as an input modality** (no test PNGs), **exact typewell grouping** (0/3 test wells
+match). Not queued with reasons: RL geosteering (no action space), azimuthal-GR dip inversion (single
+scalar GR only).
+
+## 2026-07-28 update (N4 conformal per-well uncertainty)
+
+- **Closed: per-well confidence gating on test-available features.** CV R^2 0.074 on log(per-well OOF
+  RMSE); conditional conformal intervals are wider than the unconditional one at matched coverage
+  (13.76/13.97 vs 13.43). A gate built on `nnb` / closest-mate / prefix-fraction / GR-std / geometry would
+  be close to random. Do not re-attempt without a materially different feature source.
+- **Retained:** marginal conformal bound for the honest line — 90% of wells <= 13.43 ft, 95% <= 17.53 ft,
+  coverage verified out-of-sample. Table at `rogii_sprint_shared/tmp/n4_well_uncertainty.csv`.
+- **New constraint on all future validation:** for one fixed model, a random 3-well draw pools to
+  5th 3.491 / median 6.708 / 95th 15.138. Quote this whenever a small margin is proposed.
+- **New measured transfer gap:** OOF 4.756 on the 3 test wells vs public 7.891 = 1.659x. OOF-based bounds
+  are not leaderboard bounds.
+- Next runnable: **`n2_increment_structural_field`** (priority 120) — the only queued item with a
+  submission path.
+
+## 2026-07-28 update (N2 increment structural field)
+
+- **Closed: re-referencing the structural field's increment.** The deployed field is already heel-anchored
+  and level-invariant, so the intended level->increment swap is a no-op; the two constructions that DO
+  differ both fail the 3-well gate on the full 760-well split (`iso` -0.1003 pooled, 5th -1.7148;
+  `increment` -1.6840 pooled, 5th -5.5224).
+- **Corrected:** `new_direction_search` described the deployed field as interpolating the TVT level. It
+  interpolates the increment and takes the level from the target's own known heel.
+- **New anchor fact:** the deployed neighbourhood is effectively single-well — 99.38% of the k=12
+  contributing points come from the same well as the nearest point, and the nearest well essentially never
+  changes along a lateral. Any future cross-well idea should assume a single dominant neighbour.
+- **Retained:** a byte-exact reimplementation of the deployed structural field
+  (`scripts/n2_increment_structural_field.py`), reproducing the banked 8.8626 to -0.0000 on the full split.
+  Reusable for any future variant of this component.
+- Next runnable: **`n1_geometry_bounded_alignment`** (priority 130).
+
+## 2026-07-28 update (N1 geometry-bounded alignment)
+
+- **Closed: the geometry-derived admissible band.** It binds 83-91% of transitions (not inert), but on 40
+  eval wells every geometry-aware arm is worse than the unbounded control, and nested selection never
+  picks one. Pooled held-out DP 13.644 vs flat-anchor 12.722.
+- **Amended: G3.2's "DP beats the flat anchor".** That comparison selected lam on the wells it reported;
+  with nesting on 40 wells it does not beat flat. The scorer's AUC 0.7242 vs NCC 0.5010 stands.
+- **New standing caution:** the 12-well eval set used by G3.1/G3.2/N1 is small enough that a 20-config
+  sweep produced an apparent 25% gain (9.412) that vanished on 40 wells. Any future alignment result must
+  be nested and reported on >=40 wells.
+- **Retained:** the geometric bound gives stability at weak regularisation (unbounded diverges to 42.359
+  at lam=1; bounded stays 14-16). Useful if a future formulation needs a weak regulariser.
+- Next runnable: **`n3_multiscale_gr_matching`** (priority 140).
+
+## 2026-07-28 update (N3 multi-scale GR matching)
+
+- **Closed: coarse-to-fine wavelet decomposition as the fix for the GR-scorer line.** No level exceeds
+  G3.2's 0.7242; the raw band is best (0.7160) and AUC falls monotonically with coarser approximation
+  (0.6573 at 16 ft). NCC is at chance in all 9 bands, so shape matching is not a scale problem.
+- **Banked positive: typewell window TWH=1 (3 ft).** Held-out-WELL AUC 0.7655 +/- 0.0030 (5 seeds) vs
+  0.7300 +/- 0.0028 at G3.2's TWH=8 — +0.0355, 8.7x seed noise. A **no-training** level score reaches
+  0.7352, above G3.2's trained 0.7242. Available to any future alignment work.
+- **New standing protocol rule:** scorer comparisons must split by WELL, not by pair. G3.2's pair split
+  ranked the windows wrongly (chose TWH=32; the well split chooses TWH=1) and understated absolute AUC.
+- Next runnable: **`n6_public_solution_audit`** (priority 150), then `n5` (160).
+
+## 2026-07-28 update (N6 public-solution audit)
+
+- **Blocker:** the queued target `aaryan2203/rogii-wellbore-geology-prediction-argon` does not exist (404;
+  the name came from a stale web-search snippet). Audited `mycarta/rogii-geosteering-toolkit` (MIT)
+  instead — same intent, real target.
+- **Newly queued from the audit:**
+  - `n8_azimuth_matched_neighbours` (170) — azimuth-similarity filter on the structural field's neighbour
+    selection; the only cross-well component with a confirmed honest gain, and N2 left a byte-exact
+    reimplementation to modify. **The one queued item with a submission path.**
+  - `n7_q3d_tortuosity_features` (180) — Q-3D tortuosity (Jing et al. 2022) was their largest single-group
+    ablation gain (-0.107 RMSE) and is fully test-available from MD/X/Y/Z. Gate it against N4's CV R^2
+    0.074 bar before touching the model.
+  - `n9_self_correlation_prefix_template` (190) — the lateral's own known zone as the matching template;
+    removes the cross-instrument level offset, which is the cue N3 showed dominates.
+- **Confirmed closed by an independent party:** Catch22/AEON well-level features (+0.476 worse for them),
+  typewell-`Geology` classifier (they dropped it; we measured `Geology` absent from the test schema).
+- **Do not re-attempt** from their stack: G11 three-thirds TVT-vs-MD fit (covered by M4), G13/G14
+  landing-state and well-length features (N4 measured CV R^2 0.074 for this feature class), G15 vintage
+  `seq_id` features (leakage-adjacent, needs a rules check first).
+- Next runnable: **`n5_typewell_fingerprint_families`** (priority 160, time-boxed 30 min).
 
 ## 2026-07-28 update (N5 typewell fingerprint)
 
