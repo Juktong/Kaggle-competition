@@ -1,11 +1,12 @@
 
-## 2026-07-28 update (G3.3)
+## 2026-07-28 update (frontier variant matrix lite)
 
-- **G3.3 multi-hypothesis trajectory — closed on evidence.** Smoke checks all pass (loss decreases,
-  diversity 9.734 ft, sane trajectories) but K=1 regression (18.475) is worse than the flat-anchor
-  baseline (15.833) and the best achievable K=5 configuration (16.877) still is. Oracle +5.707 vs
-  achievable +1.598. 0 quota. Report: `reports/g33_multi_hypothesis_smoke_2026-07-28.md`.
-- Recorded minimal next smoke: condition K hypotheses on the PF's own per-well posterior spread
-  (`pf_unc.npz`) and train only on high-spread wells.
-- Next runnable: **`frontier_variant_matrix_lite`** (priority 50).
+- **Static diff completed at zero cost** from the existing full-run intermediates. Corrected a published
+  error: the **bimodal hedge is the largest post-SP45 effect** (+2.0 ft on all 4,301 rows of `00e12e8b`),
+  not zero as A5 recorded. G1.3's ~0.047 becomes a joint bound over two stages.
+- **No variant promoted** — prefix-aggressive would re-confirm G3.5; bimodal fires on 1 of 3 wells so any
+  public delta sits under the ~0.115 noise floor. 0 quota.
+- Concrete next variant if revisited: lower `skip_separation` so the bimodal hedge also fires on
+  `00bbac68` (separation 3.594 ft) — a multi-well effect would be resolvable.
+- Next runnable: **`new_direction_search`** (priority 90).
 

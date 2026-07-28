@@ -61,3 +61,22 @@ prefix-aggressiveness are inert on the scored wells. The one ablation that revea
 (non-overlap) behavior is **A2 overlap-OFF**, which requires its own run (no "before overlap" intermediate
 exists) — smoke in progress. None of A3/A4/A5 is submittable: each is a homogeneous intermediate of the
 already-submitted family.
+
+---
+
+## CORRECTION (2026-07-28) — the A5 bimodal conclusion was wrong
+
+A5 above states the bimodal hedge "makes no change" because `before_branch_hedge` equals
+`before_model_package`. Those two files are indeed identical, **but both are upstream of the hedge**, so
+that comparison cannot detect it. The correct comparison is `final` vs `before_branch_hedge`:
+
+```
+final - before_branch_hedge:  00e12e8b  4301/4301 rows changed, mean +2.0000 ft
+                              000d7d20  0 rows,  00bbac68  0 rows
+pf_seed_branch_hedge_report:  00e12e8b applied, separation 29.439 ft, shift 2.0, moved_rows 4301
+```
+
+**The bimodal hedge applies +2.0 ft to all 4,301 rows of `00e12e8b`** and is the largest single post-SP45
+effect in the deployed configuration (rmse 1.103 vs final, 30.4% of rows). See
+`reports/frontier_variant_matrix_lite_2026-07-28.md`.
+

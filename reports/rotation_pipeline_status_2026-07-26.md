@@ -249,3 +249,29 @@ Minimal next smoke recorded (not a broad plan): feed the **PF's own per-well pos
 (`pf_unc.npz`, available at inference) as an input and train K hypotheses only on high-spread wells, to
 test whether multi-hypothesis helps specifically on wells the PF already flags as ambiguous.
 
+## Round 9 — 2026-07-28 08:48 UTC (autopilot `frontier_variant_matrix_lite`)
+
+Live refresh: quota **0/5** (no submission); no Kaggle kernels running; branch in sync; `origin/main`
+unchanged. Static diff + local proxy only, no plain-frontier rerun.
+
+**Main product: a correction.** Every "before X" intermediate sits exactly 1.103 ft from the final output
+with `max|d| = 2.00` on exactly 30.4% of rows = 4,301 rows = the whole of well `00e12e8b`. Direct check
+confirms **the PF bimodal branch hedge applies +2.0 ft to all 4,301 rows of that well** (separation
+29.44 ft; the other two wells are skipped). It is the **largest single post-SP45 effect**.
+
+The 2026-07-25 A5 claim that the bimodal hedge "contributes zero" was wrong: it compared
+`before_branch_hedge` with `before_model_package`, which are both *upstream* of the hedge. A5, G1.3 and
+the G2.1 wording are corrected. Knock-on: G1.3's ≈0.047 is a **joint** upper bound for the
+learned-trajectory blend *and* the bimodal hedge, not a clean measurement of the `fleongg` dataset alone.
+
+Live axes: **bimodal hedge strength** (active, 1 of 3 wells) and **prefix calibration strength**
+(aggressive 1.996 / conservative 1.287 rmse vs final; the selected `balanced` profile applied alpha=0).
+Model-package weights are guard-rejected and vary only ~0.02 between themselves; SP45/learned weights
+likewise, and their extreme was already tested as `54990075`.
+
+**No promotion this round.** Prefix-aggressive would mostly re-confirm today's G3.5 result (prefix signal
+3.5%/0.5%) and the frontier's own selector already chose alpha=0; the bimodal axis fires on only one
+well, so any public delta would sit under the ~0.115 config-variance floor. Both HOLD; quota preserved.
+Concrete next variant recorded: lower `skip_separation` so the hedge also fires on `00bbac68`
+(separation 3.594 ft), making it a multi-well effect.
+

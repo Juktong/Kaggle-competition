@@ -130,3 +130,20 @@ This **does not change** the slot recommendation — all three criteria still co
 `54922806 + 54844628` — but it narrows the provenance argument to a single, quantified dependency rather
 than a nine-dataset surface. Provenance-first still prefers `54844628` in slot 2 because it is the only
 fully-owned, 760-well-OOF-validated candidate, which is a separate property from dependency count.
+
+---
+
+## CORRECTION (same day) — the ≈0.047 attribution spans two stages, not one
+
+This report stated that `54990075` (SP45-only) and `54968060` "differ *only* in this component
+[the learned-trajectory blend]", because the other post-SP45 stages were taken to be inert. That was
+based on the A5 bimodal claim, which has since been shown incorrect: the **PF bimodal branch hedge
+applies +2.0 ft to all 4,301 rows of `00e12e8b`** (see
+`reports/frontier_variant_matrix_lite_2026-07-28.md`).
+
+The two submissions therefore differ across **two** active stages — the learned-trajectory blend *and*
+the bimodal hedge. **≈0.047 is a joint upper bound for both, not a clean measurement of
+`fleongg/rogii-claude-models-pub` alone.** The dependency classification in the risk table is unaffected
+(one prediction-affecting third-party dataset not already in our stack); only the size attributed to it
+changes, and it can only be smaller than 0.047.
+

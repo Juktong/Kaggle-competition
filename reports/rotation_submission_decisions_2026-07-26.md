@@ -1,3 +1,3 @@
 
-| 8 | G3.3 multi-hypothesis trajectory | **no submit (closed on evidence)** | Smoke checks pass but the whole family sits below a trivial flat-anchor baseline (best achievable 16.877 vs 15.833) and far from the deployed ~8.86. Submit gate never reached. 0 quota used. |
+| 9 | frontier variant matrix lite | **no submit (HOLD both live axes)** | prefix-aggressive would mostly re-confirm G3.5 (prefix signal 3.5%/0.5%) and the frontier's own selector already chose alpha=0; the bimodal axis fires on only 1 of 3 wells so any public delta sits under the ~0.115 config-variance floor. Neither clears the information-value condition. 0 quota used. |
 

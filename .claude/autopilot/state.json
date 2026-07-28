@@ -2,18 +2,18 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "acb94d4c-7507-4e76-9284-67b453bdc3ca",
-  "current_handle": "388127ee",
-  "current_task_id": "g33_multi_hypothesis_smoke",
-  "last_started_at": "2026-07-28T08:33:08Z",
-  "last_finished_at": "2026-07-28T08:55:00Z",
+  "resume_session_id": "388127ee-51da-4d48-b924-6bb0dac19ced",
+  "current_handle": "a495219a",
+  "current_task_id": "frontier_variant_matrix_lite",
+  "last_started_at": "2026-07-28T08:48:09Z",
+  "last_finished_at": "2026-07-28T09:05:00Z",
   "last_result": {
-    "task_id": "g33_multi_hypothesis_smoke",
-    "outcome": "closed_on_evidence",
+    "task_id": "frontier_variant_matrix_lite",
+    "outcome": "completed_no_submission",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "MTP smoke checks pass (loss down, diversity 9.7ft) but K=1 (18.475) is worse than flat-anchor (15.833) and best achievable K=5 (16.877) still is; oracle +5.707 vs achievable +1.598",
-    "next_task_id": "frontier_variant_matrix_lite"
+    "headline": "CORRECTION: the PF bimodal hedge applies +2.0ft to all 4301 rows of 00e12e8b and is the largest post-SP45 effect; the 07-25 A5 zero-contribution claim was wrong, and G1.3 ~0.047 is a joint bound over two stages. No variant promoted.",
+    "next_task_id": "new_direction_search"
   }
 }
