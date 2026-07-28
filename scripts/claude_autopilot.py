@@ -216,7 +216,7 @@ def start_claude_task(state: dict, queue: list[dict], task: dict, live: str, dry
         resume_id,
         "--bg",
         "--effort",
-        "max",
+        "xhigh",
         "--permission-mode",
         "bypassPermissions",
         "--name",

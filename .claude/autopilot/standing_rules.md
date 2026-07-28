@@ -5,7 +5,7 @@ These rules apply to every autopilot task in this repository.
 ## Session and execution
 
 - Continue the same ROGII Claude context by using `claude --resume`; do not start unrelated research sessions.
-- Use `--effort max` and `--model opus` unless the owner changes this rule.
+- Use `--effort xhigh` and `--model opus` for autopilot runs unless the owner changes this rule.
 - Before starting work, live refresh current state instead of trusting stale reports.
 - If a background Claude job or Kaggle kernel is already running, do not launch a duplicate full run.
 
