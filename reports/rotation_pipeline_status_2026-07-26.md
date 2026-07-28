@@ -168,3 +168,32 @@ since the local smoke produced nothing to carry forward). `54844628` unchanged.
 
 **Standing rule added:** never measure a calibration signal and its target on the same truncated run.
 
+## Round 6 — 2026-07-28 06:03 UTC (autopilot `g13_dependency_provenance_audit`)
+
+Live refresh: quota **0/5** (unchanged, no submission); no Kaggle kernels running; branch in sync with
+`juktong`; `origin/main` unchanged at `a589fa8`.
+
+**G1.3 completed** — `reports/frontier_dependency_provenance_audit_2026-07-28.md`. Static source analysis
+plus empirical run-log evidence narrows the frontier's 9-dataset attachment to:
+
+```
+1  affects predictions, shared with our honest line   ravaghi/…artifacts (SP45 ridge, w 0.30)
+1  affects predictions, frontier-specific             fleongg/rogii-claude-models-pub (learned traj, w 0.40)
+1  runtime environment only (offline pip wheels)      phongnguyn…/koolbox-offline
+1  loaded but guard-REJECTED at runtime               pilkwang/rogii-model-package (p95 29.464 > 25.000)
+5  vestigial: zero source refs, zero log appearances  nina2025, thbdh5765 v10/v11, chesnikovleonid, needless090
+```
+
+The single frontier-specific prediction dependency has a **measured public value of ≈0.047**
+(`54990075` 6.690 SP45-only vs `54968060` 6.643 — those two runs differ only in that component, since
+prefix-cal applied `alpha=0`, the model package was rejected and bimodal made no change). That is inside
+the ~0.115 config-variance floor.
+
+Both generic `/kaggle/input` scans were checked and are guarded (`MODEL_PACKAGE_ALLOW_AUTO_SEARCH=False`;
+the train-well glob is a fallback that never fires when the competition dataset is attached), so the
+vestigial datasets cannot leak into predictions.
+
+Final-slot risk language narrowed accordingly; **the slot recommendation is unchanged**.
+Mitigation queue recorded (detach 5 vestigial + 1 guard-rejected dataset, verified by FAST smoke, no
+quota cost).
+

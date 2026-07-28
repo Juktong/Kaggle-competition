@@ -61,3 +61,15 @@ Revised order:
 - Next runnable: **`g13_dependency_provenance_audit`** (priority 20, no GPU, `can_submit=false`) — closes
   the one open reservation about the frontier line's third-party dataset dependencies.
 
+## 2026-07-28 update (G1.3)
+
+- **G1.3 dependency/provenance audit — completed.** Frontier dependency surface narrows from 9 datasets
+  to **1 frontier-specific prediction-affecting dataset** (`fleongg/rogii-claude-models-pub`, measured
+  public value ≈0.047). Report: `reports/frontier_dependency_provenance_audit_2026-07-28.md`. 0 quota.
+- New low-cost follow-ups added to the mitigation queue (both output-neutral, verified by FAST smoke,
+  no quota): detach the 5 vestigial datasets; drop the guard-rejected `pilkwang/rogii-model-package`.
+- Next runnable: **`g32_learned_alignment_smoke`** (priority 30). Note the prior evidence bounding it:
+  the NCC alignment baseline scored AUC 0.52 (chance) on 2026-07-20, a pointwise GR difference explained
+  0.0% of TVT-difference variance on 07-21, and G3.1 (07-26) found a DP over a GR misfit matrix converges
+  to the flat-anchor baseline from above. A learned scorer must beat those, not merely exist.
+

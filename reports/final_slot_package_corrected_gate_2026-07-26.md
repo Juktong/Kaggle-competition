@@ -76,3 +76,23 @@ The only input that could move this is the retrieval penalty (measured 0.080). I
 degradation of overlap-ON branches were much larger, `54922806` would fall behind `54844628` under
 H-hidden and the pair's worst case would be set by the honest slot — which strengthens, not weakens, the
 case for keeping `54844628` in slot 2. The recommendation is stable across the plausible range.
+
+## Provenance reservation — narrowed by the G1.3 audit (2026-07-28)
+
+Earlier wording described the frontier line as depending on "9 third-party public datasets". Measured
+against source and run logs (`reports/frontier_dependency_provenance_audit_2026-07-28.md`):
+
+> Frontier candidates depend on **one** third-party public dataset that is not already part of our own
+> stack — `fleongg/rogii-claude-models-pub` (learned-trajectory model, blend weight 0.40), whose measured
+> public value is **≈0.047** (`54990075` SP45-only 6.690 vs `54968060` 6.643), i.e. inside the
+> ~0.115 config-variance floor. Of the rest: `ravaghi/…artifacts` is **shared with our own honest line**,
+> `koolbox-offline` supplies offline pip wheels only, `pilkwang/rogii-model-package` was
+> **guard-rejected at runtime** (`p95 diff 29.464 > 25.000`, `selected_for_submission_csv = False`), and
+> five datasets are **vestigial** (zero source references, zero log appearances).
+
+**The slot recommendation is unchanged** — all three criteria still converge on
+`54922806 + 54844628`. What changes is the *argument*: the frontier's dependency exposure is a single
+quantified dataset worth ≈0.047, not a nine-dataset surface. Provenance-first still prefers `54844628`
+in slot 2, but on the grounds that it is the only fully-owned, 760-well-OOF-validated candidate — a
+different property from dependency count.
+

@@ -49,3 +49,5 @@ Deadline 2026-08-05 23:59 UTC.
 - Round 5 `g35_honest_prefix_calibration`: **closed on evidence, no submission** — the prefix-cut
   calibration prerequisite does not hold once the same-run confound is removed.
 
+- Round 6 `g13_dependency_provenance_audit`: **completed, no submission**. Quota still **0/5 today**.
+

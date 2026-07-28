@@ -2,18 +2,18 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "12462767-ed5b-4e11-b9d8-fd609ca6d226",
-  "current_handle": "6b114540",
-  "current_task_id": "g35_honest_prefix_calibration",
-  "last_started_at": "2026-07-28T05:48:02Z",
-  "last_finished_at": "2026-07-28T06:05:00Z",
+  "resume_session_id": "6b114540-6ad5-43ac-b280-60dd7cc22764",
+  "current_handle": "b5cb427e",
+  "current_task_id": "g13_dependency_provenance_audit",
+  "last_started_at": "2026-07-28T06:03:04Z",
+  "last_finished_at": "2026-07-28T06:20:00Z",
   "last_result": {
-    "task_id": "g35_honest_prefix_calibration",
-    "outcome": "closed_on_evidence",
+    "task_id": "g13_dependency_provenance_audit",
+    "outcome": "completed",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "prefix-cut signal explains 3.5%/0.5% of toe-bias variance once the same-run confound is removed",
-    "next_task_id": "g13_dependency_provenance_audit"
+    "headline": "frontier dependency surface narrowed from 9 datasets to 1 prediction-affecting third-party dataset (fleongg, ~0.047 public); 5 vestigial, 1 guard-rejected, 1 pip-wheels-only, 1 shared with our honest line",
+    "next_task_id": "g32_learned_alignment_smoke"
   }
 }

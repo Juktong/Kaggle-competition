@@ -22,3 +22,5 @@ stated justification · accurate description.
 
 | 5 | G3.5 honest prefix calibration | **no submit (closed on evidence)** | Local smoke prerequisite failed: the deployment-honest prefix-cut signal explains only 3.5%/0.5% of toe-bias variance (in-sample upper bound); the apparent 43.4% was a same-run confound. Submit gate never reached — nothing was carried past the smoke. 0 quota used. |
 
+| 6 | G1.3 dependency/provenance audit | **no submit (by design, `can_submit=false`)** | Analysis only. Narrowed the frontier provenance reservation from "9 third-party datasets" to one quantified dependency (≈0.047 public). Slot recommendation unchanged. 0 quota used. |
+
