@@ -1,0 +1,13 @@
+targets=773  groups=54  (SMOKE_N=0)
+  [0/773]
+  [50/773]
+most recent call last):
+  File "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue/scripts/n2_eval_increment.py", line 87, in <module>
+    main()
+  File "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue/scripts/n2_eval_increment.py", line 38, in main
+    v = np.load(a.npz, allow_pickle=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.12/site-packages/numpy/lib/_npyio_impl.py", line 454, in load
+    fid = stack.enter_context(open(os.fspath(file), "rb"))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/n2_struct_increment.npz'
