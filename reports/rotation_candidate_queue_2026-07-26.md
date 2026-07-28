@@ -327,3 +327,18 @@ G15 vintage `seq_id` features (leakage-adjacent, needs a rules check first).
   the emission level — the first gating variable in this project that stratifies cleanly. Available if a
   future line needs confidence modulation, with the Q13 caveat attached.
 - Next runnable: **`q14_frontier_bimodal_hedge_weight_scan`** (240).
+
+## 2026-07-29 update (Q14 bimodal hedge weight scan)
+
+- **Live candidate: frontier hedge-OFF** (`_BH_CAP = 0.00`). Kernel `joezzzzz/rogii-frontier-hedgeoff-full`
+  v1 pushed and running. Predicted output already audits HARD PASS and is non-homogeneous (rmse 1.103 vs
+  54968060). Estimated public ~**6.55** if the public residual on the hedged rows is near zero.
+- **Why it matters:** the hedge adds +2.0 ft to a well whose local residual was -0.19 ft, manufacturing
+  +1.81 ft of bias; local proxy degrades 2.18 -> 2.83 on that well and 3.10 -> 3.26 pooled. If hedge-OFF
+  lands near 6.55 it becomes an OWN-ACCOUNT frontier competitive with the teammate's 54922806 (6.563) --
+  a genuine slot-1 provenance improvement at equal or better score.
+- **Corrects the variant-matrix HOLD:** the ~0.115 config-variance floor is run-to-run GPU
+  nondeterminism and is NOT an upper bound on a deterministic +2.0 ft shift.
+- **Next action (carry to the next round):** collect the run, confirm `pf_seed_branch_hedge_report.csv`
+  shows `moved_rows 0`, re-audit, and submit only if the gate passes. Do NOT start a second frontier run
+  while this one is in flight.

@@ -904,3 +904,57 @@ emission gain comes from a bias rather than from sharper discrimination.
 
 Report: `reports/q13_twh1_self_hybrid_emission_2026-07-29.md`. Next queued:
 `q14_frontier_bimodal_hedge_weight_scan` (240).
+
+## Round 24 — 2026-07-28 19:13 UTC (autopilot `q14_frontier_bimodal_hedge_weight_scan`)
+
+Live refresh: quota **0/5**. **No submission this round** — a hedge-OFF full run is in flight and the
+submit decision is deferred to its result.
+
+**The scan cost no GPU.** The hedge is a pure additive shift (re-verified: 4301/14151 rows, single unique
+delta +2.0 ft, only on `00e12e8b`), so `variant(w) = before_hedge + w*2.0` and
+`rmse(variant(w), 54968060) = |w-1| * 1.1027` in closed form. Homogeneity (0.50) is crossed at
+|w-1| >= 0.4534: w = 0, 0.25, 0.5, 1.5, 2.0 are non-homogeneous; 0.75-1.25 are not. Trajectory sanity is
+identical at every w, as a constant one-well shift implies.
+
+**The decisive measurement — the hedge creates bias where there was none.** Using the train copies of the
+three test wells:
+
+```
+well          n    w=0 (off)   w=1 (on)          mean residual on the hedged well
+000d7d20   3836       1.6367     1.6367            BEFORE the hedge:  -0.1895 ft
+00bbac68   6014       4.1912     4.1912            AFTER  the hedge:  +1.8105 ft
+00e12e8b   4301       2.1818     2.8288  (+0.647)
+POOLED    14151       3.1046     3.2594  (+0.155)
+```
+
+The hedged well was already essentially unbiased; the hedge adds +2.0 ft and manufactures +1.81 ft of
+bias. Analytic public sensitivity at R=6.643 for a 2.0 ft shift on 30.4% of rows: hedge-OFF would land at
+**6.551 if the public residual on those rows is ~0**, 6.643 only if it were exactly +1.0, and 6.734 if
++2.0. The proxy says -0.19, so hedge-OFF is estimated near **6.55**.
+
+**This overturns the variant-matrix round's HOLD, and the reason is worth recording.** That round held the
+axis because the hedge "fires on 1 of 3 wells, so any delta sits under the ~0.115 config-variance floor".
+That conflated two quantities: the 0.115 floor is run-to-run GPU nondeterminism, whereas the hedge is a
+DETERMINISTIC shift whose pooled effect is bounded by ~0.28 and estimated at ~0.09-0.11. The earlier
+magnitude estimate was roughly right but the noise floor is not an upper bound on a deterministic effect.
+
+**Caveat retained:** the train-copy proxy is not a public proxy (level 3.10 vs public 6.64), and the ledger
+records over-weighting it once before on `54878409`. What differs here is that this is a LEVEL question on
+one well, not a ~0.1 rank comparison, and the per-well local effect (+0.647) is above the ~0.5 threshold at
+which local has predicted the leaderboard. Evidence, not proof.
+
+**Candidate.** The hedge is `shift = clip(STRENGTH*(midpoint-weighted), -CAP, +CAP)` with STRENGTH 0.60,
+CAP 2.00; the observed shift of exactly 2.0 means it hit the CAP, so the scan maps to one constant. The
+kernel is a verified ONE-LINE change (`_BH_CAP = 2.00 -> 0.00`), diffed to confirm it is the only
+difference from the kernel that produced `54968060`.
+
+Preflight passed: patch activation verified by exact arithmetic (CAP=0 gives shift 0.0, and the
+`abs(shift)>=0.01` guard then skips), and the predicted output audits `HARD: PASS` with
+**HOMOGENEITY distinct from all scored references** (rmse 1.103 vs 54968060), local proxy 3.105 vs the
+deployed 3.259. Kaggle smoke deliberately skipped with the reason recorded: the base kernel already
+completed a successful full run, and every smoke-catchable failure mode is identical except patch
+activation, which was verified arithmetically and will be reconfirmed from
+`pf_seed_branch_hedge_report.csv` post-run.
+
+`joezzzzz/rogii-frontier-hedgeoff-full` v1 pushed and running. Report:
+`reports/q14_frontier_bimodal_hedge_weight_scan_2026-07-29.md`.

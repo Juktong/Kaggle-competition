@@ -2,19 +2,25 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "15a12fbe-acc5-452e-9d58-714a7a9e21e0",
-  "current_handle": "426c7eb0",
-  "current_task_id": "q13_twh1_self_hybrid_emission",
-  "last_started_at": "2026-07-28T18:58:22Z",
-  "last_finished_at": "2026-07-28T21:40:00Z",
+  "resume_session_id": "426c7eb0-0855-4952-9694-e53511329051",
+  "current_handle": "262fb9d2",
+  "current_task_id": "q14_frontier_bimodal_hedge_weight_scan",
+  "last_started_at": "2026-07-28T19:13:24Z",
+  "last_finished_at": "2026-07-28T22:40:00Z",
   "last_result": {
-    "task_id": "q13_twh1_self_hybrid_emission",
-    "outcome": "completed_no_submission",
+    "task_id": "q14_frontier_bimodal_hedge_weight_scan",
+    "outcome": "completed_run_in_flight",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Q13 closed with the most informative negative of the Q-series: a hybrid emission that is clearly BETTER pointwise produces a clearly WORSE trajectory. Emission level: |argmax error| 185.8 -> 149.4 ft, helping 67.5% of 40 held-out wells, and the typewell-uncertainty gate stratifies perfectly monotonically. DP level: nested w=0 (typewell only) 12.861 is best, every hybrid weight worse (13.256-14.479). Cause: the self emission is coverage-masked, so it pulls the path toward the prefix TVT range - a good per-row bet but a cumulative bias once chained, working against drift which dominates the residual. New standing rule recorded: a pointwise emission metric is not a valid proxy for trajectory quality when the modification carries a directional bias.",
-    "next_task_id": "q14_frontier_bimodal_hedge_weight_scan"
+    "headline": "Q14: the bimodal hedge adds +2.0 ft to a well whose local residual was already -0.1895 ft, manufacturing +1.81 ft of bias. Local proxy degrades 2.1818->2.8288 on that well and 3.1046->3.2594 pooled. Analytic public sensitivity puts hedge-OFF near 6.551 if the public residual there is ~0, which would make it an OWN-ACCOUNT frontier competitive with the teammate 54922806 (6.563). This overturns the variant-matrix HOLD, whose reasoning wrongly treated the 0.115 GPU-nondeterminism floor as a bound on a deterministic shift. A diff-verified one-line kernel (_BH_CAP 2.00->0.00) is pushed and RUNNING; no submission yet.",
+    "next_task_id": "q15_frontier_dependency_replacement"
   },
-  "queue_exhausted": false
+  "queue_exhausted": false,
+  "pending_kaggle_run": {
+    "kernel": "joezzzzz/rogii-frontier-hedgeoff-full",
+    "version": 1,
+    "purpose": "frontier hedge-OFF (_BH_CAP=0.00) candidate, estimated public ~6.55",
+    "next_action": "collect run, confirm pf_seed_branch_hedge_report moved_rows=0, re-audit, decide submit"
+  }
 }
