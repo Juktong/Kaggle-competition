@@ -2,18 +2,18 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "a495219a-32eb-4287-ba42-de802f0a6ce5",
-  "current_handle": "dca65f44",
-  "current_task_id": "new_direction_search",
-  "last_started_at": "2026-07-28T09:03:11Z",
-  "last_finished_at": "2026-07-28T09:40:00Z",
+  "resume_session_id": "dca65f44-9720-4fff-8379-f1788613a104",
+  "current_handle": "a14f2420",
+  "current_task_id": "status_summary_for_user",
+  "last_started_at": "2026-07-28T10:18:13Z",
+  "last_finished_at": "2026-07-28T10:30:00Z",
   "last_result": {
-    "task_id": "new_direction_search",
+    "task_id": "status_summary_for_user",
     "outcome": "completed_no_submission",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "5 cheap measurements ran first and 3 changed a ranking: train PNGs carry no beyond-CSV info and test has none (images ruled out); typewell grouping capped (752/773 distinct, 0/3 test wells match any train typewell); single-dip geometric reparametrization CLOSED on evidence (oracle 7.65 vs honest prefix-fit 80.29 vs flat anchor 15.91). 6 directions queued at 110-160; N2 (increment structural field) is the only one with a submission path.",
-    "next_task_id": "status_summary_for_user"
+    "headline": "Round summary: 7 autopilot tasks on 2026-07-28, 0 submissions, quota untouched. 5 lines closed on evidence; 1 published claim corrected (bimodal hedge is the LARGEST post-SP45 effect). Slot recommendation unchanged: 54922806 + 54844628 under score-first, diversity-first and provenance-first. 8.57 days to deadline; next n4_conformal_well_uncertainty then n2_increment_structural_field.",
+    "next_task_id": "n4_conformal_well_uncertainty"
   }
 }
