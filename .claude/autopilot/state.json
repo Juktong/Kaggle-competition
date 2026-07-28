@@ -2,18 +2,18 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "b068d7db-fe7b-4953-9b14-72f1acbcaf06",
-  "current_handle": "1e7b202f",
-  "current_task_id": "n6_public_solution_audit",
-  "last_started_at": "2026-07-28T13:18:22Z",
-  "last_finished_at": "2026-07-28T14:55:00Z",
+  "resume_session_id": "1e7b202f-f496-4cad-9212-2ca457ff2ac0",
+  "current_handle": "e7d00202",
+  "current_task_id": "n5_typewell_fingerprint_families",
+  "last_started_at": "2026-07-28T13:33:24Z",
+  "last_finished_at": "2026-07-28T14:05:00Z",
   "last_result": {
-    "task_id": "n6_public_solution_audit",
+    "task_id": "n5_typewell_fingerprint_families",
     "outcome": "completed_no_submission",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Named repo does not exist (404) - blocker recorded; audited mycarta/rogii-geosteering-toolkit (MIT) against the same intent. Their line is behind ours (OOF ~10.5 / LB ~12 vs our 8.8626 / 7.891 / 6.563). Their within-well TVT-Z decoupling (lateral-only slope +0.057, NOT -1) independently explains two of our own same-day negatives: M4 geometry-only (107.49 vs flat 15.91) and N1 centring (15.636 vs 12.518). Three independent confirmations of our closed lines; three formulations queued (n8/n7/n9).",
-    "next_task_id": "n5_typewell_fingerprint_families"
+    "headline": "N5 CLOSED inside its 30-min box: the typewell fingerprint reproduces the deployed group-key neighbour set EXACTLY on all 3 test wells (13/13, 40/40, 13/13, zero difference either way), so it adds nothing over production. Corrects M3 - the byte-hash measured FILE identity, not CURVE identity (files are truncated to different TVT ranges), so typewell sharing is common (13/40/13 near-identical curves), not rare. Byproduct: the deployed round(max(typewell.TVT),1) group key is validated as a lossless proxy, which means n8 must gain from weighting rather than membership.",
+    "next_task_id": "n8_azimuth_matched_neighbours"
   }
 }

@@ -1,38 +1,35 @@
 
 
-## Round 15 — 2026-07-28 13:18 UTC (autopilot `n6_public_solution_audit`)
+## Round 16 — 2026-07-28 13:33 UTC (autopilot `n5_typewell_fingerprint_families`)
 
-Live refresh: quota **0/5**, no Kaggle kernel running, branch in sync. `can_submit=false`; no submission,
-no data import, no code execution from any external repository.
+Live refresh: quota **0/5**, no Kaggle kernel running, branch in sync. `can_submit=false`; no submission.
+Time-boxed to 30 minutes; completed in ~2 minutes of compute.
 
-**BLOCKER on the named target.** The task names `aaryan2203/rogii-wellbore-geology-prediction-argon`;
-that repository **does not exist** (`gh api` 404; the user's 5 repos are all unrelated; `gh search repos
-"rogii argon"` returns nothing). The name reached our queue from a stale/fabricated web-search snippet in
-the `new_direction_search` round. Blocker recorded, and the task's stated intent was executed against the
-highest-signal real target: **`mycarta/rogii-geosteering-toolkit`** (MIT, methodology notes rather than a
-notebook dump).
+**The fingerprint adds nothing over the spatial gate already in production — direction closed** (the
+task's own step 3). No router was built, as instructed.
 
-**Their pipeline is not ahead of ours** — their own note records "OOF 10.5 and the public LB has clones
-around 12" against our 8.8626 / 7.891 / 6.563. The repository is a source of formulations and
-cross-checks, not of a stronger pipeline.
+Correlating each test typewell's GR-vs-TVT curve against all 773 train typewells on the overlapping TVT
+range gives a sharply **bimodal** distribution: a block at exactly 1.0000 and a bulk near 0 (p50 between
+-0.05 and +0.19). Typewells are either the same curve or unrelated — no middle ground for a similarity
+ranking to exploit. All top-5 matches per test well are already in the deployed **surviving**-neighbour
+set (5/5 for every well), and the deployed gate already passes on all three (same-group 13/40/13, closest
+mate 292/295/354 ft).
 
-**The finding that pays for the audit — within-well TVT-Z decoupling.** They measure the global
-TVT-vs-Z r = -0.96 as a BETWEEN-well structural signal, with the per-well **lateral-only slope +0.057**
-(dZ ~70-125 ft across the eval zone vs dTVT ~5-13 ft). This independently explains two of our own
-negatives from the same day:
-  - `new_direction_search` M4: our geometry-only arm imposed slope -1 and scored 107.49 vs a flat anchor
-    of 15.91. If the true within-lateral slope is ~0, -1 is close to the worst available choice.
-  - N1's centring arm: centring the DP on c = -dZ/STEP presumes the formation is flat so TVT moves
-    one-for-one against Z; on 40 wells it hurt (15.636 vs unbounded 12.518). Near-zero true slope means
-    that centring systematically overcorrects. N1 recorded the effect; this supplies the mechanism.
+**The deciding test.** The deployed group key `round(max(typewell.TVT), 1)` is truncation-sensitive by
+construction, so the worry was that wells sharing an underlying typewell but truncated differently get
+different keys. Measured directly, the near-identical set and the same-group set are **identical in both
+directions** for all three test wells (13/13, 40/40, 13/13; zero fingerprint-only, zero group-only).
 
-**Three independent confirmations of our closed lines:** Catch22 well-level features made their model
-+0.476 RMSE worse (matches our closed SSL/ROCKET line); they DROPPED the typewell-`Geology` classifier
-(matches our M1 finding that `Geology` is absent from the test schema); and they rejected spatial
-block-CV because validation wells are spatially interleaved with training — interpolation, not
-extrapolation, which leans toward the H-visible branch of our final-slot framing.
+**Correction to M3.** M3 hashed whole files and reported 0/3 test wells matching, concluding grouping was
+capped. The hashes measure **file** identity, not **curve** identity — files are truncated to different
+TVT ranges. On the overlap there are 13/40/13 near-identical train typewells per test well, so typewell
+sharing is **common, not rare**. M3 is amended in place; its conclusion (direction not worth developing)
+survives for a different reason than it stated.
 
-**Three formulations queued** (absent from our ledger and cheap): `n8_azimuth_matched_neighbours` (170),
-`n7_q3d_tortuosity_features` (180), `n9_self_correlation_prefix_template` (190).
+**Positive byproduct:** the deployed group key is validated as a lossless proxy for typewell-curve
+identity on the scored wells. This bears on the queued `n8_azimuth_matched_neighbours` — the neighbour SET
+is correctly identified, so grouping is not the weak link there; any gain must come from the weighting,
+not the membership.
 
-Report: `reports/n6_public_solution_audit_2026-07-28.md`. Next queued: `n5_typewell_fingerprint_families` (160).
+Report: `reports/n5_typewell_fingerprint_families_2026-07-28.md`. Next queued:
+`n8_azimuth_matched_neighbours` (170).

@@ -1,3 +1,3 @@
 
 
-| 15 | N6 public-solution audit | **no submit (task is `can_submit=false`; survey)** | `max_submit_cost=0`, and the audit produces no candidate output. Named target did not exist; a real substitute was audited. The one queued follow-up with a submission path (`n8_azimuth_matched_neighbours`) must still clear the 3-well gate. 0 quota used. |
+| 16 | N5 typewell fingerprint | **no submit (task is `can_submit=false`; diagnostic)** | `max_submit_cost=0`. The fingerprint reproduces the deployed group-key neighbour set exactly (13/13, 40/40, 13/13), so it yields no candidate. 0 quota used. |
