@@ -659,3 +659,49 @@ must be resampled to 30 ft+ station spacing first, or they measure quantization 
 
 Report: `reports/n7_q3d_tortuosity_features_2026-07-28.md`. Next queued:
 `n9_self_correlation_prefix_template` (190).
+
+## Round 19 — 2026-07-28 14:18 UTC (autopilot `n9_self_correlation_prefix_template`)
+
+Live refresh: quota **0/5**, no Kaggle kernel running, branch in sync. `can_submit=false`; no submission.
+Diagnostic only — no DP, no trajectory, per the task. **This was the last queued item; the queue is now
+empty.**
+
+**Step 4 first (the gating measurement).** Over 200 wells / 963,869 toe rows, using each toe row's TRUE
+TVT: **63.5%** have a prefix row within 0.5 ft, 67.4% within 2 ft, 84.8% within 10 ft; 61.8% fall inside
+the prefix TVT range at all. Coverage is ample, so the mechanism is not blocked. (13% of wells have under
+10% of toe rows in range — a caveat, not a blocker.)
+
+**One-factor comparison** at N3's exact protocol (same grid, sampling, features, MLP, TWH=1; splits BY
+WELL, 60 train / 40 validation). Only the profile source changes. One deliberate departure: only TOE rows
+are scored, since prefix rows would be trivially self-matching — so the in-run `typewell` arm is the valid
+control, and it agrees with N3's banked figure (0.7706 vs 0.7655 +/- 0.0030), a useful harness check.
+
+```
+arm          LEARNED    level   cov frac   AUC|covered   AUC|uncovered
+typewell      0.7706   0.7522     0.5833        0.7710          0.7774   <- control
+self          0.6628   0.6175     0.5833        0.7174          0.4548
+both          0.7649      --      0.5833        0.7680          0.7354
+`both` seed stability: 0.7649 0.7641 0.7524 -> mean 0.7605, std 0.0057
+```
+
+**The self arm loses by -0.108** (~19x the seed-noise scale), and `both` does not beat `typewell` alone —
+no complementary information.
+
+**The covered/uncovered split is the informative part.** The self arm reaches **0.7174 on states the
+prefix covers** but **0.4548 (below chance) on states it does not** — the mechanism works where the prefix
+has data and actively misleads where the profile was interpolated across a gap. The typewell arm shows no
+such asymmetry (0.7710 vs 0.7774) because a typewell is a continuous log.
+
+**Why the level-offset advantage did not pay off.** The premise was sound — the prefix shares one
+instrument and baseline with the toe rows, removing the cross-instrument offset N3 showed dominates. But
+it is outweighed by coverage (58.3% of states, gaps filled by harmful interpolation) and by sampling
+quality (prefix GR at a given TVT comes from a laterally-displaced horizontal traverse, not a clean
+vertical section). The level-offset problem was worth removing; it is not the binding constraint.
+
+**Banked positive:** on covered states the self template reaches 0.7174 from a source wholly independent
+of the typewell. If a future formulation needs a typewell-free emission — e.g. to test whether the
+typewell is the limiting factor — this is the measured fallback, and it must be gated on the coverage mask
+rather than interpolated.
+
+Report: `reports/n9_self_correlation_prefix_template_2026-07-28.md`. **Queue exhausted** — see the
+candidate-queue document for the state of every line.

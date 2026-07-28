@@ -244,3 +244,27 @@ scalar GR only).
 - **Retained artifact:** `scripts/n7_q3d_tortuosity.py` + per-well table
   `rogii_sprint_shared/tmp/n7_tortuosity.csv`, reusable for any trajectory-shape descriptor.
 - Next runnable: **`n9_self_correlation_prefix_template`** (190) — the last queued item.
+
+## 2026-07-28 update (N9 self-correlation) — QUEUE EXHAUSTED
+
+- **Closed: self-correlation against the lateral's own known zone.** Held-out-well AUC 0.6628 vs the
+  typewell control's 0.7706 (~19x seed noise); the combined arm 0.7605 +/- 0.0057 does not beat the
+  control either. Prefix coverage is ample (63.5% of toe rows within 0.5 ft of their true TVT), so the
+  failure is not for lack of opportunity.
+- **Mechanism isolated:** self AUC is 0.7174 on prefix-covered states but 0.4548 (below chance) on
+  uncovered ones — it works where the prefix has data and misleads where the profile was interpolated.
+  Any future use must be gated on the coverage mask, never interpolated.
+- **Banked fallback:** a typewell-independent emission measured at 0.7174 on covered states, available if
+  a future line needs to test whether the typewell itself is the limiting factor.
+
+### State of the queue
+
+All 19 rounds are complete and no task remains queued. Every direction opened by
+`new_direction_search` (N1-N9) plus the G-series has now been measured and closed, with one exception
+worth restating: **no candidate has passed the 3-well gate since `54844628`**, and the slot recommendation
+has been unchanged across all 19 rounds at `54922806` + `54844628` under all three criteria.
+
+Directions explicitly left un-queued, with their reasons recorded in the round reports: azimuth as a soft
+IDW weight (N8), MiniROCKET-style convolutional emission features (N6), G11 three-thirds TVT-vs-MD fit
+(covered by M4), G13/G14 landing-state and well-length features (N4 measured this class at CV R^2 0.074),
+G15 vintage `seq_id` features (leakage-adjacent, needs a rules check first).
