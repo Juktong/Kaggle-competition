@@ -48,3 +48,5 @@ stated justification · accurate description.
 | 18 | N7 Q-3D tortuosity | **no submit (task is `can_submit=false`; gate failed)** | `max_submit_cost=0` and the direction produces no candidate: well-level CV R^2 0.0292 vs the 0.0736 bar, row-level spearman -0.0416 with the within-well sign flipping between wells. 0 quota used. |
 
 | 19 | N9 self-correlation prefix template | **no submit (task is `can_submit=false`; gate failed)** | `max_submit_cost=0` and the direction produces no candidate: self arm 0.6628 vs the typewell control 0.7706, combined arm 0.7605 +/- 0.0057 also below control. 0 quota used. **Queue exhausted; 19 rounds, 0 submissions, quota untouched throughout.** |
+
+| 20 | Q10 TWH=1 scorer + DP | **no submit (gate's second condition fails)** | Beats flat (nested DP 12.170 vs 12.722, both folds) but does NOT materially narrow the gap to deployed (~8.86); the gate is an AND. Also tail-driven (helps 16-17 of 40 wells) and the 0.28-0.55 margin is grid-sensitive. Task step 5's condition unmet so step 6 never triggers. 0 quota used. |

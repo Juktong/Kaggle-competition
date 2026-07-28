@@ -138,3 +138,29 @@ Still open in the alignment line: the learned scorer's held-out pair AUC of 0.72
 genuine signal that no DP formulation tried so far has converted into a trajectory better than a flat
 anchor. The gap is in the *transition model*, and neither a soft distance penalty (G3.1, G3.2) nor a hard
 geometric bound (this round) closes it.
+
+---
+
+## PARTIAL REVISION (2026-07-29, from Q10) — the emission was not saturated
+
+Section 6 of this report concluded that *"the gap is in the transition model, not the emission"*. The
+measurement behind it was correct for the TWH=8 emission it used, but the generalisation was too strong.
+
+`reports/q10_twh1_scorer_dp_candidate_2026-07-29.md` re-ran this exact DP, on these exact 40 eval wells,
+with the same nested 2-fold selection, changing ONLY the emission's typewell window to N3's TWH=1:
+
+```
+TWH    held-out AUC    nested DP    flat-anchor    beats flat on
+ 1          0.7632       12.170         12.722            42.5%     <- BEATS flat
+ 8          0.7331       13.206         12.722            40.0%
+this report (TWH=8):     13.644         12.722            37.5%
+```
+
+A +0.030 AUC emission improvement moved the DP by **1.04 RMSE** and crossed the flat-anchor line, on both
+nested folds independently. **The emission does matter and had not been saturated**, so the claim that the
+gap lies wholly in the transition model is withdrawn.
+
+**What stands unchanged from this report:** the geometry band binds but does not help; centring hurts; and
+the DP family as a whole remains far from the deployed honest line (~8.86), so no member of it is a
+submission candidate. Q10's win is 12.170 — still ~37% worse than deployed, tail-driven (helps 16-17 of
+40 wells), and grid-sensitive.

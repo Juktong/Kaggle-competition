@@ -3,13 +3,18 @@
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
   "resume_session_id": "d5752c96-c2e9-45ef-b32c-dadd1a88af23",
-  "current_handle": null,
-  "current_task_id": null,
-  "last_started_at": "2026-07-28T14:18:29Z",
-  "last_finished_at": "2026-07-28T14:33:29Z",
+  "current_handle": "41f0481c",
+  "current_task_id": "q10_twh1_scorer_dp_candidate",
+  "last_started_at": "2026-07-28T17:13:17Z",
+  "last_finished_at": "2026-07-28T18:40:00Z",
   "last_result": {
-    "headline": "Queue replenished on 2026-07-29 with Q10-Q20; next task q10_twh1_scorer_dp_candidate.",
-    "next_task_id": "q10_twh1_scorer_dp_candidate"
+    "task_id": "q10_twh1_scorer_dp_candidate",
+    "outcome": "completed_no_submission",
+    "submitted": false,
+    "quota_used_today": 0,
+    "quota_remaining_today": 5,
+    "headline": "Q10: the alignment line finally beats the flat anchor under nested selection - TWH=1 emission gives nested DP 12.170 vs flat 12.722, both folds agreeing, against TWH=8 13.206 and N1 13.644; lam=60 verified as an interior optimum after extending the grid to 800. But NOT submittable: the gate is an AND and 12.170 vs deployed ~8.86 is ~37% worse, the win is tail-driven (helps 16-17 of 40 wells), and the 0.28-0.55 margin is grid-sensitive. Revises N1 - the emission was NOT saturated (+0.030 AUC bought -1.04 RMSE), so \"the gap is wholly in the transition model\" is withdrawn; N1 amended in place.",
+    "next_task_id": null
   },
   "queue_exhausted": false
 }

@@ -75,3 +75,5 @@ Deadline 2026-08-05 23:59 UTC.
 - Round 18 `n7_q3d_tortuosity_features`: **no submission** (`can_submit=false`, gate failed). Quota still **0/5 today**.
 
 - Round 19 `n9_self_correlation_prefix_template`: **no submission** (`can_submit=false`, gate failed). Quota still **0/5 today**. **Queue exhausted** — 19 rounds on 2026-07-28, zero submissions, quota never spent.
+
+- Round 20 `q10_twh1_scorer_dp_candidate`: **no submission** (beats flat but does not narrow the gap to deployed; gate is an AND). Quota still **0/5 today**.

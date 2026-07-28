@@ -705,3 +705,43 @@ rather than interpolated.
 
 Report: `reports/n9_self_correlation_prefix_template_2026-07-28.md`. **Queue exhausted** — see the
 candidate-queue document for the state of every line.
+
+## Round 20 — 2026-07-28 17:13 UTC (autopilot `q10_twh1_scorer_dp_candidate`)
+
+Live refresh: quota **0/5**, no Kaggle kernel running. `can_submit=true` but **no submission** — the gate's
+second condition fails.
+
+**The alignment line's first nested-validated win over the flat anchor.** Holding the DP, wells, protocol
+and nesting fixed and changing ONLY the emission's typewell window from TWH=8 to N3's TWH=1:
+
+```
+TWH    held-out AUC    nested DP    flat-anchor    beats flat on
+ 1          0.7632       12.170         12.722            42.5%   <- BEATS flat
+ 8          0.7331       13.206         12.722            40.0%
+N1 reference (TWH=8):    13.644         12.722            37.5%
+```
+
+Both nested folds agree independently (13.212 vs 13.540; 11.029 vs 11.847). A +0.030 AUC emission
+improvement converts into **-1.04 RMSE** on the DP.
+
+**The selected lam sat at the grid edge, so the grid was extended** (60/100/150/250/400/800 ->
+12.170/12.241/12.478/12.461/12.987/13.132). **lam=60 is a genuine interior optimum.** The DP does NOT
+degenerate to flat as lam grows (13.132 at 800, slightly worse than flat). Re-nesting over the extended
+grid gives 12.444 vs flat 12.722 — still a win but smaller, so **the margin is grid-sensitive**:
+0.55 ft (4.3%) on one grid, 0.28 ft (2.2%) on the other.
+
+**Not submittable, for three independent reasons:** (a) the gate is an AND and 12.170 vs deployed ~8.86 is
+~37% worse, so it does not narrow the gap; (b) the win is tail-driven — helps 16-17 wells, hurts 23-24 of
+40 — the same asymmetric-tail signature the ledger records before the `54878409` public regression;
+(c) the margin is smaller than the grid sensitivity. The 3-well gate was deliberately not run: it decides
+whether a candidate improves on the deployed line, and this one is far below it.
+
+**Family structure is real but unactionable:** per-well gain by typewell group key spans -1.775 to +2.173
+and is sign-consistent within most groups, but n = 2-5 per group, and a per-group router is the closed
+hard-selection pattern.
+
+**Ledger revision:** N1's conclusion that "the gap is in the transition model, not the emission" is
+**partially withdrawn** — correct for its TWH=8 emission, too strong as a generalisation. N1 is amended in
+place. What survives is that the DP family remains far from deployed.
+
+Report: `reports/q10_twh1_scorer_dp_candidate_2026-07-29.md`.

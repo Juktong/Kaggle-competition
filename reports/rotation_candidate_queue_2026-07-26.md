@@ -268,3 +268,17 @@ Directions explicitly left un-queued, with their reasons recorded in the round r
 IDW weight (N8), MiniROCKET-style convolutional emission features (N6), G11 three-thirds TVT-vs-MD fit
 (covered by M4), G13/G14 landing-state and well-length features (N4 measured this class at CV R^2 0.074),
 G15 vintage `seq_id` features (leakage-adjacent, needs a rules check first).
+
+## 2026-07-29 update (Q10 TWH=1 DP candidate)
+
+- **First nested-validated win over the flat anchor in the alignment line**: TWH=1 emission gives nested
+  DP **12.170** vs flat 12.722 (both folds agree), against TWH=8's 13.206 and N1's 13.644. lam=60 verified
+  as an interior optimum after extending the grid to 800.
+- **Still not submittable**: 12.170 vs deployed ~8.86 (~37% worse); tail-driven (helps 16-17 of 40 wells);
+  margin (0.28-0.55) is grid-sensitive. No Kaggle smoke prepared, 0 quota.
+- **Revises N1**: the emission was NOT saturated — +0.030 AUC bought -1.04 RMSE. "The gap is in the
+  transition model, not the emission" is withdrawn as a generalisation; N1 amended in place.
+- **Exchange rate now measured**, and it bounds the line: ~1 RMSE per +0.03 AUC. Closing the remaining
+  3.3 RMSE to deployed on that rate needs an implausible AUC, so emission tuning alone cannot get there.
+- **Not queued:** a per-typewell-group router over the family structure (n=2-5 per group; hard selection
+  is a closed pattern).
