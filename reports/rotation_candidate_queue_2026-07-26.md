@@ -1,16 +1,17 @@
 
 
-## 2026-07-28 update (N4 conformal per-well uncertainty)
+## 2026-07-28 update (N2 increment structural field)
 
-- **Closed: per-well confidence gating on test-available features.** CV R^2 0.074 on log(per-well OOF
-  RMSE); conditional conformal intervals are wider than the unconditional one at matched coverage
-  (13.76/13.97 vs 13.43). A gate built on `nnb` / closest-mate / prefix-fraction / GR-std / geometry would
-  be close to random. Do not re-attempt without a materially different feature source.
-- **Retained:** marginal conformal bound for the honest line — 90% of wells <= 13.43 ft, 95% <= 17.53 ft,
-  coverage verified out-of-sample. Table at `rogii_sprint_shared/tmp/n4_well_uncertainty.csv`.
-- **New constraint on all future validation:** for one fixed model, a random 3-well draw pools to
-  5th 3.491 / median 6.708 / 95th 15.138. Quote this whenever a small margin is proposed.
-- **New measured transfer gap:** OOF 4.756 on the 3 test wells vs public 7.891 = 1.659x. OOF-based bounds
-  are not leaderboard bounds.
-- Next runnable: **`n2_increment_structural_field`** (priority 120) — the only queued item with a
-  submission path.
+- **Closed: re-referencing the structural field's increment.** The deployed field is already heel-anchored
+  and level-invariant, so the intended level->increment swap is a no-op; the two constructions that DO
+  differ both fail the 3-well gate on the full 760-well split (`iso` -0.1003 pooled, 5th -1.7148;
+  `increment` -1.6840 pooled, 5th -5.5224).
+- **Corrected:** `new_direction_search` described the deployed field as interpolating the TVT level. It
+  interpolates the increment and takes the level from the target's own known heel.
+- **New anchor fact:** the deployed neighbourhood is effectively single-well — 99.38% of the k=12
+  contributing points come from the same well as the nearest point, and the nearest well essentially never
+  changes along a lateral. Any future cross-well idea should assume a single dominant neighbour.
+- **Retained:** a byte-exact reimplementation of the deployed structural field
+  (`scripts/n2_increment_structural_field.py`), reproducing the banked 8.8626 to -0.0000 on the full split.
+  Reusable for any future variant of this component.
+- Next runnable: **`n1_geometry_bounded_alignment`** (priority 130).

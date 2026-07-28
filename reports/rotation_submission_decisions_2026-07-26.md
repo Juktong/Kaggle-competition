@@ -1,3 +1,3 @@
 
 
-| 11 | N4 conformal per-well uncertainty | **no submit (task is `can_submit=false`)** | Diagnostic with `max_submit_cost=0`. Result is negative on its primary question (conditional intervals carry no per-well information and are wider than marginal at matched coverage), so it produces no candidate. Its 3-well draw distribution (5th 3.49 / 95th 15.14 for a fixed model) tightens the evidence bar for every future submission. 0 quota used. |
+| 12 | N2 increment structural field | **no submit (3-well gate fails)** | Both variants fail the corrected gate on the full 760-well split: `struct_increment_iso` 5th -1.7148, median 3-well draw -0.0001, P(gain>0) 0.4602; `struct_increment` 5th -5.5224, P(gain>0) 0.1938. The task's own step 4 ("if and only if the gate passes") therefore does not trigger. 0 quota used. |

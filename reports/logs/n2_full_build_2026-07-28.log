@@ -1,13 +1,25 @@
 targets=773  groups=54  (SMOKE_N=0)
   [0/773]
   [50/773]
-most recent call last):
-  File "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue/scripts/n2_eval_increment.py", line 87, in <module>
-    main()
-  File "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue/scripts/n2_eval_increment.py", line 38, in main
-    v = np.load(a.npz, allow_pickle=True)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ubuntu/.local/lib/python3.12/site-packages/numpy/lib/_npyio_impl.py", line 454, in load
+  [100/773]
+  [150/773]
+  [200/773]
+  [250/773]
+  [300/773]
+  [350/773]
+  [400/773]
+  [450/773]
+  [500/773]
+  [550/773]
+  [600/773]
+  [650/773]
+  [700/773]
+  [750/773]
+
+saved /home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/n2_struct_increment.npz: wells=760 rows=3721471
+nearest-point WELL identity switches on 0.0021 of consecutive row pairs (median over wells 0.0001, p90 0.0008)
+fraction of the k=12 contributing points sharing the nearest point's well: mean 0.9938  median 0.9999  p10 0.9929
+ line 454, in load
     fid = stack.enter_context(open(os.fspath(file), "rb"))
                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 FileNotFoundError: [Errno 2] No such file or directory: '/home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/n2_struct_increment.npz'

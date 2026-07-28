@@ -1,34 +1,48 @@
 
 
-## Round 11 — 2026-07-28 11:33 UTC (autopilot `n4_conformal_well_uncertainty`)
+## Round 12 — 2026-07-28 11:48 UTC (autopilot `n2_increment_structural_field`)
 
-Live refresh: quota **0/5**, no Kaggle kernel running, branch in sync. `can_submit=false`; no submission.
+Live refresh: quota **0/5**, no Kaggle kernel running, branch in sync. **No submission** — the 3-well gate
+fails for every variant, so the task's submit step never triggers.
 
-Loaded the banked OOF (`aligned_preds.npz`, column `s_54844628`, toe-only, 760 wells, 3,721,471 rows) and
-reproduced the banked pooled RMSE **8.8626** exactly before any analysis. Splits are by well (lag-1
-within-well residual autocorrelation +0.9998 makes a row split leak).
+**The task's premise turned out to be wrong, and that is the round's main finding.** Reading the builder
+behind `54844628` (`struct_oof_produce.py`), the anchor is `mean(r_true - r_pred)` over the target's own
+last 100 known heel rows, so
 
-**Marginal split conformal is valid and retained**: nominal 0.80/0.90/0.95 -> widths 9.99/13.43/17.53 ft
-with held-out coverage 0.853/0.942/0.966.
+    pred = ( r_pred - mean(r_pred over heel) ) + mean(r_true over heel) - Z
 
-**Conditional (Mondrian) conformal is a negative result.** Best feature association |spearman| 0.172
-(`nnb`); 5-fold CV R^2 on log(per-well RMSE) = **0.0736**; width separation across bins only 1.28-1.61x
-against a true 8.56x median-to-max spread. Decisively, at matched coverage the conditional intervals are
-**wider**, not narrower (13.76 / 13.97 vs marginal 13.43) — conditioning costs width. **The per-well
-confidence-gating axis flagged by the variant-matrix round is therefore closed on these features**, for
-the same reason the anti-harm guard closed at AUC 0.53: the covariates carry no per-well signal.
+The level of `r_pred` cancels **exactly**: the deployed field is already heel-anchored and
+level-invariant, i.e. **already an increment estimator**. A literal level->increment swap is a no-op. That
+"interpolates the level" description came from our own `new_direction_search` round earlier the same day
+and is corrected here.
 
-Two by-products carry more decision value than the intervals:
+Preflight was clean at both scales: the reimplementation reproduces the banked `struct_oof.npz` to
+`max|d| = 0.00000000`, and on the **full 760-well split** it reproduces the banked pooled **8.8626** to
+`-0.0000`. A tree-caching optimisation was verified byte-identical before the long run.
 
-- **The 3-well scoring scale, measured on the error level.** For one FIXED model, a random row-weighted
-  3-well draw pools to 5th **3.491** / median **6.708** / 95th **15.138**. Independent corroboration of
-  the 3-well gate doctrine, previously derived from per-well *gain* variance and now measured on the
-  error *level*.
-- **Conformal on OOF does not bound the leaderboard.** OOF on the 3 test wells **4.756** vs public
-  **7.891** = ratio **1.659**. The marginal bound is a statement about train-masked OOF only.
+**The mechanism that could have made a reformulation matter does not occur.** Full split: the
+nearest-point well identity switches on **0.0021** of consecutive row pairs (median 0.0001), and
+**99.38%** of the k=12 contributing points share the nearest point's well (p10 0.9929). The neighbourhood
+is effectively single-well — these are parallel laterals on a pad — so there is no cross-well level mixing
+to remove.
 
-The 3 visible test wells sit at fleet percentiles 0.264 / 0.480 / 0.499 — an easier-than-typical draw,
-pooling to percentile 0.207 of the 3-well draw distribution.
+Two variants measured on the full split, both failing the 3-well gate (20,000 draws):
 
-Report: `reports/n4_conformal_well_uncertainty_2026-07-28.md`. Script:
-`scripts/n4_conformal_well_uncertainty.py`. Next queued: `n2_increment_structural_field` (120).
+```
+struct_increment_iso  (one-factor: identical selection/weights, level -> within-well increment)
+    pooled 8.9629  (-0.1003)  5th -1.7148  median 3-well draw -0.0001  P(gain>0) 0.4602  GATE FAIL
+struct_increment      (per-well increment averaged across all surviving wells)
+    pooled 10.5466 (-1.6840)  5th -5.5224  median 3-well draw -1.4046  P(gain>0) 0.1938  GATE FAIL
+```
+
+Smoke (38 wells) and full agree in sign and magnitude (-0.18 -> -0.10; -1.90 -> -1.68).
+
+**Mechanistic explanation, worth keeping.** The deployed anchor subtracts *the same estimator's own value*
+at the heel, so the reference cancels exactly and the increment is self-consistent. Both variants
+substitute a *different* reference at the heel, which does not cancel and reintroduces a per-well level
+error; the damage scales with how far the new reference sits from the original. The deployed construction
+is not merely equivalent to an increment estimator — it is the **correctly referenced** one.
+
+Direction closed. Report: `reports/n2_increment_structural_field_2026-07-28.md`. Scripts:
+`scripts/n2_increment_structural_field.py`, `scripts/n2_eval_increment.py`. Next queued:
+`n1_geometry_bounded_alignment` (130).

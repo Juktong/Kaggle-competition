@@ -2,18 +2,18 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "a14f2420-8791-4af2-8d40-770de66f908f",
-  "current_handle": "881ed704",
-  "current_task_id": "n4_conformal_well_uncertainty",
-  "last_started_at": "2026-07-28T11:33:15Z",
-  "last_finished_at": "2026-07-28T11:55:00Z",
+  "resume_session_id": "881ed704-f4e5-4979-b0b0-25a5d2ad322f",
+  "current_handle": "9aa77d15",
+  "current_task_id": "n2_increment_structural_field",
+  "last_started_at": "2026-07-28T11:48:17Z",
+  "last_finished_at": "2026-07-28T12:50:00Z",
   "last_result": {
-    "task_id": "n4_conformal_well_uncertainty",
+    "task_id": "n2_increment_structural_field",
     "outcome": "completed_no_submission",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Conditional per-well uncertainty carries no usable information (CV R^2 0.074; Mondrian intervals WIDER than marginal at matched coverage) -> per-well confidence gating closed on test-available features. Marginal conformal bound retained (90% <=13.43ft). Most valuable output: for a FIXED model a random 3-well draw pools to 5th 3.491 / median 6.708 / 95th 15.138, and OOF 4.756 on the 3 test wells vs public 7.891 = 1.659x transfer gap.",
-    "next_task_id": "n2_increment_structural_field"
+    "headline": "N2 CLOSED. The task premise did not hold: the deployed structural field is already heel-anchored and level-invariant, so the intended level->increment swap is a no-op. The two constructions that do differ both fail the 3-well gate on the full 760-well split (iso -0.1003 pooled, 5th -1.7148, median 3-well draw -0.0001; increment -1.6840, 5th -5.5224). Reimplementation reproduces the banked 8.8626 to -0.0000. New anchor fact: the neighbourhood is effectively single-well (99.38% of k=12 points share the nearest well).",
+    "next_task_id": "n1_geometry_bounded_alignment"
   }
 }

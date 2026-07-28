@@ -1,3 +1,3 @@
 
 
-- Round 11 `n4_conformal_well_uncertainty`: **no submission** (`can_submit=false`). Quota still **0/5 today**.
+- Round 12 `n2_increment_structural_field`: **no submission** (3-well gate fails for both variants). Quota still **0/5 today**.

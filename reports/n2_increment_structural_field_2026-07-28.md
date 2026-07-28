@@ -105,12 +105,55 @@ reference sits from the original: `iso` changes it slightly (−0.18), the all-w
 lot (−1.90). The deployed construction is not merely equivalent to an increment estimator — it is the
 *correctly referenced* one, and that is a property worth recording.
 
+### 4b. Full split (760 wells, 3,721,471 rows) — the requested nested-OOF numbers
+
+The builder was then run over the whole split. Its reproduction of the deployed field lands on the banked
+figure exactly, which validates the full-scale run before any variant is read:
+
+```
+variant                         rows    pooled    vs 8.8626
+struct_deployed_repro        3721471    8.8626      -0.0000     <- exact reproduction
+struct_increment_iso         3721471    8.9629      -0.1003
+struct_increment             3721471   10.5466      -1.6840
+```
+
+3-well gate against the deployed `54844628`, 20,000 draws:
+
+```
+struct_increment_iso        [760 wells]
+  pooled gain vs deployed: -0.1003
+  per-well gain: mean -0.1005  median +0.0000  std 1.3319 | helped 40.8%  hurt 45.7%
+  3-WELL bootstrap: 1st -3.6476  5th -1.7148  25th -0.1548  50th -0.0001  95th +1.0264
+  P(gain>0) = 0.4602
+  760-well REFERENCE (not a gate): mean -0.1011  5th -0.2261
+  actual 3 test wells (OOF proxy): -2.9738
+  GATE PASS: False   (conditional: False)
+
+struct_increment            [760 wells]
+  pooled gain vs deployed: -1.6839
+  per-well gain: mean -1.4451  median -0.6856  std 3.0398 | helped 24.6%  hurt 61.8%
+  3-WELL bootstrap: 1st -8.0138  5th -5.5224  25th -2.9110  50th -1.4046  95th +1.3749
+  P(gain>0) = 0.1938
+  760-well REFERENCE (not a gate): mean -1.6864  5th -2.0130
+  actual 3 test wells (OOF proxy): -1.9368
+  GATE PASS: False   (conditional: False)
+```
+
+Full-split mechanism metrics match the smoke: nearest-point well identity switches on 0.0021 of
+consecutive row pairs (median 0.0001), and 99.38% of the k=12 contributing points share the nearest
+point's well (p10 0.9929).
+
+Smoke and full agree in sign and magnitude (`iso` −0.18 → −0.10; `increment` −1.90 → −1.68), so the
+38-well smoke was a faithful preview and neither variant improves at scale.
+
 ## 5. Gate decision
 
 Step 4 of the task ("if and only if the 3-well gate passes, run the pre-submit audit and the submit
-gate") does not trigger. Both variants fail the corrected gate: 5th percentile −2.16 and −5.42, both far
-below 0, and `struct_increment_iso`'s median gain is +0.0002 — i.e. at best indistinguishable from the
-deployed field, which is exactly what section 1 predicts algebraically.
+gate") does not trigger. Both variants fail the corrected gate on the full split: 5th percentile
+**−1.7148** and **−5.5224**, both far below 0. `struct_increment_iso`'s median per-well gain is
+**+0.0000** and its median 3-well draw is **−0.0001** — i.e. at best indistinguishable from the deployed
+field, which is exactly what section 1 predicts algebraically. Note also that on the actual 3 test wells
+the OOF proxy gain is **−2.9738** for `iso`, far worse than its fleet average.
 
 The N4 result from the previous round sharpens this: for one fixed model, a random 3-well draw already
 spans 3.49 → 15.14 pooled RMSE, so a candidate whose median gain is +0.0002 carries no usable signal at
