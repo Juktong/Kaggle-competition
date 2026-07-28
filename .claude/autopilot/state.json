@@ -2,19 +2,14 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "3ac4b330-3d11-40f9-b436-2335f03093fd",
-  "current_handle": "d5752c96",
-  "current_task_id": "n9_self_correlation_prefix_template",
+  "resume_session_id": "d5752c96-c2e9-45ef-b32c-dadd1a88af23",
+  "current_handle": null,
+  "current_task_id": null,
   "last_started_at": "2026-07-28T14:18:29Z",
-  "last_finished_at": "2026-07-28T15:55:00Z",
+  "last_finished_at": "2026-07-28T14:33:29Z",
   "last_result": {
-    "task_id": "n9_self_correlation_prefix_template",
-    "outcome": "completed_no_submission",
-    "submitted": false,
-    "quota_used_today": 0,
-    "quota_remaining_today": 5,
-    "headline": "N9 closed: self-correlation is real but weaker than the typewell. Prefix coverage is ample (63.5% of toe rows within 0.5ft of true TVT) so the failure is not for lack of opportunity: held-out-WELL AUC 0.6628 vs the typewell control 0.7706, and the combined arm (0.7605 +/- 0.0057) does not beat the control either. Mechanism isolated: 0.7174 on prefix-covered states vs 0.4548 (below chance) on uncovered, so the interpolation fallback is harmful and any future use must be coverage-gated. QUEUE NOW EXHAUSTED: 19 rounds on 2026-07-28, zero submissions, quota never spent, slot recommendation unchanged throughout at 54922806 + 54844628.",
-    "next_task_id": null
+    "headline": "Queue replenished on 2026-07-29 with Q10-Q20; next task q10_twh1_scorer_dp_candidate.",
+    "next_task_id": "q10_twh1_scorer_dp_candidate"
   },
-  "queue_exhausted": true
+  "queue_exhausted": false
 }
