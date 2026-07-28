@@ -90,6 +90,13 @@ against source and run logs (`reports/frontier_dependency_provenance_audit_2026-
 > **guard-rejected at runtime** (`p95 diff 29.464 > 25.000`, `selected_for_submission_csv = False`), and
 > five datasets are **vestigial** (zero source references, zero log appearances).
 
+**Amended same day (variant-matrix round).** The ≈0.047 above was derived on the assumption that the
+other post-SP45 stages were inert. That assumption was wrong: the **PF bimodal branch hedge applies
++2.0 ft to all 4,301 rows of `00e12e8b`** (`reports/frontier_variant_matrix_lite_2026-07-28.md`). So
+`54990075` and `54968060` differ across **two** active stages, and ≈0.047 is a **joint upper bound** for
+the learned-trajectory blend *and* the bimodal hedge — the `fleongg` dataset's own share can only be
+smaller. The dependency count (one prediction-affecting third-party dataset) is unaffected.
+
 **The slot recommendation is unchanged** — all three criteria still converge on
 `54922806 + 54844628`. What changes is the *argument*: the frontier's dependency exposure is a single
 quantified dataset worth ≈0.047, not a nine-dataset surface. Provenance-first still prefers `54844628`
