@@ -1,38 +1,38 @@
 
 
-## Round 14 — 2026-07-28 13:03 UTC (autopilot `n3_multiscale_gr_matching`)
+## Round 15 — 2026-07-28 13:18 UTC (autopilot `n6_public_solution_audit`)
 
-Live refresh: quota **0/5**, no Kaggle kernel running, branch in sync. `can_submit=false`; no submission.
+Live refresh: quota **0/5**, no Kaggle kernel running, branch in sync. `can_submit=false`; no submission,
+no data import, no code execution from any external repository.
 
-**Task question answered negatively; the diagnostic then located the real lever.**
+**BLOCKER on the named target.** The task names `aaryan2203/rogii-wellbore-geology-prediction-argon`;
+that repository **does not exist** (`gh api` 404; the user's 5 repos are all unrelated; `gh search repos
+"rogii argon"` returns nothing). The name reached our queue from a stale/fabricated web-search snippet in
+the `new_direction_search` round. Blocker recorded, and the task's stated intent was executed against the
+highest-signal real target: **`mycarta/rogii-geosteering-toolkit`** (MIT, methodology notes rather than a
+notebook dump).
 
-First, the premise checks out: G3.2's docstring claims it fixed the ~34x extent mismatch, but measured on
-the same wells its 33-row horizontal window spans **0.525 ft** of TVT against a **17 ft** typewell window
-— still ~32x. The mismatch was moved, not removed.
+**Their pipeline is not ahead of ours** — their own note records "OOF 10.5 and the public LB has clones
+around 12" against our 8.8626 / 7.891 / 6.563. The repository is a source of formulations and
+cross-checks, not of a stronger pipeline.
 
-`pywt` is absent, so an undecimated (a-trous) Haar transform was implemented explicitly — length-preserving,
-which matters because `tfeat` indexes the profile by state.
+**The finding that pays for the audit — within-well TVT-Z decoupling.** They measure the global
+TVT-vs-Z r = -0.96 as a BETWEEN-well structural signal, with the per-well **lateral-only slope +0.057**
+(dZ ~70-125 ft across the eval zone vs dTVT ~5-13 ft). This independently explains two of our own
+negatives from the same day:
+  - `new_direction_search` M4: our geometry-only arm imposed slope -1 and scored 107.49 vs a flat anchor
+    of 15.91. If the true within-lateral slope is ~0, -1 is close to the worst available choice.
+  - N1's centring arm: centring the DP on c = -dZ/STEP presumes the formation is flat so TVT moves
+    one-for-one against Z; on 40 wells it hurt (15.636 vs unbounded 12.518). Near-zero true slope means
+    that centring systematically overcorrects. N1 recorded the effect; this supplies the mechanism.
 
-**Phase A (AUC per level, G3.2 protocol).** No level exceeds 0.7242. Best is `A0` (raw, 1 ft) at 0.7160
-— the G3.2 reproduction — and AUC falls monotonically as the approximation coarsens (0.7160 -> 0.6573 at
-16 ft); detail bands sit at 0.605-0.633. **NCC is at chance in all nine bands (0.490-0.517)**, so the
-shape-matching failure is NOT a scale artefact and decomposition cannot recover it. Coarse-to-fine is
-closed as a remedy for this line.
+**Three independent confirmations of our closed lines:** Catch22 well-level features made their model
++0.476 RMSE worse (matches our closed SSL/ROCKET line); they DROPPED the typewell-`Geology` classifier
+(matches our M1 finding that `Geology` is absent from the test schema); and they rejected spatial
+block-CV because validation wells are spatially interleaved with training — interpolation, not
+extrapolation, which leans toward the H-visible branch of our final-slot framing.
 
-**Phase B — the lever is the typewell WINDOW, not the wavelet scale.** On disjoint wells (60 train / 40
-val), narrowing TWH from 8 (17 ft) to 1 (3 ft) raises AUC 0.7300 -> **0.7655** (5 seeds, +/-0.0030 vs
-+/-0.0028; delta +0.0355 = **8.7x the seed-noise scale**). The **no-training** level score rises
-0.6450 -> **0.7352**, monotonically across all six widths — above G3.2's trained 0.7242. This vindicates
-the extent-mismatch diagnosis while refuting the proposed remedy: match the window to the ~0.5 ft the
-horizontal side actually spans, rather than decomposing into scales.
+**Three formulations queued** (absent from our ledger and cheap): `n8_azimuth_matched_neighbours` (170),
+`n7_q3d_tortuosity_features` (180), `n9_self_correlation_prefix_template` (190).
 
-**Protocol warning carried forward:** G3.2's random PAIR split mis-ranks the windows (it picks TWH=32 at
-0.7476 where the well split picks TWH=1) and understates absolute AUC. Pairs from one well share a
-typewell and GR baseline, so a pair split does not measure transfer. **Every future scorer comparison in
-this line must split by well.**
-
-**Not reopening N1.** N1 showed the same day that the DP fails to beat the flat anchor under nested
-selection and that the gap is in the transition model, not the emission; +0.036 AUC on the emission does
-not address that. TWH=1 is banked as a verified, seed-stable scorer improvement for future use.
-
-Report: `reports/n3_multiscale_gr_matching_2026-07-28.md`. Next queued: `n6_public_solution_audit` (150).
+Report: `reports/n6_public_solution_audit_2026-07-28.md`. Next queued: `n5_typewell_fingerprint_families` (160).

@@ -1,13 +1,22 @@
 
 
-## 2026-07-28 update (N3 multi-scale GR matching)
+## 2026-07-28 update (N6 public-solution audit)
 
-- **Closed: coarse-to-fine wavelet decomposition as the fix for the GR-scorer line.** No level exceeds
-  G3.2's 0.7242; the raw band is best (0.7160) and AUC falls monotonically with coarser approximation
-  (0.6573 at 16 ft). NCC is at chance in all 9 bands, so shape matching is not a scale problem.
-- **Banked positive: typewell window TWH=1 (3 ft).** Held-out-WELL AUC 0.7655 +/- 0.0030 (5 seeds) vs
-  0.7300 +/- 0.0028 at G3.2's TWH=8 — +0.0355, 8.7x seed noise. A **no-training** level score reaches
-  0.7352, above G3.2's trained 0.7242. Available to any future alignment work.
-- **New standing protocol rule:** scorer comparisons must split by WELL, not by pair. G3.2's pair split
-  ranked the windows wrongly (chose TWH=32; the well split chooses TWH=1) and understated absolute AUC.
-- Next runnable: **`n6_public_solution_audit`** (priority 150), then `n5` (160).
+- **Blocker:** the queued target `aaryan2203/rogii-wellbore-geology-prediction-argon` does not exist (404;
+  the name came from a stale web-search snippet). Audited `mycarta/rogii-geosteering-toolkit` (MIT)
+  instead — same intent, real target.
+- **Newly queued from the audit:**
+  - `n8_azimuth_matched_neighbours` (170) — azimuth-similarity filter on the structural field's neighbour
+    selection; the only cross-well component with a confirmed honest gain, and N2 left a byte-exact
+    reimplementation to modify. **The one queued item with a submission path.**
+  - `n7_q3d_tortuosity_features` (180) — Q-3D tortuosity (Jing et al. 2022) was their largest single-group
+    ablation gain (-0.107 RMSE) and is fully test-available from MD/X/Y/Z. Gate it against N4's CV R^2
+    0.074 bar before touching the model.
+  - `n9_self_correlation_prefix_template` (190) — the lateral's own known zone as the matching template;
+    removes the cross-instrument level offset, which is the cue N3 showed dominates.
+- **Confirmed closed by an independent party:** Catch22/AEON well-level features (+0.476 worse for them),
+  typewell-`Geology` classifier (they dropped it; we measured `Geology` absent from the test schema).
+- **Do not re-attempt** from their stack: G11 three-thirds TVT-vs-MD fit (covered by M4), G13/G14
+  landing-state and well-length features (N4 measured CV R^2 0.074 for this feature class), G15 vintage
+  `seq_id` features (leakage-adjacent, needs a rules check first).
+- Next runnable: **`n5_typewell_fingerprint_families`** (priority 160, time-boxed 30 min).

@@ -1,3 +1,3 @@
 
 
-- Round 14 `n3_multiscale_gr_matching`: **no submission** (`can_submit=false`, diagnostic). Quota still **0/5 today**.
+- Round 15 `n6_public_solution_audit`: **no submission** (`can_submit=false`, survey; named repo 404, substitute audited). Quota still **0/5 today**.

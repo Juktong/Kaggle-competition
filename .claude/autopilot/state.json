@@ -2,18 +2,18 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "48f811b6-c7f6-40de-91be-b8a2a2f8108b",
-  "current_handle": "b068d7db",
-  "current_task_id": "n3_multiscale_gr_matching",
-  "last_started_at": "2026-07-28T13:03:20Z",
-  "last_finished_at": "2026-07-28T14:20:00Z",
+  "resume_session_id": "b068d7db-fe7b-4953-9b14-72f1acbcaf06",
+  "current_handle": "1e7b202f",
+  "current_task_id": "n6_public_solution_audit",
+  "last_started_at": "2026-07-28T13:18:22Z",
+  "last_finished_at": "2026-07-28T14:55:00Z",
   "last_result": {
-    "task_id": "n3_multiscale_gr_matching",
+    "task_id": "n6_public_solution_audit",
     "outcome": "completed_no_submission",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "N3: multi-scale decomposition CLOSED as a remedy - no level exceeds G3.2 0.7242, the raw band is best (0.7160), AUC falls monotonically with coarser scale, and NCC is at chance in all 9 bands. The diagnostic instead located the real lever: narrowing the typewell window from 17ft to 3ft raises held-out-WELL AUC 0.7300 -> 0.7655 (8.7x seed noise) and the NO-TRAINING level score 0.6450 -> 0.7352, above G3.2 trained 0.7242. New protocol rule: scorer comparisons must split by WELL, not by pair.",
-    "next_task_id": "n6_public_solution_audit"
+    "headline": "Named repo does not exist (404) - blocker recorded; audited mycarta/rogii-geosteering-toolkit (MIT) against the same intent. Their line is behind ours (OOF ~10.5 / LB ~12 vs our 8.8626 / 7.891 / 6.563). Their within-well TVT-Z decoupling (lateral-only slope +0.057, NOT -1) independently explains two of our own same-day negatives: M4 geometry-only (107.49 vs flat 15.91) and N1 centring (15.636 vs 12.518). Three independent confirmations of our closed lines; three formulations queued (n8/n7/n9).",
+    "next_task_id": "n5_typewell_fingerprint_families"
   }
 }
