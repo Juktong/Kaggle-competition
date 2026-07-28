@@ -2,18 +2,18 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "9aa77d15-c702-4012-9dd4-8c8f1d7b6d47",
-  "current_handle": "48f811b6",
-  "current_task_id": "n1_geometry_bounded_alignment",
-  "last_started_at": "2026-07-28T12:48:19Z",
-  "last_finished_at": "2026-07-28T13:40:00Z",
+  "resume_session_id": "48f811b6-c7f6-40de-91be-b8a2a2f8108b",
+  "current_handle": "b068d7db",
+  "current_task_id": "n3_multiscale_gr_matching",
+  "last_started_at": "2026-07-28T13:03:20Z",
+  "last_finished_at": "2026-07-28T14:20:00Z",
   "last_result": {
-    "task_id": "n1_geometry_bounded_alignment",
+    "task_id": "n3_multiscale_gr_matching",
     "outcome": "completed_no_submission",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "N1 negative. The geometry band binds 83-91% of transitions but does not improve the DP: on 40 eval wells the unbounded control wins (12.518) and a 12-well apparent 25% gain (9.412) vanished (15.569). Nested 2-fold selection gives DP 13.644 vs flat-anchor 12.722 - does not beat flat. This also AMENDS G3.2 from earlier today: its \"DP beats flat\" selected lam on the reported wells and does not survive nesting; the scorer AUC 0.7242 vs NCC 0.5010 still stands. Band buys stability, not accuracy.",
-    "next_task_id": "n3_multiscale_gr_matching"
+    "headline": "N3: multi-scale decomposition CLOSED as a remedy - no level exceeds G3.2 0.7242, the raw band is best (0.7160), AUC falls monotonically with coarser scale, and NCC is at chance in all 9 bands. The diagnostic instead located the real lever: narrowing the typewell window from 17ft to 3ft raises held-out-WELL AUC 0.7300 -> 0.7655 (8.7x seed noise) and the NO-TRAINING level score 0.6450 -> 0.7352, above G3.2 trained 0.7242. New protocol rule: scorer comparisons must split by WELL, not by pair.",
+    "next_task_id": "n6_public_solution_audit"
   }
 }

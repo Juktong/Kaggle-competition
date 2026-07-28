@@ -1,3 +1,3 @@
 
 
-| 13 | N1 geometry-bounded alignment | **no submit (task is `can_submit=false`; result negative)** | Diagnostic with `max_submit_cost=0`. The band binds but does not improve: on 40 wells the unbounded control is best (12.518) and nested selection yields DP 13.644 vs flat-anchor 12.722. Task step 5's scale-up condition is not met. 0 quota used. |
+| 14 | N3 multi-scale GR matching | **no submit (task is `can_submit=false`; diagnostic)** | `max_submit_cost=0`. No decomposition level met the 0.7242 handoff gate. The one positive (typewell window TWH=1, well-split AUC 0.7655) is an emission-side improvement, and N1 established the same day that the alignment gap is in the transition model — so it produces no candidate. 0 quota used. |
