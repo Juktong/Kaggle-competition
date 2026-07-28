@@ -846,3 +846,61 @@ pandas `.cov()` method under attribute access, in both `groupby('well').cov` and
 
 Report: `reports/q12_coverage_gated_self_template_2026-07-29.md`. Next queued:
 `q13_twh1_self_hybrid_emission` (230).
+
+## Round 23 — 2026-07-28 18:58 UTC (autopilot `q13_twh1_self_hybrid_emission`)
+
+Live refresh: quota **0/5**, no Kaggle kernel running. `can_submit=true` but **no submission** — no nested
+gain, so step 5 never triggers.
+
+**Two of the three proposed ingredients were already settled**, so only the untested one was run. Q12's
+`both` arm IS a naive typewell+self hybrid emission (+0.0012, a coin flip), and Q12 also disproved the
+prefix-coverage gate (corr 0.0604 / 0.0867). The untested ingredient was the **typewell-UNCERTAINTY**
+gate, which N9/Q12 could not measure because they scored only two candidate states per row. Q13 computes
+the FULL emission profile over all states for both templates, making the gate measurable.
+
+**At the emission level the hybrid clearly helps** (40 held-out wells, 19,083 rows, |argmax error| ft):
+
+```
+w        mean     median      p90   within 5ft          margin band     n   tw-only    w=1
+0     185.756    137.520   412.920       0.045          0.00-0.00    3817   209.919  -63.970
+0.25  162.816    120.750   386.266       0.054          0.00-0.01    3816   198.068  -51.540
+0.5   156.445    115.640   385.890       0.046          0.01-0.01    3817   186.767  -39.457
+1     149.408    112.420   383.858       0.036          0.01-0.02    3816   174.083  -24.026
+                                                        0.02-0.48    3817   159.944   -2.750
+helps 67.5% of eval wells, mean delta -31.4 ft          (negative = hybrid helps)
+```
+
+The uncertainty gate stratifies **perfectly monotonically** — the first gating variable in this project to
+do so. Self helps most exactly where the typewell emission is ambiguous, neutral-to-harmful where it is
+confident.
+
+**Through the DP the sign REVERSES** (Q10's transition rule, lam nested on disjoint well halves):
+
+```
+w        lam=5   lam=10   lam=20   lam=60  lam=100     nested
+0       16.089   14.368   13.297   12.772   12.861     12.861   <- best
+0.25    20.530   16.021   14.452   13.177   13.031     14.479
+0.5     22.921   17.981   15.551   13.656   13.256     13.256
+1       30.378   21.966   16.610   14.501   13.789     13.789
+flat-anchor 12.722 | deployed honest 8.8626 | Q10 typewell-only DP 12.170
+```
+
+Every self weight makes the trajectory worse, monotonically in w at every lam.
+
+**WHY — a mechanism not previously in the ledger.** The self emission is coverage-masked: zero on states
+the prefix never visited. That applies a systematic pull toward the prefix's TVT range. Pointwise this is
+a good bet (N9: 63.5% of toe rows lie within 0.5 ft of a covered state), so per-row accuracy rises. But a
+trajectory is an integral of transitions, so a constant directional pull does not average out — it
+accumulates. And the toe's whole difficulty is that it DRIFTS AWAY from the prefix range (60.3% of
+residual variance is a per-well offset dominated by drift, slope std 13.28 ft). The hybrid pulls the path
+against precisely the component that dominates the error. The improvement is MARGINAL; the damage is
+CUMULATIVE.
+
+**Generalisable rule now recorded:** *a pointwise emission metric is not a valid proxy for trajectory
+quality when the emission modification carries a directional bias.* Emission AUC / argmax accuracy must
+never again be accepted as evidence for a DP candidate without running the DP. Q10 measured the exchange
+rate in the favourable direction (+0.03 AUC bought -1.04 RMSE); Q13 shows it can be NEGATIVE when the
+emission gain comes from a bias rather than from sharper discrimination.
+
+Report: `reports/q13_twh1_self_hybrid_emission_2026-07-29.md`. Next queued:
+`q14_frontier_bimodal_hedge_weight_scan` (240).

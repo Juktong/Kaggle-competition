@@ -310,3 +310,20 @@ G15 vintage `seq_id` features (leakage-adjacent, needs a rules check first).
   q13 should treat that as its prior and check first whether it proposes anything materially different
   from the `both` arm before spending a full implementation.
 - Next runnable: **`q13_twh1_self_hybrid_emission`** (230).
+
+## 2026-07-29 update (Q13 hybrid emission)
+
+- **Closed: the typewell+self hybrid emission.** No nested gain — w=0 (typewell only) is best at 12.861;
+  every self weight is worse (13.256-14.479), monotonically in w at every lam.
+- **The headline finding is a mechanism, not a number:** the hybrid is clearly BETTER pointwise
+  (|argmax error| 185.8 -> 149.4 ft, helping 67.5% of wells) and clearly WORSE as a trajectory. The self
+  emission's coverage mask applies a directional pull toward the prefix TVT range: a good per-row bet
+  (63.5% coverage) but a systematic error once chained, and it pulls against drift, which dominates the
+  residual.
+- **NEW STANDING RULE:** a pointwise emission metric is not a valid proxy for trajectory quality when the
+  modification carries a directional bias. Never accept emission AUC / argmax accuracy as evidence for a
+  DP candidate without running the DP.
+- **Retained:** the typewell-uncertainty gate (top1-top2 margin) is real, test-available and monotone at
+  the emission level — the first gating variable in this project that stratifies cleanly. Available if a
+  future line needs confidence modulation, with the Q13 caveat attached.
+- Next runnable: **`q14_frontier_bimodal_hedge_weight_scan`** (240).

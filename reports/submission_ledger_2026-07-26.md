@@ -81,3 +81,5 @@ Deadline 2026-08-05 23:59 UTC.
 - Round 21 `q11_twh1_pf_seed_ranker`: **no submission** (every ranker arm loses to the PF mean default). Quota still **0/5 today**.
 
 - Round 22 `q12_coverage_gated_self_template`: **no submission** (coverage does not stratify the effect). Quota still **0/5 today**.
+
+- Round 23 `q13_twh1_self_hybrid_emission`: **no submission** (emission gain reverses sign through the DP). Quota still **0/5 today**.

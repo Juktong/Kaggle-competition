@@ -54,3 +54,5 @@ stated justification · accurate description.
 | 21 | Q11 TWH=1 PF path ranker | **no submit (no positive nested evidence)** | All three ranker arms lose to the PF mean default on 40 held-out wells (prior -0.3985, TWH1 -0.5604, both -0.1897); best arm helps only 40% of wells with 3-well P(gain>0) 0.2696. Step 5's condition unmet so step 6 never triggers. 0 quota used. |
 
 | 22 | Q12 coverage-gated self template | **no submit (no coverage band favours self)** | `self` negative in all five coverage bands (-0.005 to -0.149); `both` pooled +0.0012, beating typewell on 51.7% of wells; corr(coverage, effect) 0.0867 / 0.0604 so the gate carries no stratifying information. Step 5's condition unmet so step 6 never triggers. 0 quota used. |
+
+| 23 | Q13 typewell+self hybrid emission | **no submit (no nested gain)** | Nested DP: w=0 (typewell only) 12.861 is best; hybrid weights 13.256-14.479, monotonically worse in w. The emission-level gain (|argmax error| -19.6%) reverses sign through the DP. Step 4's close-and-record branch applies. 0 quota used. |
