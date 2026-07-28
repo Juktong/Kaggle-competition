@@ -980,3 +980,14 @@ next round.
 
 **`q15_frontier_dependency_replacement` was not started this round** — see the candidate-queue note for
 the exact carry-forward.
+
+### Addendum to Round 25 — scoring latency in a kernels-only competition
+
+`55064411` remained `PENDING` for 45+ minutes with an empty `error_description`. This is expected, not
+anomalous: because the competition is **kernels-only**, submitting causes Kaggle to **re-run the kernel**
+on the hidden test set, so scoring latency tracks the kernel's own runtime (~1 hour for this frontier
+pipeline) rather than the minutes a plain file submission takes.
+
+**Carry-forward rule:** poll submission status on an hour-scale cadence in this competition, and never
+treat a sub-hour `PENDING` as a failure or a reason to resubmit. Quota confirmed at **1/5** for
+2026-07-28.

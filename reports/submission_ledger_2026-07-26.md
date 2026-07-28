@@ -83,3 +83,14 @@ Deadline 2026-08-05 23:59 UTC.
 - Round 22 `q12_coverage_gated_self_template`: **no submission** (coverage does not stratify the effect). Quota still **0/5 today**.
 
 - Round 23 `q13_twh1_self_hybrid_emission`: **no submission** (emission gain reverses sign through the DP). Quota still **0/5 today**.
+
+- Round 25 `q14 collect + submit`: **SUBMITTED ref `55064411`** — frontier hedge-OFF
+  (`_BH_CAP 2.00 -> 0.00`), kernel `joezzzzz/rogii-frontier-hedgeoff-full` v1, commit `f491826`,
+  output sha256 `4eec813b1213c94d`. Quota **1/5**. Audit HARD PASS; non-homogeneous (rmse 1.756 vs
+  54968060). **Public score still PENDING at hand-off (~45 min).**
+
+  **Operational fact worth carrying:** this is a **kernels-only** competition, so submitting re-runs the
+  kernel against the hidden test set. Scoring latency therefore tracks **kernel runtime (~1 hour)**, not
+  the few minutes typical of file submissions. A `PENDING` status at 20-45 minutes is normal here and is
+  not evidence of a problem — do not resubmit or assume failure on that basis. Poll on an hour-scale
+  cadence.

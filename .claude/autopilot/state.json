@@ -23,7 +23,8 @@
     "ref": 55064411,
     "kernel": "joezzzzz/rogii-frontier-hedgeoff-full",
     "version": 1,
-    "status": "PENDING at hand-off",
-    "next_action": "record the public score in submission_ledger + final_slot package; if <= 6.563 re-evaluate slot 1 on provenance (own account vs teammate)"
+    "status": "PENDING at 45+ min (normal for kernels-only: scoring re-runs the kernel, ~1h)",
+    "next_action": "record the public score in submission_ledger + final_slot package; if <= 6.563 re-evaluate slot 1 on provenance (own account vs teammate)",
+    "poll_cadence": "hour-scale; a sub-hour PENDING is not a failure"
   }
 }
