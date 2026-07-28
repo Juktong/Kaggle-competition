@@ -39,3 +39,13 @@ a question that no local evidence could settle.
 Slot recommendation after this result (all three criteria converge):
 **slot 1 `54922806` (6.563) + slot 2 `54844628` (7.891)** — see
 `reports/final_slot_package_corrected_gate_2026-07-26.md`.
+
+## 2026-07-28 (autopilot rounds 4–5)
+
+**Quota used today: 0 of 5.** No submission. Board unchanged since `54990075` (6.690, 07-26).
+Deadline 2026-08-05 23:59 UTC.
+
+- Round 4 `live_refresh_and_decision`: state refreshed, queue advanced.
+- Round 5 `g35_honest_prefix_calibration`: **closed on evidence, no submission** — the prefix-cut
+  calibration prerequisite does not hold once the same-run confound is removed.
+

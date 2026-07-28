@@ -19,3 +19,6 @@ stated justification · accurate description.
 - A small public difference on 3 wells is not by itself a reason to submit (config-variance floor ≈0.115).
 - The train-copy proxy **saturates** (near-exact retrieval buys only ~0.080 public), so a proxy gain is
   supporting evidence, never sufficient evidence.
+
+| 5 | G3.5 honest prefix calibration | **no submit (closed on evidence)** | Local smoke prerequisite failed: the deployment-honest prefix-cut signal explains only 3.5%/0.5% of toe-bias variance (in-sample upper bound); the apparent 43.4% was a same-run confound. Submit gate never reached — nothing was carried past the smoke. 0 quota used. |
+

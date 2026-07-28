@@ -145,3 +145,26 @@ Following tasks in queue order: `g13_dependency_provenance_audit` (no GPU, no su
 `g32_learned_alignment_smoke`, `g33_multi_hypothesis_smoke`, `frontier_variant_matrix_lite`,
 `new_direction_search`, `status_summary_for_user`.
 
+## Round 5 — 2026-07-28 05:48 UTC (autopilot `g35_honest_prefix_calibration`)
+
+Live refresh: quota **0/5** at start and **0/5 at end** (no submission); no Kaggle kernels running; git
+in sync with `juktong`; `origin/main` unchanged at `a589fa8`.
+
+**G3.5 closed on evidence** — `reports/g35_honest_prefix_calibration_2026-07-28.md`. The honest line
+already anchors on its own last 100 known heel rows, so the only untried mechanism was the frontier's
+**prefix-cut self-calibration**. Its prerequisite was tested before building anything and does not hold:
+
+```
+CUT 0.70   confounded 43.4%  ->  deployment-honest  3.5%   (in-sample upper bound 3.4%)
+CUT 0.50   confounded 14.1%  ->  deployment-honest  0.5%   (in-sample upper bound 0.4%)
+```
+
+The apparent signal was almost entirely a **confound**: taking the calibration signal and its target from
+the same truncated run makes them share the shorter-prefix degradation. Pairing a truncated-run signal
+with a full-prefix target — the only pairing that exists at inference — drops explained variance by 3–4×.
+
+No variant was built, no Kaggle smoke/full was launched, **no submission** (submit gate never reached,
+since the local smoke produced nothing to carry forward). `54844628` unchanged.
+
+**Standing rule added:** never measure a calibration signal and its target on the same truncated run.
+

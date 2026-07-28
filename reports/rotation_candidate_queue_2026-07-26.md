@@ -51,3 +51,13 @@ Revised order:
    criteria now place in slot 2.
 4. G3.2 / G3.3 — higher cost, weaker prior support.
 5. G (variant matrix) — deprioritised per above.
+
+## 2026-07-28 update
+
+- **G3.5 honest prefix calibration — closed on evidence.** Deployment-honest prefix-cut signal explains
+  3.5% (CUT 0.70) / 0.5% (CUT 0.50) of toe-bias variance, in-sample upper bound; the apparent 43.4% was a
+  same-run confound. Weaker than the raw heel level (~5–17%) already exploited by the deployed anchor.
+  0 quota used. Report: `reports/g35_honest_prefix_calibration_2026-07-28.md`.
+- Next runnable: **`g13_dependency_provenance_audit`** (priority 20, no GPU, `can_submit=false`) — closes
+  the one open reservation about the frontier line's third-party dataset dependencies.
+
