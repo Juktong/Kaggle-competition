@@ -52,3 +52,5 @@ stated justification · accurate description.
 | 20 | Q10 TWH=1 scorer + DP | **no submit (gate's second condition fails)** | Beats flat (nested DP 12.170 vs 12.722, both folds) but does NOT materially narrow the gap to deployed (~8.86); the gate is an AND. Also tail-driven (helps 16-17 of 40 wells) and the 0.28-0.55 margin is grid-sensitive. Task step 5's condition unmet so step 6 never triggers. 0 quota used. |
 
 | 21 | Q11 TWH=1 PF path ranker | **no submit (no positive nested evidence)** | All three ranker arms lose to the PF mean default on 40 held-out wells (prior -0.3985, TWH1 -0.5604, both -0.1897); best arm helps only 40% of wells with 3-well P(gain>0) 0.2696. Step 5's condition unmet so step 6 never triggers. 0 quota used. |
+
+| 22 | Q12 coverage-gated self template | **no submit (no coverage band favours self)** | `self` negative in all five coverage bands (-0.005 to -0.149); `both` pooled +0.0012, beating typewell on 51.7% of wells; corr(coverage, effect) 0.0867 / 0.0604 so the gate carries no stratifying information. Step 5's condition unmet so step 6 never triggers. 0 quota used. |

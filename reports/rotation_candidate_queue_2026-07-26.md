@@ -296,3 +296,17 @@ G15 vintage `seq_id` features (leakage-adjacent, needs a rules check first).
 - **Methodology reinforced:** an 8-well smoke showed +73.5% headroom conversion that became -12.8% at 40
   wells. Never accept a pooled figure from a small eval set when its own per-well statistics disagree.
 - Next runnable: **`q12_coverage_gated_self_template`** (220).
+
+## 2026-07-29 update (Q12 coverage-gated self template)
+
+- **Closed: coverage-gated self-correlation, at the well level.** No coverage band favours `self`
+  (deficit -0.005 to -0.149 in all five); `both` is pooled +0.0012 and beats typewell on 51.7% of wells.
+- **The decisive number:** corr(coverage, self-typewell) = **0.0867**, corr(coverage, both-typewell) =
+  **0.0604**. A gate can only help if the gating variable predicts where the treatment works; this one
+  does not.
+- **Together with N9 this closes the self-template line** (state-level gate and well-level gate both fail).
+- **Carry forward for `q13_twh1_self_hybrid_emission` (230):** Q12 already measured the `both` arm — a
+  typewell+self hybrid emission — at +0.0012 pooled over 60 held-out wells with no coverage stratification.
+  q13 should treat that as its prior and check first whether it proposes anything materially different
+  from the `both` arm before spending a full implementation.
+- Next runnable: **`q13_twh1_self_hybrid_emission`** (230).

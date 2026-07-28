@@ -79,3 +79,5 @@ Deadline 2026-08-05 23:59 UTC.
 - Round 20 `q10_twh1_scorer_dp_candidate`: **no submission** (beats flat but does not narrow the gap to deployed; gate is an AND). Quota still **0/5 today**.
 
 - Round 21 `q11_twh1_pf_seed_ranker`: **no submission** (every ranker arm loses to the PF mean default). Quota still **0/5 today**.
+
+- Round 22 `q12_coverage_gated_self_template`: **no submission** (coverage does not stratify the effect). Quota still **0/5 today**.

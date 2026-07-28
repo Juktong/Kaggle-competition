@@ -797,3 +797,52 @@ information exists in the path set. The lever is a better *combiner* (a weightin
 preserves averaging), not a better ranker.
 
 Report: `reports/q11_twh1_pf_seed_ranker_2026-07-29.md`. Next queued: `q12_coverage_gated_self_template` (220).
+
+## Round 22 — 2026-07-28 17:43 UTC (autopilot `q12_coverage_gated_self_template`)
+
+Live refresh: quota **0/5**, no Kaggle kernel running. `can_submit=true` but **no submission** — step 5's
+condition is unmet.
+
+**What was actually left open.** N9 had already measured the STATE-level coverage gate (self 0.7174 on
+covered states vs 0.4548 on uncovered) and shown that even restricted to covered states self still trails
+the typewell (0.7710) and `both` (0.7680) still trails typewell alone. The only untested form was a
+WELL-level gate — a subpopulation of high-coverage wells could favour self without appearing in N9's
+pooled figure. Q12 tests exactly that, with N9's design and splits BY WELL (60 train / 60 eval).
+
+**Result — the gating variable carries no stratifying information:**
+
+```
+pooled per-well AUC:  typewell 0.7472   self 0.6439   both 0.7484
+
+coverage band     n   typewell     self     both   self-tw   both-tw
+0.56-0.72        12     0.7695   0.6374   0.7665   -0.1320   -0.0030
+0.72-0.75        12     0.7560   0.6480   0.7512   -0.1079   -0.0048
+0.75-0.78        12     0.7332   0.6108   0.7136   -0.1224   -0.0196
+0.78-0.82        12     0.7161   0.7108   0.7563   -0.0053   +0.0403
+0.82-0.92        12     0.7613   0.6124   0.7546   -0.1489   -0.0067
+
+corr(coverage, self - typewell) = 0.0867     corr(coverage, both - typewell) = 0.0604
+wells where self beats typewell 21.7% | both beats typewell 51.7% (a coin flip)
+```
+
+`self` is negative in ALL five bands. `both` is pooled +0.0012 — indistinguishable from typewell alone.
+The one positive cell (0.78-0.82, +0.0403) is **not** a coverage effect: the highest-coverage band is
+-0.0067 and the second-highest -0.0196, so the ordering is not monotone. With 12 wells per cell and
+band-to-band swings of +/-0.04 it is noise, and picking the `cov>=0.80` threshold post hoc would be the
+sweep-not-a-validation pattern.
+
+**Why N9's and Q12's results are both true.** N9's split is a WITHIN-well contrast (inside a well, covered
+states score better than its uncovered states). Q12's is a BETWEEN-well contrast (a well's coverage
+fraction does not predict whether self beats the typewell for that well). Only the second could support a
+gated candidate. This is the same within-unit / between-unit decomposition the N6 audit flagged as a
+general lesson.
+
+**Closes the self-template line entirely** — state-level gate (N9) and well-level gate (Q12) both fail.
+N9's banked fallback stands (typewell-independent emission at 0.7174 on covered states), but Q12 adds that
+it cannot be selectively deployed by coverage: wholesale or not at all.
+
+Two harness bugs were caught and fixed before any result was read: `cov` as a column name shadows the
+pandas `.cov()` method under attribute access, in both `groupby('well').cov` and `P.cov`.
+
+Report: `reports/q12_coverage_gated_self_template_2026-07-29.md`. Next queued:
+`q13_twh1_self_hybrid_emission` (230).

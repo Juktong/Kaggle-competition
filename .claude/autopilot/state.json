@@ -2,19 +2,19 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "41f0481c-6d30-449e-9805-efcab242242d",
-  "current_handle": "61830999",
-  "current_task_id": "q11_twh1_pf_seed_ranker",
-  "last_started_at": "2026-07-28T17:28:19Z",
-  "last_finished_at": "2026-07-28T19:30:00Z",
+  "resume_session_id": "61830999-a3c0-4f5b-9081-7f9b26a0250f",
+  "current_handle": "15a12fbe",
+  "current_task_id": "q12_coverage_gated_self_template",
+  "last_started_at": "2026-07-28T17:43:20Z",
+  "last_finished_at": "2026-07-28T20:25:00Z",
   "last_result": {
-    "task_id": "q11_twh1_pf_seed_ranker",
+    "task_id": "q12_coverage_gated_self_template",
     "outcome": "completed_no_submission",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Q11 closed: every path-ranker arm LOSES to simply using the PF mean path. On 40 held-out wells prior(14) -0.3985, TWH1(10) -0.5604, both(24) -0.1897 vs the PF mean default; best arm helps 40% of wells with 3-well P(gain>0) 0.2696. The ORACLE best-of-96 is 7.1579 and DOES beat deployed 8.8626, so the information exists in the path set, but it is truth-selected. Mechanism: the PF mean IS the averaging that rule #1 says transfers; a ranker replaces it with a single bet (downside -11.15 vs upside +3.83), which is why a better score did not rescue it. Closes the PF-path line second shape. An 8-well smoke showed +73.5% headroom conversion that inverted to -12.8% at 40 wells.",
-    "next_task_id": "q12_coverage_gated_self_template"
+    "headline": "Q12 closed: the well-level coverage gate carries no stratifying information. corr(coverage, self-typewell)=0.0867 and corr(coverage, both-typewell)=0.0604, both ~0. self is negative in all five coverage bands (-0.005 to -0.149) and both is pooled +0.0012, beating typewell on 51.7% of 60 held-out wells - a coin flip. The single positive cell is not a coverage effect since the highest-coverage band is negative. N9 (state-level, within-well) and Q12 (well-level, between-well) are both true; only the between-well one could have supported a gated candidate. Self-template line now closed entirely.",
+    "next_task_id": "q13_twh1_self_hybrid_emission"
   },
   "queue_exhausted": false
 }
