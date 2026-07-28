@@ -2,18 +2,18 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "b5cb427e-ae28-4967-bc28-50500bbc6d5f",
-  "current_handle": "acb94d4c",
-  "current_task_id": "g32_learned_alignment_smoke",
-  "last_started_at": "2026-07-28T07:18:06Z",
-  "last_finished_at": "2026-07-28T07:40:00Z",
+  "resume_session_id": "acb94d4c-7507-4e76-9284-67b453bdc3ca",
+  "current_handle": "388127ee",
+  "current_task_id": "g33_multi_hypothesis_smoke",
+  "last_started_at": "2026-07-28T08:33:08Z",
+  "last_finished_at": "2026-07-28T08:55:00Z",
   "last_result": {
-    "task_id": "g32_learned_alignment_smoke",
-    "outcome": "signal_found_not_submittable",
+    "task_id": "g33_multi_hypothesis_smoke",
+    "outcome": "closed_on_evidence",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "learned scorer AUC 0.7242 vs NCC 0.5010; DP with learned emission 12.527 BEATS flat-anchor 13.103 (interior optimum lam=60) where G3.1 never crossed; still ~42% worse than deployed ~8.86",
-    "next_task_id": "g33_multi_hypothesis_smoke"
+    "headline": "MTP smoke checks pass (loss down, diversity 9.7ft) but K=1 (18.475) is worse than flat-anchor (15.833) and best achievable K=5 (16.877) still is; oracle +5.707 vs achievable +1.598",
+    "next_task_id": "frontier_variant_matrix_lite"
   }
 }

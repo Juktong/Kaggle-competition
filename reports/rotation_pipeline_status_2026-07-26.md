@@ -223,3 +223,29 @@ Refines an earlier conclusion: *pointwise hand-coded* GR costs add nothing (G3.1
 level-aware, extent-matched* scorer does. Kept open as a possible extra emission term inside a stronger
 sequential model (the PF reaches ~11.0 ft standalone), which needs its own prompt.
 
+## Round 8 — 2026-07-28 08:33 UTC (autopilot `g33_multi_hypothesis_smoke`)
+
+Live refresh: quota **0/5** (no submission); no Kaggle kernels running; branch in sync; `origin/main`
+unchanged at `a589fa8`. Local CPU only.
+
+**G3.3 closed on evidence** — `reports/g33_multi_hypothesis_smoke_2026-07-28.md`.
+
+```
+flat-anchor 15.833 | K=1 18.475 | K=5 argmax 16.877 | K=5 mix 16.848 | K=5 ORACLE 12.768 | deployed ~8.86
+oracle margin +5.707   achievable margin +1.598   diversity 9.734 ft   loss 1.99->0.66 / 1.74->0.28
+```
+
+All three smoke checks pass (loop runs, loss decreases, diversity nonzero, trajectories sane), but:
+**K=1 is worse than the flat baseline (18.475 vs 15.833)** — a fourth independent confirmation that the
+per-well residual is not predictable from test-available features (after directions 1, 2 and 3). The MTP
+structure does recover some of that (+1.598 achievable, and the probability head carries *some* selection
+signal, unlike earlier selectors), but the best achievable configuration is still below a trivial
+flat-anchor baseline and far from the deployed ~8.86.
+
+Oracle +5.707 vs achievable +1.598 repeats the established pattern: an oracle number is not evidence of
+an achievable gain.
+
+Minimal next smoke recorded (not a broad plan): feed the **PF's own per-well posterior spread**
+(`pf_unc.npz`, available at inference) as an input and train K hypotheses only on high-spread wells, to
+test whether multi-hypothesis helps specifically on wells the PF already flags as ambiguous.
+
