@@ -150,3 +150,42 @@ contribution will be confounded at that scale even though the *candidate's* scor
 decomposition of G1.3's bound is therefore approximate, not clean.
 
 Slot recommendation unchanged pending the result: `54922806` + `54844628`.
+
+---
+
+## Run collected and SUBMITTED (2026-07-28 20:3x UTC)
+
+`joezzzzz/rogii-frontier-hedgeoff-full` v1 completed.
+
+**Patch activation confirmed exactly as the arithmetic predicted** — `pf_seed_branch_hedge_report.csv`:
+
+```
+000d7d20  skip_separation             separation  0.280   shift 0.0   moved_rows 0
+00bbac68  skip_separation             separation  3.594   shift 0.0   moved_rows 0
+00e12e8b  skip_zero_or_missing_rows   separation 29.439   shift 0.0   moved_rows 0   <- was: applied, 2.0, 4301
+```
+
+**Audit: `HARD: PASS`** (14,151 rows, `[id,tvt]`, no dup ids, finite, id set + order match). Trajectory
+spans 14.9 / 43.0 / 22.8 ft, `max|step|` <= 1.01. **Homogeneity: distinct from all scored references**
+(rmse **1.756** vs `54968060`, max|d| 4.00, 52.2% of rows > 1 ft).
+
+**The rerun is confounded, and the size of the confound is now measured.** Against the stored hedge-OFF
+output the fresh run differs by **rmse 1.377** (max|d| 3.995) — that is pure run-to-run config variance,
+much larger in output terms than the hedge itself. Local proxy:
+
+```
+well            n     hedge-OFF     54968060
+000d7d20     3836        1.6570       1.6367
+00bbac68     6014        2.6673       4.1912   <- -1.52, a well the hedge NEVER touches
+00e12e8b     4301        2.2049       2.8288   <- -0.62, the hedged well (predicted 2.1818)
+POOLED      14151        2.2903       3.2594
+```
+
+The hedged well moved as predicted (2.83 -> 2.20 vs a predicted 2.18), but **most of the pooled gain sits
+on `00bbac68`, which the hedge never touches** — so it is reroll luck, not the hedge. This output
+therefore does **not** cleanly isolate the hedge's contribution, and the submission description says so.
+
+**SUBMITTED: ref `55064411`**, quota 1/5. Rationale under the submit gate: audit hard-pass;
+non-homogeneous (1.756); best local proxy of any frontier output we hold (2.29 vs 3.26); own-account
+frontier candidate that, if it lands near or below 6.563, improves slot-1 provenance at equal or better
+score. Public score **still PENDING** after ~20 minutes of polling — to be recorded next round.

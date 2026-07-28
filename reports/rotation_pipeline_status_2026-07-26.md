@@ -958,3 +958,25 @@ activation, which was verified arithmetically and will be reconfirmed from
 
 `joezzzzz/rogii-frontier-hedgeoff-full` v1 pushed and running. Report:
 `reports/q14_frontier_bimodal_hedge_weight_scan_2026-07-29.md`.
+
+## Round 25 — 2026-07-28 20:28 UTC (Q14 collection + SUBMISSION; `q15_frontier_dependency_replacement` NOT started)
+
+The recorded next action was to collect the in-flight Q14 run before anything else, and that took
+precedence over starting Q15 — correctly, since Q15 would also want a frontier full run and the standing
+rules forbid a duplicate while one is in flight.
+
+**Q14 run collected.** Patch activation confirmed: `00e12e8b` went from `applied, shift 2.0,
+moved_rows 4301` to `skip_zero_or_missing_rows, shift 0.0, moved_rows 0`. Audit `HARD: PASS`,
+homogeneity distinct (rmse **1.756** vs `54968060`).
+
+**The confound is now measured, and it is larger than the effect.** The fresh run differs from the stored
+hedge-OFF output by rmse **1.377** — pure config variance. Local proxy pooled 3.2594 -> 2.2903, but the
+hedged well contributes only -0.62 (2.83 -> 2.20, vs 2.18 predicted) while **-1.52 comes from
+`00bbac68`, a well the hedge never touches**. So the candidate does not isolate the hedge.
+
+**SUBMITTED ref `55064411`** (quota 1/5) with that confound stated in the description. Public score was
+**still PENDING** after ~20 min of polling; a background poll continues and the score must be recorded
+next round.
+
+**`q15_frontier_dependency_replacement` was not started this round** — see the candidate-queue note for
+the exact carry-forward.

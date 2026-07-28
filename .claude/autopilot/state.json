@@ -2,25 +2,28 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "426c7eb0-0855-4952-9694-e53511329051",
-  "current_handle": "262fb9d2",
-  "current_task_id": "q14_frontier_bimodal_hedge_weight_scan",
-  "last_started_at": "2026-07-28T19:13:24Z",
-  "last_finished_at": "2026-07-28T22:40:00Z",
+  "resume_session_id": "262fb9d2-06e2-45de-893b-c555820231e1",
+  "current_handle": "2d3ec7e9",
+  "current_task_id": "q15_frontier_dependency_replacement",
+  "last_started_at": "2026-07-28T20:28:26Z",
+  "last_finished_at": "2026-07-28T21:05:00Z",
   "last_result": {
-    "task_id": "q14_frontier_bimodal_hedge_weight_scan",
-    "outcome": "completed_run_in_flight",
-    "submitted": false,
-    "quota_used_today": 0,
-    "quota_remaining_today": 5,
-    "headline": "Q14: the bimodal hedge adds +2.0 ft to a well whose local residual was already -0.1895 ft, manufacturing +1.81 ft of bias. Local proxy degrades 2.1818->2.8288 on that well and 3.1046->3.2594 pooled. Analytic public sensitivity puts hedge-OFF near 6.551 if the public residual there is ~0, which would make it an OWN-ACCOUNT frontier competitive with the teammate 54922806 (6.563). This overturns the variant-matrix HOLD, whose reasoning wrongly treated the 0.115 GPU-nondeterminism floor as a bound on a deterministic shift. A diff-verified one-line kernel (_BH_CAP 2.00->0.00) is pushed and RUNNING; no submission yet.",
+    "task_id": "q14_collect_and_submit",
+    "outcome": "submitted_score_pending",
+    "submitted": true,
+    "submission_ref": 55064411,
+    "quota_used_today": 1,
+    "quota_remaining_today": 4,
+    "headline": "Collected the in-flight Q14 hedge-OFF run and SUBMITTED it as ref 55064411 (quota 1/5); public score still PENDING at hand-off. Patch activation confirmed (00e12e8b moved_rows 4301 -> 0). Audit HARD PASS, non-homogeneous rmse 1.756 vs 54968060, best local proxy of any frontier output (2.29 vs 3.26). CONFOUND MEASURED: rerun config variance is rmse 1.377 and -1.52 of the -0.97 pooled local gain comes from 00bbac68, a well the hedge never touches - so it does NOT isolate the hedge, and the submission description says so. q15_frontier_dependency_replacement was NOT started: collecting the pending run took precedence and Q15 needs its own non-overlapping frontier run.",
     "next_task_id": "q15_frontier_dependency_replacement"
   },
   "queue_exhausted": false,
-  "pending_kaggle_run": {
+  "pending_kaggle_run": null,
+  "pending_submission": {
+    "ref": 55064411,
     "kernel": "joezzzzz/rogii-frontier-hedgeoff-full",
     "version": 1,
-    "purpose": "frontier hedge-OFF (_BH_CAP=0.00) candidate, estimated public ~6.55",
-    "next_action": "collect run, confirm pf_seed_branch_hedge_report moved_rows=0, re-audit, decide submit"
+    "status": "PENDING at hand-off",
+    "next_action": "record the public score in submission_ledger + final_slot package; if <= 6.563 re-evaluate slot 1 on provenance (own account vs teammate)"
   }
 }

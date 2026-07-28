@@ -342,3 +342,19 @@ G15 vintage `seq_id` features (leakage-adjacent, needs a rules check first).
 - **Next action (carry to the next round):** collect the run, confirm `pf_seed_branch_hedge_report.csv`
   shows `moved_rows 0`, re-audit, and submit only if the gate passes. Do NOT start a second frontier run
   while this one is in flight.
+
+## 2026-07-29 update (Q14 submitted; Q15 carried forward)
+
+- **SUBMITTED `55064411`** — frontier hedge-OFF (`_BH_CAP 2.00 -> 0.00`). Quota 1/5. **Score PENDING.**
+  Audit HARD PASS, non-homogeneous (rmse 1.756 vs 54968060), best local proxy of any frontier output
+  (2.29 vs 3.26). Confound recorded: rerun config variance is rmse 1.377 and most of the local gain is on
+  a well the hedge never touches, so it does NOT isolate the hedge.
+- **NEXT ROUND MUST FIRST:** record `55064411`'s public score in the ledger and the final-slot package. If
+  it lands at or below 6.563 it becomes an own-account frontier competitive with the teammate's best, and
+  the slot-1 recommendation should be re-evaluated on provenance.
+- **`q15_frontier_dependency_replacement` NOT started** — the Q14 collection and submission consumed the
+  round, and Q15 needs its own frontier full run which must not overlap. Its analysis prerequisites are
+  already in hand: G1.3 identified `fleongg/rogii-claude-models-pub` (learned-trajectory model, blend
+  weight 0.40) as the single prediction-affecting third-party dependency, and the variant-matrix
+  correction downgraded its ~0.047 to a JOINT upper bound shared with the bimodal hedge — which
+  `55064411` will help decompose once scored. Q15 should start from that, not re-derive it.
