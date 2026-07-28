@@ -1,12 +1,19 @@
 
-## 2026-07-28 update (frontier variant matrix lite)
+## 2026-07-28 update (new direction search)
 
-- **Static diff completed at zero cost** from the existing full-run intermediates. Corrected a published
-  error: the **bimodal hedge is the largest post-SP45 effect** (+2.0 ft on all 4,301 rows of `00e12e8b`),
-  not zero as A5 recorded. G1.3's ~0.047 becomes a joint bound over two stages.
-- **No variant promoted** — prefix-aggressive would re-confirm G3.5; bimodal fires on 1 of 3 wells so any
-  public delta sits under the ~0.115 noise floor. 0 quota.
-- Concrete next variant if revisited: lower `skip_separation` so the bimodal hedge also fires on
-  `00bbac68` (separation 3.594 ft) — a multi-well effect would be resolvable.
-- Next runnable: **`new_direction_search`** (priority 90).
+Implementation round complete. Six new directions queued at 110–160, each with a CPU-only smoke and no
+quota cost:
 
+| pri | id | submission path | smallest smoke |
+|---|---|---|---|
+| 110 | `n4_conformal_well_uncertainty` | none (decision support) | split conformal on the banked 760-well OOF; check coverage per feature bin |
+| 120 | `n2_increment_structural_field` | **yes** (gate required) | swap the deployed field's target level -> heel-referenced increment, gate/W fixed |
+| 130 | `n1_geometry_bounded_alignment` | none | per-row admissible band on the G3.2 DP from `dZ`/`dH`, sweep the dip bound |
+| 140 | `n3_multiscale_gr_matching` | none | 4-level DWT, scorer AUC per level vs G3.2's 0.7242 |
+| 150 | `n6_public_solution_audit` | none | method diff of a second public solution vs our ledger (methods only, no external data) |
+| 160 | `n5_typewell_fingerprint_families` | none | 30-min time-box: GR-vs-TVT curve match, does it beat the deployed spatial gate |
+
+Closed this round: **single-dip geometric reparametrization** (oracle 7.65 vs honest 80.29 vs flat 15.91),
+**train-only PNG images as an input modality** (no test PNGs), **exact typewell grouping** (0/3 test wells
+match). Not queued with reasons: RL geosteering (no action space), azimuthal-GR dip inversion (single
+scalar GR only).

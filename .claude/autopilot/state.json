@@ -2,18 +2,18 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "388127ee-51da-4d48-b924-6bb0dac19ced",
-  "current_handle": "a495219a",
-  "current_task_id": "frontier_variant_matrix_lite",
-  "last_started_at": "2026-07-28T08:48:09Z",
-  "last_finished_at": "2026-07-28T09:05:00Z",
+  "resume_session_id": "a495219a-32eb-4287-ba42-de802f0a6ce5",
+  "current_handle": "dca65f44",
+  "current_task_id": "new_direction_search",
+  "last_started_at": "2026-07-28T09:03:11Z",
+  "last_finished_at": "2026-07-28T09:40:00Z",
   "last_result": {
-    "task_id": "frontier_variant_matrix_lite",
+    "task_id": "new_direction_search",
     "outcome": "completed_no_submission",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "CORRECTION: the PF bimodal hedge applies +2.0ft to all 4301 rows of 00e12e8b and is the largest post-SP45 effect; the 07-25 A5 zero-contribution claim was wrong, and G1.3 ~0.047 is a joint bound over two stages. No variant promoted.",
-    "next_task_id": "new_direction_search"
+    "headline": "5 cheap measurements ran first and 3 changed a ranking: train PNGs carry no beyond-CSV info and test has none (images ruled out); typewell grouping capped (752/773 distinct, 0/3 test wells match any train typewell); single-dip geometric reparametrization CLOSED on evidence (oracle 7.65 vs honest prefix-fit 80.29 vs flat anchor 15.91). 6 directions queued at 110-160; N2 (increment structural field) is the only one with a submission path.",
+    "next_task_id": "status_summary_for_user"
   }
 }
