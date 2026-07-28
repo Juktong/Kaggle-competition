@@ -101,3 +101,47 @@ Two independent findings this round converge on the same rule: **the train-copy 
 to rank candidates that are close together.** `54990075` (proxy-best) scored worst of the frontier pair
 on public, and the G2.2 table shows the proxy inverting the within-family ordering while ranking across
 families correctly. Only a structural argument or a leaderboard result can separate close candidates.
+
+## Round 4 — 2026-07-28 05:33 UTC (autopilot `live_refresh_and_decision`)
+
+Live-refresh task only (`can_submit=false`, no heavy run). **Material state changes since round 3**, so
+this status file is updated:
+
+| item | round 3 (07-26) | round 4 (07-28) |
+|---|---|---|
+| daily quota | 1/5 used | **0/5 used, 5 remaining** (new day) |
+| days to deadline | ~10.4 | **8.77** (2026-08-05 23:59 UTC) |
+| Kaggle kernels running | 0 | 0 (`sp45-only-full`, `overlap-off-full` both COMPLETE) |
+| new submissions | — | **none** since `54990075` (6.690, 07-26) |
+| `origin/main` | `a589fa8` | `a589fa8` — **no new Mark/Marc commits** |
+| branch vs `juktong` | in sync | in sync (0 unpushed) |
+| execution model | manual rounds | **autopilot runner active** (`scripts/claude_autopilot.py --loop --sleep 900`, commits `01f2294`, `1e372e1`) |
+
+An idle gap of ~2 days occurred between rounds 3 and 4; no work was lost and no process was left
+running. The board is unchanged, so no candidate re-ranking is warranted and the final-slot package
+stands as written.
+
+### Queue decision
+
+Next runnable task by priority: **`g35_honest_prefix_calibration`** (priority 10, `requires_gpu=false`,
+`can_submit=true`, `max_submit_cost=1`). It is the correct next step: all three selection criteria place
+the fully-owned honest line (`54844628`) in slot 2, so improving it has direct final-slot value, and it
+needs no GPU.
+
+**Design constraint carried into that task** (so the boundary is not rediscovered): the 2026-07-21
+per-well bias analysis measured how much of a well's whole-toe bias is visible from its known heel —
+
+```
+corr(first-100-row bias, whole-well bias) = +0.213  ->  ~5% of variance
+corr(first-500-row bias, whole-well bias) = +0.415  ->  ~17% of variance
+```
+
+so a prefix-derived correction can address at most a small share of the per-well bias. G3.5 should
+therefore be scoped as a **bounded** correction validated by honest masked split / OOF / bootstrap, with
+a modest expected effect, and must not use train-copy lookup. Sub-0.1 local gains cannot be ranked by
+the train-copy proxy (retired as a ranking tool in round 3).
+
+Following tasks in queue order: `g13_dependency_provenance_audit` (no GPU, no submit),
+`g32_learned_alignment_smoke`, `g33_multi_hypothesis_smoke`, `frontier_variant_matrix_lite`,
+`new_direction_search`, `status_summary_for_user`.
+

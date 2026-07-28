@@ -1,8 +1,8 @@
-{"id":"live_refresh_and_decision","path":"prompts/live_refresh_and_decision.md","status":"queued","priority":5}
-{"id":"g35_honest_prefix_calibration","path":"prompts/g35_honest_prefix_calibration.md","status":"queued","priority":10}
-{"id":"g13_dependency_provenance_audit","path":"prompts/g13_dependency_provenance_audit.md","status":"queued","priority":20}
-{"id":"g32_learned_alignment_smoke","path":"prompts/g32_learned_alignment_smoke.md","status":"queued","priority":30}
-{"id":"g33_multi_hypothesis_smoke","path":"prompts/g33_multi_hypothesis_smoke.md","status":"queued","priority":40}
-{"id":"frontier_variant_matrix_lite","path":"prompts/frontier_variant_matrix_lite.md","status":"queued","priority":50}
-{"id":"new_direction_search","path":"prompts/new_direction_search.md","status":"queued","priority":90}
-{"id":"status_summary_for_user","path":"prompts/status_summary_for_user.md","status":"queued","priority":100}
+{"id": "live_refresh_and_decision", "path": "prompts/live_refresh_and_decision.md", "status": "done", "priority": 5, "started_at": "2026-07-28T05:33:00Z", "handle": "12462767", "prompt_hash": "e78ef37fc54c72332a3ef981574724986335244d87011c25a8e0a6936dcdaf7f", "finished_at": "2026-07-28T05:35:00Z", "result": "no submission; queue advanced to g35_honest_prefix_calibration"}
+{"id": "g35_honest_prefix_calibration", "path": "prompts/g35_honest_prefix_calibration.md", "status": "queued", "priority": 10}
+{"id": "g13_dependency_provenance_audit", "path": "prompts/g13_dependency_provenance_audit.md", "status": "queued", "priority": 20}
+{"id": "g32_learned_alignment_smoke", "path": "prompts/g32_learned_alignment_smoke.md", "status": "queued", "priority": 30}
+{"id": "g33_multi_hypothesis_smoke", "path": "prompts/g33_multi_hypothesis_smoke.md", "status": "queued", "priority": 40}
+{"id": "frontier_variant_matrix_lite", "path": "prompts/frontier_variant_matrix_lite.md", "status": "queued", "priority": 50}
+{"id": "new_direction_search", "path": "prompts/new_direction_search.md", "status": "queued", "priority": 90}
+{"id": "status_summary_for_user", "path": "prompts/status_summary_for_user.md", "status": "queued", "priority": 100}
