@@ -44,3 +44,5 @@ stated justification · accurate description.
 | 16 | N5 typewell fingerprint | **no submit (task is `can_submit=false`; diagnostic)** | `max_submit_cost=0`. The fingerprint reproduces the deployed group-key neighbour set exactly (13/13, 40/40, 13/13), so it yields no candidate. 0 quota used. |
 
 | 17 | N8 azimuth-matched neighbours | **no submit (3-well gate fails at every tolerance)** | All four variants negative on the 760-well reference (-0.0697 to -0.0789) and failing the corrected gate (5th -0.86 to -0.90, P(gain>0) ~0.49, actual-3-test-well -0.0990). Task step 6 therefore does not trigger. 0 quota used. |
+
+| 18 | N7 Q-3D tortuosity | **no submit (task is `can_submit=false`; gate failed)** | `max_submit_cost=0` and the direction produces no candidate: well-level CV R^2 0.0292 vs the 0.0736 bar, row-level spearman -0.0416 with the within-well sign flipping between wells. 0 quota used. |

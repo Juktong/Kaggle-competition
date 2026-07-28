@@ -613,3 +613,49 @@ Not queued: azimuth as a soft IDW *weight* rather than a hard membership gate. T
 small (no change for ~58% of wells) against N4's 3-well draw spread of 3.49-15.14 for a fixed model.
 
 Report: `reports/n8_azimuth_matched_neighbours_2026-07-28.md`. Next queued: `n7_q3d_tortuosity_features` (180).
+
+## Round 18 — 2026-07-28 14:03 UTC (autopilot `n7_q3d_tortuosity_features`)
+
+Live refresh: quota **0/5**, no Kaggle kernel running, branch in sync. `can_submit=false`; no submission.
+
+**Tortuosity does not predict our honest line's error at either granularity. Gate failed, direction closed.**
+
+**Provenance recorded, not worked around.** The Jing et al. (2022) paper could not be retrieved here
+(ScienceDirect 403; a DOI guess resolved to a different article). What was implemented follows the
+principles in the abstract — Peak-Valley decomposition into oscillation segments, indices combining
+amplitude and frequency, separated into inclination and azimuth planes — but is **our implementation, not
+a verified reproduction of the paper's equations**. No third-party code was consulted. A FAMILY of
+measures was computed (dogleg severity, plane-separated angular change, Peak-Valley amplitude/frequency,
+TQG) so the conclusion does not hinge on one formula.
+
+**The smoke caught a real defect.** At the data's native 1 ft MD grid with ~0.01 ft XY resolution, angles
+are dominated by coordinate quantization: the first smoke gave `dls_mean` ~49.7 deg/100ft (impossible;
+real DLS is 0-15) with a median detected oscillation amplitude sitting exactly at the 0.5 deg detection
+threshold and one "oscillation" every ~2 ft. Fixed by resampling to survey-station spacing before
+differencing. After the fix values are physically sane AND stable across the sweep
+(`dls_mean` median 1.69/1.51/1.39/1.22 at 10/30/60/100 ft), so the measure is not a spacing artifact.
+
+**Well-level (the task's gate), 760 wells.** Nothing exceeds |0.118|, and the two largest are `span_ft`
+(well length, not tortuosity, already in N4's set) and `Gamma_incline`; the dedicated Q-3D indices are the
+weakest (`TQG_Q3D` -0.0470). Using N4's exact protocol:
+
+```
+N4 feature set alone     0.0736   <- the bar
+tortuosity family alone  0.0292
+N4 + tortuosity          0.0765   (+0.0029, inside 5-fold noise)
+```
+
+**Row-level (added, because the repo's -0.107 gain was a per-ROW feature).** Local tortuosity in a
++/-600 ft window vs |residual|, 584,179 rows over 120 wells: pooled spearman **-0.0416**; within-well
+mean **-0.0831**, median -0.0964, **std 0.3712**, with |rho|>0.2 in **60.8%** of wells. The relationship
+exists per well and its SIGN FLIPS between wells — signal that does not transfer.
+
+**Scope stated honestly:** this does not refute the public repo's ablation. Theirs asks whether tortuosity
+helps a LightGBM predict TVT inside their pipeline; ours asks whether it explains where OUR deployed line
+errs. Ours is the right question for our decision, and the answer is no.
+
+**Retained caution for any future trajectory feature:** angles computed from this dataset's 1 ft XYZ grid
+must be resampled to 30 ft+ station spacing first, or they measure quantization rather than geology.
+
+Report: `reports/n7_q3d_tortuosity_features_2026-07-28.md`. Next queued:
+`n9_self_correlation_prefix_template` (190).

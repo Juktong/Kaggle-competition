@@ -2,18 +2,18 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "e7d00202-c41f-4891-8cd5-668dfc63dcfb",
-  "current_handle": "2b2ae8bf",
-  "current_task_id": "n8_azimuth_matched_neighbours",
-  "last_started_at": "2026-07-28T13:48:26Z",
-  "last_finished_at": "2026-07-28T15:05:00Z",
+  "resume_session_id": "2b2ae8bf-6c37-45b8-b028-ab6e0b1e056d",
+  "current_handle": "3ac4b330",
+  "current_task_id": "n7_q3d_tortuosity_features",
+  "last_started_at": "2026-07-28T14:03:27Z",
+  "last_finished_at": "2026-07-28T15:35:00Z",
   "last_result": {
-    "task_id": "n8_azimuth_matched_neighbours",
+    "task_id": "n7_q3d_tortuosity_features",
     "outcome": "completed_no_submission",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "N8 negative at every azimuth tolerance; no submission. The no-filter control is byte-exact against the banked field (8.8626, -0.0000). The filter removes the NEAREST well for 10.9-12.2% of targets, but the deployed selection is already azimuth-coherent (median neighbour spread 26.7 deg), so all four variants lose (-0.0697 to -0.0789 pooled) and all fail the 3-well gate (5th -0.86..-0.90, P(gain>0) ~0.49). Confirms the N2 risk: the neighbourhood is effectively single-well. Together with N5 (membership) and N2 (referencing), the structural field is now probed on three axes and unchanged on all three.",
-    "next_task_id": "n7_q3d_tortuosity_features"
+    "headline": "N7 closed: tortuosity does not predict our honest line error at either granularity. Well-level CV R^2 0.0292 vs the 0.0736 bar; row-level pooled spearman -0.0416 with the within-well relationship flipping sign between wells (mean -0.083, std 0.371, |rho|>0.2 in 60.8%). The smoke caught a real defect first: at the native 1ft XYZ grid, angles measure coordinate quantization (dls_mean ~49.7 deg/100ft, impossible) - fixed by resampling to 30ft survey stations, after which values are sane and stable across spacing. Paper unretrievable (ScienceDirect 403) so a FAMILY of measures was implemented from the abstract principles, making the conclusion independent of the exact formula.",
+    "next_task_id": "n9_self_correlation_prefix_template"
   }
 }

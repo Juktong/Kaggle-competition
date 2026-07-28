@@ -229,3 +229,18 @@ scalar GR only).
 - **Not queued:** azimuth as a soft IDW weight instead of a hard gate — plausible but the headroom is small
   (no change for ~58% of wells) against the 3-well gate's demands.
 - Next runnable: **`n7_q3d_tortuosity_features`** (180), then `n9_self_correlation_prefix_template` (190).
+
+## 2026-07-28 update (N7 Q-3D tortuosity)
+
+- **Closed: Q-3D wellbore tortuosity as a residual predictor.** Well-level CV R^2 **0.0292** vs the
+  0.0736 bar; adding it to N4's features buys +0.0029 (noise). Row-level pooled spearman -0.0416, and the
+  within-well relationship flips sign between wells (mean -0.083, std 0.371, |rho|>0.2 in 60.8%).
+- **Not a refutation of the source ablation** — theirs measures tortuosity as a TVT-prediction feature in
+  their pipeline; ours measures whether it explains our deployed line's error. Different questions.
+- **New standing caution (applies to ALL future trajectory features):** any angle derived from this
+  dataset's 1 ft XYZ grid must first be resampled to >=30 ft survey-station spacing. At 1 ft the ~0.01 ft
+  XY resolution produces ~0.6 deg of spurious swing per step; the unfixed version reported dogleg severity
+  of ~49 deg/100ft, which is physically impossible.
+- **Retained artifact:** `scripts/n7_q3d_tortuosity.py` + per-well table
+  `rogii_sprint_shared/tmp/n7_tortuosity.csv`, reusable for any trajectory-shape descriptor.
+- Next runnable: **`n9_self_correlation_prefix_template`** (190) — the last queued item.
