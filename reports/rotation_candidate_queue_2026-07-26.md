@@ -1,19 +1,16 @@
 
-## 2026-07-28 update (new direction search)
 
-Implementation round complete. Six new directions queued at 110–160, each with a CPU-only smoke and no
-quota cost:
+## 2026-07-28 update (N4 conformal per-well uncertainty)
 
-| pri | id | submission path | smallest smoke |
-|---|---|---|---|
-| 110 | `n4_conformal_well_uncertainty` | none (decision support) | split conformal on the banked 760-well OOF; check coverage per feature bin |
-| 120 | `n2_increment_structural_field` | **yes** (gate required) | swap the deployed field's target level -> heel-referenced increment, gate/W fixed |
-| 130 | `n1_geometry_bounded_alignment` | none | per-row admissible band on the G3.2 DP from `dZ`/`dH`, sweep the dip bound |
-| 140 | `n3_multiscale_gr_matching` | none | 4-level DWT, scorer AUC per level vs G3.2's 0.7242 |
-| 150 | `n6_public_solution_audit` | none | method diff of a second public solution vs our ledger (methods only, no external data) |
-| 160 | `n5_typewell_fingerprint_families` | none | 30-min time-box: GR-vs-TVT curve match, does it beat the deployed spatial gate |
-
-Closed this round: **single-dip geometric reparametrization** (oracle 7.65 vs honest 80.29 vs flat 15.91),
-**train-only PNG images as an input modality** (no test PNGs), **exact typewell grouping** (0/3 test wells
-match). Not queued with reasons: RL geosteering (no action space), azimuthal-GR dip inversion (single
-scalar GR only).
+- **Closed: per-well confidence gating on test-available features.** CV R^2 0.074 on log(per-well OOF
+  RMSE); conditional conformal intervals are wider than the unconditional one at matched coverage
+  (13.76/13.97 vs 13.43). A gate built on `nnb` / closest-mate / prefix-fraction / GR-std / geometry would
+  be close to random. Do not re-attempt without a materially different feature source.
+- **Retained:** marginal conformal bound for the honest line — 90% of wells <= 13.43 ft, 95% <= 17.53 ft,
+  coverage verified out-of-sample. Table at `rogii_sprint_shared/tmp/n4_well_uncertainty.csv`.
+- **New constraint on all future validation:** for one fixed model, a random 3-well draw pools to
+  5th 3.491 / median 6.708 / 95th 15.138. Quote this whenever a small margin is proposed.
+- **New measured transfer gap:** OOF 4.756 on the 3 test wells vs public 7.891 = 1.659x. OOF-based bounds
+  are not leaderboard bounds.
+- Next runnable: **`n2_increment_structural_field`** (priority 120) — the only queued item with a
+  submission path.

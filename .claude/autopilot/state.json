@@ -2,18 +2,18 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "dca65f44-9720-4fff-8379-f1788613a104",
-  "current_handle": "a14f2420",
-  "current_task_id": "status_summary_for_user",
-  "last_started_at": "2026-07-28T10:18:13Z",
-  "last_finished_at": "2026-07-28T10:30:00Z",
+  "resume_session_id": "a14f2420-8791-4af2-8d40-770de66f908f",
+  "current_handle": "881ed704",
+  "current_task_id": "n4_conformal_well_uncertainty",
+  "last_started_at": "2026-07-28T11:33:15Z",
+  "last_finished_at": "2026-07-28T11:55:00Z",
   "last_result": {
-    "task_id": "status_summary_for_user",
+    "task_id": "n4_conformal_well_uncertainty",
     "outcome": "completed_no_submission",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Round summary: 7 autopilot tasks on 2026-07-28, 0 submissions, quota untouched. 5 lines closed on evidence; 1 published claim corrected (bimodal hedge is the LARGEST post-SP45 effect). Slot recommendation unchanged: 54922806 + 54844628 under score-first, diversity-first and provenance-first. 8.57 days to deadline; next n4_conformal_well_uncertainty then n2_increment_structural_field.",
-    "next_task_id": "n4_conformal_well_uncertainty"
+    "headline": "Conditional per-well uncertainty carries no usable information (CV R^2 0.074; Mondrian intervals WIDER than marginal at matched coverage) -> per-well confidence gating closed on test-available features. Marginal conformal bound retained (90% <=13.43ft). Most valuable output: for a FIXED model a random 3-well draw pools to 5th 3.491 / median 6.708 / 95th 15.138, and OOF 4.756 on the 3 test wells vs public 7.891 = 1.659x transfer gap.",
+    "next_task_id": "n2_increment_structural_field"
   }
 }

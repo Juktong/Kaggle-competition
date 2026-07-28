@@ -1,31 +1,34 @@
 
-## Round 10 — 2026-07-28 09:03 UTC (autopilot `new_direction_search`)
 
-Live refresh: quota **0/5**, no Kaggle kernels running, branch in sync. `can_submit=false` for this task,
-so no submission was possible or attempted.
+## Round 11 — 2026-07-28 11:33 UTC (autopilot `n4_conformal_well_uncertainty`)
 
-Five cheap measurements were run before listing any direction, and three of them changed a ranking:
+Live refresh: quota **0/5**, no Kaggle kernel running, branch in sync. `can_submit=false`; no submission.
 
-- **M1 test-available inventory.** `test/*__horizontal_well.csv` = `MD,X,Y,Z,GR,TVT_input`;
-  `test/*__typewell.csv` = `TVT,GR`. Establishes by direct check that **`Geology` is absent from the test
-  typewell schema** — train-only supervision, not a test input.
-- **M2 images ruled out.** 773 train PNGs, **0 test PNGs**. The image is a render of the CSVs; the only
-  non-CSV content is the well/typewell name in the title, unavailable at prediction time.
-- **M3 typewell grouping capped.** 773 wells -> 752 distinct typewell files (group sizes {1:739, 2:12,
-  10:1}); **none of the 3 test wells matches any train typewell byte-identically.**
-- **M4 single-dip geometric reparametrization CLOSED on evidence.** `dTVT = -dZ + tan(delta)*dH` with
-  `dZ`/`dH` exact at every row. Oracle whole-well dip reaches **7.65** row-weighted RMSE vs a flat anchor
-  of **15.91**, but every honest estimator of that one parameter is far worse: prefix-fit **80.29**,
-  recency-fit **39.57**. Fifth independent instance of large-oracle / no-achievable-margin.
-- **M5 naive dip-field fails.** Ungated neighbour plane: 64.57 standalone, 18.23 at W=0.15, vs flat 15.98;
-  3-well bootstrap P(gain>0) = **0.314**. This does not contradict the deployed field's +0.436 (which is
-  group-anchored, IDW-weighted and gated); it isolates the refined form that remains open.
+Loaded the banked OOF (`aligned_preds.npz`, column `s_54844628`, toe-only, 760 wells, 3,721,471 rows) and
+reproduced the banked pooled RMSE **8.8626** exactly before any analysis. Splits are by well (lag-1
+within-well residual autocorrelation +0.9998 makes a row split leak).
 
-Six directions queued at priorities **110–160**: N4 conformal per-well uncertainty, N2 increment-target
-structural field (the only one with a submission path), N1 geometry-bounded alignment DP, N3 multi-scale
-GR matching, N6 second public-solution audit, N5 time-boxed typewell fingerprint. Four directions
-explicitly **not** queued with reasons: train-only images, RL geosteering, azimuthal-GR dip inversion,
-standalone semantic-segmentation correlation.
+**Marginal split conformal is valid and retained**: nominal 0.80/0.90/0.95 -> widths 9.99/13.43/17.53 ft
+with held-out coverage 0.853/0.942/0.966.
 
-Report: `reports/new_direction_search_2026-07-28.md`. Scripts: `scripts/nds_geometry_reparam_probe.py`,
-`scripts/nds_dipfield_probe.py`. Next queued: `status_summary_for_user` (100).
+**Conditional (Mondrian) conformal is a negative result.** Best feature association |spearman| 0.172
+(`nnb`); 5-fold CV R^2 on log(per-well RMSE) = **0.0736**; width separation across bins only 1.28-1.61x
+against a true 8.56x median-to-max spread. Decisively, at matched coverage the conditional intervals are
+**wider**, not narrower (13.76 / 13.97 vs marginal 13.43) — conditioning costs width. **The per-well
+confidence-gating axis flagged by the variant-matrix round is therefore closed on these features**, for
+the same reason the anti-harm guard closed at AUC 0.53: the covariates carry no per-well signal.
+
+Two by-products carry more decision value than the intervals:
+
+- **The 3-well scoring scale, measured on the error level.** For one FIXED model, a random row-weighted
+  3-well draw pools to 5th **3.491** / median **6.708** / 95th **15.138**. Independent corroboration of
+  the 3-well gate doctrine, previously derived from per-well *gain* variance and now measured on the
+  error *level*.
+- **Conformal on OOF does not bound the leaderboard.** OOF on the 3 test wells **4.756** vs public
+  **7.891** = ratio **1.659**. The marginal bound is a statement about train-masked OOF only.
+
+The 3 visible test wells sit at fleet percentiles 0.264 / 0.480 / 0.499 — an easier-than-typical draw,
+pooling to percentile 0.207 of the 3-well draw distribution.
+
+Report: `reports/n4_conformal_well_uncertainty_2026-07-28.md`. Script:
+`scripts/n4_conformal_well_uncertainty.py`. Next queued: `n2_increment_structural_field` (120).
