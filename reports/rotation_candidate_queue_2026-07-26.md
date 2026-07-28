@@ -282,3 +282,17 @@ G15 vintage `seq_id` features (leakage-adjacent, needs a rules check first).
   3.3 RMSE to deployed on that rate needs an implausible AUC, so emission tuning alone cannot get there.
 - **Not queued:** a per-typewell-group router over the family structure (n=2-5 per group; hard selection
   is a closed pattern).
+
+## 2026-07-29 update (Q11 PF path ranker)
+
+- **Closed: ranking/selecting among PF candidate paths**, with or without TWH=1 alignment features. All
+  three arms lose to the PF mean default on 40 held-out wells (-0.19 to -0.56); 3-well P(gain>0) 0.2696.
+- **Closes the PF-path line's second shape.** Generation from a pointwise emission was closed by
+  G3.1/G3.2/N1/Q10; selection among proposals is now closed by the prior top-K ranker and Q11.
+- **Banked headroom measurement:** ORACLE best-of-96 = 7.1579 vs deployed 8.8626 — the information IS in
+  the path set, but it is truth-selected and no test-available selector reaches it.
+- **The lever, if this is ever revisited:** a *combiner* (weighting over paths) rather than a *selector*,
+  because weighting preserves the averaging that makes the PF mean robust. Not queued now.
+- **Methodology reinforced:** an 8-well smoke showed +73.5% headroom conversion that became -12.8% at 40
+  wells. Never accept a pooled figure from a small eval set when its own per-well statistics disagree.
+- Next runnable: **`q12_coverage_gated_self_template`** (220).

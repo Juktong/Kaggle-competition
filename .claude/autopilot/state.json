@@ -2,19 +2,19 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "d5752c96-c2e9-45ef-b32c-dadd1a88af23",
-  "current_handle": "41f0481c",
-  "current_task_id": "q10_twh1_scorer_dp_candidate",
-  "last_started_at": "2026-07-28T17:13:17Z",
-  "last_finished_at": "2026-07-28T18:40:00Z",
+  "resume_session_id": "41f0481c-6d30-449e-9805-efcab242242d",
+  "current_handle": "61830999",
+  "current_task_id": "q11_twh1_pf_seed_ranker",
+  "last_started_at": "2026-07-28T17:28:19Z",
+  "last_finished_at": "2026-07-28T19:30:00Z",
   "last_result": {
-    "task_id": "q10_twh1_scorer_dp_candidate",
+    "task_id": "q11_twh1_pf_seed_ranker",
     "outcome": "completed_no_submission",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Q10: the alignment line finally beats the flat anchor under nested selection - TWH=1 emission gives nested DP 12.170 vs flat 12.722, both folds agreeing, against TWH=8 13.206 and N1 13.644; lam=60 verified as an interior optimum after extending the grid to 800. But NOT submittable: the gate is an AND and 12.170 vs deployed ~8.86 is ~37% worse, the win is tail-driven (helps 16-17 of 40 wells), and the 0.28-0.55 margin is grid-sensitive. Revises N1 - the emission was NOT saturated (+0.030 AUC bought -1.04 RMSE), so \"the gap is wholly in the transition model\" is withdrawn; N1 amended in place.",
-    "next_task_id": null
+    "headline": "Q11 closed: every path-ranker arm LOSES to simply using the PF mean path. On 40 held-out wells prior(14) -0.3985, TWH1(10) -0.5604, both(24) -0.1897 vs the PF mean default; best arm helps 40% of wells with 3-well P(gain>0) 0.2696. The ORACLE best-of-96 is 7.1579 and DOES beat deployed 8.8626, so the information exists in the path set, but it is truth-selected. Mechanism: the PF mean IS the averaging that rule #1 says transfers; a ranker replaces it with a single bet (downside -11.15 vs upside +3.83), which is why a better score did not rescue it. Closes the PF-path line second shape. An 8-well smoke showed +73.5% headroom conversion that inverted to -12.8% at 40 wells.",
+    "next_task_id": "q12_coverage_gated_self_template"
   },
   "queue_exhausted": false
 }

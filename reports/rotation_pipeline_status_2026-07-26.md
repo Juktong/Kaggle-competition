@@ -745,3 +745,55 @@ hard-selection pattern.
 place. What survives is that the DP family remains far from deployed.
 
 Report: `reports/q10_twh1_scorer_dp_candidate_2026-07-29.md`.
+
+## Round 21 — 2026-07-28 17:28 UTC (autopilot `q11_twh1_pf_seed_ranker`)
+
+Live refresh: quota **0/5**, no Kaggle kernel running. `can_submit=true` but **no submission** — no
+positive nested evidence, so step 5's condition is unmet and step 6 never triggers.
+
+**Reused stored artifacts**: 773 wells x 96 PF candidate paths with truth, plus the 74,208-row feature
+table. No path regeneration. The emission `C[row, state]` is computed once per well, so scoring 96 paths
+costs no more than scoring one.
+
+**The headroom is large and the oracle beats deployed** (760 wells, pooled row-weighted):
+
+```
+PF mean path (default) 10.9905 | median path 12.4375 | ORACLE best-of-96 7.1579 | worst 22.1407
+DWT base 10.2891 | deployed honest 8.8626
+ORACLE headroom +3.8326   worst-case risk -11.1502   spread among the 96 (median) 7.6925
+```
+
+**But every ranker arm loses to the PF mean default** (40 held-out wells, splits by well):
+
+```
+feature set          pooled   vs PF mean   headroom used   wells helped
+prior (14)           8.0556      -0.3985          -12.8%          45.0%
+TWH1 (10)            8.2175      -0.5604          -18.0%          32.5%
+both  (24)           7.8468      -0.1897           -6.1%          40.0%
+best arm per-well gain: mean -0.3943 median -0.0714 | helped 40.0% hurt 60.0%
+3-WELL bootstrap: 5th -3.1085  50th -0.2723  95th +4.8850  P(gain>0) 0.2696
+```
+
+The TWH=1 alignment features **alone are the worst arm**; adding them to the prior 14 improves on
+prior-alone (-0.19 vs -0.40) without reaching zero.
+
+**The smoke inverted at scale, and that is itself the lesson.** On 8 wells the prior arm appeared to
+convert **73.5%** of the oracle headroom; at 40 wells it converts **-12.8%**. Its own per-well statistics
+had already shown the truth on the smoke (median gain -0.20, 62.5% hurt). Same failure mode N1 recorded
+when a 12-well eval manufactured a gain that vanished at 40 — the >=40-well rule earned its place again.
+
+**Why selection loses where averaging wins.** The PF mean path IS the averaging: it pools 96 proposals
+whose spread is median 7.69 ft, and that pooling is the robustness. A ranker replaces the average with a
+single bet, with downside -11.15 against upside +3.83. This is the project's rule #1 (averaging and
+shrinkage transfer; hard selection and fitted weights do not), and it explains why a BETTER score did not
+rescue it: the problem is not ranking quality but that ranking discards variance reduction.
+
+**Closes both shapes in the PF-path line** — generation from a pointwise emission (G3.1/G3.2/N1/Q10) and
+selection among proposals (prior top-K ranker, Q11). Sixth instance of the large-oracle/no-achievable-
+margin pattern, and the first where the achievable margin is reliably negative.
+
+**Banked for any future line:** the oracle best-of-96 is 7.1579, better than deployed 8.8626 — the
+information exists in the path set. The lever is a better *combiner* (a weighting over paths, which
+preserves averaging), not a better ranker.
+
+Report: `reports/q11_twh1_pf_seed_ranker_2026-07-29.md`. Next queued: `q12_coverage_gated_self_template` (220).
