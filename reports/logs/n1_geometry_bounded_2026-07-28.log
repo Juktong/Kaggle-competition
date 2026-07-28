@@ -1,0 +1,18 @@
+pairs=4862  train_wells=60  eval_wells=12
+scorer val AUC = 0.7096   (G3.2 recorded 0.7242)
+
+prepared 12 eval wells (emission computed once, reused by every arm)
+
+=== transition-rule x lam sweep (same scorer, same emission, same penalty scale) ===
+arm                        lam=20    lam=60   lam=150         best band binding
+unbounded                  15.152    14.482    13.758       13.758         0.0%
+centred                    12.074    13.156    18.868       12.074         0.0%
+bounded 1 deg              19.396    19.491    19.783       19.396        97.1%
+bounded 2 deg              16.394    14.557    19.707       14.557        95.8%
+bounded 4 deg              12.005    13.501    18.868       12.005        94.8%
+bounded 8 deg              12.540    13.156    18.868       12.540        92.7%
+bounded 16 deg             12.039    13.156    18.868       12.039        89.2%
+flat-anchor on these wells: 13.103
+
+G3.2 reference at lam=60: DP 12.527, flat-anchor 13.103. Deployed honest line ~8.86.
+best arm: bounded 4 deg = 12.005

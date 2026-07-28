@@ -1,17 +1,15 @@
 
 
-## 2026-07-28 update (N2 increment structural field)
+## 2026-07-28 update (N1 geometry-bounded alignment)
 
-- **Closed: re-referencing the structural field's increment.** The deployed field is already heel-anchored
-  and level-invariant, so the intended level->increment swap is a no-op; the two constructions that DO
-  differ both fail the 3-well gate on the full 760-well split (`iso` -0.1003 pooled, 5th -1.7148;
-  `increment` -1.6840 pooled, 5th -5.5224).
-- **Corrected:** `new_direction_search` described the deployed field as interpolating the TVT level. It
-  interpolates the increment and takes the level from the target's own known heel.
-- **New anchor fact:** the deployed neighbourhood is effectively single-well — 99.38% of the k=12
-  contributing points come from the same well as the nearest point, and the nearest well essentially never
-  changes along a lateral. Any future cross-well idea should assume a single dominant neighbour.
-- **Retained:** a byte-exact reimplementation of the deployed structural field
-  (`scripts/n2_increment_structural_field.py`), reproducing the banked 8.8626 to -0.0000 on the full split.
-  Reusable for any future variant of this component.
-- Next runnable: **`n1_geometry_bounded_alignment`** (priority 130).
+- **Closed: the geometry-derived admissible band.** It binds 83-91% of transitions (not inert), but on 40
+  eval wells every geometry-aware arm is worse than the unbounded control, and nested selection never
+  picks one. Pooled held-out DP 13.644 vs flat-anchor 12.722.
+- **Amended: G3.2's "DP beats the flat anchor".** That comparison selected lam on the wells it reported;
+  with nesting on 40 wells it does not beat flat. The scorer's AUC 0.7242 vs NCC 0.5010 stands.
+- **New standing caution:** the 12-well eval set used by G3.1/G3.2/N1 is small enough that a 20-config
+  sweep produced an apparent 25% gain (9.412) that vanished on 40 wells. Any future alignment result must
+  be nested and reported on >=40 wells.
+- **Retained:** the geometric bound gives stability at weak regularisation (unbounded diverges to 42.359
+  at lam=1; bounded stays 14-16). Useful if a future formulation needs a weak regulariser.
+- Next runnable: **`n3_multiscale_gr_matching`** (priority 140).

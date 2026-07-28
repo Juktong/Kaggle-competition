@@ -1,3 +1,3 @@
 
 
-| 12 | N2 increment structural field | **no submit (3-well gate fails)** | Both variants fail the corrected gate on the full 760-well split: `struct_increment_iso` 5th -1.7148, median 3-well draw -0.0001, P(gain>0) 0.4602; `struct_increment` 5th -5.5224, P(gain>0) 0.1938. The task's own step 4 ("if and only if the gate passes") therefore does not trigger. 0 quota used. |
+| 13 | N1 geometry-bounded alignment | **no submit (task is `can_submit=false`; result negative)** | Diagnostic with `max_submit_cost=0`. The band binds but does not improve: on 40 wells the unbounded control is best (12.518) and nested selection yields DP 13.644 vs flat-anchor 12.722. Task step 5's scale-up condition is not met. 0 quota used. |

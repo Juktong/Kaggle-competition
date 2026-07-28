@@ -1,48 +1,41 @@
 
 
-## Round 12 — 2026-07-28 11:48 UTC (autopilot `n2_increment_structural_field`)
+## Round 13 — 2026-07-28 12:48 UTC (autopilot `n1_geometry_bounded_alignment`)
 
-Live refresh: quota **0/5**, no Kaggle kernel running, branch in sync. **No submission** — the 3-well gate
-fails for every variant, so the task's submit step never triggers.
+Live refresh: quota **0/5**, no Kaggle kernel running, branch in sync. `can_submit=false`; no submission.
 
-**The task's premise turned out to be wrong, and that is the round's main finding.** Reading the builder
-behind `54844628` (`struct_oof_produce.py`), the anchor is `mean(r_true - r_pred)` over the target's own
-last 100 known heel rows, so
+**Negative result, plus an amendment to a same-day claim.**
 
-    pred = ( r_pred - mean(r_pred over heel) ) + mean(r_true over heel) - Z
+The constraint is genuinely non-parametric: `dTVT = -dZ + tan(delta)*dH` with `dZ`/`dH` exact from X/Y/Z,
+giving a hard admissible interval per DP transition. Measured LOCAL dip over the DP's 10-row step (80
+wells, 51,514 transitions): |dip| p50 1.97 deg, p90 3.59, p95 5.43, p99 27.05 — so 4 deg admits 92.1% of
+true transitions, 8 deg 96.4%. (`new_direction_search` M4's +/-3.7 deg was WHOLE-WELL dip; the local
+distribution the DP needs is wider.)
 
-The level of `r_pred` cancels **exactly**: the deployed field is already heel-anchored and
-level-invariant, i.e. **already an increment estimator**. A literal level->increment swap is a no-op. That
-"interpolates the level" description came from our own `new_direction_search` round earlier the same day
-and is corrected here.
+The effect was decomposed into **centring** (regulariser referenced to -dZ, i.e. penalise dip not TVT
+movement) and **bounding** (the hard interval), sharing one emission matrix and one penalty scale.
 
-Preflight was clean at both scales: the reimplementation reproduces the banked `struct_oof.npz` to
-`max|d| = 0.00000000`, and on the **full 760-well split** it reproduces the banked pooled **8.8626** to
-`-0.0000`. A tree-caching optimisation was verified byte-identical before the long run.
+Two harness defects were caught by the smoke and fixed before any result was read: the penalty had been
+normalised by band width (making a narrow band up to 60x more regularised — not a one-factor change), and
+the binding metric compared against an already-penalised optimum, reporting an impossible 0.0%.
 
-**The mechanism that could have made a reformulation matter does not occur.** Full split: the
-nearest-point well identity switches on **0.0021** of consecutive row pairs (median 0.0001), and
-**99.38%** of the k=12 contributing points share the nearest point's well (p10 0.9929). The neighbourhood
-is effectively single-well — these are parallel laterals on a pad — so there is no cross-well level mixing
-to remove.
+**12 wells suggested a large win** — `bounded 8 deg` at lam=2 reached **9.412** vs G3.2's 12.527.
+**40 wells (strict superset) removed it** — the same config gives **15.569**, the best arm becomes the
+**unbounded control** (12.518), and every geometry-aware arm is worse. The 9.412 was a minimum selected
+over 20 configurations on 12 wells: the project's recorded failure mode.
 
-Two variants measured on the full split, both failing the 3-well gate (20,000 draws):
+**Nested validation decided it.** Config chosen on 20 wells, scored on the disjoint 20, both ways:
+pooled held-out **DP 13.644 vs flat-anchor 12.722 — does not beat flat**; beats flat on 37.5% of wells.
+Nested selection never picks a geometry-aware arm.
 
-```
-struct_increment_iso  (one-factor: identical selection/weights, level -> within-well increment)
-    pooled 8.9629  (-0.1003)  5th -1.7148  median 3-well draw -0.0001  P(gain>0) 0.4602  GATE FAIL
-struct_increment      (per-well increment averaged across all surviving wells)
-    pooled 10.5466 (-1.6840)  5th -5.5224  median 3-well draw -1.4046  P(gain>0) 0.1938  GATE FAIL
-```
+**Amendment to G3.2 (recorded earlier the same day).** Its "DP beats the flat anchor, 12.527 vs 13.103"
+also selected lam on the wells it reported. With nesting on 40 wells the DP does not beat flat. What
+stands from G3.2 is the scorer's held-out pair AUC 0.7242 vs NCC 0.5010; what is withdrawn is the DP
+claim. `reports/g32_learned_alignment_smoke_2026-07-28.md` is amended in place.
 
-Smoke (38 wells) and full agree in sign and magnitude (-0.18 -> -0.10; -1.90 -> -1.68).
+**The one thing the band buys:** stability, not accuracy. At lam=1 the unbounded DP diverges (42.359)
+while bounded arms stay at 14-16 across the whole grid. It removes the catastrophic tail without moving
+the optimum.
 
-**Mechanistic explanation, worth keeping.** The deployed anchor subtracts *the same estimator's own value*
-at the heel, so the reference cancels exactly and the increment is self-consistent. Both variants
-substitute a *different* reference at the heel, which does not cancel and reintroduces a per-well level
-error; the damage scales with how far the new reference sits from the original. The deployed construction
-is not merely equivalent to an increment estimator — it is the **correctly referenced** one.
-
-Direction closed. Report: `reports/n2_increment_structural_field_2026-07-28.md`. Scripts:
-`scripts/n2_increment_structural_field.py`, `scripts/n2_eval_increment.py`. Next queued:
-`n1_geometry_bounded_alignment` (130).
+Task step 5 ("do not scale up unless the band clearly improves on 12.527") is not met — no scale-up.
+Report: `reports/n1_geometry_bounded_alignment_2026-07-28.md`. Next queued: `n3_multiscale_gr_matching` (140).

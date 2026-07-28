@@ -1,0 +1,23 @@
+pairs=4862  train_wells=60  eval_wells=40
+scorer val AUC = 0.7096   (G3.2 recorded 0.7242)
+
+prepared 40 eval wells (emission computed once, reused by every arm)
+
+=== transition-rule x lam sweep (same scorer, same emission, same penalty scale) ===
+arm                         lam=1     lam=2     lam=5    lam=10    lam=20         best band binding
+unbounded                  42.359    24.695    16.072    13.003    12.518       12.518         0.0%
+centred                    43.089    23.532    17.751    15.636    17.502       15.636         0.0%
+bounded 4 deg              14.864    14.542    14.096    15.334    19.566       14.096        91.4%
+bounded 8 deg              15.836    15.569    14.718    15.376    19.484       14.718        88.5%
+bounded 16 deg             22.016    20.757    16.740    15.989    17.535       15.989        83.0%
+flat-anchor on these wells: 12.722
+
+=== NESTED 2-fold: config chosen on one half, scored on the disjoint half ===
+  select on 20 wells -> unbounded        lam=10     |  held-out 20 wells: DP  13.097  flat  13.540
+  select on 20 wells -> unbounded        lam=20     |  held-out 20 wells: DP  14.170  flat  11.847
+  POOLED HELD-OUT: DP 13.644   flat-anchor 12.722   does NOT beat flat
+  (the selected-on-all-wells minimum above is optimistic by construction)
+  per-well: DP beats flat on 37.5% of held-out wells (n=40)
+
+G3.2 reference at lam=60: DP 12.527, flat-anchor 13.103. Deployed honest line ~8.86.
+best arm: unbounded = 12.518
