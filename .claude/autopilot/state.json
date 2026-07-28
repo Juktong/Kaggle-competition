@@ -2,20 +2,19 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "262fb9d2-06e2-45de-893b-c555820231e1",
-  "current_handle": "2d3ec7e9",
-  "current_task_id": "q15_frontier_dependency_replacement",
-  "last_started_at": "2026-07-28T20:28:26Z",
-  "last_finished_at": "2026-07-28T21:05:00Z",
+  "resume_session_id": "2d3ec7e9-05f7-4fd7-bae4-ff5ff831a9af",
+  "current_handle": "2de6a1fe",
+  "current_task_id": "q17_kaggle_gpu_tiny_training_followup",
+  "last_started_at": "2026-07-28T21:58:28Z",
+  "last_finished_at": "2026-07-29T00:05:00Z",
   "last_result": {
-    "task_id": "q14_collect_and_submit",
-    "outcome": "submitted_score_pending",
-    "submitted": true,
-    "submission_ref": 55064411,
+    "task_id": "q16_honest_twh1_residual_router",
+    "outcome": "closed_no_submission",
+    "submitted": false,
     "quota_used_today": 1,
     "quota_remaining_today": 4,
-    "headline": "Collected the in-flight Q14 hedge-OFF run and SUBMITTED it as ref 55064411 (quota 1/5); public score still PENDING at hand-off. Patch activation confirmed (00e12e8b moved_rows 4301 -> 0). Audit HARD PASS, non-homogeneous rmse 1.756 vs 54968060, best local proxy of any frontier output (2.29 vs 3.26). CONFOUND MEASURED: rerun config variance is rmse 1.377 and -1.52 of the -0.97 pooled local gain comes from 00bbac68, a well the hedge never touches - so it does NOT isolate the hedge, and the submission description says so. q15_frontier_dependency_replacement was NOT started: collecting the pending run took precedence and Q15 needs its own non-overlapping frontier run.",
-    "next_task_id": "q15_frontier_dependency_replacement"
+    "headline": "Q16 CLOSED at its prerequisite without building the router -- the cheapest resolution. A bounded confidence-gated residual correction needs the SIGNED row residual of 54844628 to be predictable on HELD-OUT wells. GroupKFold(5) BY WELL, 760 wells / 3.72M rows / 15 test-available features: CV R^2 -0.0802 (NEGATIVE, fitted per-row structure anti-transfers across the well boundary), corr 0.0721. Gain non-monotonic (+0.0247 @0.25, -0.0248 @0.5, -0.3398 @1.0); constant-only control explains +0.0048, leaving ~+0.020 ft real per-row signal = 0.23% of an 8.86 ft RMSE. 3-well bootstrap 5th -0.9333 / 95th +0.8933, P(gain>0) 0.5078 -- competition-scale noise is ~40x the effect. Both gate conditions FAIL. Completes the bound N4 left open: MAGNITUDE weakly predictable (0.0736), SIGN not (-0.0802); magnitude without sign cannot drive a correction, which also explains N4 conditional conformal intervals being wider than marginal. No submission, no quota spent.",
+    "next_task_id": "q17_kaggle_gpu_tiny_training_followup"
   },
   "queue_exhausted": false,
   "pending_kaggle_run": null,
@@ -23,8 +22,9 @@
     "ref": 55064411,
     "kernel": "joezzzzz/rogii-frontier-hedgeoff-full",
     "version": 1,
-    "status": "PENDING at 45+ min (normal for kernels-only: scoring re-runs the kernel, ~1h)",
-    "next_action": "record the public score in submission_ledger + final_slot package; if <= 6.563 re-evaluate slot 1 on provenance (own account vs teammate)",
-    "poll_cadence": "hour-scale; a sub-hour PENDING is not a failure"
+    "status": "PENDING at 2h20m+ (past the ~1h kernel-runtime expectation; still not a failure in a kernels-only competition)",
+    "next_action": "FIRST action next round: record the public score in submission_ledger + final_slot package; if <= 6.563 re-evaluate slot 1 on provenance (own account vs teammate)",
+    "poll_cadence": "hour-scale; a PENDING is not a failure and is not a reason to resubmit",
+    "env_note": "kaggle pkg was missing and was reinstalled: python3 -m pip install --user --break-system-packages kaggle. API attrs are snake_case (s.public_score), not camelCase."
   }
 }

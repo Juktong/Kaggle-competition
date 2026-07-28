@@ -358,3 +358,30 @@ G15 vintage `seq_id` features (leakage-adjacent, needs a rules check first).
   weight 0.40) as the single prediction-affecting third-party dependency, and the variant-matrix
   correction downgraded its ~0.047 to a JOINT upper bound shared with the bimodal hedge — which
   `55064411` will help decompose once scored. Q15 should start from that, not re-derive it.
+
+## 2026-07-29 update (Q16 closed on prerequisite; Q15 still carried forward)
+
+- **`q16_honest_twh1_residual_router` CLOSED — no submission, no quota.** Resolved at its prerequisite
+  instead of by implementation: a bounded residual correction needs the **signed** row residual of
+  `54844628` to be predictable on **held-out wells**, and it is not. `GroupKFold(5)` by well over 760
+  wells / 3.72M rows / 15 test-available features gives **CV R^2 -0.0802** (negative — fitted per-row
+  structure anti-transfers across the well boundary). The gain profile is non-monotonic (+0.0247 at
+  strength 0.25, -0.0248 at 0.5, -0.3398 at 1.0), an out-of-fold constant-only control accounts for
+  +0.0048 of it, and the **3-well bootstrap runs -0.9333 to +0.8933 with P(gain>0) 0.5078**. Both gate
+  conditions fail. Report: `reports/q16_honest_twh1_residual_router_2026-07-29.md`.
+- **Ledger effect:** this completes the bound N4 left open. Error MAGNITUDE is weakly predictable
+  (N4, R^2 0.0736); the SIGN is not (Q16, R^2 -0.0802). Magnitude without sign cannot drive a
+  correction, and that one fact also explains N4's conditional conformal intervals coming out wider
+  than marginal ones. The older post-hoc-residual-correction closure is now generalised from its
+  original feature set to the full test-available set including the N4 per-well features.
+- **Do not re-open** confidence-gated residual correction on the deployed line with this feature family.
+  Re-opening would require a materially different feature source, and it would have to overcome a
+  NEGATIVE transfer R^2 rather than a small positive one.
+- **`55064411` STILL PENDING** at 2 h 20 m+ (past the ~1 h kernel-runtime expectation, but PENDING is
+  still not a failure here). Recording its score remains the FIRST action of the next round.
+- **`q15_frontier_dependency_replacement` STILL NOT STARTED** — unchanged reason: it needs its own
+  frontier full run, and `55064411`'s kernel re-run is still in flight, which the standing rules forbid
+  overlapping. Its prerequisites remain in hand (`fleongg/rogii-claude-models-pub`, blend weight 0.40;
+  its ~0.047 is a JOINT bound shared with the bimodal hedge, which `55064411` will help decompose once
+  scored). Start from that, do not re-derive it.
+- **Next:** `q17_kaggle_gpu_tiny_training_followup`.

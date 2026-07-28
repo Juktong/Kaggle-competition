@@ -94,3 +94,37 @@ Deadline 2026-08-05 23:59 UTC.
   the few minutes typical of file submissions. A `PENDING` status at 20-45 minutes is normal here and is
   not evidence of a problem — do not resubmit or assume failure on that basis. Poll on an hour-scale
   cadence.
+
+## 2026-07-29 — `55064411` still PENDING; Q16 round consumed no quota
+
+**Quota: 1/5 used for the day. No submission was made this round.** `q16_honest_twh1_residual_router`
+closed on its prerequisite (signed-residual CV R^2 **-0.0802** by well; 3-well bootstrap 5th **-0.9333**)
+and therefore never reached a submittable artifact — see
+`reports/q16_honest_twh1_residual_router_2026-07-29.md`.
+
+**`55064411`** (Q14 hedge-OFF; kernel `joezzzzz/rogii-frontier-hedgeoff-full` v1; commit `f491826`;
+output sha256 `4eec813b1213c94d`) re-checked this round: **`SubmissionStatus.PENDING`, 2 h 20 m+** after
+the 2026-07-28 20:30:17 UTC submission, `public_score` empty. This is now **past** the ~1 h
+kernel-runtime expectation recorded in `41bb65f`. The carry-forward rule is unchanged — in a
+kernels-only competition scoring re-runs the kernel, so PENDING is not itself a failure and is not a
+reason to resubmit — but the latency is longer than the recorded expectation and that is worth noting
+rather than smoothing over. A background poller remains armed; the score is the FIRST action of the
+next round.
+
+Standing scored references for the decision when it lands:
+
+| ref | public | note |
+|---|---|---|
+| 54922806 | **6.563** | best scored frontier |
+| 54968060 | 6.643 | overlap-OFF diagnostic |
+| 54896975 | 6.669 | Kaiwalya PF bimodal midpoint repro |
+| 54923144 | 6.678 | GR sigma 1.0 PF frontier |
+| 54990075 | 6.690 | G2.1 SP45-projection-only |
+
+If `55064411` lands at or below **6.563** it becomes an own-account frontier competitive with the
+teammate's best, and the slot-1 recommendation should be re-evaluated on **provenance**.
+
+**Tooling fact recorded for the next round's score check:** the `kaggle` package was missing from the
+environment and was reinstalled with `python3 -m pip install --user --break-system-packages kaggle`
+(PEP 668 environment). Credentials resolve from `~/.kaggle/access_token`. The API returns **snake_case**
+attributes — `s.public_score`, `s.private_score`, `s.status` — not the camelCase names.

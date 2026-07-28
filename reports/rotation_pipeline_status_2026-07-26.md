@@ -991,3 +991,54 @@ pipeline) rather than the minutes a plain file submission takes.
 **Carry-forward rule:** poll submission status on an hour-scale cadence in this competition, and never
 treat a sub-hour `PENDING` as a failure or a reason to resubmit. Quota confirmed at **1/5** for
 2026-07-28.
+
+## Round 26 — Q16 honest residual router: CLOSED on its prerequisite
+
+`q16_honest_twh1_residual_router` proposed a bounded, confidence-gated residual correction on the
+deployed honest line `54844628`. The direction was resolved at its **prerequisite** rather than by
+building the router: a bounded correction requires the **signed** row residual to be predictable on
+**held-out wells**. It is not.
+
+`scripts/q16_residual_predictability.py` — 15 test-available features, 3,721,471 rows, 760 wells,
+`GroupKFold(5)` split BY WELL:
+
+- **signed-residual CV R^2 = -0.0802** (negative: fitted per-row structure ANTI-transfers across the
+  well boundary), corr(pred, actual) 0.0721.
+- correction gain profile is **non-monotonic** — +0.0247 at strength 0.25, -0.0248 at 0.5, -0.3398 at 1.0.
+  That shape is the signature of a near-zero signal fitted against noise.
+- an out-of-fold **constant-only** control (subtract the train-fold mean, no model) yields at most
+  +0.0048, so of the +0.0247 roughly +0.020 ft is genuine per-row signal — **0.23% of an 8.86 ft RMSE**.
+- per well it is a coin flip: helped 50.4%, hurt 49.6%, mean gain -0.0034.
+- **3-WELL bootstrap: 5th -0.9333, 50th +0.0072, 95th +0.8933, P(gain>0) 0.5078.** The +-0.9 ft spread at
+  competition scale is ~40x the +0.02 ft effect.
+
+**GATE FAILS BOTH CONDITIONS** (materially positive R^2; 3-well 5th pct > 0). No submission, no quota.
+
+**This completes the bound N4 left open.** N4 showed error MAGNITUDE is weakly predictable (R^2 0.0736);
+Q16 shows the SIGN is not predictable at all on the same protocol. Magnitude without sign cannot drive a
+correction — knowing a row is likely wrong gives no information about which way to move it. That single
+explanation also covers why N4's conditional conformal intervals came out wider than marginal ones.
+
+### Operational facts from this round
+
+1. **`kaggle` was missing from the environment** and was reinstalled with
+   `python3 -m pip install --user --break-system-packages kaggle` (PEP 668). The API returns
+   **snake_case** attributes: `s.public_score` / `s.private_score`, NOT `publicScore`.
+2. **Exact-split GBM is not viable at 3.7M rows** (single-threaded; blew a 3000 s cap once and was on
+   track to blow 2400 s again). `HistGradientBoostingRegressor` fits the FULL row set multithreaded in
+   about a minute — cheaper AND better, since no subsampling was needed.
+3. **Redirect Python with `-u`.** Two attempts wrote a 0-byte log for 20 minutes and read as hung;
+   stdout was block-buffered to the file.
+4. **Verify a PID before killing it.** `pgrep -f "<pat>" | head -1` returned a transient PID (312935),
+   not the run (312966), so the first kill was a no-op. Confirm with `ps -o pid,cmd -p <pid>`. The
+   self-matching-waiter bug recurred as well: a waiter whose own command line contains its grep pattern
+   never exits.
+
+### `55064411` still PENDING
+
+Re-checked this round: **still `SubmissionStatus.PENDING`, now 2 h 20 m+** after the 2026-07-28 20:30 UTC
+submission — past the ~1 h expectation recorded in `41bb65f`, though PENDING is still not itself a
+failure here. No resubmission, no extra quota. **Quota 1/5 used.** The recorded next action stands:
+record the score in the ledger and final-slot package, and if it is <= 6.563 re-evaluate slot 1 on
+provenance. Scored references: 54922806 **6.563**, 54968060 6.643, 54896975 6.669, 54923144 6.678,
+54990075 6.690.
