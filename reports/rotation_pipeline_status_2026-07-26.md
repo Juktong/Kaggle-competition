@@ -2017,3 +2017,73 @@ inherited from Q10 and not varied; they are arguably part of the transition mode
 The gate fails on all three conditions, so step 5 does not trigger; and even had it passed, this line sits
 at ~12.2 against the deployed honest 8.8626 (37% worse), clearing neither the research bar nor the submit
 gate. Consistent with Q33: next 24 h spends 0 slots.
+
+## 2026-07-29 17:40 UTC — Q41 ensemble search: 0 of 355 arms clear the 3-well gate
+
+`reports/q41_nonhomogeneous_ensemble_search_2026-07-30.md`, `scripts/q41_nonhomogeneous_ensemble.py`.
+**Closed with an exact reason. No submission, quota 0/5.**
+
+### BLOCKER on the arm the task asks for first
+
+**honest + frontier CANNOT be validated by well.** The frontier family exists locally only as TEST-SET
+submission CSVs (14,151 rows, 3 wells, NO truth); there is no frontier prediction on any train well. What
+could be computed is non-homogeneity without accuracy -- exactly the "information without validation" the
+ledger declines to act on. Recorded as a blocker, not guessed at. Producing that arm needs a fresh frontier
+GPU run for train-well predictions, which Q33's budget rules out.
+
+### Why this was not a repeat of the 07-22 audit
+
+That audit tested SINGLE candidates and all failed the 3-well gate, the recorded lesson being that per-well
+gain std (~1.3) far exceeds mean gain, so the 5th percentile is negative for everything. That is a VARIANCE
+failure, and averaging is the one operation that reduces variance (Rule #1's transferable class). So Q41
+asked the new question: **does an ensemble of decorrelated members clear the gate every single fails?**
+
+Error-correlation with the deployed line identifies the genuinely decorrelated axis: dwt 0.868 and pf 0.831
+vs the structural variants at 0.96-0.97 (near-duplicates -- averaging those is what the task forbids). Both
+classes were included so the distinction is measured, not asserted.
+
+### Result — 355 arms
+
+    NESTED across all 355 arms, splits BY WELL
+      selected 8.5281 vs deployed 8.8626 -> gain +0.3346
+      helps 58.8% of held-out wells
+      3-WELL bootstrap 5th -1.3687  50th +0.1759  95th +1.9578  P(>0) 0.6108
+    GATE: nested gain > 0 PASS | helps a majority PASS | 3-well 5th > 0 FAIL
+
+Two of three pass -- **the best any candidate has done against this gate** -- and the third still fails.
+
+### THE VARIANCE HYPOTHESIS IS REFUTED, and the structure says why
+
+**0 of 355 arms have a 3-well 5th > 0.** The arms with the LEAST negative 5th are the ones that change the
+deployed line LEAST:
+
+    ('single','s_54844628')                +0.0000    0.0%   8.8626   <- deployed vs itself
+    (s_54844628, s_a20_w25, 0.9)           -0.0684   56.8%   8.8224
+    (s_54844628, s_k96_aniso, 0.9)         -0.0780   62.5%   8.8134
+    (s_54844628, topk96_l75, 0.9)          -0.1103   64.6%   8.7843
+
+**The 3-well 5th percentile is maximised by not changing the deployed line at all**, and degrades
+monotonically with the size of the change -- in BOTH directions, including changes that improve pooled RMSE
+and help ~65% of wells. The arithmetic explains it: with per-well gain mean ~0.35 and std ~1.3, a 3-well
+mean has 5th percentile ~ 0.35 - 1.645*1.3/sqrt(3) ~ **-0.88**. Clearing zero at n=3 needs mean gain >~ 1.2,
+more than 3x the best pooled gain anywhere in this space.
+
+### The apparent gain is MEMBER SUBSTITUTION, not ensembling
+
+Best ensemble 8.4984 vs best single member `topk96_l75` 8.5070 -> ensembling adds **+0.0086**. The nested
++0.3346 is almost entirely "use topk96_l75 instead of s_54844628". So the mechanism this task existed to
+test contributes essentially nothing, and member substitution was already closed by the 07-22 audit for
+failing this same gate.
+
+### Recorded, NOT recommended
+
+`topk96_l75` is **0.3556 better than the deployed honest line on 760-well OOF and has never been
+submitted**. Not proposed: it fails the 3-well gate (5th -1.946 in the 07-22 audit), its error correlates
+0.9445 with deployed so it adds little slot-2 diversity, and N4 put OOF->public transfer at 1.659x rather
+than 1:1. Recorded so the option is visible rather than silently dropped.
+
+### Limits
+
+The honest+frontier arm is UNTESTED, not negative. Weights are global -- per-well or gated weights were not
+tested, being the hard-selection class the ledger has closed and which Q40 showed compounds. The 3-well
+bootstrap resamples train wells as a proxy for the competition's 3 wells.
