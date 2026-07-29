@@ -19,7 +19,10 @@ def run_particle_filter(hw, tw, n_particles=500, seed=42):
     last_MD  = float(last['MD'])
 
     tw_at_k = np.interp(kn['TVT_input'].values, tw_tvt, tw_gr)
-    gs = float(np.clip(np.nanstd(kn['GR'].fillna(0).values - tw_at_k), 10., 60.))
+    # Q19: optional GR-sigma widening. Default 1.0 reproduces the previous behaviour byte-for-byte;
+    # a public kernel (leonidzaporozhets/new-strategy-score-6-213) uses 1.3 on the identical line.
+    gs = float(np.clip(np.nanstd(kn['GR'].fillna(0).values - tw_at_k), 10., 60.)) \
+        * float(globals().get('_GS_MULT', 1.0))
 
     tail = kn.tail(30)
     dt = np.diff(tail['TVT_input'].values)

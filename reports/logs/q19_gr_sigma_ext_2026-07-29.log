@@ -1,0 +1,20 @@
+wells 60 | multipliers [1.0, 1.5, 2.0, 2.5, 3.0] | seeds 1
+usable wells: 60
+
+multiplier  pooled RMSE    vs mult=1.0
+1               14.2655         0.0000
+1.5             11.9142         2.3513
+2               12.1177         2.1478
+2.5             15.3070        -1.0414
+3               17.5072        -3.2417
+  mult 1.5   helps 41.7% of wells | mean per-well gain +1.0052
+  mult 2     helps 40.0% of wells | mean per-well gain +0.4825
+  mult 2.5   helps 38.3% of wells | mean per-well gain -1.9687
+  mult 3     helps 35.0% of wells | mean per-well gain -3.5219
+
+NESTED (multiplier chosen on one half, scored on the disjoint half; picks [1.5, 1.5])
+  nested selected 11.9142   vs mult=1.0 14.2655   gain +2.3513
+  3-WELL bootstrap of the nested gain: 5th -4.1145  50th +0.1954  95th +7.9324  P(gain>0) 0.5325
+
+GATE: promote to a frontier kernel run only if the nested gain is positive AND the 3-well
+      bootstrap 5th percentile > 0.

@@ -1154,3 +1154,89 @@ measures the SCALE of 3-well ranking instability, not the actual test draw's.
 Live refresh: no private-score visibility for any submission; `55064411` still PENDING (~5.8 h), carried
 only as a parametric contingent entrant; no Q10-Q17 candidate enters the board; `origin/main` moved to
 `a589fa8` (public 6.626 kernel, worse than our best 6.563 — recorded, no decision taken).
+
+## Round 29 — Q19 external solution refresh: two better-scoring public kernels resolved
+
+`q19_external_solution_refresh`. One find converted into an executable smoke and MEASURED; it fails the
+3-well gate. **No submission, no Kaggle run, quota 0/5.**
+`reports/q19_external_solution_refresh_2026-07-29.md`.
+
+### Public standing — the most material finding
+
+LB leader **4.679**; 200th place **6.389**; our best **6.563**. The API caps a page at 200 rows and **all
+200 fetched teams are ahead of us**, so we are outside the top 200. Qualifications that are not
+rhetorical: the public score is a 3-well quantity and Q18 measured that gaps >=1.00 still reverse on ~28%
+of random 3-well draws, so the deficit size on novel wells is not pinned down; and the target is the
+private ranking, which is not visible.
+
+### The published pool tops out at our own level
+
+798 distinct public kernels enumerated. Advertised scores cluster at **7.06-8.86** — all worse than our
+6.563. Exactly TWO advertise better: `leonidzaporozhets/new-strategy-score-6-213` (6.213) and
+`my0705/rogii-stacked-ensemble-highscoring-6-520` (6.520). **The ~200 teams at 4.7-6.4 have not
+published.** The external pool cannot close the gap by adoption. Both better kernels mount the same
+7-dataset subset of the Kaiwalya 9 — same family. `origin/main`'s `a589fa8` "public 6.626 kernel" is the
+identical Kaiwalya family, redundant, dated 07-23 and surfaced only because origin/main moved.
+
+### FIND A — the 6.213 kernel is our own base plus ONE token
+
+Normalised cell-by-cell vs our pristine `kaggle_kernel_kaiwalya_public_tvt_6626_repro`: **44 of 45 code
+cells identical**; cell 29 inserts `*1.3`:
+
+    gs = float(np.clip(np.nanstd(kn.GR... ), 10., 60.)) * 1.3
+
+`gs` is the PF likelihood's GR noise sigma. Widening it flattens the likelihood — a SHRINKAGE change,
+the class Rule #1 says transfers, hence worth measuring.
+
+CORRECTION recorded: an intermediate constant-diff appeared to show a `SUBMISSION_PROFILE =
+contact_gated_anchor` difference; that diff had concatenated MARKDOWN with code. In code all three run
+`vp_balanced_modelpkg_005`, and the upstream comment states `contact_gated_anchor*` are diagnostic
+ablations that "have underperformed". No kernel was built on that false lead.
+
+Measured on OUR honest PF (identical sigma line at `pf_honest_forward.py:22`), 60 wells, splits by well,
+multiplier chosen NESTED, behind a new default-1.0 `_GS_MULT` flag:
+
+    mult   1.0    1.5     2.0     2.5     3.0
+    RMSE  14.27  11.91   12.12   15.31   17.51      (1.5 confirmed an INTERIOR optimum after grid extension)
+    NESTED picks [1.5,1.5] -> 11.9142 vs 14.2655, gain +2.3513
+    3-WELL bootstrap: 5th -4.1145  50th +0.1954  95th +7.9324  P(gain>0) 0.5325
+
+**GATE FAILS on the 3-well condition**, and the win is TAIL-DRIVEN: at 1.5 it helps only 41.7% of wells
+while the mean per-well gain is +1.0052 — the same asymmetric-tail signature the ledger records before the
+`54878409` public regression. No frontier run, no submission. The effect is real and large at the pooled
+level and is the transferable class; what it is not, on this evidence, is safe at the scoring scale.
+
+### FIND B — the 6.520 kernel is a per-well constant fitted to the public wells
+
+Its embedded constants: `_GS_PUBLIC_SCORE = 6.568` (its base = our family), `_EX_EXPECTED_WELL =
+'00e12e8b'`, `_EX_EXTRA_SHIFT = 0.522`, `_EX_EXPECTED_TOTAL_SHIFT = 2.522`. So 6.520 = base 6.568 plus a
+hand-tuned +0.522 ft shift on ONE well — hard selection fitted to the 3 public wells. Not adopted.
+
+**PRE-REGISTERED READING FOR `55064411` (recorded BEFORE the score lands).** `00e12e8b` is exactly the
+well Q14 analysed: the hedge adds +2.0 ft there while that well's local residual was already unbiased
+(-0.19). An independent public author now finds that pushing the SAME well further up (+0.522) IMPROVES
+the public score. Both facts are consistent under one explanation — **the hedge is tuned to the 3 public
+wells, not to a general error**. Therefore:
+- `55064411` scoring MATERIALLY WORSE than 6.563 is the EXPECTED outcome under that explanation and would
+  be evidence the hedge is a public-well-specific fit, STRENGTHENING the case for hedge-OFF on the
+  novel-well objective;
+- scoring at or below 6.563 would mean the hedge was not load-bearing on public either, and Q14's local
+  reasoning transfers directly.
+
+### Queued follow-ups
+
+1. `q36_gr_sigma_in_blend_oof` — the standalone PF is only a 0.5-weight component; averaging may damp the
+   tail failure. Test `_GS_MULT` in {1.0,1.3,1.5} inside the BLEND OOF over 760 wells, nested, 3-well
+   gate. A slot-2 (fully-owned) improvement path.
+2. `q37_frontier_gr_sigma_public_repro` — one-token `*1.3` frontier kernel reproducing the public 6.213
+   operating point, smoke first, HELD BEHIND (1) deliberately: on current evidence it would spend a slot
+   on a tail-driven change.
+
+### Rules basis and limits
+
+Only public Kaggle notebooks were read via the API; no third-party code executed, no external dataset
+added; the change is one arithmetic token re-implemented in our own script behind a default-1.0 flag.
+Limits: both public scores are author-advertised and cannot be independently verified; the local
+measurement is on the STANDALONE conservative PF (baseline 14.27 on 60 wells, excludes the DWT blend and
+structural field) so the in-pipeline effect is NOT established; single seed per well, so PF run-to-run
+variance is not separated; 60 wells with a 30/30 nested split, not 760.
