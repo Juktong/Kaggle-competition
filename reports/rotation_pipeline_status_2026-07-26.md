@@ -1884,3 +1884,70 @@ Re-run the four views with `retrieval ~ 0.03` plus a 0.0 sensitivity arm, keepin
 NON-INERT under H-hidden, and report whether the recommended pair, the tie structure, and the price of
 our-account-first change — carrying Q36's counterweight explicitly. Arithmetic only: no GPU, no smoke, no
 submission.
+
+## 2026-07-29 17:05 UTC — Q53: the corrected simulator REACHES Q18's answer by a different route
+
+`reports/q53_simulator_retrieval_penalty_correction_2026-07-30.md`,
+`scripts/q53_simulator_retrieval_correction.py`. Arithmetic only; no GPU, no smoke, no submission, quota 0/5.
+
+### Headline
+
+**Q18's conclusion survives the Q39 correction, but its reasoning did not.** The price of the
+our-account-first pair is **+0.0005 worst / +0.0402 mean** under the evidence-supported cell — essentially
+Q18's +0.000 / +0.040 — reached by a completely different mechanism. **The owner's slot-1 decision does not
+change and remains an ownership judgement.**
+
+### Why two axes were needed
+
+Correcting `retrieval` alone would have flipped the answer. The rerun sweeps both:
+
+- `retrieval_delta` in {-0.031 (measured), 0.0, +0.080 (old, confounded)}
+- `sigma_transfers` in {True, False} -- whether 54922806's GR-sigma edge survives on novel wells.
+  **Not a strawman:** Q36 measured that exact multiplier on 760 wells with truth and it helps only 42.1%
+  of wells with a NEGATIVE median, so `False` is the arm our own held-out evidence supports.
+
+    retrieval sigma  | A: 54922806+54844628 | B: 54968060+54844628 | price of B
+    -0.031    True   | worst 6.5630         | worst 6.6430         | +0.0800
+    -0.031    False  | worst 6.6425         | worst 6.6430         | **+0.0005**   <- measured + supported
+     0.000    True   | worst 6.5630         | worst 6.6430         | +0.0800
+     0.000    False  | worst 6.6735         | worst 6.6430         | -0.0305
+    +0.080    True   | worst 6.6430         | worst 6.6430         | +0.0000       <- the OLD model
+    +0.080    False  | worst 6.7535         | worst 6.6430         | -0.1105
+
+**TWO WRONG INPUTS WERE CANCELLING.** The old model overstated retrieval (+0.080 vs the measured -0.031)
+AND implicitly let the GR-sigma edge survive under H-hidden. Correcting both moves the price by 0.0005;
+correcting only one would have moved it to +0.080 and flipped the conclusion.
+
+### The three questions
+
+1. **Recommended pair — unchanged in any way that survives noise.** Under the measured cell with
+   sigma=False, score-first nominally moves to `54896975 + 54922806` by **0.0045**, which is HALF the 0.009
+   replicate spread and has family diversity 0. Diversity-first and provenance-first stay at
+   `54922806 + 54844628`. With sigma=True all three stay there too.
+2. **Tie structure — still heavily tied.** Q18 reported 9 tied pairs; corrected it is 6-11 depending on the
+   cell and **11 in the evidence-supported one**. Q18's qualitative point (score alone does not pick a
+   unique pair) is unchanged and if anything stronger.
+3. **Price of our-account-first — not materially changed:** +0.0005 worst / +0.0402 mean. It rises to
+   +0.080 worst ONLY in the sigma_transfers=True arm.
+
+### The counterweight, not buried
+
+54922806's ENTIRE public advantage over the pristine baseline is the GR-sigma multiplier. The H-hidden gap
+between the two slot-1 options is **0.0005 if that edge does not transfer, 0.1110 if it does**. So the whole
+slot-1 question reduces to one unresolved quantity -- does GR-sigma widening help on NOVEL wells? Public
+says yes on 3 wells; Q36's 760-well truth measurement says it helps a minority. **The public edge must not
+be read as a private-ranking edge.**
+
+### Decision
+
+**No change. It remains an ownership judgement**, and the corrected model makes that firmer: the two pairs
+differ by 0.0005 on worst case, far inside the 0.009 replicate spread and inside Q18's ~45% reversal band;
+the only cell where the choice is materially priced requires an assumption our own evidence contradicts;
+and therefore **no additional public evidence can settle it and no submission would help** -- consistent
+with Q33's standing 0-slot conclusion.
+
+### Code note
+
+`scripts/final_selection_simulator.py` and `scripts/q18_final_pair_stress.py` still carry `retrieval=0.080`
+with the confounded derivation. **Left unmodified** so the Q18 record stays reproducible as written;
+`scripts/q53_simulator_retrieval_correction.py` supersedes them. If either is rerun for a decision, use Q53.
