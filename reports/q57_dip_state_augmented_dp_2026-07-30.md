@@ -78,12 +78,20 @@ ndip 1    1.63 s / 8 wells
 ndip 5   35.30 s / 8 wells      (per-dip beams: 5x the beams, each 5x the candidates)
 ```
 
-Projected to 40 wells: ~176 s per config at ndip=5 and ~530 s at ndip=9. The full
-`3 mu × 4 nu × {5,9}` grid would be ~141 min, far over the ~40 min budget. Per the task's instruction —
-*reduce the λ grid, not the well count* — the sweep runs **all 40 eval wells** at the single λ that Q10/Q54
-established as optimal (`mu = 60`), across the full dip-width ladder `ndip ∈ {1, 5, 9}` and
-`nu ∈ {0, 0.25, 1}`: ~35 min. The dip **width** is the dose dimension that tests the mechanism, so it is the
-one kept at full resolution.
+Projected to 40 wells: ~176 s per config at ndip=5. The full `3 mu × 4 nu × {5,9}` grid would be ~141 min,
+far over the ~40 min budget. Per the task's instruction — *reduce the λ grid, not the well count* — the
+sweep runs **all 40 eval wells** at the single λ that Q10/Q54 established as optimal (`mu = 60`), across a
+dip-width ladder and `nu ∈ {0, 0.25, 1}`. The dip **width** is the dose dimension that tests the mechanism,
+so it is the one kept at resolution.
+
+**One in-flight change, recorded rather than silently made.** The first launch used `ndip ∈ {1, 5, 9}`. Its
+`ndip=9` timing block alone ran past 4.5 min on 8 wells, projecting **60+ min** for that arm — and both
+this sweep and Q56's 760-well run share a **2-core** box, so that time comes directly out of the round that
+has the only live positive result in the rotation. The sweep was stopped (by verified PID, not `pkill -f`)
+and relaunched with `ndip ∈ {1, 3, 5}`: `ndip=3` costs ~0.36× the `ndip=5` arm, so the three-point width
+ladder survives at roughly a tenth of the cost. What is given up is the widest dose point; what it buys is
+~50 min back for Q56. The trade is stated because it is a real reduction in this round's coverage, and the
+monotonicity check the ladder exists for is preserved.
 
 ## 4. THE RESULT — lower objective cost, worse RMSE
 
