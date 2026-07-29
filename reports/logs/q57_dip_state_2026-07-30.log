@@ -6,3 +6,4 @@ prepped 40 wells | flat-anchor 12.722 | l1 lam=60 baseline 12.170 | deployed hon
 
 === 2. COST CONTROL: wall-time on 8 wells before the full sweep ===
   ndip 1    1.15 s / 8 wells  -> 0.1 min for 1 configs x 40 wells
+  ndip 5    37.63 s / 8 wells  -> 9.4 min for 3 configs x 40 wells

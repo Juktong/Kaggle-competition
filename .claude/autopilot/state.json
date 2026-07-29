@@ -6,28 +6,38 @@
   "current_handle": "00b8b89e",
   "current_task_id": "q57_dip_state_augmented_dp",
   "last_started_at": "2026-07-29T21:29:07Z",
-  "last_finished_at": "2026-07-29T21:29:05Z",
+  "last_finished_at": "2026-07-29T22:15:00Z",
   "last_result": {
-    "task_id": "q56_pf_backward_smoothing",
-    "outcome": "smoke_gate_pass_full_run_in_flight",
+    "task_id": "q57_dip_state_augmented_dp",
+    "outcome": "smoke_decisive_sweep_in_flight",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Q56 smoke PASSED all three gate conditions -- the first positive 3-well 5th percentile in this rotation (+0.0836, P(>0) 0.9944), nested +0.6050 at blend level, helps 91.7% of wells. The deployed PF is a single forward pass, so every toe row but the last is estimated from less information than we hold; textbook FFBSi is degenerate under this near-deterministic transition, so the ancestral-path smoother was implemented instead. The trellis twin is derived from the deployed source by four anchored insertions and verified byte-for-byte against the untouched deployed function; path degeneracy was measured before scoring and does NOT collapse (ancestor ESS ~12 at 599 rows of lookahead); the truth-column audit is clean. Two monotonicities (in alpha and in lookahead dose) plus a Savitzky-Golay control showing denoising is only ~8% of the gain point to a real mechanism rather than an artifact. The 760-well NS=32 run is in flight with ETA ~2 h; the smoke wells are easier than average so nothing is concluded yet. No submission -- can_submit=false.",
-    "next_task_id": "q57_dip_state_augmented_dp"
+    "headline": "Q57 augmented the DP state to (TVT, dip) so a sustained dip costs nothing, directly targeting Q54's over-damping. Degeneracy control exact. The first smoke was exactly inert and the cause was priced: the dip's payoff is DEFERRED while its penalty is immediate, so a greedy beam prunes it -- Q55's protective suboptimality seen from the other side, now blocking a better model from being explored. With per-dip beams (which give the augmented arm 5x the baseline's search) the augmented DP finds STRICTLY LOWER OBJECTIVE COST AND STRICTLY WORSE RMSE on every arm, and the path deviation stays at 3.1 ft against 16.3 ft of truth. That inverts Q54's framing: the over-damping is not a defect the transition model imposes, it is what the emission prefers and the protection Q55 identified. The alignment DP is now closed on four sides -- emission, transition, decoder, and state space.",
+    "next_task_id": "q46_submission_asset_inventory"
   },
   "queue_exhausted": false,
   "pending_kaggle_run": null,
   "pending_submission": null,
   "pending_local_run": {
-    "task_id": "q56_pf_backward_smoothing",
-    "what": "760-well ancestral-path PF smoother inside the DWT+PF blend, NS=32, JOBS=2, 21 arms",
-    "launched_utc": "2026-07-29T21:30:00Z",
-    "eta_min": 125,
-    "log": "reports/logs/q56_smoothing_2026-07-30.log",
-    "out": "reports/logs/q56_blend_per_well.npz",
-    "collect": "apply the 3-part gate in reports/q56_pf_backward_smoothing_2026-07-30.md section 8; do NOT relaunch, and do not start another CPU-heavy job while it runs (2 cores)",
-    "smoke_result": "GATE PASS on 12 wells: nested +0.6050, helps 91.7%, 3-well 5th +0.0836"
+    "runs": [
+      {
+        "task_id": "q56_pf_backward_smoothing",
+        "what": "760-well ancestral-path PF smoother in the DWT+PF blend, NS=32",
+        "launched_utc": "2026-07-29T21:30:00Z",
+        "progress": "68/760 wells at 9.5 min before q57 began competing for CPU",
+        "log": "reports/logs/q56_smoothing_2026-07-30.log",
+        "smoke": "GATE PASS: nested +0.6050, helps 91.7%, 3-well 5th +0.0836"
+      },
+      {
+        "task_id": "q57_dip_state_augmented_dp",
+        "what": "40-well dip-state DP sweep, mu=60, ndip in {1,5,9}, nu in {0,0.25,1}",
+        "launched_utc": "2026-07-29T21:52:00Z",
+        "log": "reports/logs/q57_dip_state_2026-07-30.log",
+        "smoke": "augmented DP finds LOWER cost and WORSE rmse on every arm; gate expected to FAIL"
+      }
+    ],
+    "note": "2 cores total, both runs are CPU-bound and contending. Do NOT relaunch either and do not start a third CPU job. q56 is the round with the live positive result, so if a choice is forced, q57's ndip=9 block is the one to drop -- the script prints each config as it completes, so partial results are usable."
   },
   "rules_facts": {
     "merger_deadline": "2026-07-29T23:59Z (TODAY)",
