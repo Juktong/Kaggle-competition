@@ -406,3 +406,66 @@ provenance caveat on `54922806` is CLOSED.**
 equals the submitted `scriptVersionId`. A short confirmation message for the teammate is drafted in the
 report (§7) -- it asks only whether those kernels were edited after their submission dates, plus the
 provenance of the third-party kernel behind `54777533`.
+
+## 2026-07-29 16:55 UTC — Q39 stage localizer: the simulator's 0.080 "retrieval penalty" is a CONFOUND
+
+`reports/q39_frontier_stage_localizer_no_submit_2026-07-30.md`. No re-run, no submission, quota 0/5.
+
+Using the teammate kernels Q38 pulled, the whole frontier family was compared as **code** for the first
+time. Normalised cell-by-cell against the pristine base (45 code cells):
+
+    54896975  6.669  ->  NONE          pristine
+    54923144  6.678  ->  NONE          pristine
+    54922806  6.563  ->  cell 29       insert '*1.3'  (GR sigma)      <- OUR BEST
+    54968060  6.643  ->  cell 0        overlap override = False
+    54990075  6.690  ->  cell 0 +1     overlap OFF + SP45-only truncation
+    55064411  6.695  ->  cell 0, 42    overlap OFF + _BH_CAP 2->0
+    pub 6.213        ->  cell 29       identical '*1.3' to 54922806
+
+Every member is a single- or double-factor variant of one base, and 54896975/54923144 are a **code-identical
+replicate pair**: 6.669 vs 6.678, **same-code spread 0.009**, baseline mean **6.6735**.
+
+### THE CORRECTION
+
+The simulator and final-slot package encode `retrieval = 0.080 (= 54968060 6.643 - 54922806 6.563)`.
+**Those two kernels differ in TWO stages** — 54922806 also carries `*1.3`. Decomposed against the pristine
+baseline:
+
+    overlap / retrieval   6.643  vs 6.6735  ->  -0.031   (turning overlap OFF slightly HELPS)
+    GR sigma *1.3         6.563  vs 6.6735  ->  -0.1105
+
+and -0.1105 - (-0.031) = -0.080 reproduces the recorded number as **a difference of two different stages**.
+So retrieval is **not** worth 0.080; it is ~-0.03 with uncertain sign. **54922806's edge is the GR-sigma
+multiplier, which is not a train-duplicate lookup and does NOT go inert on novel wells** — so it does not
+converge onto 54968060 under H-hidden, which is exactly what produced Q18's tie structure and its
+"+0.000 worst" price for our-account-first. **That price is probably no longer zero.**
+
+**COUNTERWEIGHT, kept explicit:** Q36 measured this same multiplier on 760 wells with truth and it helps
+only **42.1%** of wells with a **negative median**. The stage carrying the public edge is the one our own
+held-out evidence says does not transfer broadly. The recommendation is **not** rewritten here — it is
+queued as a simulator re-run so the owner sees numbers rather than a narrative.
+
+### Stage matrix
+
+| stage | effect on public | classification |
+|---|---|---|
+| GR sigma *1.3 | **-0.1105** | supported on public; novel-well transfer UNSUPPORTED (Q36) |
+| bimodal hedge | +0.052 when removed | helps public; **measured local harm** (Q14) |
+| post-SP45 stages | +0.047 when truncated | supported but **joint**, unseparated |
+| overlap / retrieval | **-0.031** | **not load-bearing**; supersedes the 0.080 figure |
+| learned-trajectory blend | <= 0.047 jointly | **unknown** — the only genuinely open stage |
+| prefix calibration | 0 | **measured inert** (`alpha = 0.0` in the run log) |
+| model-package fallback | 0 | **measured inert** (guard-rejected, `selected_for_submission_csv = False`) |
+
+### No stage change clears the threshold
+
+GR sigma is **already banked** (54922806 IS that variant, so a new run would be a near-duplicate the gate
+forbids); the hedge information was already bought by 55064411; overlap is ~0.03 with both settings already
+submitted; the learned-trajectory blend is bounded at <=0.047, below Q33's bar. **No submission proposed.**
+
+### Queued: `q53_simulator_retrieval_penalty_correction` (priority 305, zero cost)
+
+Re-run the four views with `retrieval ~ 0.03` plus a 0.0 sensitivity arm, keeping 54922806's GR-sigma edge
+NON-INERT under H-hidden, and report whether the recommended pair, the tie structure, and the price of
+our-account-first change — carrying Q36's counterweight explicitly. Arithmetic only: no GPU, no smoke, no
+submission.
