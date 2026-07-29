@@ -2087,3 +2087,71 @@ than 1:1. Recorded so the option is visible rather than silently dropped.
 The honest+frontier arm is UNTESTED, not negative. Weights are global -- per-well or gated weights were not
 tested, being the hard-selection class the ledger has closed and which Q40 showed compounds. The 3-well
 bootstrap resamples train wells as a proxy for the competition's 3 wells.
+
+## 2026-07-29 17:55 UTC — Q42 error taxonomy: most of the apparent structure is well-level sampling noise
+
+`reports/q42_honest_line_error_taxonomy_2026-07-30.md`, `scripts/q42_error_taxonomy.py`.
+**Line CLOSED, no group-level intervention proposed. No submission, quota 0/5.**
+
+### The taxonomy looks real in-sample
+
+Deployed line: pooled RMSE 8.8626, mean signed residual -0.3832. Quintile spreads of the mean signed
+residual run 0.5-1.7 ft: struct_contrib 1.694 (q5 = -1.662), well_md 1.594, prefix_frac 1.212, mean_incl
+1.120, nnb 0.840, dwt_pf_disagree 0.833, tortuosity 0.832. **Most of that is not structure.**
+
+### SPLIT-HALF TEST — only the ROW-level features reproduce
+
+Recomputed on two DISJOINT halves of 380 wells each:
+
+    dwt_pf_disagree  corr(A,B) +0.815   <- reproduces
+    struct_contrib             +0.802   <- reproduces (pattern; magnitude varies 2x)
+    tortuosity                 -0.162
+    prefix_frac                -0.270
+    well_md                    -0.290
+    nnb                        -0.566
+    mean_incl                  -0.648
+    closest_all                -0.751
+
+**Only 2 of 8 reproduce, and they are exactly the two ROW-level features.** Every WELL-level feature
+ANTI-correlates across disjoint halves -- their quintile patterns flip sign, which is what noise does.
+
+**The arithmetic:** per-well mean residual has std **6.673** across wells, and a quintile holds ~152 wells,
+so the standard error of a group mean is ~6.673/sqrt(152) ~ **0.54** -- the same size as the observed
+spreads. Rows within a well are strongly correlated, so binning by a well-level feature gives an effective
+n of **152 WELLS, not 744,000 rows**.
+
+**PROPOSED STANDING RULE:** *when segmenting residuals by a WELL-level feature, the effective n is the
+number of WELLS in the bin, not the number of rows. Compare any observed spread against sigma_well /
+sqrt(n_wells) before treating it as structure.*
+
+### Out-of-fold group-constant corrections
+
+    best: struct_contrib  OOF 8.8562  gain +0.0065  helps 46.3%  3-well 5th -0.5101
+    segments with a positive OOF gain: 2 of 13
+    segments clearing the 3-well 5th:  0 of 13
+    NO segment helps a majority of wells (max 49.1%)
+
+Even the two REPRODUCIBLE segments do not pay: struct_contrib +0.0065, dwt_pf_disagree **-0.0069**. The
+pattern reproduces; its magnitude is too small and too unstable (q5: A -2.18 vs B -0.97) for a constant.
+
+### THE QUESTION THE TASK ASKED: does coarsening rescue Q16?
+
+    group-level OOF R^2: struct_contrib -0.00042, row_frac -0.00181, well_md -0.00263, closest_all -0.00640
+    Q16 reference (row-level GBM, same protocol):  -0.0802
+
+**Coarsening changes the FAILURE MODE but not the CONCLUSION.** R^2 moves from -0.0802 to ~-0.001: the
+coarse estimator has essentially eliminated the over-fitting that made the GBM anti-transfer, but it
+converges to **ZERO, not to a positive value**. This is a sharper statement than Q16 alone could make --
+the row-level failure was BOTH over-fitting AND absence of signal, and removing the over-fitting exposes
+the absence.
+
+### Closure, for structural reasons
+
+11 of 13 segments have a NEGATIVE OOF gain; the best is +0.0065 on an 8.86 RMSE (0.07%); no segment helps
+a majority of wells; 0 of 13 clear the 3-well 5th (consistent with Q41's finding that the 3-well 5th is
+maximised by changing nothing); and the segments that look most promising are the least real. Step 3's
+precondition -- do not build a correction unless the sign is predictable out-of-fold -- is NOT met at group
+level either.
+
+The honest line remains valuable as **slot-2 diversity** (Q18: it beats the frontier on ~29% of random
+3-well draws). What is closed is the idea of IMPROVING it by group-level residual correction.
