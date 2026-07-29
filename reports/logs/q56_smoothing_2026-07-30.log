@@ -30,3 +30,4 @@ npz wells 760 | wells to run 760 | NS 32 | JOBS 2 | ARMS ['full', 'block400', 'b
 [Parallel(n_jobs=2)]: Using backend LokyBackend with 2 concurrent workers.
 [Parallel(n_jobs=2)]: Done  14 tasks      | elapsed:  2.0min
 [Parallel(n_jobs=2)]: Done  68 tasks      | elapsed:  9.5min
+[Parallel(n_jobs=2)]: Done 158 tasks      | elapsed: 28.1min

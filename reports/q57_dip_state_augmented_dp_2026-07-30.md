@@ -3,8 +3,10 @@
 Date: 2026-07-29 21:55 UTC
 Task: `q57_dip_state_augmented_dp` (`requires_gpu=false`, `can_submit=false`, `max_submit_cost=0`)
 Script: `scripts/q57_dip_state_dp.py` · Log: `reports/logs/q57_dip_state_2026-07-30.log`
-Outcome: **the 40-well sweep is in flight; the 8-well smoke has already produced the decisive structural
-result (§4). No submission. Quota 0/5.**
+Outcome: **gate FAILS on all three conditions — nested selection picks the un-augmented baseline in both
+folds. No submission. Quota 0/5.**
+**Headline: the augmentation cures the over-damping Q54 diagnosed — path deviation 4.9 ft → 21.1 ft against
+36.0 ft of truth — and the RMSE gets up to 7.8 ft WORSE. The damping was protection, not a limitation.**
 
 ## 1. The model, and why it strictly contains the deployed one
 
@@ -93,39 +95,89 @@ ladder survives at roughly a tenth of the cost. What is given up is the widest d
 ~50 min back for Q56. The trade is stated because it is a real reduction in this round's coverage, and the
 monotonicity check the ladder exists for is preserved.
 
-## 4. THE RESULT — lower objective cost, worse RMSE
+## 4. THE RESULT — 40 wells, and it is not what the smoke implied
 
-8 wells, mu=60, per-dip beams:
+The baseline arm reproduces Q10's recorded number exactly, which validates the harness before anything is
+read from it: `ndip=1, nu=0, mu=60` → **12.170**, the `l1 lam=60` figure Q10/Q40/Q54 all use.
 
 ```
-arm                     mean cost      pooled RMSE
-ndip=1  nu=0  (deployed)   -645.6           11.323
-ndip=5  nu=0               -676.8           13.433
-ndip=5  nu=1               -654.2           12.664
+ndip / nu        pooled RMSE     mean cost
+1 / 0                 12.170        -569.7      <- deployed (= run_dp lam=60); flat anchor 12.722
+3 / 0                 14.850        -624.4
+3 / 0.25              15.935        -605.7
+3 / 1                 17.279        -586.7
+5 / 0                 19.929        -633.6
+5 / 0.25              18.725        -611.7
+5 / 1                 16.569        -594.6
 ```
 
-**The augmented DP finds a strictly better objective on every arm and a strictly worse RMSE on every arm.**
-The task pre-registered this exact reading — *"if state augmentation lowers the objective's cost but not
-RMSE, that is Q55's misalignment finding reappearing"* — and that is what the measurement shows. It is
-recorded as a confirmation of Q55's mechanism, not as a tuning failure.
+**Every augmented arm finds a strictly lower objective cost and a strictly worse RMSE.** The dip-width
+ladder is monotone in both directions at nu=0 — cost −569.7 → −624.4 → −633.6 while RMSE 12.170 → 14.850 →
+19.929 — so this is a dose-response, not a single unlucky configuration. At `ndip=5` the DP is **worse than
+the flat anchor (12.722)**: it would be beaten by predicting no change at all.
 
-The activation diagnostic shows the dip is switched on but sparingly (well 0, ndip=5, nu=0): non-zero on
-**5.9%** of steps, changing on 10.0%, mean |dip| 0.062, **accumulated pull 3.0 grid units** — against the
-**16.3 ft** that well's truth actually requires. So even with the dip free and the beam widened, the path
-deviation stays at **3.1 ft**, unchanged from the TVT-only DP.
+The task pre-registered this reading — *"if state augmentation lowers the objective's cost but not RMSE,
+that is Q55's misalignment finding reappearing"* — and that is what the measurement shows.
 
-**That is the finding that matters, and it inverts Q54's framing.** Q54 measured the DP as over-damped and
-left open whether that was a defect. Q57 removes the damping — a sustained dip is now free, and the solver
-is given 5× the beam width to find one — and the DP *still* declines to move, while the freedom it does
-use lowers cost and raises error. **The over-damping is not a limitation the transition model imposes; it is
-what the emission prefers, and it is the protection Q55 identified.** Loosening it is measurably harmful.
+### The activation diagnostic contradicts what the 8-well smoke suggested
 
-## 5. Gate
+```
+ndip / nu / mu      dip!=0   dip chg   mean|dip|  accum pull   path dev   truth dev
+1 / 0 / 60            0.0%      0.0%       0.000         0.0        4.9        36.0
+3 / 0 / 60           42.4%     41.7%       0.424        15.0       16.1        36.0
+3 / 0.25 / 60        23.4%     10.7%       0.234        18.0       20.1        36.0
+3 / 1 / 60           15.0%      2.8%       0.150         7.0       28.1        36.0
+5 / 0 / 60           46.2%     53.9%       0.645        18.0       21.1        36.0
+5 / 0.25 / 60        25.6%     11.5%       0.274        18.0       20.1        36.0
+5 / 1 / 60           15.0%      2.8%       0.150         7.0       28.1        36.0
+```
 
-To be completed from `reports/logs/q57_dip_state_2026-07-30.log` when the 40-well sweep lands. The smoke's
-direction is unambiguous (every augmented arm worse on RMSE than the TVT-only baseline), so the nested gain
-is expected to be ≤ 0 and the gate to FAIL. The informative outputs, per the task, are the nested gain, the
-per-well win rate and the activation diagnostic — all three are reported regardless of the verdict.
+On the smoke's easier well the dip stayed nearly off (5.9% of steps, path deviation unchanged at 3.1 ft),
+and the draft of this report concluded from that "the DP declines the freedom it is given". **On the 40-well
+set that is wrong and is corrected here.** The dip is active on **42–46%** of steps, it changes on up to
+54%, and the path deviation rises from **4.9 ft to 16.1–21.1 ft** against the **36.0 ft** this well's truth
+requires. Q40's accumulated-pull quantity reaches **15–18 grid units** of end-to-end displacement.
+
+**So the augmentation does exactly what Q54's diagnosis asked for.** Q54 measured the DP moving ±3.0 ft
+where truth moves ±19.4 and called it over-damped; give it a dip state and it moves 16–21 ft where truth
+moves 36 — the over-damping is *cured*, the mobility is in the right ballpark, and **the RMSE gets 2.7 to
+7.8 ft worse.**
+
+That is a sharper statement than "the DP declines to move", and it is the round's actual finding:
+
+> **The DP can be made to move the right amount. Moving the right amount in the wrong direction is worse
+> than not moving at all.** The damping was never a limitation of the transition model — it was protection
+> against an emission that cannot say *which way* to go. Extra mobility does not add information; it
+> amplifies the emission's error, which is why the objective improves while the metric degrades.
+
+This closes the loop with Q17 (emission AUC decoupled from DP quality) and Q55 (lower cost, worse RMSE) from
+a third direction: all three say the binding constraint is the emission's *directional* content, and every
+device that gives the path more freedom to act on that emission makes things worse.
+
+One secondary pattern, recorded because it is consistent: the useful `nu` moves with the dip width. At
+`ndip=3` the best arm is `nu=0` (14.850) and the worst is `nu=1` (17.279); at `ndip=5` the ordering reverses
+— `nu=1` best (16.569), `nu=0` worst (19.929). More freedom needs more damping, and in every case the best
+augmented arm is the one closest to being switched off.
+
+## 5. Gate — FAIL, and by the widest margin the rotation has produced
+
+```
+NESTED (splits BY WELL, both directions)
+  picks [('ndip=1','mu=60','nu=0'), ('ndip=1','mu=60','nu=0')]
+  selected 12.170  vs TVT-only baseline 12.170  gain +0.000
+  helps 0.0% of held-out wells | 3-WELL bootstrap 5th +0.000  50th +0.000  95th +0.000  P(>0) 0.0000
+GATE -> FAIL
+```
+
+| condition | required | observed | verdict |
+|---|---|---|---|
+| nested gain | > 0 | **+0.000** | **FAIL** |
+| helps a majority of wells | > 50% | **0.0%** | **FAIL** |
+| 3-well bootstrap 5th | > 0 | **+0.000** | **FAIL** |
+
+The zeros are not a degenerate run: **nested selection picked the un-augmented baseline in both folds**, so
+the selected model *is* the baseline and every per-well difference is identically zero. That is the
+cleanest possible negative — the augmentation is never chosen on held-out wells at any width or penalty.
 
 ## 6. What this closes
 
@@ -144,12 +196,21 @@ RMSE"*, and noted that state augmentation was the one untested direction. Q57 te
 instance of it, taken from an independent public architecture, and the objective's optimum moved **further**
 from low RMSE. **Redefining the objective in this direction makes the misalignment worse, not better.**
 
+**And it locates the binding constraint.** Because the augmented path demonstrably *can* travel the
+distance truth travels (§4), the failure is not one of reach, expressiveness or tuning — it is that the
+emission does not carry enough directional information to aim that travel. Any future work on this line has
+to raise the emission's directional content; no further transition, decoder or state-space device can help,
+because three of them have now each made things worse in the same way. Q17 already measured that a large
+AUC gain does not deliver that content, so this is not a small ask.
+
 ## 7. Limits
 
 - One emission (TWH=1), one scorer seed, the Q10/Q40/Q54 split seed. 8 wells in the smoke, 40 in the sweep.
-- **The activation diagnostic is well 0 only.** At `nu=1` it reads 0.0% on that well while the pooled RMSE
-  differs from the baseline, so the dip is demonstrably active on *other* wells — the per-well diagnostic
-  does not generalise and is not presented as if it does.
+- **The activation diagnostic is well 0 of each run only**, and the two runs have different eval sets
+  (`MAXW_TRAIN` differs), so their "well 0" is a different well. That is exactly how the smoke misled the
+  first draft of §4 — its well kept the dip nearly off, the sweep's well switches it on 42-46% of the time.
+  The per-well diagnostic is indicative, not a population statement, and the correction is left visible in
+  §4 rather than quietly rewritten.
 - The λ grid is reduced to `mu = 60` (§3). A dip effect that only appears at a λ far from the TVT-only
   optimum would be missed; against that, Q54 measured the corridor/penalty trade at four λ values and found
   no interaction that changed the optimum's location.
@@ -164,8 +225,9 @@ from low RMSE. **Redefining the objective in this direction makes the misalignme
 
 ## 8. Next
 
-Collect the sweep, complete §5, and close the state-augmentation line. `q56_pf_backward_smoothing`'s
-760-well run is still in flight (68/760 wells at 9.5 min when this was written) and remains the round with a
-live positive result. `q46_submission_asset_inventory` is next by priority.
+**The state-augmentation line is closed.** `q56_pf_backward_smoothing`'s 760-well run is still in flight
+(158/760 wells at 28.1 min) and remains the only round with a live positive result — note that it acts on
+the PF, which enters the deployed honest line, whereas this DP line sits at ~12.2 against that line's
+8.8626 and was never submittable. `q46_submission_asset_inventory` is next by priority.
 `q29_final_slot_candidate_packager` reactivates **2026-08-03**; the final selection is due **2026-08-04** and
 costs no quota.

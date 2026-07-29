@@ -6,14 +6,14 @@
   "current_handle": "00b8b89e",
   "current_task_id": "q57_dip_state_augmented_dp",
   "last_started_at": "2026-07-29T21:29:07Z",
-  "last_finished_at": "2026-07-29T22:15:00Z",
+  "last_finished_at": "2026-07-29T22:55:00Z",
   "last_result": {
     "task_id": "q57_dip_state_augmented_dp",
-    "outcome": "smoke_decisive_sweep_in_flight",
+    "outcome": "gate_failed_all_three_line_closed",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Q57 augmented the DP state to (TVT, dip) so a sustained dip costs nothing, directly targeting Q54's over-damping. Degeneracy control exact. The first smoke was exactly inert and the cause was priced: the dip's payoff is DEFERRED while its penalty is immediate, so a greedy beam prunes it -- Q55's protective suboptimality seen from the other side, now blocking a better model from being explored. With per-dip beams (which give the augmented arm 5x the baseline's search) the augmented DP finds STRICTLY LOWER OBJECTIVE COST AND STRICTLY WORSE RMSE on every arm, and the path deviation stays at 3.1 ft against 16.3 ft of truth. That inverts Q54's framing: the over-damping is not a defect the transition model imposes, it is what the emission prefers and the protection Q55 identified. The alignment DP is now closed on four sides -- emission, transition, decoder, and state space.",
+    "headline": "Q57 closed the state-space side of the alignment DP. Harness validated (ndip=1 reproduces Q10's 12.170 exactly; degeneracy control 0.0000000000). Every augmented arm finds strictly lower objective cost and strictly worse RMSE, monotone in dip width (cost -569.7/-624.4/-633.6, rmse 12.170/14.850/19.929), and at ndip=5 the DP is worse than the flat anchor. THE 40-WELL ACTIVATION DIAGNOSTIC CORRECTED THE SMOKE-BASED DRAFT: the dip is active on 42-46% of steps and path deviation rises 4.9 -> 21.1 ft against 36.0 ft of truth, so the augmentation DOES cure Q54's over-damping and the RMSE still degrades by up to 7.8 ft. The DP can be made to move the right amount; moving it in the wrong direction is worse than not moving. The damping was protection against an emission with no directional content, not a limitation of the transition model. Nested picks the un-augmented baseline in both folds (gain +0.000, helps 0.0%). The alignment DP is now closed on four sides -- emission, transition, decoder, state space -- and the binding constraint is located in the emission.",
     "next_task_id": "q46_submission_asset_inventory"
   },
   "queue_exhausted": false,
@@ -25,19 +25,14 @@
         "task_id": "q56_pf_backward_smoothing",
         "what": "760-well ancestral-path PF smoother in the DWT+PF blend, NS=32",
         "launched_utc": "2026-07-29T21:30:00Z",
-        "progress": "68/760 wells at 9.5 min before q57 began competing for CPU",
+        "progress": "158/760 wells at 28.1 min",
         "log": "reports/logs/q56_smoothing_2026-07-30.log",
-        "smoke": "GATE PASS: nested +0.6050, helps 91.7%, 3-well 5th +0.0836"
-      },
-      {
-        "task_id": "q57_dip_state_augmented_dp",
-        "what": "40-well dip-state DP sweep, mu=60, ndip in {1,5,9}, nu in {0,0.25,1}",
-        "launched_utc": "2026-07-29T21:52:00Z",
-        "log": "reports/logs/q57_dip_state_2026-07-30.log",
-        "smoke": "augmented DP finds LOWER cost and WORSE rmse on every arm; gate expected to FAIL"
+        "out": "reports/logs/q56_blend_per_well.npz",
+        "smoke": "GATE PASS: nested +0.6050, helps 91.7%, 3-well 5th +0.0836",
+        "collect": "apply the 3-part gate in reports/q56_pf_backward_smoothing_2026-07-30.md section 8; if it passes, the follow-up is NOT a submission but a task to reproduce the smoother inside the honest kernel and re-fit the structural-field stage against the smoothed PF"
       }
     ],
-    "note": "2 cores total, both runs are CPU-bound and contending. Do NOT relaunch either and do not start a third CPU job. q56 is the round with the live positive result, so if a choice is forced, q57's ndip=9 block is the one to drop -- the script prints each config as it completes, so partial results are usable."
+    "note": "q57 has finished and released its core, so q56 now has both again. Do not relaunch q56 and do not start another CPU-heavy job while it runs."
   },
   "rules_facts": {
     "merger_deadline": "2026-07-29T23:59Z (TODAY)",
