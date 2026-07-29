@@ -1647,3 +1647,54 @@ The operational rules above come from API metadata; the external-data clause res
 transcription in `external_data_ssl_direction_2026-07-15.md`. Dataset licence fields are not exposed by
 this API version, so only public listability was verified. `user_rank` 1277 is the PUBLIC rank; the private
 ranking is not visible and is the actual objective.
+
+## Round 34 — Q36 COLLECTED (gate FAILS), and Q35 owner summary
+
+**No submission this round; quota 0/5 on 07-29.**
+
+### Q36 RESULT — 760/760 wells, 0 rejected, 211.0 min. GATE FAILS on two of three.
+
+    multiplier   blend RMSE   vs 1.0
+    1.0            9.2903      0.0000     (deployed `base` = 9.2987 -> reconstruction faithful, 0.008 apart)
+    1.3            9.1204     +0.1699     helps 42.1% of wells | mean -0.1197 | median -0.0569
+    1.5            9.3203     -0.0300     helps 40.4% of wells | mean -0.3830 | median -0.1438
+
+    NESTED (picks [1.3, 1.3]) selected 9.1204 vs 9.2903 -> gain +0.1699
+      helps 42.1% of held-out wells | 3-WELL bootstrap 5th -1.6429  50th -0.1129  95th +1.5381  P(>0) 0.3981
+
+    GATE: nested gain > 0 (PASS) AND 3-well 5th > 0 (FAIL) AND majority of wells (FAIL)  ->  FAIL
+
+**`q37_frontier_gr_sigma_public_repro` is CLOSED**, not merely blocked -- its release condition was this
+gate. Per Q33 this settles the budget: **the next 24 h spends 0 slots.**
+
+**THE OPTIMUM MOVED TO EXACTLY THE PUBLIC KERNEL'S VALUE.** Q19's standalone single-seed measurement put
+it at 1.5; inside the ensemble and the blend **1.5 is harmful (-0.0300) and 1.3 is optimal (+0.1699)** --
+and 1.3 is precisely the constant the public 6.213 kernel uses. The public author's choice is right *for
+the deployed configuration*, which Q19's setup could not have seen.
+
+**WHAT THE ENSEMBLE DAMPING DID AND DID NOT DO** -- the substantive answer to the question Q36 existed to ask:
+
+    |                      | Q19 standalone, 1 seed | Q36 in-blend, NS=32 |
+    | nested gain          | +2.3513                | +0.1699             |
+    | 3-well bootstrap 5th | -4.1145                | -1.6429             |
+    | % of wells helped    | 41.7%                  | 42.1%               |
+
+Rule #1 predicted averaging would damp the tail, and it did -- effect size shrank ~14x, tail risk more
+than halved. **But the fraction of wells helped is unchanged.** Averaging damps MAGNITUDE, not SIGN
+STRUCTURE, so it cannot rescue a change that helps a minority of wells. Both mean and median per-well
+gains stay negative while the pooled gain is positive -- the asymmetric-tail signature the ledger records
+before the `54878409` public regression.
+
+### Q35 — owner summary written
+
+`reports/q35_status_summary_for_owner_2026-07-29.md` (Chinese, owner-facing). Three decisions surfaced:
+(1) **team-merger / new-entrant deadline is TODAY 23:59 UTC**; (2) the **final-slot selection action** is
+separate from submitting, costs no quota, and must happen before 08-05 23:59 -- recommended 08-04;
+(3) slot 1 between `54922806` (teammate) and `54968060` (ours) is an **ownership judgement**, since Q18
+showed the 0.080 separating them is unresolvable at 3-well scale.
+
+**Standing: rank 1277 / 5886. Thirteen rounds (Q10-Q36) spent exactly ONE submission slot.**
+
+**Usage-aware recommendation: 0 submissions in the next 24 h.** 40 slots remain and ZERO are required --
+the final pair is chosen from already-submitted entries. The measured criterion from `55064411` (+0.052
+against a ~0.115 floor = zero resolving power) means no current candidate justifies a slot.

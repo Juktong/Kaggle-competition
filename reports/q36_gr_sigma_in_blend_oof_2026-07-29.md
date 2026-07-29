@@ -125,3 +125,62 @@ remains blocked behind this result; per Q33 the next 24 h spends **0 slots unles
 
 Collect `reports/logs/q36_blend_oof_2026-07-29.log` (~3.7 h from 04:45 UTC), apply the §5 gate, and
 either release or close `q37`.
+
+## RESULT — collected 2026-07-29 08:30 UTC. GATE FAILS.
+
+The 760-well run finished in 211.0 min, **760/760 wells usable, 0 rejected** — every well passed both the
+`ridx` and truth-equality assertions.
+
+```
+multiplier     blend RMSE    vs mult=1.0
+1                  9.2903         0.0000
+1.3                9.1204        +0.1699
+1.5                9.3203        -0.0300
+  (deployed blend `base` = 9.2987; honest line after the structural field = 8.8626)
+  mult 1.3   helps 42.1% of wells | mean per-well gain -0.1197 | median -0.0569
+  mult 1.5   helps 40.4% of wells | mean per-well gain -0.3830 | median -0.1438
+
+NESTED (picks [1.3, 1.3])  selected 9.1204  vs mult=1.0 9.2903  gain +0.1699
+  helps 42.1% of held-out wells
+  3-WELL bootstrap 5th -1.6429  50th -0.1129  95th +1.5381  P(>0) 0.3981
+```
+
+**Reconstruction check:** `mult=1.0` gives 9.2903 against the deployed `base` of 9.2987 — a 0.008
+difference, attributable to NS=32 here versus NS=64 deployed. The pipeline is faithfully reproduced.
+
+### Gate
+
+| condition | required | observed | verdict |
+|---|---|---|---|
+| nested gain | > 0 | **+0.1699** | PASS |
+| 3-well bootstrap 5th | > 0 | **−1.6429** | **FAIL** |
+| helps a majority of wells | > 50% | **42.1%** | **FAIL** |
+
+**Two of three fail. No frontier run, no submission.** Per Q33 this settles the budget question: the next
+24 h spends **0 slots**. `q37_frontier_gr_sigma_public_repro` is **closed**, not merely blocked — its
+release condition was this gate.
+
+### The interesting part: the optimum moved to exactly the public kernel's value
+
+Q19's standalone single-seed measurement put the optimum at **1.5**. Inside the ensemble and the blend,
+**1.5 is harmful (−0.0300) and 1.3 is optimal (+0.1699)** — and 1.3 is precisely the constant the public
+6.213 kernel uses. The public author's choice is the right one *for the deployed configuration*, which
+Q19's setup could not have seen.
+
+### What the ensemble damping did and did not do
+
+| | Q19 standalone, 1 seed | Q36 in-blend, NS=32 |
+|---|---|---|
+| nested gain | +2.3513 | **+0.1699** |
+| 3-well bootstrap 5th | −4.1145 | **−1.6429** |
+| **% of wells helped** | **41.7%** | **42.1%** |
+
+Rule #1 predicted that averaging would damp the tail. It did — the effect size shrank ~14× and the tail
+risk more than halved. **But the fraction of wells helped is unchanged.** So the ensembling damped the
+*magnitude* while leaving the *sign structure* intact: the multiplier helps the same minority of wells
+either way, and hurts the majority a little. Both the mean (−0.1197) and median (−0.0569) per-well gains
+are negative while the pooled gain is positive — the asymmetric-tail signature the ledger records before
+the `54878409` public regression.
+
+That is the substantive answer to the question Q36 was created to ask: **averaging damps magnitude, not
+sign structure**, so it cannot rescue a change that helps a minority of wells.
