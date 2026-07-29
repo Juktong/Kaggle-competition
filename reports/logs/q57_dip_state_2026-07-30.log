@@ -1,0 +1,8 @@
+train 60 | eval 40 (same split seed as Q10/Q40/Q54)
+prepped 40 wells | flat-anchor 12.722 | l1 lam=60 baseline 12.170 | deployed honest 8.8626
+
+=== 1. DEGENERACY: dip grid {0} and nu=0 must reproduce run_dp with lam=mu ===
+  mu 60     max|dip_dp(ndip=1,nu=0) - run_dp| = 0.0000000000
+
+=== 2. COST CONTROL: wall-time on 8 wells before the full sweep ===
+  ndip 1    1.15 s / 8 wells  -> 0.1 min for 1 configs x 40 wells
