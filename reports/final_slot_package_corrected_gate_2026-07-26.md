@@ -631,3 +631,38 @@ submission we hold whose error is decorrelated from the crowd**, so it is also t
 rank movement.
 
 Full detail and limits: `reports/q44_frontier_private_risk_stress_2026-07-30.md`.
+
+## Q46 addendum (2026-07-29 23:55 UTC) — asset inventory, and one slot-1 artifact that is not archivable by API
+
+Full detail: `reports/q46_submission_asset_inventory_2026-07-30.md`; artifacts in `reports/submission_outputs/`.
+
+**Every provenance field for all seven candidates is now `known`**, including our own side. The submission
+object's `url` carries the kernel slug *and* `scriptVersionId` directly:
+
+| ref | account | kernel slug | scriptVersionId | output archived |
+|---|---|---|---|---|
+| `54922806` 6.563 | leemarc223 | `rogii-public-pf-frontier-rerun-20260723` | 337355891 | **NO** |
+| `54968060` 6.643 | joezzzzz | `rogii-kaiwalya-overlap-off-full` | 337787958 | yes, verified |
+| `54844628` 7.891 | joezzzzz | `rogii-struct-field-blend-codex` | 336599680 | yes, verified |
+| `55064411` 6.695 | joezzzzz | `rogii-frontier-hedgeoff-full` | 338650633 | yes, verified |
+| `54990075` 6.690 | joezzzzz | `rogii-frontier-sp45-only-full` | 337982098 | yes, verified |
+| `54896975` 6.669 | leemarc223 | `rogii-kaiwalya-public-tvt-6-626-repro` | 337097140 | yes, verified |
+| `54923144` 6.678 | leemarc223 | `rogii-gr-sigma-1-0-frontier-20260723` | 337362917 | **NO** |
+
+Archived outputs are not merely "files that parse" — each is tied to its submission by a number recorded at
+submission time: `54990075` -> rmse **1.640** vs `54968060`, `55064411` -> **1.756**, `54968060` -> **3.105** /
+**2.537**, `54896975` -> sha256 prefix **b192d3**. All five reproduce exactly.
+
+**The finding that touches the slot decision.** `54922806`, `54896975` and `54923144` scored 6.563 / 6.669 /
+6.678, yet their kernels' currently-retrievable outputs are **byte-identical** (`b192d3f348ae`, which is
+`54896975`'s recorded SHA). Three scores cannot come from one file, so the copies under the other two refs
+are post-submission re-runs; they were deleted rather than archived. **This is direct evidence for Q38's
+unanswered question — at least two teammate kernels have been edited or re-run since submission** — and it
+means the submitted artifact of the **score-first slot-1 candidate is not archived and cannot be fetched by
+API** (`kernels_output` serves only the latest version). It is one owner UI action away: version
+**337355891** -> Output.
+
+This does **not** change the recommendation. Q44 already found the two slot-1 options tied on measurement
+with ownership as the tie-breaker; this is one more independent consideration on the same side. Note the
+asymmetry it creates: **if slot 1 is `54968060`, every asset for both slots is already archived and verified
+locally; if it is `54922806`, one owner action is outstanding.**

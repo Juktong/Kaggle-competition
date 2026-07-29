@@ -4,3 +4,4 @@ wells 760 | NS 64 (DEPLOYED config) | JOBS 2 -> /home/ubuntu/.claude/jobs/rogii_
 degeneracy control: array_equal(deployed run_particle_filter, trellis twin) = True
 [Parallel(n_jobs=2)]: Using backend LokyBackend with 2 concurrent workers.
 [Parallel(n_jobs=2)]: Done  14 tasks      | elapsed:  3.5min
+[Parallel(n_jobs=2)]: Done  68 tasks      | elapsed: 15.3min
