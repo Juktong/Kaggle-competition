@@ -1042,3 +1042,64 @@ failure here. No resubmission, no extra quota. **Quota 1/5 used.** The recorded 
 record the score in the ledger and final-slot package, and if it is <= 6.563 re-evaluate slot 1 on
 provenance. Scored references: 54922806 **6.563**, 54968060 6.643, 54896975 6.669, 54923144 6.678,
 54990075 6.690.
+
+## Round 27 — Q17 tiny GPU training: HOLD, closed on its prerequisite (no GPU run, no submission)
+
+`q17_kaggle_gpu_tiny_training_followup` was resolved at its premise for zero GPU cost.
+
+Step 1 refresh: **Q11 is negative** (every ranker arm worse than the PF mean path) and **Q13 is negative
+and a warning** (an emission clearly better pointwise yields a WORSE trajectory). The whole training case
+therefore rested on **Q10**, whose own verdict already read "closing 3.3 RMSE on that exchange rate would
+need an implausible AUC". That verdict rested on a **two-point** slope (TWH=8 AUC 0.7331 -> DP 13.206;
+TWH=1 AUC 0.7632 -> DP 12.170 = ~1 RMSE per +0.03 AUC), which is a weak basis for a 3.3 RMSE extrapolation
+and is exactly what a GPU run would be spent on. So it was measured directly.
+
+`scripts/q17_emission_exchange_rate.py` interpolates the learned emission toward an ORACLE emission,
+`C_mix(a) = z((1-a)*z(C_learned) + a*z(C_oracle))` with `C_oracle[j,s] = |grid[s] - tru[j]|`, and sweeps a
+from 0 to 1 — measuring held-out-WELL pair AUC and nested DP RMSE at each step. Q10's DP, wells, protocol
+and 2-fold nesting are reused verbatim by import. Smoke passed first (Directive 4) and the AUC axis was
+verified against Q10's own `scorer_auc` (0.6920 vs 0.6908 on the same tiny config).
+
+**Reproduction check: at a=0, lam=60 the DP gives 12.170 — exactly Q10's headline number.**
+
+CONTROL at FIXED lam=60, no selection anywhere:
+
+```
+alpha  AUC      DP(lam=60)          alpha  AUC      DP(lam=60)
+0      0.7511     12.170            0.2    0.7881     12.022
+0.05   0.7585     12.168            0.3    0.8074     12.003
+0.1    0.7671     12.166            0.5    0.8088      12.150  (best at lam=5: 8.932)
+0.15   0.7772     12.029            1.0    0.9688       0.370
+```
+
+**+0.056 AUC — nearly double Q10's TWH8->TWH1 step — buys 0.167 RMSE.** That is **0.030 RMSE per +0.01
+AUC** against Q10's two-point 0.344: the real exchange rate is **>11x shallower** than the extrapolation
+basis, and the fixed-lam control shows this is a property of the DP, not of the lam nesting. Closing
+12.170 -> 8.8626 at the measured rate would need **+1.11 AUC**, i.e. an AUC of 1.87.
+
+**LOAD-BEARING FINDING — AUC is not the quantity the DP responds to.** The axes decouple:
+
+| segment | dAUC | dDP (lam=60) |
+|---|---|---|
+| a 0 -> 0.3 | **+0.0563** | -0.167 |
+| a 0.3 -> 0.5 | **+0.0014** | **-3.071** |
+
+The DP responds to how much literal truth is mixed into the emission, not to its discriminative AUC.
+Mechanism: changing TWH alters the emission's SHAPE, not only its discriminative quality; Q10's 1.04 RMSE
+gain came from that structural change, and attaching it to the accompanying AUC movement produced a slope
+that does not generalise. The a-sweep isolates pure discriminative quality at fixed structure, and it is
+nearly flat.
+
+**NEW STANDING RULE (proposed): emission AUC is not a valid proxy for DP trajectory quality; an emission
+change must be validated on its DP output, not on AUC or any pointwise emission metric.** This subsumes
+the Q13 rule — Q13 and Q17 are two instances of the same failure, now with the mechanism measured on a
+continuous axis.
+
+Step 3 (tiny Kaggle GPU smoke) therefore **did not trigger**: a learned scorer improves AUC, the exact
+axis just shown not to move the DP. No GPU run, no smoke kernel, no submission, **quota untouched at
+0/5**. The ranker half was already closed by Q11, so both halves of Q17 are resolved.
+
+Limits stated: the oracle is truth-constructed and used ONLY as a bound and a continuous axis, never as a
+claimed gain; and the measurement is generous to the training case, since a real AUC gain is unlikely to
+be better truth-aligned than literal truth. This bears on the emission lever only — the transition model
+remains the untested lever.

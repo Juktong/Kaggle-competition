@@ -385,3 +385,28 @@ G15 vintage `seq_id` features (leakage-adjacent, needs a rules check first).
   its ~0.047 is a JOINT bound shared with the bimodal hedge, which `55064411` will help decompose once
   scored). Start from that, do not re-derive it.
 - **Next:** `q17_kaggle_gpu_tiny_training_followup`.
+
+## 2026-07-29 update (Q17 HOLD on prerequisite; alignment-line emission lever closed)
+
+- **`q17_kaggle_gpu_tiny_training_followup` HOLD — no GPU run, no smoke kernel, no submission, quota 0/5
+  untouched.** Resolved at its premise for zero GPU cost. Report:
+  `reports/q17_kaggle_gpu_tiny_training_followup_2026-07-29.md`.
+- **The emission lever on the alignment line is now closed by measurement, not extrapolation.**
+  `scripts/q17_emission_exchange_rate.py` interpolates the learned emission toward an oracle emission and
+  sweeps the mix, tracing AUC and nested DP RMSE together. At FIXED lam=60 (no selection), +0.056 AUC buys
+  0.167 RMSE = **0.030 RMSE per +0.01 AUC**, against Q10's two-point 0.344 — **>11x shallower**. Closing
+  12.170 -> 8.8626 at the measured rate needs **+1.11 AUC** (an AUC of 1.87).
+- **AUC is decoupled from DP quality.** a 0->0.3 moves AUC +0.0563 for -0.167 RMSE; a 0.3->0.5 moves AUC
+  only +0.0014 for **-3.071 RMSE**. The DP responds to literal truth content in the emission, not to
+  discriminative AUC. Q10's 1.04 RMSE gain came from the emission's SHAPE change (TWH), not from its AUC.
+- **DO NOT queue any further work that improves or trains an emission/scorer for this DP and validates it
+  on AUC or a pointwise emission metric.** Q13 (pointwise-better emission, worse trajectory) and Q17 are
+  the same failure. Validate on DP output only.
+- **Reproduction check passed:** a=0, lam=60 gives 12.170, exactly Q10's headline number. Separately, on
+  this third lam grid the nested TWH=1 win over flat is only 0.12 RMSE and beats flat on 37.5% of wells —
+  the same fraction N1 recorded for TWH=8, reinforcing Q10's own note that the margin is grid-fragile.
+- **Still open on this line:** the **transition model**, which N1 and Q10 both identify as the remaining
+  lever and which Q17 says nothing against. Any future alignment-line work should target that.
+- **`q15_frontier_dependency_replacement` STILL NOT STARTED** — unchanged blocker: it needs its own
+  frontier full run and `55064411`'s kernel re-run is still in flight.
+- **Next:** `q18_public_leaderboard_family_stress`.
