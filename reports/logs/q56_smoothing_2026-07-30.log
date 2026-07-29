@@ -1,0 +1,30 @@
+Test wells: ['000d7d20', '00bbac68', '00e12e8b']
+Test wells: ['000d7d20', '00bbac68', '00e12e8b']
+npz wells 760 | wells to run 760 | NS 32 | JOBS 2 | ARMS ['full', 'block400', 'block100', 'block25', 'sg51', 'sg201', 'sg601'] | ALPHAS [0.25, 0.5, 1.0]
+
+=== 1. DEGENERACY CONTROL: the trellis twin vs the deployed function, byte-for-byte ===
+  seed 0   array_equal(deployed, trellis) = True   log_lik identical = True
+  seed 1   array_equal(deployed, trellis) = True   log_lik identical = True
+  seed 7   array_equal(deployed, trellis) = True   log_lik identical = True
+  ensemble: array_equal(deployed run_pf_lik_ensemble, alpha=0 arm) = True
+  mode full      |smoothed - filtered| at the final row = 1.008e-06 (must be ~0)
+  mode block400  |smoothed - filtered| at the final row = 1.008e-06 (must be ~0)
+  mode block100  |smoothed - filtered| at the final row = 1.008e-06 (must be ~0)
+  mode block25   |smoothed - filtered| at the final row = 1.008e-06 (must be ~0)
+
+=== 2. PATH DEGENERACY: ancestor ESS vs lookahead (seed 0, well 000d7d20, T=600) ===
+  lookahead   distinct anc.   ancestor ESS
+  0                     500         335.69
+  1                     500         335.69
+  2                     500         335.69
+  5                     500         335.69
+  10                    500         335.69
+  25                    500         335.69
+  50                    280         145.30
+  100                   155          79.25
+  200                    66          23.60
+  400                    41          14.02
+  599                    22          11.95
+  ancestor ESS drops below 2.0 at lookahead never within the window
+  (this is why the block arms exist: block(L) bounds lookahead at L rows)
+[Parallel(n_jobs=2)]: Using backend LokyBackend with 2 concurrent workers.
