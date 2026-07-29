@@ -2217,3 +2217,80 @@ The geosteering-specific HMM search returned **no geosteering results at all**; 
 came from **map-matching (GPS-to-road) and general HMM/DTW literature** instead. Several petroleum sources
 (SPWLA, ScienceDirect) are abstract-only or paywalled and were used for the method IDEA, not implementation
 detail. No source was executed or copied.
+
+## 2026-07-29 19:25 UTC — Q54 hard path constraints: the DP is OVER-DAMPED, not under-constrained
+
+`reports/q54_dp_hard_path_constraints_2026-07-30.md`, `scripts/q54_dp_corridor.py`.
+**Gate FAILS all three conditions. No submission, quota 0/5.**
+
+### Scope correction made BEFORE running
+
+The task asked for "Sakoe-Chiba corridor + Itakura slope limits". **The slope-limit half is already closed
+by N1**, with a better constraint than generic Itakura: N1 derived the admissible PER-STEP interval from
+well geometry and tested unbounded/centred/bounded at 4/8/16 degrees under nested selection -- the band
+binds 83-97% of transitions but does not improve the DP. Re-running a generic per-step cap would be a
+weaker repeat, so only the genuinely untested piece was run: the **CUMULATIVE corridor**
+`|state_j - anchor| <= C` (per-step allowances do not bound accumulation over ~477 steps).
+
+### Two controls, both from prior mistakes
+
+Degeneracy: `C = inf` reproduces the unconstrained run_dp to **0.0000000000** at all four lambdas.
+Binding diagnostic: C=2 -> 21.9%, C=3 -> 14.7%, C=5 -> 5.3%, C=10 -> 1.4%, C=20 -> 0.4%, C=inf -> 0.0%.
+The FIRST smoke of this task repeated N1's trap exactly -- at C=40 the corridor bound 0.0% and changed
+nothing. Rather than report that as "no effect", the cause was measured and the grid re-chosen.
+
+### THE HEADLINE — the DP does not wander too far, it wanders far too LITTLE
+
+Deviation of the unconstrained DP path from the anchor vs what the truth requires (grid units ~ ft):
+
+    lam        median     p90     max    TRUTH max
+    5            11.0    14.0    15.0       19.4
+    20            2.5     3.0     4.0       19.4
+    60            2.5     3.0     3.0       19.4
+    150           2.0     2.5     2.5       19.4
+
+**At the optimal lam=60 the DP moves +-3.0 ft from the anchor while the truth moves +-19.4 ft.** The DP is
+OVER-DAMPED, not under-constrained. A corridor can only restrict movement further, and any corridor tight
+enough to bind at lam=60 (C < 3) would EXCLUDE THE TRUTH. This also explains Q10's headline directly: the
+DP scores 12.170 vs the flat anchor's 12.722 because **its path is nearly the flat anchor**, +-3 ft of wiggle.
+
+### Result — corridor and penalty are SUBSTITUTES, not complements
+
+    lam     C=2      C=3      C=5     C=10     C=20    C=inf
+    5     12.972   12.887   13.048   13.164   13.325   16.009   <- corridor rescues +3.12 here
+    60    12.992   12.970   12.321   12.138   12.170   12.170   <- best overall 12.138 (+0.032)
+
+The lam=5 row is informative: a hard corridor rescues a badly-tuned low-lambda DP by **+3.12**, landing it
+right at the level lambda alone achieves. So the corridor genuinely does the same job -- **but not better**.
+Best with corridor+lambda 12.138 vs best with lambda alone 12.170. **That is a direct answer to Q43's
+premise**: the hypothesis was that a hard cap does something a soft penalty structurally cannot (bound
+accumulation regardless of path length); measured, they converge to the same optimum, because the binding
+issue here is not accumulation.
+
+### Gate
+
+    NESTED picks [(60, C=10), (150, C=10)]
+      selected 12.570 vs unconstrained 12.601 -> gain +0.031
+      helps 2.5% of held-out wells | 3-WELL bootstrap 5th -0.518, P(>0) 0.0724
+    GATE: gain > 0 PASS (negligibly) | helps a majority FAIL | 3-well 5th > 0 FAIL
+
+**2.5% is the lowest win rate anything has produced in this project**, and it is consistent -- at lam=60
+the selected C=10 binds only 1.4% of steps, so on ~97% of wells the corridor changes nothing.
+
+### What this closes, and a recorded PREDICTION for q55
+
+**CLOSES** hard global path constraints. With N1 (geometric per-step bound, negative) and Q40 (45 soft
+penalty arms, none better than the deployed L1), **the transition model is now closed across soft
+penalties, per-step hard bounds, AND global hard corridors.**
+
+**PREDICTION for `q55_dp_decoder_averaging`, recorded now rather than after the fact:** if the DP's paths
+already sit within +-3 ft of the anchor, averaging over near-optimal paths averages near-identical
+near-flat trajectories and should move very little. Not a closure -- beam averaging could still matter if
+the K=6 beam spans genuinely different hypotheses rather than +-1-unit variations. **q55 should measure the
+beam's spread FIRST and report it before anything else.**
+
+`q56_pf_backward_smoothing` is unaffected: it targets the PF, a different component.
+
+**THE DEEPER BOX:** Q17 showed emission AUC is decoupled from DP quality (+0.056 AUC bought 0.167 RMSE),
+and Q54 now shows the transition side is at its optimum in three separate families. The alignment line is
+constrained from both sides, and neither lever moves it toward the deployed honest line's 8.8626.
