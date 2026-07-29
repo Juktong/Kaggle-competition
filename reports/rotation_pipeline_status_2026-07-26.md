@@ -1480,3 +1480,79 @@ The result is not in yet -- the smoke is not the finding. NS=32 vs deployed NS=6
 the BLEND level (`base` 9.2987), not after the gated structural-field stage that reaches 8.8626. 760 of
 773 wells: 13 are absent from `aligned_preds.npz` and excluded so the deployed `dwt` column can be reused
 unchanged.
+
+## Round 33 — Q21 PF-path soft combiners: CLOSED, and the deployed ensemble is already at the optimum
+
+`q21_pf_path_soft_combiner`. **Gate fails on all three conditions. No Kaggle smoke, no submission,
+quota 0/5.** `reports/q21_pf_path_soft_combiner_2026-07-29.md`.
+
+### A structural discovery that reframes the task
+
+The stored per-well `mean` array — which the task and Q11 both call "the PF mean path" — **is not a mean**:
+
+    max |paths.mean(0) - stored mean| = 30.02        stored `mean` is NOT the uniform mean
+    softmax_T5  10.9307   ==   pf_mean 10.9307  (difference -0.0000)
+    topm_96     11.5320                          (the ACTUAL uniform mean of the 96)
+
+`softmax_T5` reproduces it EXACTLY, so the stored baseline is the **likelihood-weighted ensemble at
+scale = 5.0** — the deployed `run_pf_lik_ensemble` that feeds the honest blend. The deployed PF is
+therefore ALREADY a soft combiner, and the temperature sweep becomes a **nested test of the deployed
+`scale = 5.0`, a hyper-parameter that had never been validated**. The family spans both limits: deployed
+is T=5, the uniform mean is T->inf, and hard selection (which Q11 closed) is T->0.
+
+### Result — 773 wells, splits by well
+
+    PF ensemble (T=5) 10.9307 | ORACLE best-of-96 7.1259 | worst-of-96 22.0396 | deployed honest 8.8626
+    oracle headroom +3.8048 | tail risk -11.1090
+
+    softmax_T10   10.8781  +0.0526   <- the ONLY positive, 1.4% of headroom
+    softmax_T5    10.9307  -0.0000   <- deployed
+    softmax_T2    11.1957  -0.2650      softmax_T1   11.4264  -0.4957
+    softmax_T0.5  11.5916  -0.6609      softmax_T0.25 11.6884 -0.7577
+    topm_1/interp_1 11.8088 -0.8781  <- hard selection, the worst of the sharp end
+    topm_96       11.5320  -0.6013   <- uniform mean          median 12.0408 -1.1101
+
+**The deployed T=5 sits at a near-optimal interior point.** Sharpening is monotonically harmful down to
+hard selection; flattening is harmful too; robust combiners are worse still.
+
+### Nested — fails all three gate conditions
+
+    NESTED across all 27 combiners (picks ['interp_0.1', 'softmax_T10'])
+      selected 10.9633 vs deployed 10.9307 -> gain -0.0326 (-0.9% of headroom)
+      helps 43.2% of held-out wells
+      3-WELL bootstrap 5th -0.7353  50th -0.0069  95th +0.3942  P(>0) 0.4563
+
+The folds disagree, which is what turns T=10's nominal +0.0526 into a nested loss: its edge is smaller
+than the between-fold selection noise.
+
+### What this closes, and one thing it validates
+
+**CLOSES:** Q11 closed HARD SELECTION over these 96 paths (top-K ranker converted 3.9%, failed the gate).
+Q21 extends that to the ENTIRE SOFT-COMBINATION family — temperature reweighting, top-m averaging,
+trimming, per-row median, mean<->best interpolation. Both limits are worse than the deployed point, so the
++3.8048 of oracle headroom is **not accessible by reweighting either**. Selection AND reweighting are now
+both closed on this artifact set.
+
+**VALIDATES:** the deployed `scale = 5.0` was a fixed, never-nested hyper-parameter of the honest line. It
+is now nested-validated as sitting at the optimum of a 27-member family over 773 wells — a genuine
+positive about the current pipeline, even though it yields no new candidate.
+
+### No submission regardless of the gate
+
+The PF-path line sits at 10.93 vs the deployed honest 8.8626 — 2.07 WORSE — and even the truth-selected
+oracle (7.1259) is only 1.74 better than deployed. No member of this family is a submission candidate at
+any temperature, so the task's step 5 ("materially closer to deployed honest") does not trigger.
+Non-homogeneity was not computed, being meaningful only for a submittable candidate.
+
+### METHODOLOGICAL NOTE WORTH CARRYING
+
+A 20-well smoke showed sharpening HELPING (`softmax_T0.5` +0.1310, `topm_8` +0.2027, `interp_0.5`
++0.1594). **Every one reversed sign on the full 773 wells**, and that subset was also unrepresentative in
+level (7.16 vs 10.93). This is the THIRD instance of the same lesson (N1's 12-well set manufactured a gain
+that vanished at 40; Q10's grid sensitivity likewise) — keep treating small-sample smokes strictly as
+plumbing checks, never as weak evidence of direction.
+
+### Q36 still in flight
+
+284/760 wells at 78 min, ~2 h remaining. It remains the gate deciding whether the next 24 h spends 0 slots
+or 1.
