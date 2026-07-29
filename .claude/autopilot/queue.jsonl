@@ -26,3 +26,18 @@
 {"id": "q18_public_leaderboard_family_stress", "path": "prompts/q18_public_leaderboard_family_stress.md", "status": "queued", "priority": 280}
 {"id": "q19_external_solution_refresh", "path": "prompts/q19_external_solution_refresh.md", "status": "queued", "priority": 290}
 {"id": "q20_usage_aware_queue_builder", "path": "prompts/q20_usage_aware_queue_builder.md", "status": "queued", "priority": 300}
+{"id":"q21_pf_path_soft_combiner","path":"prompts/q21_pf_path_soft_combiner.md","status":"queued","priority":310}
+{"id":"q22_frontier_hedgeoff_score_response","path":"prompts/q22_frontier_hedgeoff_score_response.md","status":"queued","priority":320}
+{"id":"q23_frontier_stage_localizer","path":"prompts/q23_frontier_stage_localizer.md","status":"queued","priority":330}
+{"id":"q24_frontier_run_variance_control","path":"prompts/q24_frontier_run_variance_control.md","status":"queued","priority":340}
+{"id":"q25_submission_ensemble_nonhomogeneous","path":"prompts/q25_submission_ensemble_nonhomogeneous.md","status":"queued","priority":350}
+{"id":"q26_public_research_geosteering_methods","path":"prompts/q26_public_research_geosteering_methods.md","status":"queued","priority":360}
+{"id":"q27_public_research_sequence_models","path":"prompts/q27_public_research_sequence_models.md","status":"queued","priority":370}
+{"id":"q28_meta_validation_protocol_audit","path":"prompts/q28_meta_validation_protocol_audit.md","status":"queued","priority":380}
+{"id":"q29_final_slot_candidate_packager","path":"prompts/q29_final_slot_candidate_packager.md","status":"queued","priority":390}
+{"id":"q30_competition_rules_final_audit","path":"prompts/q30_competition_rules_final_audit.md","status":"queued","priority":400}
+{"id":"q31_teammate_mark_repo_refresh","path":"prompts/q31_teammate_mark_repo_refresh.md","status":"queued","priority":410}
+{"id":"q32_score_watcher_and_recovery","path":"prompts/q32_score_watcher_and_recovery.md","status":"queued","priority":420}
+{"id":"q33_controlled_submission_budget_plan","path":"prompts/q33_controlled_submission_budget_plan.md","status":"queued","priority":430}
+{"id":"q34_new_high_value_queue_from_evidence","path":"prompts/q34_new_high_value_queue_from_evidence.md","status":"queued","priority":440}
+{"id":"q35_status_summary_for_owner","path":"prompts/q35_status_summary_for_owner.md","status":"queued","priority":450}
