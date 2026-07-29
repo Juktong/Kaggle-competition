@@ -6,34 +6,20 @@
   "current_handle": "00b8b89e",
   "current_task_id": "q57_dip_state_augmented_dp",
   "last_started_at": "2026-07-29T21:29:07Z",
-  "last_finished_at": "2026-07-29T22:55:00Z",
+  "last_finished_at": "2026-07-29T23:25:00Z",
   "last_result": {
-    "task_id": "q57_dip_state_augmented_dp",
-    "outcome": "gate_failed_all_three_line_closed",
+    "task_id": "q56_pf_backward_smoothing",
+    "outcome": "gate_failed_on_3well_only_two_of_three_pass_followup_queued",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Q57 closed the state-space side of the alignment DP. Harness validated (ndip=1 reproduces Q10's 12.170 exactly; degeneracy control 0.0000000000). Every augmented arm finds strictly lower objective cost and strictly worse RMSE, monotone in dip width (cost -569.7/-624.4/-633.6, rmse 12.170/14.850/19.929), and at ndip=5 the DP is worse than the flat anchor. THE 40-WELL ACTIVATION DIAGNOSTIC CORRECTED THE SMOKE-BASED DRAFT: the dip is active on 42-46% of steps and path deviation rises 4.9 -> 21.1 ft against 36.0 ft of truth, so the augmentation DOES cure Q54's over-damping and the RMSE still degrades by up to 7.8 ft. The DP can be made to move the right amount; moving it in the wrong direction is worse than not moving. The damping was protection against an emission with no directional content, not a limitation of the transition model. Nested picks the un-augmented baseline in both folds (gain +0.000, helps 0.0%). The alignment DP is now closed on four sides -- emission, transition, decoder, state space -- and the binding constraint is located in the emission.",
-    "next_task_id": "q46_submission_asset_inventory"
+    "headline": "Q56's 760-well run landed: 760/760 wells usable, forward 9.2903 (reconstruction check against the deployed 9.2987 holds at the same 0.008 NS offset Q36 found). The ancestral-path smoother gives NESTED +0.2541 at blend level, helps 68.9% of wells with a POSITIVE median +0.2044, and fails only the 3-well bootstrap 5th (-0.3238, P(>0) 0.7919). The 12-well smoke over-stated the size by 58% -- predicted in advance, and the reusable lesson is that a smoke is an activation check, not a size. Everything that made it credible survived: the lookahead dose-response is still monotone on 760 wells, and the savgol control shows ~90% of the gain is lookahead rather than denoising. It is NOT tail-driven, which is the opposite of the GR-sigma signature that preceded the 54878409 public regression. For scale it is worth ~60% of the entire structural-field stage. Not promoted; queued q58 to reproduce it in the honest kernel and RE-FIT the structural field against the smoothed PF, since that stage was fitted against the forward PF and its +0.436 is not transferable as-is.",
+    "next_task_id": "q58_honest_kernel_backward_smoothing"
   },
   "queue_exhausted": false,
   "pending_kaggle_run": null,
   "pending_submission": null,
-  "pending_local_run": {
-    "runs": [
-      {
-        "task_id": "q56_pf_backward_smoothing",
-        "what": "760-well ancestral-path PF smoother in the DWT+PF blend, NS=32",
-        "launched_utc": "2026-07-29T21:30:00Z",
-        "progress": "158/760 wells at 28.1 min",
-        "log": "reports/logs/q56_smoothing_2026-07-30.log",
-        "out": "reports/logs/q56_blend_per_well.npz",
-        "smoke": "GATE PASS: nested +0.6050, helps 91.7%, 3-well 5th +0.0836",
-        "collect": "apply the 3-part gate in reports/q56_pf_backward_smoothing_2026-07-30.md section 8; if it passes, the follow-up is NOT a submission but a task to reproduce the smoother inside the honest kernel and re-fit the structural-field stage against the smoothed PF"
-      }
-    ],
-    "note": "q57 has finished and released its core, so q56 now has both again. Do not relaunch q56 and do not start another CPU-heavy job while it runs."
-  },
+  "pending_local_run": null,
   "rules_facts": {
     "merger_deadline": "2026-07-29T23:59Z (TODAY)",
     "new_entrant_deadline": "2026-07-29T23:59Z (TODAY)",

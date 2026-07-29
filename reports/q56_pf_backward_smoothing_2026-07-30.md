@@ -1,13 +1,16 @@
-# Q56 — PF backward smoothing: the first arm in this rotation to clear all three gate conditions on a smoke
+# Q56 — PF backward smoothing: a broad, mechanism-verified +0.2541 at blend level that still fails the 3-well condition
 
-Date: 2026-07-29 21:35 UTC
+Date: 2026-07-29 21:35 UTC, **result collected 23:20 UTC**
 Task: `q56_pf_backward_smoothing` (`requires_gpu=false`, `can_submit=false`, `max_submit_cost=0`)
 Script: `scripts/q56_pf_backward_smoothing.py` · Log: `reports/logs/q56_smoothing_2026-07-30.log`
-Outcome: **smoke PASSED the full gate (+0.605 nested, helps 91.7%, 3-well 5th +0.0836). The 760-well run is
-in flight, ETA ~2 h. No submission — the task forbids one. Quota 0/5.**
 
-**Nothing here is the measurement.** §5 is a 12-well smoke and its baseline wells are easier than average
-(forward blend 7.88 there vs the deployed 9.2987 over 760). The full run in §7 decides.
+**FINAL OUTCOME (760 wells, see the RESULT section at the end): gate FAILS on the 3-well bootstrap 5th
+(−0.3238), PASSES the other two — nested +0.2541, helps 68.9% of wells with a positive median. Not promoted.
+Follow-up queued as `q58_honest_kernel_backward_smoothing`. No submission. Quota 0/5.**
+
+Sections 1–9 below were written before the full run landed and are left as written; the smoke's +0.605 was
+**58% too large**, which §9 predicted in advance and the RESULT section quantifies. Read the RESULT section
+for the measurement.
 
 ## 1. The gap, stated precisely
 
@@ -205,3 +208,83 @@ Collect `reports/logs/q56_smoothing_2026-07-30.log`, apply the §8 gate, and eit
 reproduction or close the line. `q57_dip_state_augmented_dp` is next by priority.
 `q29_final_slot_candidate_packager` reactivates **2026-08-03**; the final selection is due **2026-08-04** and
 costs no quota.
+
+## RESULT — collected 2026-07-29 23:20 UTC. 760/760 wells, 108.6 min. **GATE FAILS on the 3-well condition; the other two pass.**
+
+```
+done 760 wells in 108.6 min | ok=760 bad=0        <- every well passed the ridx and truth-equality assertions
+
+mode             a=0.25      a=0.5      a=1.0    at best alpha
+forward          9.2903
+full             9.1911    9.1154    9.0362     helps 68.9% | mean +0.3686 | median +0.2044
+block400         9.2411    9.2018    9.1534     helps 71.1% | mean +0.1898 | median +0.1472
+block100         9.2713    9.2556    9.2343     helps 72.6% | mean +0.0768 | median +0.0732
+block25          9.2857    9.2817    9.2753     helps 72.2% | mean +0.0205 | median +0.0213
+sg51             9.2901    9.2900    9.2897     helps 99.2% | mean +0.0009 | median +0.0007
+sg201            9.2880    9.2862    9.2838     helps 99.6% | mean +0.0112 | median +0.0086
+sg601            9.2813    9.2745    9.2679     helps 94.6% | mean +0.0383 | median +0.0295
+
+NESTED (picks [('full', 1.0), ('full', 1.0)])
+  selected 9.0362  vs forward 9.2903  gain +0.2541
+  helps 68.9% of held-out wells | 3-WELL bootstrap 5th -0.3238  50th +0.3071  95th +1.2561  P(>0) 0.7919
+```
+
+**Reconstruction check:** the forward arm gives **9.2903** against the deployed blend `base` of **9.2987** —
+a 0.0084 difference, the same NS=32-vs-NS=64 offset Q36 measured (0.008). The pipeline is faithfully
+reproduced, so the arms are being compared against the real deployed line.
+
+### Gate
+
+| condition | required | observed | verdict |
+|---|---|---|---|
+| nested gain | > 0 | **+0.2541** | **PASS** |
+| helps a majority of wells | > 50% | **68.9%** | **PASS** |
+| 3-well bootstrap 5th | > 0 | **−0.3238** (P(>0) 0.7919) | **FAIL** |
+
+**The gate fails. It is not promoted on this evidence.** What follows is why this negative is not the same
+kind of negative as the rotation's others, stated without softening the verdict.
+
+### The smoke over-stated the size by ~58%, and said so in advance
+
+Smoke (12 wells, NS=8): +0.6050, helps 91.7%, 3-well 5th +0.0836. Full (760 wells, NS=32): **+0.2541**,
+helps 68.9%, 3-well 5th **−0.3238**. §9 predicted exactly this direction — those wells were easier
+(forward 7.88 there against 9.29 here) — and the prediction was right. **A 12-well smoke is not a
+measurement**, and this round is a clean demonstration of the margin: the effect kept its sign and lost
+well over half its magnitude.
+
+### Everything that made the smoke credible survived at full scale
+
+- **Lookahead dose-response, monotone**: block25 **+0.0205** → block100 **+0.0768** → block400 **+0.1898**
+  → full **+0.3686**. More lookahead, more gain, in order, on 760 wells.
+- **Monotone in alpha** for every mode (0.25 → 0.5 → 1.0).
+- **The denoising control holds**: the widest Savitzky-Golay arm buys **+0.0383** against the smoother's
+  **+0.3686**, so denoising is ~10% of the gain and ~90% is lookahead information a symmetric filter cannot
+  supply. The smoke put that split at 8%/92%; it reproduced.
+- **It is not tail-driven**: 68.9% of wells helped with a **positive median (+0.2044)**. Contrast the
+  GR-sigma multiplier, which Q19/Q36 found helped only 41.7%/42.1% of wells with a *negative* median — the
+  signature the ledger records before the `54878409` public regression. **This is the opposite signature.**
+
+### On the failing condition
+
+The 3-well 5th percentile is −0.3238 with **P(gain>0) = 0.7919**. Two prior measurements bear on how much
+that condition can carry: **Q41** found the 3-well 5th is maximised by changing nothing at all, and **Q44**
+measured the 3-well draw's difference-sd at **2.40 ft** — roughly 9× this effect. So the condition is
+mostly a statement about a 3-well draw, not about novel-well quality, and it has now been failed by every
+arm the rotation has tested including several that were also negative on the other two conditions.
+
+That does not convert a FAIL into a PASS, and it is not being used to. It does mean the informative
+outputs — which every task prompt in this rotation has identified as the nested gain and the per-well win
+rate — are **+0.2541 and 68.9%**, and both are the strongest this project has produced since the DWT+PF
+blend itself.
+
+For scale: the deployed structural-field stage takes the honest line from 9.2987 to 8.8626, a gain of
+**+0.436**. This smoother is worth **+0.2625** against that same starting point — about 60% of the whole
+structural-field stage, from a change that adds no new inputs.
+
+### Disposition
+
+`can_submit=false`, so **no submission from this task**, as §8 pre-registered. The follow-up is queued as
+**`q58_honest_kernel_backward_smoothing`**: reproduce the smoother inside the honest kernel, **re-fit the
+structural-field stage against the smoothed PF** (it was fitted against the forward PF, so its +0.436 is not
+transferable as-is), verify the line end-to-end, and only then apply the submit gate. That sequencing is
+what the gate failure requires: the blend-level number is not the deployed line's number.
