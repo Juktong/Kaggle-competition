@@ -207,3 +207,38 @@ PENDING (~5.8 h) and carried only as a parametric contingent entrant: below 6.56
 four views; between 6.563 and 6.643 it is the best our-account frontier and takes slot 1 on
 our-account-first only — but that band sits inside the same coin-flip region, so it would be **ownership
 evidence, not score evidence**. No Q10-Q17 candidate enters the board.
+
+## 2026-07-29 04:15 UTC — `55064411` scored 6.695; recommendation unchanged; selection deadline flagged
+
+`55064411` (Q14 frontier hedge-OFF, our account) landed at **public 6.695**. Against `54968060` (6.643),
+the kernel it was diff-verified against, hedge-OFF costs **+0.052** — inside the ~0.115 config-variance
+floor and inside the band Q18 measured as a coin flip at 3-well scale. It is our **worst** frontier
+candidate on public and **enters no slot**.
+
+**Board updated:**
+
+| ref | public | side | family |
+|---|---|---|---|
+| `54922806` | **6.563** | teammate | frontier (overlap-ON) |
+| `54968060` | 6.643 | ours | frontier (overlap-OFF) |
+| `54896975` | 6.669 | teammate | frontier |
+| `54923144` | 6.678 | teammate | frontier |
+| `54990075` | 6.690 | ours | frontier (SP45-only) |
+| `55064411` | **6.695** | ours | frontier (hedge-OFF) — new, enters no slot |
+| `54844628` | 7.891 | ours | **honest**, fully owned, 760-well OOF |
+
+**Recommendation unchanged:**
+
+| view | pair | worst | mean |
+|---|---|---|---|
+| score / diversity / provenance-first | `54922806` + `54844628` | 6.643 | 6.603 |
+| our-account-first | `54968060` + `54844628` | 6.643 | 6.643 |
+
+### THE FINAL SELECTION IS A SEPARATE ACTION, AND IT IS UNSCHEDULED
+
+Selecting the 2 submissions on Kaggle **costs no quota** but must be done before **2026-08-05 23:59 UTC**,
+or Kaggle applies its own default choice. The pair needs **0 additional slots** — every member is already
+submitted and scored, so the recommendation is executable today.
+
+**Q33 recommends performing the selection by 2026-08-04**, a day early. It can be revised afterwards;
+leaving it to the final hours cannot. This is the highest-consequence remaining step in the project.

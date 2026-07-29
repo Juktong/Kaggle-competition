@@ -1315,3 +1315,106 @@ runner, NOT by a full round having run through it; the next `sent_log` entry is 
 Deferral is an expected-value judgement, not proof a direction is unproductive — each reason is recorded
 so any can be reinstated by editing one status field. Claude token usage is not directly observable;
 `prompt_chars` is the proxy used and measures input size only.
+
+## Round 31 — `55064411` LANDED at 6.695, and Q33 budget plan
+
+Two things this round: the pending submission scored, and the budget plan was produced.
+**No submission (`can_submit=false`), quota 0/5 on 07-29.**
+`reports/q33_controlled_submission_budget_plan_2026-07-29.md`.
+
+### `55064411` = public 6.695 (COMPLETE). Scoring latency <= 7.7 h.
+
+The pre-registered reading from Q19 section 4 was applied — **and it required a correction that changes
+which branch fires.** Q19 framed the threshold against 6.563, but `54922806` is a DIFFERENT branch
+(teammate, overlap-ON). `55064411` was built and diff-verified against the kernel that produced
+`54968060` (6.643), one line `_BH_CAP 2.00 -> 0.00`. The controlled contrast is therefore:
+
+    hedge OFF (55064411)  6.695
+    hedge ON  (54968060)  6.643
+                          +0.052
+
+**+0.052 is INSIDE the ~0.115 config-variance floor**, and Q18 measured that pooled gaps <= 0.30 reverse
+on ~45% of random 3-well draws. Neither pre-registered branch fires cleanly; the honest outcome is a
+third: **the bimodal hedge is not load-bearing on public in either direction, and the public score does
+not adjudicate Q14's local finding.**
+
+**SECOND CORRECTION.** Q19 presented the `my0705` datapoint (base 6.568 -> 6.520 after pushing well
+`00e12e8b` a further +0.522 ft) as support for "the hedge is tuned to the 3 public wells". That change is
+**-0.048**, likewise inside the floor. It does not establish the claim. The hypothesis is **neither
+confirmed nor refuted** — unresolvable at this scale — and Q19's framing overstated it.
+
+What survives untouched: Q14's LOCAL measurement that the hedge applies +2.0 ft to `00e12e8b` whose own
+residual was already -0.19 ft. The public result carries no resolving power against it.
+
+`55064411` at 6.695 is our WORST frontier candidate on public and enters no slot. **Final-pair
+recommendation unchanged.**
+
+### The budget, reframed: ZERO of the 40 remaining slots are required
+
+8 UTC days remain (07-29 .. 08-05) x 5 = **40 slots**; 0 used today. But the final score is the best of 2
+**already-submitted** entries, and every member of every current recommendation (`54922806`, `54968060`,
+`54844628`) is already submitted and scored. **The recommendation is executable today at a cost of 0
+slots.** All 40 slots are discretionary.
+
+**What a slot can buy, measured.** The slot just spent returned a +0.052 contrast against a ~0.115 floor —
+no adjudication. That gives a quantitative criterion derived from measurement:
+
+> **A submission is worth a slot only if its expected public effect exceeds ~0.115.**
+
+Three independent results agree: Q18 (the 0.080 deciding slot 1 is unresolvable), Q19 (nothing in the
+public pool to adopt), and now 55064411.
+
+### Categorisation
+
+    submittable now   : NONE
+    smoke/full needed : q37 (one-token gs*1.3 frontier), BLOCKED behind q36 -- 1 slot, conditional
+    diagnostic only   : q23/q24 (deferred) -- value of information now below the floor
+    final-slot only   : 54922806 / 54968060 / 54844628 -- already scored, 0 slots
+    close             : 55064411 (measured, enters no slot) + the Q20 closed list
+
+**Recommended maximum for the next 24 h: 1** — zero unless `q36` passes its 3-well gate, one (`q37`) if it
+does. Slots are not the scarce resource; resolving power is.
+
+### Contingency for delayed scoring (measured, supersedes 41bb65f)
+
+Latency **<= 7.7 h** (submitted 07-28 20:30, still PENDING at 6.5 h, COMPLETE by 04:14) — the ~1 h
+expectation recorded in `41bb65f` assumed latency tracks kernel runtime; kernels-only scoring also queues
+behind other users. Consequences: serial information rounds cost ~8 h each, so depth is expensive and
+breadth is cheap; **last informative submission 2026-08-05 12:00 UTC** (~12 h margin); last submission of
+any kind 16:00 UTC; never resubmit a PENDING entry; a multi-hour stall is not a failure.
+
+### The zero-cost action with a hard deadline
+
+**Selecting the final 2 is a separate action from submitting.** It costs no quota but must happen before
+2026-08-05 23:59 UTC or Kaggle applies its own default. It is currently unscheduled and is the highest-
+consequence remaining step. **Recommendation: perform the selection by 2026-08-04**, a day early; it can
+be revised afterwards, whereas leaving it to the final hours cannot.
+
+### Endgame scheduling — Q20's deferral risk discharged
+
+    q35_status_summary_for_owner       re-queued now, priority 550
+    q29_final_slot_candidate_packager  re-queued now, priority 560, WITH a self-check trigger
+
+`q29`'s prompt now requires it to proceed only if date >= 2026-08-03 AND `q36` has reported; otherwise it
+must re-defer itself with a new target date and say so. It can therefore neither run prematurely nor be
+silently lost. `q22_frontier_hedgeoff_score_response` is marked **done** — its deliverable (record the
+score, apply the pre-registered reading) was discharged here, since the standing rules require recording a
+landed score immediately.
+
+### Day-by-day
+
+    07-29        0-1   only q37, and only if q36 passes its gate
+    07-30..08-02 <=1/day  only candidates with expected effect > 0.115
+    08-03        0     q29 final packaging
+    08-04        0     PERFORM THE FINAL SELECTION (no quota cost)
+    08-05        0     reserve; last informative submission 12:00 UTC
+
+Expected total spend **0-4 of 40**, deliberately leaving most of the budget unused.
+
+### Limits
+
+The 0.115 floor comes from a prior small-sample measurement of GPU nondeterminism and is itself uncertain.
+The 7.7 h latency is an UPPER BOUND from ONE observation (true value between 6.5 h and 7.7 h); queue depth
+near the deadline may be worse, which is why 12 h of margin is used. "40 slots" assumes a 00:00 UTC reset
+and no rejected submissions, verified once at the 07-28 -> 07-29 rollover. The plan asserts nothing about
+any candidate improving the private score.

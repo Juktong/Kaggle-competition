@@ -2,31 +2,21 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "bf26e2b9-5fdf-4d67-98ee-6d4111f3f5a9",
-  "current_handle": "19892c94",
-  "current_task_id": "q33_controlled_submission_budget_plan",
-  "last_started_at": "2026-07-29T02:58:31Z",
-  "last_finished_at": "2026-07-29T03:10:00Z",
+  "resume_session_id": "19892c94-3fd3-4306-8a6a-c3793ac3ad9b",
+  "current_handle": "6b65a70d",
+  "current_task_id": "q36_gr_sigma_in_blend_oof",
+  "last_started_at": "2026-07-29T04:13:33Z",
+  "last_finished_at": "2026-07-29T04:25:00Z",
   "last_result": {
-    "task_id": "q20_usage_aware_queue_builder",
-    "outcome": "done_management_round",
+    "task_id": "q33_controlled_submission_budget_plan",
+    "outcome": "done_planning_round",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Q20 done, no submission. Found and FIXED a compounding prompt-bloat defect: the runner's live-status ran `ps -eo ...,cmd` untruncated and an autopilot Claude carries its ENTIRE prompt on its command line, so each round embedded the previous round's prompt recursively -- prompt_chars went 15,949 -> 49,212 in one round. `cut -c1-200` saves a measured 32,567 bytes PER ROUND. Consolidated Q10-Q19: ten rounds, ONE submission; every other round closed on evidence. Queue rebuilt 16 -> 5 active with zero new prompts; 11 deferred with reasons; q32 merged into q22; q29/q35 are deadline-critical and q33 now owns re-queueing them.",
-    "next_task_id": "q33_controlled_submission_budget_plan"
+    "headline": "55064411 LANDED at 6.695. Against its diff-verified parent 54968060 (6.643) hedge-OFF costs +0.052 -- inside the ~0.115 floor, so the hedge is NOT load-bearing on public in either direction and the public score does not adjudicate Q14's local finding. Two corrections recorded: Q19's pre-registration used the wrong comparator (6.563 is a different branch), and Q19 overstated the my0705 datapoint (-0.048, also inside the floor). 55064411 enters no slot; recommendation unchanged. BUDGET REFRAMED: 40 slots remain but ZERO are required, since the final pair is chosen from already-submitted entries. Measured criterion: a slot is worth spending only if the expected effect exceeds ~0.115. Max next 24h: 1, conditional on q36. Latency measured <= 7.7 h. HIGHEST-CONSEQUENCE UNSCHEDULED STEP: the final selection costs no quota but must be done before 2026-08-05 23:59 UTC -- recommended by 08-04. q35 and q29 re-queued, q29 with a self-check trigger.",
+    "next_task_id": "q36_gr_sigma_in_blend_oof"
   },
   "queue_exhausted": false,
   "pending_kaggle_run": null,
-  "pending_submission": {
-    "ref": 55064411,
-    "kernel": "joezzzzz/rogii-frontier-hedgeoff-full",
-    "version": 1,
-    "status": "PENDING ~4.5h after 2026-07-28 20:30 UTC, after 2h of 3-min polling. error_description empty.",
-    "next_action": "Record the score IF it has landed; the next round is NOT blocked on it, since quota is full and the stall is external. If <= 6.563 re-evaluate slot 1 on provenance.",
-    "poll_cadence": "hour-scale; a PENDING is not a failure and is not a reason to resubmit",
-    "env_note": "kaggle pkg was missing and was reinstalled: python3 -m pip install --user --break-system-packages kaggle. API attrs are snake_case (s.public_score), not camelCase.",
-    "kernel_status": "kernels_status -> COMPLETE, failureMessage null. The stall is Kaggle-side scoring queue, NOT our kernel or output.",
-    "revised_latency_rule": "Supersedes 41bb65f: ~1h is a FLOOR not an estimate. Treat multi-hour PENDING as normal-but-unresolved. Do NOT resubmit to retry (near-duplicate + burns a slot). Do not let any final-slot decision depend on a score that may not arrive; submit with hours of margin."
-  }
+  "pending_submission": null
 }

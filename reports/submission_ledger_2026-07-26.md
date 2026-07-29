@@ -181,3 +181,70 @@ new day's allowance.
 **Unchanged:** recording `55064411`'s score remains the first action of the next round *if it has landed*
 — but the next round is no longer blocked on it, since a full quota is available and the stall is
 external.
+
+## 2026-07-29 04:15 UTC — `55064411` LANDED: public **6.695**
+
+| field | value |
+|---|---|
+| ref | **55064411** |
+| public | **6.695** |
+| private | not visible (empty for every submission) |
+| status | COMPLETE |
+| submitted | 2026-07-28 20:30:17 UTC |
+| scored by | 2026-07-29 04:14 UTC |
+| **scoring latency** | **<= 7.7 h** (still PENDING at 6.5 h) |
+| kernel | `joezzzzz/rogii-frontier-hedgeoff-full` v1 |
+| commit | `f491826` |
+| output sha256 | `4eec813b1213c94d` |
+| quota | consumed on 2026-07-28; **0/5 used on 07-29** |
+
+### The pre-registered reading, applied — and a correction to how it was framed
+
+Q19 §4 pre-registered the reading before the number landed. Applying it requires one correction first,
+and the correction changes which branch fires.
+
+**The threshold was framed against the wrong comparator.** Q19 wrote "materially worse than 6.563", but
+`54922806` (6.563) is a *different branch* — the teammate's overlap-ON rerun. `55064411` was built and
+**diff-verified against the kernel that produced `54968060` (6.643)**, one line, `_BH_CAP 2.00 -> 0.00`.
+The controlled contrast is therefore against 6.643, not 6.563.
+
+```
+55064411  6.695   hedge OFF   (overlap-OFF base)
+54968060  6.643   hedge ON    (same base, one-line diff)
+                  ------
+delta     +0.052  cost of turning the hedge off, on public
+```
+
+**+0.052 is inside the ~0.115 config-variance floor**, and Q18 measured that pooled gaps <= 0.30 reverse
+their ranking on ~45% of random 3-well draws. So the contrast is **not resolvable**. Neither pre-registered
+branch fires cleanly; the honest outcome is a third one:
+
+> **The bimodal hedge is not load-bearing on the public leaderboard, in either direction. The public
+> score does not adjudicate Q14's local finding.**
+
+### A second correction — the `my0705` datapoint is also inside the floor
+
+Q19 §4 presented `my0705`'s result (base 6.568 -> 6.520 after pushing well `00e12e8b` a further +0.522 ft)
+as support for "the hedge is tuned to the 3 public wells". That change is **−0.048**, likewise inside the
+~0.115 floor. It does not establish the claim either. **The "hedge is tuned to public wells" hypothesis is
+neither confirmed nor refuted — it is unresolvable at this scale**, and Q19's framing overstated it.
+
+What survives unchanged: Q14's **local** measurement that the hedge applies +2.0 ft to `00e12e8b` whose
+own residual was already −0.19 ft, manufacturing +1.81 ft of bias. That evidence is untouched by the
+public result, because the public result carries no resolving power here.
+
+### Consequence for the final slots — none
+
+`55064411` at 6.695 is our **worst** frontier candidate on public and does not displace `54968060`
+(6.643) as the our-account frontier representative. **The slot recommendation is unchanged:**
+
+| view | pair |
+|---|---|
+| score / diversity / provenance-first | `54922806` + `54844628` |
+| our-account-first | `54968060` + `54844628` |
+
+### What the slot actually bought
+
+One quota slot returned a contrast of +0.052 against a noise floor of ~0.115 — i.e. **no resolving
+information**. This is the concrete, measured basis for the submission criterion adopted in Q33: a
+submission is worth a slot only if its expected public effect exceeds the ~0.115 floor.
