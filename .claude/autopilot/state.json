@@ -2,24 +2,37 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "c34cb597-c8c6-488f-ada4-ef692d7323ef",
-  "current_handle": "00b8b89e",
-  "current_task_id": "q57_dip_state_augmented_dp",
-  "last_started_at": "2026-07-29T21:29:07Z",
-  "last_finished_at": "2026-07-29T23:25:00Z",
+  "resume_session_id": "00b8b89e-5de2-4eec-9e48-e24691114832",
+  "current_handle": "cb20d18c",
+  "current_task_id": "q58_honest_kernel_backward_smoothing",
+  "last_started_at": "2026-07-29T23:29:09Z",
+  "last_finished_at": "2026-07-29T23:52:00Z",
   "last_result": {
-    "task_id": "q56_pf_backward_smoothing",
-    "outcome": "gate_failed_on_3well_only_two_of_three_pass_followup_queued",
+    "task_id": "q58_honest_kernel_backward_smoothing",
+    "outcome": "reproduction_control_exact_producer_in_flight",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Q56's 760-well run landed: 760/760 wells usable, forward 9.2903 (reconstruction check against the deployed 9.2987 holds at the same 0.008 NS offset Q36 found). The ancestral-path smoother gives NESTED +0.2541 at blend level, helps 68.9% of wells with a POSITIVE median +0.2044, and fails only the 3-well bootstrap 5th (-0.3238, P(>0) 0.7919). The 12-well smoke over-stated the size by 58% -- predicted in advance, and the reusable lesson is that a smoke is an activation check, not a size. Everything that made it credible survived: the lookahead dose-response is still monotone on 760 wells, and the savgol control shows ~90% of the gain is lookahead rather than denoising. It is NOT tail-driven, which is the opposite of the GR-sigma signature that preceded the 54878409 public regression. For scale it is worth ~60% of the entire structural-field stage. Not promoted; queued q58 to reproduce it in the honest kernel and RE-FIT the structural field against the smoothed PF, since that stage was fitted against the forward PF and its +0.436 is not transferable as-is.",
-    "next_task_id": "q58_honest_kernel_backward_smoothing"
+    "headline": "Q58 corrected its own premise by reading the code: the structural-field stage does NOT depend on the PF -- struct is an IDW field over same-group train wells, already saved for all 3.72M rows -- so only W and the gate were fitted against the forward PF and the re-fit is arithmetic, not a re-run. The deployed line is now REPRODUCED EXACTLY (8.8626, 9 of 3.72M rows differing by <=0.0182 float32 rounding, gated 87.3%), with W recovered from the deployed column itself at median 0.1500. Finding a future round would have tripped on: the deployed gate uses struct_oof.npz's per-well meta, NOT the aligned frame's nnb/closest_surv columns, which disagree on 6 boundary wells. The NS=64 row-level PF producer is in flight, ETA ~02:50 UTC.",
+    "next_task_id": "q46_submission_asset_inventory"
   },
   "queue_exhausted": false,
   "pending_kaggle_run": null,
   "pending_submission": null,
-  "pending_local_run": null,
+  "pending_local_run": {
+    "runs": [
+      {
+        "task_id": "q58_honest_kernel_backward_smoothing",
+        "what": "row-level forward + ancestral-smoothed PF for 760 wells at NS=64 (the deployed config)",
+        "launched_utc": "2026-07-29T23:40:00Z",
+        "rate": "14 wells / 3.5 min -> ETA ~3.2 h (~02:50 UTC)",
+        "log": "reports/logs/q58_pf_produce_2026-07-30.log",
+        "out": "/home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/q58_pf_smoothed_preds.npz",
+        "collect": "run scripts/q58_struct_refit.py (fast, pure arithmetic); it reproduces the deployed line exactly first, then sweeps alpha x W nested against s_54844628 = 8.8626"
+      }
+    ],
+    "note": "2 cores; do not start another CPU-heavy job or relaunch. The evaluator is cheap and can be re-run freely once the producer output exists."
+  },
   "rules_facts": {
     "merger_deadline": "2026-07-29T23:59Z (TODAY)",
     "new_entrant_deadline": "2026-07-29T23:59Z (TODAY)",
