@@ -1951,3 +1951,69 @@ with Q33's standing 0-slot conclusion.
 `scripts/final_selection_simulator.py` and `scripts/q18_final_pair_stress.py` still carry `retrieval=0.080`
 with the confounded derivation. **Left unmodified** so the Q18 record stays reproducible as written;
 `scripts/q53_simulator_retrieval_correction.py` supersedes them. If either is rerun for a decision, use Q53.
+
+## 2026-07-29 17:25 UTC — Q40 transition-model search: the deployed L1 term is the best of 45 arms
+
+`reports/q40_transition_model_search_2026-07-30.md`, `scripts/q40_transition_model_search.py`.
+**Gate FAILS on all three conditions. No Kaggle path, no submission, quota 0/5.**
+
+The entire transition model is one term -- `lam*|t-s|/BAND`, one parameter, previous-state only. Six
+families were tested, all strictly containing it: `l1`, `l2`, `huber`, `drift` (heel-estimated
+trajectory prior), `curv` (slope change), `l1curv` (2 params). 45 arms, 40 eval wells, splits by well,
+every parameter nested, validated on **DP output only** per Q17's rule.
+
+### No variant beats the baseline
+
+    l1     lam=60            12.170   <- baseline, and the BEST of all 45 arms (reproduces Q10 exactly)
+    huber  lam=150 hub=5     12.313
+    l1curv lam=60 lam2=150   12.453
+    l2     lam=150           13.975
+    drift  lam=20            16.018
+    curv   lam=20            18.368
+    flat-anchor              12.722          deployed honest reference 8.8626
+
+    ALL 45 arms nested together: 14.452 vs l1 baseline 12.601 -> gain -1.851
+      helps 20.0% of held-out wells | 3-WELL bootstrap 5th -5.845, P(>0) 0.3111
+    GATE: nested gain > 0 FAIL | helps majority FAIL | 3-well 5th > 0 FAIL
+
+`l1curv` is the only family helping a majority (57.5%) yet still losing on nested RMSE.
+
+### THE INFORMATIVE NEGATIVE — why the drift prior fails, MEASURED not assumed
+
+`drift` was the most principled idea and failed hardest (-11.475), despite mu ~ 0 in most wells (mean
++0.045, median +0.000, |mu|>1 in only 2%). So the mechanism was tested:
+
+    degeneracy control: 11 wells with mu EXACTLY 0  ->  max|drift - l1| = 0.000000
+                        29 wells with mu != 0       ->  mean degradation +2.216
+    corr(|mu|, degradation) = +0.796
+    DP steps per well: median 477, max 783
+    accumulated pull |mu| x steps: median 48.4 ft, max 810 ft
+
+The degeneracy control is EXACT, so this is not an implementation error. **THE DP INTEGRATES THE
+TRANSITION TERM OVER THE PATH**: a per-step directional prior of a fraction of a grid unit compounds over
+~477 steps into TENS OF FEET of systematic pull -- median 48 ft against a 12 ft RMSE scale. A drift
+estimate that is unbiased in the MEDIAN is therefore not neutral; its per-well noise is amplified by path
+length.
+
+**SAME FAILURE CLASS AS Q13**, where a coverage-masked emission applied a directional pull that was
+marginally good per row and cumulatively harmful. Q40 is that mechanism on the transition side, now with
+a clean degeneracy control and a quantified predictor.
+
+**PROPOSED STANDING RULE:** *any per-step directional term in a path DP is multiplied by the path length.
+Judge estimate quality against the ACCUMULATED pull (|estimate| x steps), not the per-step magnitude; a
+near-zero-mean noisy estimate is actively harmful, not neutral.*
+
+### What this closes
+
+The transition lever **within the penalty-shape and local-prior family** (L1/L2/Huber, drift prior,
+curvature, L1+curvature). The deployed L1 is the best of 45 arms and no family passes any gate condition.
+With Q17 (emission closed), **both named levers on the alignment line are now measured rather than
+assumed.** NOT closed: learned or state-dependent transitions, and per-well adaptive lambda -- untested,
+and now carrying a concrete warning from the compounding mechanism. Beam width K=6 and BAND=60 were
+inherited from Q10 and not varied; they are arguably part of the transition model and remain untested.
+
+### No submission, and it would not have been submittable anyway
+
+The gate fails on all three conditions, so step 5 does not trigger; and even had it passed, this line sits
+at ~12.2 against the deployed honest 8.8626 (37% worse), clearing neither the research bar nor the submit
+gate. Consistent with Q33: next 24 h spends 0 slots.
