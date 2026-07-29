@@ -11,10 +11,11 @@
     "task_id": "q16_honest_twh1_residual_router",
     "outcome": "closed_no_submission",
     "submitted": false,
-    "quota_used_today": 1,
-    "quota_remaining_today": 4,
+    "quota_used_today": 0,
+    "quota_remaining_today": 5,
     "headline": "Q16 CLOSED at its prerequisite without building the router -- the cheapest resolution. A bounded confidence-gated residual correction needs the SIGNED row residual of 54844628 to be predictable on HELD-OUT wells. GroupKFold(5) BY WELL, 760 wells / 3.72M rows / 15 test-available features: CV R^2 -0.0802 (NEGATIVE, fitted per-row structure anti-transfers across the well boundary), corr 0.0721. Gain non-monotonic (+0.0247 @0.25, -0.0248 @0.5, -0.3398 @1.0); constant-only control explains +0.0048, leaving ~+0.020 ft real per-row signal = 0.23% of an 8.86 ft RMSE. 3-well bootstrap 5th -0.9333 / 95th +0.8933, P(gain>0) 0.5078 -- competition-scale noise is ~40x the effect. Both gate conditions FAIL. Completes the bound N4 left open: MAGNITUDE weakly predictable (0.0736), SIGN not (-0.0802); magnitude without sign cannot drive a correction, which also explains N4 conditional conformal intervals being wider than marginal. No submission, no quota spent.",
-    "next_task_id": "q17_kaggle_gpu_tiny_training_followup"
+    "next_task_id": "q17_kaggle_gpu_tiny_training_followup",
+    "quota_note": "Verified 2026-07-29 01:01 UTC: 1 submission dated 07-28 (55064411), 0 dated 07-29. The UTC day rolled over, so 55064411 does NOT consume today allowance. Today is 0/5 used, 5 remaining."
   },
   "queue_exhausted": false,
   "pending_kaggle_run": null,
@@ -22,9 +23,11 @@
     "ref": 55064411,
     "kernel": "joezzzzz/rogii-frontier-hedgeoff-full",
     "version": 1,
-    "status": "PENDING at 2h20m+ (past the ~1h kernel-runtime expectation; still not a failure in a kernels-only competition)",
-    "next_action": "FIRST action next round: record the public score in submission_ledger + final_slot package; if <= 6.563 re-evaluate slot 1 on provenance (own account vs teammate)",
+    "status": "PENDING ~4.5h after 2026-07-28 20:30 UTC, after 2h of 3-min polling. error_description empty.",
+    "next_action": "Record the score IF it has landed; the next round is NOT blocked on it, since quota is full and the stall is external. If <= 6.563 re-evaluate slot 1 on provenance.",
     "poll_cadence": "hour-scale; a PENDING is not a failure and is not a reason to resubmit",
-    "env_note": "kaggle pkg was missing and was reinstalled: python3 -m pip install --user --break-system-packages kaggle. API attrs are snake_case (s.public_score), not camelCase."
+    "env_note": "kaggle pkg was missing and was reinstalled: python3 -m pip install --user --break-system-packages kaggle. API attrs are snake_case (s.public_score), not camelCase.",
+    "kernel_status": "kernels_status -> COMPLETE, failureMessage null. The stall is Kaggle-side scoring queue, NOT our kernel or output.",
+    "revised_latency_rule": "Supersedes 41bb65f: ~1h is a FLOOR not an estimate. Treat multi-hour PENDING as normal-but-unresolved. Do NOT resubmit to retry (near-duplicate + burns a slot). Do not let any final-slot decision depend on a score that may not arrive; submit with hours of margin."
   }
 }

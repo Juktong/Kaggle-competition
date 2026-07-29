@@ -128,3 +128,56 @@ teammate's best, and the slot-1 recommendation should be re-evaluated on **prove
 environment and was reinstalled with `python3 -m pip install --user --break-system-packages kaggle`
 (PEP 668 environment). Credentials resolve from `~/.kaggle/access_token`. The API returns **snake_case**
 attributes — `s.public_score`, `s.private_score`, `s.status` — not the camelCase names.
+
+## 2026-07-29 addendum — `55064411` scoring has STALLED, and the UTC day has rolled over
+
+Two facts established after the Q16 round closed, both material for the remaining schedule.
+
+### 1. The scoring stall is on Kaggle's side, not ours
+
+`55064411` is **still `PENDING` roughly 4.5 h** after the 2026-07-28 20:30:17 UTC submission, after a
+further 2 h of automated 3-minute polling. Full submission record: `public_score` `''`,
+`private_score` `''`, **`error_description` `''`** — no failure is reported.
+
+The kernel itself is healthy:
+
+```
+kernels_status('joezzzzz/rogii-frontier-hedgeoff-full')
+  -> {"status": "COMPLETE", "failureMessage": null}
+```
+
+So the notebook is COMPLETE with no failure message, while the submission tied to
+`scriptVersionId=338650633` remains unscored. **This is a Kaggle-side scoring-queue delay, not a defect
+in our kernel or output.**
+
+**This revises the expectation recorded in `41bb65f`.** That commit recorded scoring latency as tracking
+the kernel's own runtime (~1 h). The observed latency is now ~4.5 h and still open, so ~1 h is a *floor*,
+not an estimate. Revised operating rule:
+
+- treat a PENDING of **several hours** as normal-but-unresolved in this kernels-only competition;
+- **do NOT resubmit to "retry"** — it would spend a quota slot on a near-duplicate output, which the
+  standing rules forbid, and would not clear the queue;
+- **do not let any final-slot decision depend on a score that may not arrive.** With the deadline at
+  2026-08-05 23:59 UTC, a candidate submitted late enough may never be scored before selection. Any
+  submission intended to inform slot choice must go in with several hours of margin.
+
+### 2. Daily quota reset — today is a fresh 5
+
+Verified against the API at **2026-07-29 01:01 UTC**: submissions dated 2026-07-28 UTC = **1**
+(that is `55064411`), submissions dated 2026-07-29 UTC = **0**.
+
+The UTC day has rolled over, so **`55064411` no longer counts against today's quota**. As of now:
+
+| | value |
+|---|---|
+| quota used today (2026-07-29 UTC) | **0 / 5** |
+| quota remaining today | **5** |
+| deadline | 2026-08-05 23:59 UTC (~7 days) |
+
+The "quota 1/5, 4 remaining" figure recorded during the Q16 round was correct for 2026-07-28 and is
+superseded for 2026-07-29. A pending-but-unscored submission from a previous day does not consume the
+new day's allowance.
+
+**Unchanged:** recording `55064411`'s score remains the first action of the next round *if it has landed*
+— but the next round is no longer blocked on it, since a full quota is available and the stall is
+external.
