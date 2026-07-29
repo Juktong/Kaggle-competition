@@ -1103,3 +1103,54 @@ Limits stated: the oracle is truth-constructed and used ONLY as a bound and a co
 claimed gain; and the measurement is generous to the training case, since a real AUC gain is unlikely to
 be better truth-aligned than literal truth. This bears on the emission lever only — the transition model
 remains the untested lever.
+
+## Round 28 — Q18 final-pair stress: the slot-1 gap is not resolvable at 3-well scale
+
+`q18_public_leaderboard_family_stress` is a decision task (`can_submit=false`). Completed with **no
+submission**; quota untouched at 0/5. `scripts/q18_final_pair_stress.py`,
+`reports/q18_public_leaderboard_family_stress_2026-07-29.md`.
+
+**The recommended pair is unchanged; the reason changes materially.**
+
+Added a FOURTH view, **our-account-first** (ownership is distinct from provenance: `54968060` is our
+account but public-derived, so provenance-first does not select it):
+
+| view | pair | worst | mean |
+|---|---|---|---|
+| score / diversity / provenance-first | `54922806` + `54844628` | 6.643 | 6.603 |
+| our-account-first | `54968060` + `54844628` | 6.643 | 6.643 |
+
+**Price of full ownership: +0.000 worst case, +0.040 mean** — inside the ~0.115 config-variance floor.
+
+**Degradation stress.** `54922806` must degrade 0.080 (H-visible) / **0.000** (H-hidden) to lose slot 1 to
+`54968060`, and 1.328 / 1.248 to lose it to `54844628`. Under H-hidden the two frontier candidates are
+already exactly tied at 6.643, so slot 1's advantage exists only under H-visible.
+
+**LOAD-BEARING MEASUREMENT.** N4's 3-well spread (3.49..15.14 for a fixed model) is common-mode and
+cancels in a ranking; the candidate x draw INTERACTION does not. That was measured rather than assumed --
+9 local candidate columns with truth over 760 wells / 3.72M rows, 20,000 random 3-well draws per pair,
+pooled gap vs P(draw reverses the pooled ranking):
+
+  pooled gap <= 0.30  ->  P(reversed) 44.8%  (n=10)
+  pooled gap >= 1.00  ->  P(reversed) 28.3%  (n=13)
+
+- The **0.080 slot-1 gap** sits where measured pairs reverse **46-50%** of the time. It carries
+  essentially NO information about which candidate is better on a different 3-well draw, so **score-first
+  does not actually distinguish `54922806` from `54968060`**.
+- The **1.328 frontier-vs-honest gap** reverses **~29%** of the time. The slot-2 insurance is not remote;
+  it is a ~3-in-10 event -- a far firmer basis for diversity-first than "free on worst case".
+
+**Decision consequence.** Default stays `54922806` + `54844628`. `54968060` + `54844628` is fully
+defensible at +0.000 worst / +0.040 mean, and since the 0.080 is not resolvable at the scoring scale, the
+choice between these two pairs is an **ownership judgment for the project owner, not something score
+evidence can settle** — recorded as such rather than decided unilaterally.
+
+Limits stated: reversal probabilities come from honest-family local candidates (frontier candidates have
+no per-well truth, being scored only on the 3 hidden wells); the transfer argument is that 3-well sampling
+noise is a property of the well population, and one measured member (`s_54844628`) is an actual pair
+member. Draws sample with replacement (~0.4% collision). The 760 local wells are train wells, so this
+measures the SCALE of 3-well ranking instability, not the actual test draw's.
+
+Live refresh: no private-score visibility for any submission; `55064411` still PENDING (~5.8 h), carried
+only as a parametric contingent entrant; no Q10-Q17 candidate enters the board; `origin/main` moved to
+`a589fa8` (public 6.626 kernel, worse than our best 6.563 — recorded, no decision taken).

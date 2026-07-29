@@ -1,0 +1,101 @@
+=== per-candidate estimated private score (lower is better) ===
+candidate                       public   H-vis   H-hid   mixed  family    account   prov
+54922806_frontier_overlapON      6.563   6.563   6.643   6.603  frontier  teammate  public-derived
+54968060_frontier_overlapOFF     6.643   6.643   6.643   6.643  frontier  ours      public-derived
+54896975_frontier_overlapON      6.669   6.669   6.749   6.709  frontier  teammate  public-derived
+54923144_frontier_gr_sigma       6.678   6.678   6.758   6.718  frontier  teammate  public-derived
+54990075_frontier_sp45only       6.690   6.690   6.690   6.690  frontier  ours      public-derived
+54844628_honest                  7.891   7.891   7.891   7.891  honest    ours      fully owned
+
+=== pair evaluation (best-of-2) — top 8 by worst case ===
+pair                                            H-vis  H-hid  WORST   mean  famDiv   OOF   ours
+54844628 + 54922806                             6.563  6.643  6.643  6.603     1.0  True  False
+54896975 + 54922806                             6.563  6.643  6.643  6.603     0.0 False  False
+54922806 + 54923144                             6.563  6.643  6.643  6.603     0.0 False  False
+54922806 + 54968060                             6.563  6.643  6.643  6.603     0.0 False  False
+54922806 + 54990075                             6.563  6.643  6.643  6.603     0.0 False  False
+54844628 + 54968060                             6.643  6.643  6.643  6.643     1.0  True   True
+54896975 + 54968060                             6.643  6.643  6.643  6.643     0.0 False  False
+54923144 + 54968060                             6.643  6.643  6.643  6.643     0.0 False  False
+
+=== FOUR VIEWS ===
+  score-first        54844628 + 54922806        worst 6.643  mean 6.603  famDiv 1
+  diversity-first    54844628 + 54922806        worst 6.643  mean 6.603  famDiv 1
+  provenance-first   54844628 + 54922806        worst 6.643  mean 6.603  famDiv 1
+  our-account-first  54844628 + 54968060        worst 6.643  mean 6.643  famDiv 1
+
+  PRICE OF THE OUR-ACCOUNT CONSTRAINT: worst +0.000, mean +0.040
+
+=== stress: how far must 54922806 degrade to lose slot 1? ===
+threshold (delta on 54922806)         H-visible     H-hidden
+vs 54968060                               0.080        0.000
+vs 54844628                               1.328        1.248
+  (delta = extra degradation of 54922806 beyond the modelled retrieval penalty;
+   a NEGATIVE H-hidden threshold means the rival is already ahead under that hypothesis)
+
+=== contingent entrant 55064411 (our-account frontier hedge-OFF, still PENDING) ===
+  if public      consequence for slot 1
+  6.400          becomes best public overall -> takes slot 1 on ALL four views
+  6.500          becomes best public overall -> takes slot 1 on ALL four views
+  6.563          best OUR-ACCOUNT frontier -> takes slot 1 on our-account-first only
+  6.600          best OUR-ACCOUNT frontier -> takes slot 1 on our-account-first only
+  6.643          no change (worse than 54968060, our existing our-account frontier)
+  6.700          no change (worse than 54968060, our existing our-account frontier)
+local candidates: 9 over 760 wells (3721471 rows)
+candidate            pooled
+dwt                 10.2891
+pf                  11.0563
+base                 9.2987
+s_54844628           8.8626
+s_54878409           8.6825
+s_a20_w25            8.6790
+base_k96             9.2555
+s_k96_aniso          8.6547
+topk96_l75           8.5070
+
+=== does a 3-well draw preserve the pooled ranking? (20000 draws each) ===
+pair                                   pooled gap    P(reversed)
+s_54878409 vs s_a20_w25                    0.0035          47.2%
+s_a20_w25 vs s_k96_aniso                   0.0243          49.8%
+s_54878409 vs s_k96_aniso                  0.0278          46.4%
+base vs base_k96                           0.0432          46.8%
+s_k96_aniso vs topk96_l75                  0.1477          44.2%
+s_a20_w25 vs topk96_l75                    0.1720          45.8%
+s_54878409 vs topk96_l75                   0.1754          41.8%
+s_54844628 vs s_54878409                   0.1802          42.2%
+s_54844628 vs s_a20_w25                    0.1837          41.7%
+s_54844628 vs s_k96_aniso                  0.2080          41.7%
+s_54844628 vs topk96_l75                   0.3556          41.4%
+s_54844628 vs base_k96                     0.3928          41.4%
+base vs s_54844628                         0.4360          37.4%
+s_54878409 vs base_k96                     0.5730          40.7%
+s_a20_w25 vs base_k96                      0.5765          40.7%
+base_k96 vs s_k96_aniso                    0.6008          37.5%
+base vs s_54878409                         0.6162          37.6%
+base vs s_a20_w25                          0.6197          37.8%
+base vs s_k96_aniso                        0.6440          38.3%
+base_k96 vs topk96_l75                     0.7485          40.1%
+dwt vs pf                                  0.7672          47.3%
+base vs topk96_l75                         0.7917          39.4%
+dwt vs base                                0.9904          33.2%
+dwt vs base_k96                            1.0336          32.5%
+dwt vs s_54844628                          1.4264          29.1%
+dwt vs s_54878409                          1.6066          27.3%
+dwt vs s_a20_w25                           1.6101          27.3%
+dwt vs s_k96_aniso                         1.6344          26.8%
+pf vs base                                 1.7576          26.4%
+dwt vs topk96_l75                          1.7820          24.0%
+pf vs base_k96                             1.8008          27.3%
+pf vs s_54844628                           2.1936          28.4%
+pf vs s_54878409                           2.3738          29.0%
+pf vs s_a20_w25                            2.3773          29.0%
+pf vs s_k96_aniso                          2.4016          29.5%
+pf vs topk96_l75                           2.5493          30.8%
+
+=== reading the slot-1 gaps against that scale ===
+  slot-1 gap 54922806 vs 54968060    gap 0.080 | nearest measured pairs: 0.024->50%, 0.028->46%, 0.043->47%
+  frontier vs honest gap             gap 1.328 | nearest measured pairs: 1.426->29%, 1.607->27%, 1.610->27%
+  measured pairs with pooled gap <= 0.30: P(reversed) mean 44.8% (n=10)
+  measured pairs with pooled gap >= 1.00: P(reversed) mean 28.3% (n=13)
+
+NO SUBMISSION. Decision task only; the private score is never used.

@@ -56,3 +56,32 @@ stated justification · accurate description.
 | 22 | Q12 coverage-gated self template | **no submit (no coverage band favours self)** | `self` negative in all five coverage bands (-0.005 to -0.149); `both` pooled +0.0012, beating typewell on 51.7% of wells; corr(coverage, effect) 0.0867 / 0.0604 so the gate carries no stratifying information. Step 5's condition unmet so step 6 never triggers. 0 quota used. |
 
 | 23 | Q13 typewell+self hybrid emission | **no submit (no nested gain)** | Nested DP: w=0 (typewell only) 12.861 is best; hybrid weights 13.256-14.479, monotonically worse in w. The emission-level gain (|argmax error| -19.6%) reverses sign through the DP. Step 4's close-and-record branch applies. 0 quota used. |
+
+## 2026-07-29 — Q18 stress test: what score evidence can and cannot settle
+
+**Unchanged default pair: `54922806` + `54844628`** (score-first, diversity-first, provenance-first).
+
+**New, and decision-relevant:** the 0.080 that puts `54922806` ahead of `54968060` in slot 1 is **not
+resolvable at the scale the competition scores**. Measured over 20,000 random 3-well draws on 9 local
+candidates with truth (760 wells), pairs with pooled gap <= 0.30 reverse their ranking **44.8%** of the
+time; the pairs nearest 0.080 reverse **46-50%**. Score-first therefore does not actually distinguish the
+two slot-1 options.
+
+**Therefore the slot-1 choice is an OWNERSHIP judgment, not a score judgment:**
+
+| option | pair | worst | mean | what it buys |
+|---|---|---|---|---|
+| default | `54922806` + `54844628` | 6.643 | 6.603 | best public number on the board |
+| ownership | `54968060` + `54844628` | 6.643 | 6.643 | both slots on our own account |
+
+Cost of switching: **+0.000 worst case, +0.040 mean**, inside the ~0.115 config-variance floor. This is
+recorded for the project owner to decide; it is not decided unilaterally here, because the evidence does
+not favour either side.
+
+**Slot 2 is settled on firmer ground.** `54844628` beats the frontier line on roughly **3 in 10** random
+3-well draws (measured pair nearest the 1.328 gap reverses 29.1%). The family-independent insurance is a
+~29% event at zero modelled worst-case cost, not a remote contingency.
+
+**`55064411` (PENDING) contingency, per Q18 §7:** below 6.563 it takes slot 1 on all four views; between
+6.563 and 6.643 it is the best our-account frontier and takes slot 1 on our-account-first only — but that
+band lies inside the same coin-flip region, so it would be **ownership evidence, not score evidence**.

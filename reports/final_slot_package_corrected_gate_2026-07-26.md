@@ -126,3 +126,84 @@ Two consequences for this package:
 
 Also measured: OOF on the 3 test wells 4.756 vs public 7.891 = **1.659x**. OOF-derived bounds are not
 leaderboard bounds and must not be quoted as such in this package.
+
+## Q18 stress test (2026-07-29) — the slot-1 gap is not resolvable at 3-well scale
+
+`reports/q18_public_leaderboard_family_stress_2026-07-29.md`, `scripts/q18_final_pair_stress.py`.
+**The recommended pair is unchanged. The reason for it changes materially.**
+
+### A fourth view: our-account-first
+
+Ownership is distinct from provenance — `54968060` is our account but *public-derived*, so
+provenance-first does not select it while our-account-first does.
+
+| view | pair | worst | mean | famDiv |
+|---|---|---|---|---|
+| score-first | `54922806` + `54844628` | 6.643 | 6.603 | 1 |
+| diversity-first | `54922806` + `54844628` | 6.643 | 6.603 | 1 |
+| provenance-first | `54922806` + `54844628` | 6.643 | 6.603 | 1 |
+| **our-account-first** | `54968060` + `54844628` | 6.643 | 6.643 | 1 |
+
+**Price of the our-account constraint: +0.000 worst case, +0.040 mean** — inside the ~0.115
+config-variance floor.
+
+### Degradation stress
+
+How far must `54922806` degrade beyond the modelled retrieval penalty to lose slot 1?
+
+| rival | H-visible | H-hidden |
+|---|---|---|
+| `54968060` | 0.080 | **0.000** |
+| `54844628` | 1.328 | 1.248 |
+
+Under H-hidden the threshold against `54968060` is already **zero** — both sit at 6.643, because that
+hypothesis makes the overlap contribution inert and 6.643 IS the measured overlap-OFF level. Slot 1's
+advantage exists only under H-visible, and there it is 0.080.
+
+### The load-bearing measurement — is 0.080 resolvable on 3 wells?
+
+N4 measured that the scored quantity spans 3.49..15.14 across random 3-well draws for a FIXED model, but
+that spread is **common-mode and cancels in a ranking**. What does not cancel is the candidate x draw
+INTERACTION. That was measured, not assumed: 9 local candidate prediction columns with truth over 760
+wells / 3.72M rows, 20,000 random 3-well draws per pair, pooled gap vs P(the draw reverses the pooled
+ranking).
+
+| pooled gap band | mean P(reversed) | n |
+|---|---|---|
+| <= 0.30 | **44.8%** | 10 |
+| >= 1.00 | **28.3%** | 13 |
+
+- **Slot-1 gap 0.080** — nearest measured pairs (0.024, 0.028, 0.043) reverse **46-50%** of the time. A
+  0.080 public advantage carries essentially NO information about which candidate is better on a
+  different 3-well draw. **Score-first does not actually distinguish `54922806` from `54968060`.**
+- **Frontier-vs-honest gap 1.328** — nearest measured pair (1.426) reverses **29.1%**. The honest line
+  beats the frontier line on roughly **3 in 10** random 3-well draws. The slot-2 insurance is not a
+  remote contingency; it is a ~29% event, which is a far firmer basis for diversity-first than
+  "free on worst case".
+
+### Consequence for the decision
+
+- **Default unchanged: `54922806` + `54844628`.**
+- **`54968060` + `54844628` is fully defensible** at +0.000 worst / +0.040 mean, and the 0.080 separating
+  them is not resolvable at the scoring scale. Choosing between these two pairs is an **ownership
+  judgment for the project owner, not something score evidence can settle** — recorded as such rather
+  than decided unilaterally.
+- **Slot 2 is now settled on firmer ground:** family-independent insurance that pays on ~29% of draws at
+  zero modelled worst-case cost.
+
+### Limits
+
+Reversal probabilities are measured on honest-family local candidates, since frontier candidates have no
+per-well truth (they are scored only on the 3 hidden wells). The transfer argument is that 3-well
+sampling noise is a property of the well population rather than of a pipeline, and one measured member
+(`s_54844628`) is an actual pair member. Draws sample with replacement (~0.4% collision over 3 draws).
+The 760 local wells are train wells, so this measures the SCALE of 3-well ranking instability, not the
+specific instability of the actual test draw.
+
+### Live-refresh confirmations
+
+No new private-score visibility (`privateScore` empty for every submission; never used). `55064411` still
+PENDING (~5.8 h) and carried only as a parametric contingent entrant: below 6.563 it takes slot 1 on all
+four views; between 6.563 and 6.643 it is the best our-account frontier and takes slot 1 on
+our-account-first only — but that band sits inside the same coin-flip region, so it would be **ownership
+evidence, not score evidence**. No Q10-Q17 candidate enters the board.
