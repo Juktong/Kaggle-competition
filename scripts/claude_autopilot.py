@@ -131,10 +131,14 @@ def live_status(current_handle: str | None) -> str:
         f"used={quota_used}/5 remaining={quota_remaining}/5",
         "",
         "=== local_processes ===",
+        # Q20: truncate the cmd column. A running autopilot Claude carries its ENTIRE prompt on its
+        # command line, so an untruncated `ps` embeds the previous round's prompt into this one --
+        # which then embeds the round before it. prompt_chars went 15,949 -> 49,212 in one round from
+        # exactly this nesting. 200 chars keeps every line identifiable without the recursion.
         run_shell(
             "ps -eo pid,ppid,stat,etime,cmd | "
             "egrep 'claude|kaggle|papermill|jupyter|python|ipykernel' | "
-            "grep -v egrep | head -30",
+            "grep -v egrep | cut -c1-200 | head -30",
             30,
         ),
     ]

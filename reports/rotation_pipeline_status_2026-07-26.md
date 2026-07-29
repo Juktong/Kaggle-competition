@@ -1240,3 +1240,78 @@ Limits: both public scores are author-advertised and cannot be independently ver
 measurement is on the STANDALONE conservative PF (baseline 14.27 on 60 wells, excludes the DWT blend and
 structural field) so the in-pipeline effect is NOT established; single seed per well, so PF run-to-run
 variance is not separated; 60 wells with a 30/30 nested split, not 760.
+
+## Round 30 — Q20 usage-aware queue builder: Q10-Q19 consolidated, queue 16 -> 5, prompt bloat fixed
+
+Management round (`can_submit=false`). **No submission, quota 0/5.**
+`reports/q20_usage_aware_queue_builder_2026-07-29.md`.
+
+### A compounding prompt-bloat defect, found and FIXED
+
+`sent_log.jsonl` prompt sizes: q16 15,919 -> q17 15,949 -> **q18 49,212** -> q19 49,513 -> q20 49,806 --
+a 3.1x jump in one round. Cause: the runner's live-status block ran `ps -eo ...,cmd` with the cmd column
+**untruncated**, and an autopilot Claude carries its ENTIRE prompt on its command line. So each round's
+`ps` embedded the previous round's full prompt, which had embedded the one before it. It compounds.
+
+Fixed in `scripts/claude_autopilot.py` with `cut -c1-200`. Measured on the live process table:
+untruncated 34,940 bytes -> truncated 2,373 bytes = **32,567 bytes saved per round**, which accounts for
+essentially the whole jump. Highest-leverage change available this round because it applies to every
+future round.
+
+### Ten rounds, ONE submission
+
+Q10 (first nested win over flat, still ~37% worse than deployed) · Q11 (rankers reliably negative) · Q12
+(closed) · Q13 (pointwise better, trajectory worse) · Q14 (**55064411**) · Q15 (not started) · Q16
+(closed at prerequisite, signed-residual R^2 -0.0802) · Q17 (HOLD, AUC decoupled from DP quality) · Q18
+(the 0.080 deciding slot 1 is unresolvable at 3-well scale) · Q19 (the public 6.213 kernel is our base
+plus ONE token; fails the 3-well gate). Every round except Q14 closed on evidence without spending a slot.
+
+### Standing
+
+Submissions used in Q10-Q19: **1**. `55064411` PENDING **~6.5 h** (kernel COMPLETE, failureMessage null ->
+Kaggle-side). Quota today **0/5 used, 5 remaining**. No private-score visibility for any submission.
+Deadline 2026-08-05 23:59 UTC -> ~**35 slots remain, none allocated**. Public standing: leader 4.679,
+200th 6.389, our best 6.563 -> outside the top 200.
+
+### Retained signals (concrete smoke + plausible gain)
+
+1. **GR-sigma widening** (Q19): one token, nested +2.3513 with 1.5 a confirmed INTERIOR optimum; fails the
+   3-well gate and is tail-driven, but the PF is only a 0.5-weight blend component and Rule #1 says
+   averaging damps tails. `_GS_MULT` flag already merged (default 1.0). -> `q36`.
+2. **Soft combination over the 96 stored PF paths**: Q11 closed path RANKING (hard selection); soft
+   AVERAGING is the transferable class and `topk96_paths/` already holds 773 wells x 96 paths. -> `q21`.
+3. **`55064411`'s score**, reading PRE-REGISTERED in Q19 section 4 before the number lands. -> `q22`.
+
+### Queue rebuilt: 16 queued -> 5 active (ZERO new prompts added)
+
+    500 q33_controlled_submission_budget_plan   owns the endgame schedule; ~35 slots unallocated
+    510 q36_gr_sigma_in_blend_oof               strongest evidence-backed candidate; slot-2 path
+    520 q22_frontier_hedgeoff_score_response    decisive once 55064411 lands; absorbs q32 watcher
+    530 q21_pf_path_soft_combiner               averaging class; artifacts already exist
+    540 q30_competition_rules_final_audit       cheap, load-bearing before locking the final pair
+
+`q37` stays blocked behind `q36`. **11 deferred**, each with a reason in `queue.jsonl`: q26/q27 public
+research (Q19 showed the published pool tops out at 7.06-8.86 and the top-200 have not published);
+q23/q24 (need frontier full runs to resolve differences the decision no longer depends on); q31 (Q19
+already audited a589fa8 as redundant); q34 (duplicate of q20); q32 (MERGED into q22).
+
+**Deferral risk handled explicitly:** `q29_final_slot_candidate_packager` and `q35_status_summary_for_owner`
+are DEADLINE-CRITICAL but premature. Deferred rows are never picked by the runner, so `q33`'s prompt was
+amended to make **re-queueing them its explicit responsibility**, with the budget facts inlined.
+
+### Closed directions — do not re-queue
+
+Post-hoc residual correction (Q16) · emission/scorer work validated on AUC or any pointwise metric (Q17,
+subsuming the Q13 rule) · PF path RANKING (Q11) · coverage-gated self template (Q12) · hybrid emission
+(Q13) · `contact_gated_anchor` (Q19: upstream records it as an underperforming ablation, and it is not
+what the 6.213 kernel runs) · per-well hand-fitted shifts (Q19 Find B) · the N-series closures.
+**Still open and untested: the TRANSITION MODEL** in the alignment line — Q17 says nothing against it and
+both Q10 and N1 identify it as the remaining lever.
+
+### Limits
+
+The prompt-size fix is verified by measurement on the current process table and an `ast.parse` of the
+runner, NOT by a full round having run through it; the next `sent_log` entry is the real confirmation.
+Deferral is an expected-value judgement, not proof a direction is unproductive — each reason is recorded
+so any can be reinstated by editing one status field. Claude token usage is not directly observable;
+`prompt_chars` is the proxy used and measures input size only.
