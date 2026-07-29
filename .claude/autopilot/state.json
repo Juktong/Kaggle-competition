@@ -6,15 +6,15 @@
   "current_handle": "b0febe42",
   "current_task_id": "q45_external_leaderboard_gap_refresh",
   "last_started_at": "2026-07-29T20:29:03Z",
-  "last_finished_at": "2026-07-29T20:50:00Z",
+  "last_finished_at": "2026-07-29T21:10:00Z",
   "last_result": {
-    "task_id": "q45_external_leaderboard_gap_refresh",
-    "outcome": "done_no_submission_one_followup_queued",
+    "task_id": "q44_frontier_private_risk_stress",
+    "outcome": "done_no_submission_framing_change_on_slot1",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Q45 refreshed the external channel and corrected one of our own numbers. LB: leader 4.679 unchanged, 200th 6.389 -> 6.372, teams 5886 -> 5914, our rank 1277 -> 1339 (62 places lost in 16 h with our score unchanged); 1136 public kernels vs Q19's 798 and STILL nothing published below 6.2. THE DECISIVE FIND IS NOT A METHOD: an external diagnostic resubmitted 5 kernels 14 times with nothing changed, giving same-code sd 0.027-0.037 and spreads up to 0.112 -- this settles Q39's 0.009-vs-0.115 conflict at sd ~ 0.03, so Q39's hedge +0.052 and post-SP45 +0.047 DROP to unresolved (~1.6-1.7 sd) while GR sigma -0.1105 holds at ~3 sd, and one slot can only read an effect >= ~0.1 ft. SECOND FIND: two public kernels byte-identical to our own 54922806 advertise 6.213 and 6.451 against our MEASURED 6.563 -- 0.350, i.e. ~10 sd, with mutable artifacts excluded (all dataset slugs frozen since June), so ADVERTISED SCORES ARE NOT MEASUREMENTS OF THE PULLABLE CODE and are triage only. The new best-advertised kernel (6.391, run today) resolves into 4 factors, 3 already closed by Q19/Q36/Q39 and one new (w_sub1 0.60 -> 0.50, an averaging move toward the 0.5/0.5 our honest line already uses) which is not honestly measurable and stays information-only. QUEUED q57_dip_state_augmented_dp: a non-family public kernel searches 41 dip rates with momentum, i.e. state = (TVT, dip), and every arm Q40/N1/Q54/Q55 closed used a TVT-ONLY state -- state augmentation changes the objective's shape rather than its coefficients, the one direction Q55's closure left open. Also found an independent public implementation of q56's PF backward smoothing (advertising no score) and reset q44/q56 from an API-error 'blocked' back to 'queued'.",
-    "next_task_id": "q44_frontier_private_risk_stress"
+    "headline": "Q44 (run after Q45, because its own turn died on an API-529 with no work done) modelled the DRAW instead of a point estimate, because best-of-2 keeps the BETTER of the two selected on private, so a pair's value is E[min] and its risk is that minimum's tail. Cross-family difference sd 2.40, calibrated from Q18's 29% reversal at a 1.328 gap and independently corroborated by the ledger's measured 2.54 ft output disagreement; degeneracy control reproduces Q53's +0.0005 at draw scale 0. HEADLINE: the SECOND SLOT is the largest positive term in the decision -- a diverse pair is worth -0.456 mean / -0.939 p95 versus its slot-1 alone, a second frontier member only -0.060 / -0.074, and the entire slot-1 dispute is bounded at 0.077. Best-of-2 is a call option on variance, so decorrelation and draw uncertainty both ADD value. WHATEVER HAPPENS IN SLOT 1, 54844628 HOLDS SLOT 2. DELIVERABLE: score-first's discriminator is BELOW the measured resolution -- its 0.080 public gap is 2.7 sd of Q45's 0.03 floor, and the only resolvable component (GR-sigma -0.1105) is the one Q36 measured on 760 wells as helping just 42.1% of wells with a negative median. The two pairs are tied ON MEASUREMENT, so the tie breaks on ownership/verifiability: 54968060+54844628 is at least as good and strictly better in 8 of 24 cells. Two axes the task asked to stress do NOT discriminate: dependency risk (both pairs carry identical dependency sets, and neither slot is dependency-free) and draw representativeness (gap <=0.001 at every scale). Teammate-provenance loss costs ~0.004 and its optimum is pair B.",
+    "next_task_id": "q56_pf_backward_smoothing"
   },
   "queue_exhausted": false,
   "pending_kaggle_run": null,
@@ -40,5 +40,6 @@
     "why": "the queue is empty and the runner idles; deferred rows are never picked automatically",
     "command": "python3 -c \"import json;p='.claude/autopilot/queue.jsonl';r=[json.loads(l) for l in open(p) if l.strip()];[x.update(status='queued',priority=560) for x in r if x['id']=='q29_final_slot_candidate_packager'];open(p,'w').writelines(json.dumps(x)+chr(10) for x in r)\"",
     "owner_action": "perform the final 2-submission selection on Kaggle by 2026-08-04 (no quota cost; hard deadline 2026-08-05 23:59 UTC)"
-  }
+  },
+  "final_pair_note": "Q44/Q45: slot 2 is settled at 54844628 on measured grounds (worth ~0.46 ft mean / ~0.94 ft tail as the decorrelated member of a best-of-2, and the only submission we hold whose error is decorrelated from the crowd). Slot 1 is TIED ON MEASUREMENT between 54922806 (teammate, 6.563) and 54968060 (ours, 6.643): the 0.080 gap is 2.7 sd of the measured 0.03 public floor, and its only resolvable component is the GR-sigma term Q36 measured as not transferring. Ownership-first costs at most +0.077 and is strictly better in 8 of 24 modelled cells. Owner's judgement, due 2026-08-04, zero quota."
 }

@@ -583,3 +583,51 @@ dataset slugs were last updated 2026-05-09…2026-06-27, so mutable artifacts ar
 of the measured floor. **A score advertised in a kernel title or slug is therefore not a measurement of the
 code that kernel contains.** Advertised numbers are triage only; every effect size must come from a score
 measured on our own account. Full detail: `reports/q45_external_leaderboard_gap_refresh_2026-07-30.md`.
+
+## Q44 addendum (2026-07-29 21:05 UTC) — the pair decision, re-derived with the draw modelled
+
+`scripts/q44_private_risk_stress.py`, 24 scenario cells, Monte Carlo over the draw rather than a point
+estimate. Degeneracy control: at draw scale 0 the two pairs value at 6.6425 vs 6.6430, reproducing Q53's
++0.0005.
+
+**1. The second slot is the largest positive term in the whole decision.** H-hidden, measured cell, value of
+the pair versus its slot-1 candidate alone:
+
+```
+pair                                        mean     p95   | gain over slot-1 alone
+A  54922806 + 54844628  (diverse)         6.1818  8.5017   |  mean -0.4561   p95 -0.9389
+B  54968060 + 54844628  (diverse, ours)   6.1829  8.5022   |  mean -0.4560   p95 -0.9302
+C  54922806 + 54968060  (frontier only)   6.5783  9.3671   |  mean -0.0595   p95 -0.0735
+```
+
+A diverse pair is worth **~0.46 ft in the mean and ~0.94 in the bad tail**; a second frontier member is worth
+0.060 / 0.074. **Best-of-2 is a call option on variance** — you keep the better realisation, so decorrelation
+and draw uncertainty both *add* value. Q18's "free insurance at zero modelled cost" was the most a point
+model could say; with the draw modelled the honest slot is the decision's biggest positive.
+**Whatever happens in slot 1, `54844628` holds slot 2.**
+
+**2. The slot-1 dispute is bounded at 0.077 ft.** Price of ownership-first (B) over score-first (A) across all
+24 cells: worst **+0.0773 mean / +0.0653 p95**; **+0.0013** in the measured + evidence-supported cell
+(retrieval −0.031, GR-sigma edge does not transfer); **strictly negative in 8 of 24 cells** (every cell with
+retrieval ≥ 0 and no sigma transfer, and every spurious-match stress cell, down to −0.157).
+
+**3. Score-first's discriminator is below the measured resolution.** Its case is the 0.080 public gap
+(`54922806` 6.563 vs `54968060` 6.643). Q45's measured same-code floor is sd 0.03, so 0.080 is **2.7 sd**,
+under the ~0.09 needed to rank two variants. Q39 splits it into GR-sigma (−0.1105, 3.7 sd, resolvable) and
+overlap (+0.031, ~1 sd, noise) — and Q36 measured that GR-sigma multiplier on 760 wells with truth: **helps
+42.1% of wells, negative median**. So on novel wells score-first's only resolvable component is the one our
+own held-out evidence says does not transfer. **The two pairs are tied on measurement**, and the tie should
+be broken on the axis that is not noise-limited: ownership and verifiability.
+
+**4. Two axes turn out not to discriminate at all.** Dependency risk: both recommended pairs contain
+`54844628` plus exactly one frontier member, so their dependency sets are **identical** — this axis should
+stop being cited as favouring either. Draw representativeness: the A-vs-B gap stays ≤0.001 at every draw
+scale. Losing access to *every* teammate submission costs ~0.004 ft, and the ours-only optimum is pair B.
+
+**5. Rank context.** Local density ≈7700 teams/ft: 0.03 ft ≈ 231 ranks, our 0.093 ft gap to bronze ≈ 716
+ranks, and one sd of draw noise exceeds the whole board. Since the top-200 is dominated by the same public
+family as our frontier slot, most rivals' private shifts are correlated with it — **`54844628` is the only
+submission we hold whose error is decorrelated from the crowd**, so it is also the only source of *relative*
+rank movement.
+
+Full detail and limits: `reports/q44_frontier_private_risk_stress_2026-07-30.md`.
