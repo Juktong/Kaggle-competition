@@ -2155,3 +2155,65 @@ level either.
 
 The honest line remains valuable as **slot-2 diversity** (Q18: it beats the frontier on ~29% of random
 3-well draws). What is closed is the idea of IMPROVING it by group-level residual correction.
+
+## 2026-07-29 18:05 UTC — Q43 transition-prior research: 12 sources, 5 proposals, 3 appended
+
+`reports/q43_public_research_transition_priors_2026-07-30.md`. No submission, quota 0/5.
+
+### What the search had to clear
+
+Q40 found the deployed `lam*|dstate|/BAND` beats 45 alternatives -- but every arm it tested was a **soft
+per-step penalty**, and its mechanism (per-step terms are multiplied by path length) defines what to look
+for next: **path devices that are NOT soft per-step penalties**. Step 4's filter also discarded anything
+that only improves pointwise emission/AUC, since Q17 closed that lever.
+
+**Established while reading the code:** the current DP has **NO global constraint at all**. `run_dp`
+windows +-BAND around the PREVIOUS state, so cumulative deviation from the anchor is unbounded (60 x ~477
+steps) and there is **no minimum or maximum slope**.
+
+### The three appended proposals
+
+**`q54_dp_hard_path_constraints` (~10 min).** Sakoe-Chiba corridor + Itakura slope limits (0.5-2) as an
+**admissibility MASK, not a penalty**. A hard cap bounds accumulated deviation **regardless of path
+length** -- the exact structural complement of the family Q40 closed, and motivated by Q40's own compounding
+mechanism rather than by hope.
+
+**`q55_dp_decoder_averaging` (~10 min).** Beam-average (run_dp keeps K=6 beams but returns only beams[0])
+and soft-min Bellman at temperature gamma. **Precedent that this is not idle: Q21 discovered the deployed
+PF ensemble IS ALREADY a softmax over paths at T=5, sitting at a nested optimum of a 27-member family** --
+and the same operator has never been applied to the DP. Requires a degeneracy check that T,gamma -> 0
+reproduces the current hard-argmin decoder exactly.
+
+**`q56_pf_backward_smoothing` (hours; smoke first).** THE MODELLING GAP: `run_particle_filter` is a
+**single forward pass**, yet **the entire toe GR log is observable at prediction time** -- we predict TVT
+for rows whose GR we can already see, so a forward-only filter discards genuinely available information.
+FFBSi re-weights earlier particles using later observations; it is an averaging operation, so Q40's
+compounding warning does not apply. The prompt carries both Q36 corrections explicitly: patch the DEPLOYED
+PF source (not `pf_honest_forward.py`) and score INSIDE the blend, where any gain halves.
+
+### Documented but deliberately NOT appended
+
+**P4 geometric transition scale** (map-matching style, from MD advance and inclination) -- too close to
+Q40's `drift` arm, which failed worst at -11.475. A *scale* is non-directional where a *drift* is
+directional, so it should not compound, but that argument is untested and Q40's failure is recent and
+large. Must wait behind q54/q55 and report the accumulated-pull diagnostic if run.
+
+**P5 path-distribution output** -- subsumed by q55, which is its concrete cheap instance.
+
+**Discarded under step 4:** the wavelet+DTW stratigraphic correlation papers improve the emission side
+without adding a path constraint.
+
+### Gates and the honesty note carried into all three prompts
+
+All three: standing three-part gate (nested by-well gain > 0 AND helps > 50% of wells AND 3-well 5th > 0),
+`can_submit=false`. **The alignment DP sits at ~12.2 against the deployed honest line's 8.8626, so passing
+these gates would make the transition lever worth pursuing, NOT make the artifact submittable.** Q41 also
+showed the 3-well 5th is maximised by changing nothing, so that condition is expected to fail -- the
+informative outputs are the nested gain and the per-well win rate.
+
+### Limit recorded
+
+The geosteering-specific HMM search returned **no geosteering results at all**; the transferable material
+came from **map-matching (GPS-to-road) and general HMM/DTW literature** instead. Several petroleum sources
+(SPWLA, ScienceDirect) are abstract-only or paywalled and were used for the method IDEA, not implementation
+detail. No source was executed or copied.
