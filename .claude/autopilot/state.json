@@ -2,21 +2,28 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "19892c94-3fd3-4306-8a6a-c3793ac3ad9b",
-  "current_handle": "6b65a70d",
+  "resume_session_id": "6b65a70d-5617-46a6-bfc1-04a0737bae17",
+  "current_handle": "55af8430",
   "current_task_id": "q36_gr_sigma_in_blend_oof",
-  "last_started_at": "2026-07-29T04:13:33Z",
-  "last_finished_at": "2026-07-29T04:25:00Z",
+  "last_started_at": "2026-07-29T04:28:35Z",
+  "last_finished_at": "2026-07-29T04:50:00Z",
   "last_result": {
-    "task_id": "q33_controlled_submission_budget_plan",
-    "outcome": "done_planning_round",
+    "task_id": "q36_gr_sigma_in_blend_oof",
+    "outcome": "smoke_passed_full_run_in_flight",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "55064411 LANDED at 6.695. Against its diff-verified parent 54968060 (6.643) hedge-OFF costs +0.052 -- inside the ~0.115 floor, so the hedge is NOT load-bearing on public in either direction and the public score does not adjudicate Q14's local finding. Two corrections recorded: Q19's pre-registration used the wrong comparator (6.563 is a different branch), and Q19 overstated the my0705 datapoint (-0.048, also inside the floor). 55064411 enters no slot; recommendation unchanged. BUDGET REFRAMED: 40 slots remain but ZERO are required, since the final pair is chosen from already-submitted entries. Measured criterion: a slot is worth spending only if the expected effect exceeds ~0.115. Max next 24h: 1, conditional on q36. Latency measured <= 7.7 h. HIGHEST-CONSEQUENCE UNSCHEDULED STEP: the final selection costs no quota but must be done before 2026-08-05 23:59 UTC -- recommended by 08-04. q35 and q29 re-queued, q29 with a self-check trigger.",
-    "next_task_id": "q36_gr_sigma_in_blend_oof"
+    "headline": "Q36 smoke PASSED and the full 760-well run is in flight (ETA ~3.7 h). Two corrections to Q19 established: it patched the WRONG PF (standalone single-seed, not the deployed likelihood-weighted ensemble -- so its tail failure was measured where no averaging damping could occur), and it scored the PF standalone when base = 0.5*dwt + 0.5*pf exactly, halving any effect. Smoke confirms the patch activates and alignment holds 12/12; provisional hint is that the tail-driven signature persists inside the blend (helps 16.7% of wells). NS=32 vs deployed NS=64 understates damping, conservatively.",
+    "next_task_id": "q21_pf_path_soft_combiner"
   },
   "queue_exhausted": false,
   "pending_kaggle_run": null,
-  "pending_submission": null
+  "pending_submission": null,
+  "pending_local_run": {
+    "task": "q36_gr_sigma_in_blend_oof",
+    "log": "reports/logs/q36_blend_oof_2026-07-29.log",
+    "launched_at": "2026-07-29T04:45:00Z",
+    "eta_hours": 3.7,
+    "next_action": "COLLECT FIRST next round: apply the gate (nested gain>0 AND 3-well 5th>0 AND helps a majority), then release or close q37"
+  }
 }

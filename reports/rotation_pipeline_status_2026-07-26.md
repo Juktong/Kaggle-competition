@@ -1418,3 +1418,65 @@ The 7.7 h latency is an UPPER BOUND from ONE observation (true value between 6.5
 near the deadline may be worse, which is why 12 h of margin is used. "40 slots" assumes a 00:00 UTC reset
 and no rejected submissions, verified once at the 07-28 -> 07-29 rollover. The plan asserts nothing about
 any candidate improving the private score.
+
+## Round 32 — Q36 GR-sigma inside the blend: two corrections to Q19, smoke passed, full run in flight
+
+`q36_gr_sigma_in_blend_oof` (`can_submit=false`). **No submission, quota 0/5.**
+`reports/q36_gr_sigma_in_blend_oof_2026-07-29.md`, `scripts/q36_gr_sigma_in_blend_oof.py`.
+
+### TWO CORRECTIONS TO WHAT Q19 MEASURED (both mine, both fixed here)
+
+**1. Q19 patched the WRONG particle filter.** It added `_GS_MULT` to `scripts/pf_honest_forward.py`, a
+STANDALONE conservative PF with 500 particles and **ONE seed**. The honest line's PF component is
+`run_pf_lik_ensemble` -- a **likelihood-weighted ensemble over n_seeds seeds** -- whose source is
+`SUNNY_CODE` in cell 108 of `kaggle_kernel_henry_v10_sunny80_blend`, exec'd by `scripts/pf_forward_oof.py`.
+This matters directly: Q36 exists because Rule #1 says averaging damps tails, and Q19's single-seed
+measurement had the ensemble averaging **entirely absent** -- so its tail-driven failure was measured in
+the one configuration where no damping could occur.
+
+**2. Q19 scored the PF STANDALONE, but it enters the blend at weight 0.5.** Verified numerically:
+`base = 0.5*dwt + 0.5*pf` exactly (max|base - mix| = 4.9e-4, float32 rounding; dwt 10.2891, pf 11.0563,
+base 9.2987). Any PF change is **halved** before reaching the honest line. Q19's +2.3513 was measured on a
+single-seed standalone PF with baseline 14.27 against a deployed blend baseline of 9.2987, so it must NOT
+be read as a blend-level effect size; the Q19 report overstated its relevance to the honest line.
+
+### What Q36 measures instead
+
+One string replacement on the DEPLOYED source, with an assertion the target line is unique, then per well
+`run_pf_lik_ensemble(500 particles, NS seeds, scale=5.0)` per multiplier, blended `0.5*dwt + 0.5*pf_new`
+reusing the deployed `dwt` column unchanged. Alignment is ASSERTED not assumed: toe-row positions must
+equal the npz `ridx` AND npz truth must match loaded truth, else the well is rejected. Splits by well;
+multiplier chosen nested; per-well win rate and 3-well bootstrap reported.
+
+### SMOKE PASSED (Directive 4) -- 12 wells, NS=8, 0.7 min
+
+    multiplier   blend RMSE   vs 1.0        nested picks [1.5, 1.0] -> gain -0.2004
+    1.0            7.8828      0.0000       helps 0.0% of held-out wells
+    1.5            7.8321     +0.0507       3-well 5th -0.5173, P(>0) 0.0000   GATE FAIL
+    mult 1.5 helps 16.7% of wells | mean per-well gain -0.3266
+
+Establishes (this is NOT the measurement): the **patch activates** (1.5 differs from 1.0, so the sigma
+change propagates through the ensemble into the blend); **alignment holds** (12/12 passed both assertions,
+0 rejected); and the full reporting path executes to the gate cell. Provisional hint at 12 wells / NS=8:
+pooled improves (+0.0507) while per-well is negative (helps 16.7%) -- the same tail-driven signature Q19
+found, now visible inside the blend.
+
+### FULL RUN IN FLIGHT
+
+`MAXW=760 NS=32 JOBS=2 MULTS=1.0,1.3,1.5`; 14 wells / 4.1 min -> **ETA ~3.7 h** from 04:45 UTC.
+Recorded deviation: this box has **2 cores**, and the deployed line uses **NS=64** while this run uses
+NS=32 to keep wall time near 3.7 h rather than ~7.5 h. More seeds = more averaging, so **NS=32 UNDERSTATES
+the ensemble damping** relative to deployed -- conservative in the direction that matters.
+
+### Gate for whoever collects it
+
+Promote only if ALL THREE hold: nested gain > 0 AND 3-well bootstrap 5th > 0 AND it helps a MAJORITY of
+wells. `q37_frontier_gr_sigma_public_repro` stays blocked behind this; per Q33 the next 24 h spends **0
+slots unless this gate passes**.
+
+### Limits
+
+The result is not in yet -- the smoke is not the finding. NS=32 vs deployed NS=64. The measurement is at
+the BLEND level (`base` 9.2987), not after the gated structural-field stage that reaches 8.8626. 760 of
+773 wells: 13 are absent from `aligned_preds.npz` and excluded so the deployed `dwt` column can be reused
+unchanged.
