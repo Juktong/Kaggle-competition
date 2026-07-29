@@ -1,0 +1,93 @@
+=== 1. LEADERBOARD REFRESH (2026-07-29 20:34 UTC) ===
+Next Page Token = CfDJ8Oxz6O_D_GNGkNy8kL7JFsVPdC5bvu3TLg6LY60FdojUBbSgc09L0ML41SDWeiQeIh1LrKmuXjbhCpOyRKOlH0mtEg
+fetched 200 leaderboard rows (API caps a page at 200)
+    1  shu01                                       4.679  2026-07-25 23:57:17
+    2  Yannan Chen                                 4.902  2026-07-29 20:14:17
+    3  N & A & O & A & A                           4.979  2026-07-29 14:27:56
+    4  Tucker Arrants                              5.078  2026-07-29 03:17:04
+    5  SaintLouis                                  5.089  2026-07-29 06:04:51
+    6  Shrey Gandhi                                5.217  2026-07-29 11:05:33
+    7  tremors                                     5.217  2026-07-29 15:02:47
+    8  Rishikesh Jani                              5.237  2026-07-29 14:43:11
+    9  L & J & A & A                               5.325  2026-07-29 13:16:47
+   10  Ryo Takaki                                  5.354  2026-07-29 14:21:49
+  ...
+  200  Chloe                                       6.372   <- last fetched row
+
+  leader 4.679 | rows worse than our 6.563: 0 of 200
+
+=== 2. PUBLIC KERNELS, ENUMERATED BY RECENCY ===
+  after sort_by=dateRun      distinct kernels = 1100
+  after sort_by=dateCreated  distinct kernels = 1136
+
+  most recent 15 by last_run:
+    2026-07-29 19:54:49 -      luffyh04/harshini-submission-f                             votes 24
+    2026-07-29 19:02:32 -      romanrozen/catboost-baseline                               votes 25
+    2026-07-29 16:58:08 -      tamerlanomralinov/hahaha-det-agi                           votes 44
+    2026-07-29 14:50:35 6.391  my0705/rogii-stacked-ensemble-highscoring-6-391            votes 55
+    2026-07-29 12:52:54 7.872  evgendvorkin/roggi-physics-lb-7-872-v48                    votes 336
+    2026-07-29 04:55:19 -      brianbovell/akiirolabs-tvt-prediction-model                votes 1
+    2026-07-29 01:00:57 -      koushikkumardinda/rogii-wellbore-geology-prediction        votes 9
+    2026-07-29 00:36:20 -      nikitagajbhiye30/rogii-0001                                votes 45
+    2026-07-28 23:00:16 -      taylorclark637/hellbore-v-6                                votes 5
+    2026-07-28 22:48:00 -      lucifer19/rogii-geoanchor                                  votes 74
+    2026-07-28 22:10:16 -      paulodmayra/rogii-geologia-v92-geographic-restoration      votes 5
+    2026-07-28 21:55:16 -      anubhavtyagi1212/rogii-wellbore-prediction-challenge       votes 1
+    2026-07-28 12:29:35 -      prvsiyan/rogii-public-score-frontier-ii-visuals            votes 14
+    2026-07-27 14:34:49 -      georgymamarin/measure-your-noise-floor-before-believing-a- votes 88
+    2026-07-27 11:29:57 -      itsyoursumit/rogiiv2                                       votes 3
+
+=== 3. ADVERTISED SCORES ===
+  kernels with a parseable advertised score: 131 of 1136
+  best 20 advertised:
+     4.383  yangrangrong/rogii-notebook4383-v8                         2026-06-12 02:57:14  <- BETTER THAN OUR 6.563, NOT SEEN BY Q19
+     6.213  leonidzaporozhets/new-strategy-score-6-213                 2026-07-22 22:14:00  <- Q19 resolved: our base + GR-sigma *1.3 (Q36: fails 3-well gate)
+     6.391  my0705/rogii-stacked-ensemble-highscoring-6-391            2026-07-29 14:50:35  <- BETTER THAN OUR 6.563, NOT SEEN BY Q19
+     6.451  arnavsalkade/rogii-public-6-451-base                       2026-07-23 06:00:27  <- BETTER THAN OUR 6.563, NOT SEEN BY Q19
+     6.594  rikuter67/rogii-public6-blacklions-6594-a23-rerun-rikuter  2026-07-22 20:49:24
+     6.594  blacklions/rogii-6-594-pf-branch-continuation              2026-07-22 11:35:22
+     6.667  muelsyse111/rogii-p100-cap2-5-measured-6-667               2026-07-23 03:30:49
+     6.768  selamya/rogii-6768-likelihood-slope-exact                  2026-07-22 00:52:27
+     6.768  wbfranci/rogii-v66-public-v586-exact-6-768                 2026-07-21 15:50:37
+     6.768  pi500phys/rogii-public-6-768-likelihood-slope              2026-07-21 14:58:20
+     6.768  junesdata/rogii-fork-exact-public-6768-test                2026-07-21 12:56:23
+     6.768  yasut0ra/rogii-codex-exact-public-6-768-v1                 2026-07-21 09:21:29
+     6.832  muelsyse111/rogii-mha250sep2-wellbias-measured-6-832       2026-07-22 06:47:00
+     6.858  harukiharada/rogii-submit-6858-public-20260722             2026-07-22 11:25:19
+     6.858  harukiharada/rogii-submit-6858-reference-20260722          2026-07-22 10:45:27
+     6.858  crystalbaby/6-858                                          2026-07-21 15:52:02
+     6.858  wbfranci/rogii-det-mha250sep2-public6858                   2026-07-21 04:20:06
+     6.909  selamya/rogii-6909-oof-meta-exact                          2026-07-22 00:58:36
+     6.909  jzhllin/rogii-public-6-909-reproduction                    2026-07-20 01:46:09
+     6.909  gorubachohu/rogii-cycle8-public-6909-exact-r1-fork         2026-07-19 00:53:36
+
+  advertising <= 6.5 and NOT already resolved by Q19: 3
+     4.383  yangrangrong/rogii-notebook4383-v8  (2026-06-12 02:57:14)
+     6.391  my0705/rogii-stacked-ensemble-highscoring-6-391  (2026-07-29 14:50:35)
+     6.451  arnavsalkade/rogii-public-6-451-base  (2026-07-23 06:00:27)
+
+=== 4. KERNELS RUN SINCE 2026-07-26 ===
+  21 kernels last-run on/after 2026-07-26
+    2026-07-29 19:54:49 -      luffyh04/harshini-submission-f
+    2026-07-29 19:02:32 -      romanrozen/catboost-baseline
+    2026-07-29 16:58:08 -      tamerlanomralinov/hahaha-det-agi
+    2026-07-29 14:50:35 6.391  my0705/rogii-stacked-ensemble-highscoring-6-391
+    2026-07-29 12:52:54 7.872  evgendvorkin/roggi-physics-lb-7-872-v48
+    2026-07-29 04:55:19 -      brianbovell/akiirolabs-tvt-prediction-model
+    2026-07-29 01:00:57 -      koushikkumardinda/rogii-wellbore-geology-prediction
+    2026-07-29 00:36:20 -      nikitagajbhiye30/rogii-0001
+    2026-07-28 23:00:16 -      taylorclark637/hellbore-v-6
+    2026-07-28 22:48:00 -      lucifer19/rogii-geoanchor
+    2026-07-28 22:10:16 -      paulodmayra/rogii-geologia-v92-geographic-restoration
+    2026-07-28 21:55:16 -      anubhavtyagi1212/rogii-wellbore-prediction-challenge
+    2026-07-28 12:29:35 -      prvsiyan/rogii-public-score-frontier-ii-visuals
+    2026-07-27 14:34:49 -      georgymamarin/measure-your-noise-floor-before-believing-a-lever
+    2026-07-27 11:29:57 -      itsyoursumit/rogiiv2
+    2026-07-27 06:52:38 -      blacklions/well-level-gbdt-gate
+    2026-07-27 04:57:40 -      tmcit22/rogii
+    2026-07-27 01:40:36 -      mtoshidesu/rogii-test-another-approch-2nd
+    2026-07-26 21:58:19 -      prvsiyan/rogii-public-frontier-blend-research-visuals
+    2026-07-26 16:22:15 -      tamamfajar/notebooke0b75a04a9
+    2026-07-26 02:51:11 -      tiktoktrendz/rogii-dip-aware-hmm-gbm
+
+wrote reports/logs/q45_kernel_snapshot_2026-07-30.json (1136 kernels, 200 lb rows)

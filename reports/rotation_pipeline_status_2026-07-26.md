@@ -2294,3 +2294,24 @@ beam's spread FIRST and report it before anything else.**
 **THE DEEPER BOX:** Q17 showed emission AUC is decoupled from DP quality (+0.056 AUC bought 0.167 RMSE),
 and Q54 now shows the transition side is at its optimum in three separate families. The alignment line is
 constrained from both sides, and neither lever moves it toward the deployed honest line's 8.8626.
+
+## Q45 status update (2026-07-29 20:45 UTC)
+
+- **Public standing refreshed:** leader **4.679** (unchanged since 2026-07-25), 200th place **6.389 → 6.372**,
+  teams **5886 → 5914**, our rank **1277 → 1339**. We lost 62 places in ~16 hours with our own score
+  unchanged; the board moves under us daily.
+- **Published-method pool:** **1136** distinct public kernels (Q19 saw 798, +42%). Still **nothing published
+  below 6.2**; after Q19's two known entries the next-best advertised is 6.594. The external channel does not
+  close the top-200 gap by adoption.
+- **Rounds closed:** Q54 (hard path constraints), Q55 (decoder averaging — the DP objective is misaligned
+  with RMSE; an exact Viterbi attains lower cost and worse RMSE at every λ), Q45 (this round).
+- **The alignment DP line is now closed on all three sides** — emission (Q17), transition (Q40 / N1 / Q54),
+  decoder (Q55). The only remaining direction is redefining the objective, and `q57_dip_state_augmented_dp`
+  is the one concrete instance found so far.
+- **Noise floor measured** at sd ≈ 0.03 (14 unchanged resubmissions, external); two of Q39's four priced
+  stages fall below readability as a result. See the correction appended to
+  `final_slot_package_corrected_gate_2026-07-26.md`.
+- **Queue hygiene:** `q44_frontier_private_risk_stress` and `q56_pf_backward_smoothing` were marked `blocked`
+  by transient API errors (529 / 500) with **no work executed**; both were reset to `queued`. `q55` carried
+  the same mark although its run had completed and its report was on disk, which is why the reset matters.
+- Quota **0/5 used today**. No submission in Q54, Q55 or Q45.

@@ -6,15 +6,15 @@
   "current_handle": "b0febe42",
   "current_task_id": "q45_external_leaderboard_gap_refresh",
   "last_started_at": "2026-07-29T20:29:03Z",
-  "last_finished_at": "2026-07-29T20:29:01Z",
+  "last_finished_at": "2026-07-29T20:50:00Z",
   "last_result": {
-    "task_id": "q54_dp_hard_path_constraints",
-    "outcome": "gate_failed_all_three",
+    "task_id": "q45_external_leaderboard_gap_refresh",
+    "outcome": "done_no_submission_one_followup_queued",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Q54 closed hard global path constraints. HEADLINE: at the optimal lam=60 the DP path deviates +-3.0 ft from the anchor while the TRUTH deviates +-19.4 -- the DP is OVER-DAMPED, not under-constrained, so a corridor can only restrict it further and one tight enough to bind would exclude the truth. Corridor and penalty are SUBSTITUTES: at lam=5 the corridor rescues +3.12 to the level lambda alone reaches, but best combined 12.138 vs 12.170 lambda-only. Nested +0.031, helps 2.5% of wells (lowest in the project), 3-well 5th -0.518. Also caught N1s inert-constraint trap via a binding diagnostic. The transition model is now closed across soft penalties, per-step bounds and global corridors; with Q17 the alignment line is boxed from both sides.",
-    "next_task_id": "q55_dp_decoder_averaging"
+    "headline": "Q45 refreshed the external channel and corrected one of our own numbers. LB: leader 4.679 unchanged, 200th 6.389 -> 6.372, teams 5886 -> 5914, our rank 1277 -> 1339 (62 places lost in 16 h with our score unchanged); 1136 public kernels vs Q19's 798 and STILL nothing published below 6.2. THE DECISIVE FIND IS NOT A METHOD: an external diagnostic resubmitted 5 kernels 14 times with nothing changed, giving same-code sd 0.027-0.037 and spreads up to 0.112 -- this settles Q39's 0.009-vs-0.115 conflict at sd ~ 0.03, so Q39's hedge +0.052 and post-SP45 +0.047 DROP to unresolved (~1.6-1.7 sd) while GR sigma -0.1105 holds at ~3 sd, and one slot can only read an effect >= ~0.1 ft. SECOND FIND: two public kernels byte-identical to our own 54922806 advertise 6.213 and 6.451 against our MEASURED 6.563 -- 0.350, i.e. ~10 sd, with mutable artifacts excluded (all dataset slugs frozen since June), so ADVERTISED SCORES ARE NOT MEASUREMENTS OF THE PULLABLE CODE and are triage only. The new best-advertised kernel (6.391, run today) resolves into 4 factors, 3 already closed by Q19/Q36/Q39 and one new (w_sub1 0.60 -> 0.50, an averaging move toward the 0.5/0.5 our honest line already uses) which is not honestly measurable and stays information-only. QUEUED q57_dip_state_augmented_dp: a non-family public kernel searches 41 dip rates with momentum, i.e. state = (TVT, dip), and every arm Q40/N1/Q54/Q55 closed used a TVT-ONLY state -- state augmentation changes the objective's shape rather than its coefficients, the one direction Q55's closure left open. Also found an independent public implementation of q56's PF backward smoothing (advertising no score) and reset q44/q56 from an API-error 'blocked' back to 'queued'.",
+    "next_task_id": "q44_frontier_private_risk_stress"
   },
   "queue_exhausted": false,
   "pending_kaggle_run": null,
@@ -26,9 +26,13 @@
     "submission_deadline": "2026-08-05T23:59Z",
     "max_daily_submissions": 5,
     "kernels_only": true,
-    "team_count": 5886,
-    "user_rank": 1277,
-    "metric_label": "Mean Squared Error (API label; empirically RMSE-scale)"
+    "team_count": 5914,
+    "user_rank": 1339,
+    "metric_label": "Mean Squared Error (API label; empirically RMSE-scale)",
+    "public_leader": 4.679,
+    "public_200th": 6.372,
+    "measured_same_code_noise_sd": 0.03,
+    "readable_effect_threshold_public": 0.1
   },
   "endgame_action_required": {
     "what": "re-activate q29_final_slot_candidate_packager (set its queue.jsonl status back to \"queued\")",

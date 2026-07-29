@@ -410,3 +410,39 @@ G15 vintage `seq_id` features (leakage-adjacent, needs a rules check first).
 - **`q15_frontier_dependency_replacement` STILL NOT STARTED** — unchanged blocker: it needs its own
   frontier full run and `55064411`'s kernel re-run is still in flight.
 - **Next:** `q18_public_leaderboard_family_stress`.
+
+## Q45 additions (2026-07-29 20:45 UTC)
+
+**Queued — `q57_dip_state_augmented_dp` (priority 628).** From Q45's architecture scan:
+`tiktoktrendz/rogii-dip-aware-hmm-gbm` (0% overlap with the Kaiwalya family) searches **41 dip rates with a
+momentum factor**, i.e. its state is **(TVT, dip)**. Every transition arm this project has closed used a
+TVT-only state — Q40's 45 soft per-step penalties, N1's per-step geometric bound, Q54's global corridor — and
+Q55 closed the decoder side while finding the DP objective itself is misaligned with RMSE. A dip dimension
+makes dip continuity a **state property instead of an increment penalty**, which changes the objective's
+shape rather than its coefficients. Smoke-testable on the existing Q10/Q40/Q54 harness, non-duplicate,
+standing three-part gate, `can_submit=false`, with mandatory degeneracy (single-dip grid must reproduce
+`run_dp`) and activation (how often the dip actually moves) controls — both N1 and Q54 first produced inert
+constraints and nearly reported them as "no effect".
+
+**Considered and NOT queued — `PP.w_sub1` 0.60 → 0.50** (from `my0705/rogii-stacked-ensemble-highscoring-6-391`,
+the new best-advertised public kernel). It is the weight between the model-delta branch and the
+likelihood-PF branch, `delta = w_sub1·sub1 + (1−w_sub1)·lp`, and moving toward equal weights is Rule #1's
+averaging class — structurally the most favourable item found this round. Not queued because `sub1` and `lp`
+are frontier-internal quantities with no honest out-of-fold access, and measuring it on public would spend a
+GPU run plus a slot on an effect bundled with a hand-fitted per-well shift and almost certainly below the
+0.1 ft readable threshold. Recorded convergence: **our honest line already sits at exactly 0.5/0.5**
+(`base = 0.5·dwt + 0.5·pf`), so an independent author has now moved toward the weighting we already use.
+
+**Considered and NOT queued — GR sigma ×1.5** (same kernel). Q36 measured 1.5 inside the deployed blend on
+760 wells: 9.3203, worse than 1.3's 9.1204 and worse than 1.0's 9.2903, helping 40.4% of wells with a
+negative median. Already measured where it acts.
+
+**Considered and NOT queued — `_gold_alpha` ×1.30 → ×1.75** (same kernel). This scales the model-package
+gold-profile alpha, the stage G1.3 observed the guard **reject** at runtime (`delta_p95 > p95_hard` →
+`return 0.0`) and Q39 classified as measured inert. Scaling a term that is zeroed before use cannot change
+the output.
+
+**Annotated, not queued — `q56_pf_backward_smoothing`.** `yangrangrong/rogii-notebook4383-v8` is an
+independent public implementation of exactly that lever (`apply_rts_smoother`, `apply_fixed_lag_smoother`
+over a retained particle trellis). Useful as a mechanics reference; it advertises **no score**, which is weak
+evidence against rather than for.

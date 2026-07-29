@@ -536,3 +536,50 @@ with Q33's standing 0-slot conclusion.
 `scripts/final_selection_simulator.py` and `scripts/q18_final_pair_stress.py` still carry `retrieval=0.080`
 with the confounded derivation. **Left unmodified** so the Q18 record stays reproducible as written;
 `scripts/q53_simulator_retrieval_correction.py` supersedes them. If either is rerun for a decision, use Q53.
+
+## Q45 CORRECTION (2026-07-29 20:45 UTC) — the same-code noise floor is now MEASURED, and two priced stages fall below it
+
+An independent public diagnostic, `georgymamarin/measure-your-noise-floor-before-believing-a-lever`
+(2026-07-27, 88 votes, 0% code overlap with our family), resubmitted **five kernels fourteen times with
+nothing changed inside any of them**:
+
+```
+kernel                                  reruns   public scores                    spread     sd
+A  ayodeji branch-conservative v599       4      6.700 6.726 6.641 6.671          0.085    0.037
+B  baidalinadilzhan lb-7.201              4      7.219 7.240 7.259 7.282          0.063    0.027
+C  aevionlabs 7.159 family                2      7.216 7.305                      0.089      -
+D  bernubritz public rebuild              2      7.246 7.280                      0.034      -
+E  a fork + the author's own corrector    2      7.535 7.647                      0.112      -
+```
+
+**This settles the conflict Q39 §4 flagged.** Our two figures were a same-code pair at 0.009 and an older
+recorded config-variance floor of ~0.115. The measured answer is **sd ≈ 0.027–0.037, with spreads up to
+0.112 over as few as two reruns** — so the 0.009 pair was a lucky draw and was over-trusted, and ~0.115 is
+about the outer edge rather than a mystery.
+
+Q39's stage matrix re-read against sd ≈ 0.03:
+
+| stage | effect | previous classification | re-read |
+|---|---|---|---|
+| GR sigma ×1.3 | −0.1105 | supported benefit on public | **holds** (~3 sd, and measured wholly on our own account) |
+| bimodal hedge | +0.052 when removed | supported benefit [floor-confounded] | **unresolved** (~1.7 sd) |
+| post-SP45 stages, jointly | +0.047 when truncated | supported benefit, joint | **unresolved** (~1.6 sd) |
+| overlap / retrieval | −0.031 | not load-bearing, uncertain sign | **unchanged** (~1 sd) |
+
+**Operational threshold:** one submission can only *read* an effect of roughly **0.1 ft (≈3 sd)** or larger.
+Below that, a candidate is indistinguishable from a rerun of the same code, so it cannot justify a slot.
+This tightens Q33's bar with a measured number instead of a disputed one.
+
+**Board density, from our own refresh the same evening:** 114 of the top 200 sit inside [6.20, 6.60], and
+ranks 190–200 span 6.366–6.372 — **eleven ranks inside 0.007 ft**. A private reshuffle at that density is
+the expected case, not a tail scenario. `georgymamarin` independently reports the bronze line at 6.470 with
+~570 teams inside ±0.037 ft of 6.473 on a 2026-07-26 snapshot.
+
+**A second Q45 finding limits how the external channel may be used at all:** `arnavsalkade/rogii-public-6-451-base`
+and `leonidzaporozhets/new-strategy-score-6-213` are both byte-identical to our own `54922806`
+(pristine base + the single `*1.3` token at cell 29), and `leonidzaporozhets` carries an identical 7-dataset
+attachment list, yet the advertised numbers span **0.350** against our *measured* 6.563. All eight attached
+dataset slugs were last updated 2026-05-09…2026-06-27, so mutable artifacts are excluded, and 0.350 is ~10 sd
+of the measured floor. **A score advertised in a kernel title or slug is therefore not a measurement of the
+code that kernel contains.** Advertised numbers are triage only; every effect size must come from a score
+measured on our own account. Full detail: `reports/q45_external_leaderboard_gap_refresh_2026-07-30.md`.

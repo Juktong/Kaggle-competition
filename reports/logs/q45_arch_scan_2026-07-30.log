@@ -1,0 +1,67 @@
+pristine base: kaggle_kernel_kaiwalya_public_tvt_6626_repro/rogii-public-tvt-solution.ipynb  (45 code cells)
+
+====================================================================================================
+KERNEL romanrozen/catboost-baseline
+  title 'CATBOOST baseline🔥' | language python | type notebook
+  dataset_sources (7): phongnguyn23021656/koolbox-offline, nina2025/rogii-03, pilkwang/rogii-model-package, thbdh5765/rogii-v10-fresh-artifacts, fleongg/rogii-claude-models-pub, needless090/rogii-tabicl-mirror, ravaghi/wellbore-geology-prediction-artifacts
+  kernel_sources  (0): -
+  code cells: base=45  this=48
+  architecture tokens present: CatBoost, LGBMRegressor, lightgbm, xgboost, XGB, torch, run_particle_filter, Ridge
+  cell count differs -> lineage measured by SHARED NORMALISED CELLS: 43 of this kernel's 48 cells appear verbatim in the base (90%)
+====================================================================================================
+KERNEL tiktoktrendz/rogii-dip-aware-hmm-gbm
+  title 'ROGII: Dip-Aware HMM + GBM' | language python | type notebook
+  dataset_sources (0): -
+  kernel_sources  (0): -
+  code cells: base=45  this=1
+  architecture tokens present: HistGradientBoosting, Ridge
+  cell count differs -> lineage measured by SHARED NORMALISED CELLS: 0 of this kernel's 1 cells appear verbatim in the base (0%)
+  => NOT the Kaiwalya family. Characterising by content instead:
+      HistGradientBoosting     x2
+      Ridge                    x25
+      total source chars 29215
+====================================================================================================
+KERNEL blacklions/well-level-gbdt-gate
+  title 'Well-Level GBDT Gate' | language python | type notebook
+  dataset_sources (4): phongnguyn23021656/koolbox-offline, pilkwang/rogii-model-package, fleongg/rogii-claude-models-pub, ravaghi/wellbore-geology-prediction-artifacts
+  kernel_sources  (0): -
+  code cells: base=45  this=51
+  architecture tokens present: CatBoost, LGBMRegressor, lightgbm, xgboost, XGB, torch, run_particle_filter, Ridge
+  cell count differs -> lineage measured by SHARED NORMALISED CELLS: 43 of this kernel's 51 cells appear verbatim in the base (84%)
+====================================================================================================
+KERNEL lucifer19/rogii-geoanchor
+  title '🪨🐈\u200d⬛ ROGII GeoAnchor' | language python | type notebook
+  dataset_sources (6): phongnguyn23021656/koolbox-offline, nina2025/rogii-03, thbdh5765/rogii-v10-fresh-artifacts, fleongg/rogii-claude-models-pub, needless090/rogii-tabicl-mirror, ravaghi/wellbore-geology-prediction-artifacts
+  kernel_sources  (2): evansussex/rogii-public-score-frontier-lab-visuals, packagemanager/pm-126802117-at-07-28-2026-22-47-29
+  code cells: base=45  this=50
+  architecture tokens present: CatBoost, LGBMRegressor, lightgbm, xgboost, XGB, torch, run_particle_filter, Ridge
+  cell count differs -> lineage measured by SHARED NORMALISED CELLS: 21 of this kernel's 50 cells appear verbatim in the base (42%)
+  => NOT the Kaiwalya family. Characterising by content instead:
+      CatBoost                 x22
+      LGBMRegressor            x4
+      lightgbm                 x17
+      xgboost                  x5
+      XGB                      x9
+      torch                    x16
+      run_particle_filter      x3
+      Ridge                    x53
+      total source chars 303191
+====================================================================================================
+KERNEL georgymamarin/measure-your-noise-floor-before-believing-a-lever
+  title 'Measure your noise floor before believing a lever' | language python | type notebook
+  dataset_sources (1): georgymamarin/geosteering-world-cup-2021-expert-interpretations
+  kernel_sources  (0): -
+  code cells: base=45  this=26
+  architecture tokens present: HistGradientBoosting
+  cell count differs -> lineage measured by SHARED NORMALISED CELLS: 0 of this kernel's 26 cells appear verbatim in the base (0%)
+  => NOT the Kaiwalya family. Characterising by content instead:
+      HistGradientBoosting     x1
+      total source chars 60381
+====================================================================================================
+KERNEL tamerlanomralinov/hahaha-det-agi
+  title 'hahaha det agi' | language python | type notebook
+  dataset_sources (7): phongnguyn23021656/koolbox-offline, nina2025/rogii-03, pilkwang/rogii-model-package, thbdh5765/rogii-v10-fresh-artifacts, fleongg/rogii-claude-models-pub, needless090/rogii-tabicl-mirror, ravaghi/wellbore-geology-prediction-artifacts
+  kernel_sources  (0): -
+  code cells: base=45  this=54
+  architecture tokens present: CatBoost, LGBMRegressor, lightgbm, xgboost, XGB, torch, run_particle_filter, Ridge
+  cell count differs -> lineage measured by SHARED NORMALISED CELLS: 33 of this kernel's 54 cells appear verbatim in the base (61%)
