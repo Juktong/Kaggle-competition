@@ -9,3 +9,4 @@ Test wells: ['000d7d20', '00bbac68', '00e12e8b']
 [Parallel(n_jobs=2)]: Done  68 tasks      | elapsed: 19.8min
 [Parallel(n_jobs=2)]: Done 158 tasks      | elapsed: 44.3min
 [Parallel(n_jobs=2)]: Done 284 tasks      | elapsed: 78.4min
+[Parallel(n_jobs=2)]: Done 446 tasks      | elapsed: 124.2min

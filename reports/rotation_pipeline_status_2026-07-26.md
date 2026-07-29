@@ -1556,3 +1556,94 @@ plumbing checks, never as weak evidence of direction.
 
 284/760 wells at 78 min, ~2 h remaining. It remains the gate deciding whether the next 24 h spends 0 slots
 or 1.
+
+## 2026-07-29 07:15 UTC — Q30 rules/provenance audit: two corrections and a deadline TODAY
+
+`reports/q30_competition_rules_final_audit_2026-07-29.md`. No submission; quota 0/5.
+
+### TIME-CRITICAL: team-merger and new-entrant deadlines are **2026-07-29 23:59 UTC — TODAY**
+
+    merger_deadline       2026-07-29 23:59
+    new_entrant_deadline  2026-07-29 23:59
+    submission deadline   2026-08-05 23:59
+
+After tonight team composition is frozen for the rest of the competition. Surfaced because it is
+irreversible and expires today; no action recommended here, it is the owner's call.
+
+### Our precise standing: rank **1277 of 5886 teams**
+
+Supersedes Q19's "outside the top 200", which was only a bound because the leaderboard API caps a page at
+200 rows.
+
+### CORRECTION — `54844628` is not "fully owned"
+
+The final-slot package and several reports describe the honest line as "fully owned". Its kernel
+`joezzzzz/rogii-struct-field-blend-codex` attaches ONE third-party public dataset, and it is
+**load-bearing, not vestigial** -- the notebook HARD-ASSERTS it:
+
+    assert (CFG.artifacts_path/'models'/'lightgbm-1').exists()
+    assert (CFG.artifacts_path/'data'/'train.csv').exists()   # 'would trigger 7GB rebuild'
+
+`ravaghi/wellbore-geology-prediction-artifacts` supplies prebuilt LightGBM/DWT artifacts and a cached
+train.csv; the run fails without it. Accurate description:
+
+| aspect | status |
+|---|---|
+| pipeline code | fully owned, built and audited in this repo |
+| validation | fully owned, 760-well nested OOF + bootstrap |
+| runtime dependency | ONE third-party public Kaggle dataset, REQUIRED |
+
+**This is not a rules problem** -- the dataset is public and equally accessible, which is the operative
+criterion -- and **the slot recommendation is unchanged**. It changes only how the candidate should be
+described: "fully owned pipeline with one shared public artifact dependency".
+
+### CAVEAT — the API labels the metric "Mean Squared Error"
+
+Every project report treats the leaderboard number as being on the same scale as our local RMSE. The
+empirical correspondence says the reports are right and the label is loose: DWT det-base 9.487 local vs
+9.823 public; blend 9.2969 vs 8.080; honest 8.8626 vs 7.891. A true squared error would put public near
+78, not within ~1. So the one-axis comparison used throughout the ledger is SOUND -- recorded because the
+label would otherwise be a latent trap.
+
+### Risk categories
+
+| candidate | public | account | category |
+|---|---|---|---|
+| `54844628` | 7.891 | ours | public-derived but documented (low) -- one REQUIRED public artifact dataset |
+| `54968060` | 6.643 | ours | public-derived but documented + provenance caveat |
+| `55064411` | 6.695 | ours | same; enters no slot |
+| `54922806` | 6.563 | teammate | **provenance caveat -- ACTIONABLE** |
+| `54878409` | 7.953 | ours | not recommended (measured regression, already excluded) |
+
+**Nothing is categorised "not recommended" on RULES grounds.** All attached datasets are public Kaggle
+datasets and every kernel runs `enable_internet: false`.
+
+**ACTIONABLE:** if `54922806` (best public, teammate account) is selected, obtain from the teammate its
+kernel slug, version, and full dataset_sources list and record them in the ledger. We have only its
+description string. That information is required under Winner's Obligations and cannot be reconstructed
+after the deadline.
+
+### Winner's Obligations disclosure list, prepared now
+
+`54844628` -> `ravaghi/wellbore-geology-prediction-artifacts`, everything else owned.
+`54968060`/`55064411` -> all NINE attached datasets (including the 5 vestigial ones, since they are
+attached at runtime) plus the derivation from the public notebook `kaiwalyaatulraut/rogii-public-tvt-solution`.
+`54922806` -> the above plus the teammate-supplied kernel version and dataset list.
+
+Recommendation on the vestigial datasets: **leave them attached**. Removing them needs a fresh frontier run
+and a quota slot, and Q33 established slots buy nothing inside the current noise band. Disclose all nine
+instead -- accurate and free.
+
+### Open verification item
+
+`ravaghi/...artifacts` ships a `data/train.csv` described in our own kernel as a cache avoiding a "7GB
+rebuild". Its contents were NOT inspected this round. Low risk, but it is the one unverified link in the
+honest line's provenance and is recorded rather than assumed.
+
+### Limits
+
+The official rules TEXT was not retrieved -- the page is an authenticated JS SPA returning only its title.
+The operational rules above come from API metadata; the external-data clause rests on the earlier
+transcription in `external_data_ssl_direction_2026-07-15.md`. Dataset licence fields are not exposed by
+this API version, so only public listability was verified. `user_rank` 1277 is the PUBLIC rank; the private
+ranking is not visible and is the actual objective.

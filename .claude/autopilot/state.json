@@ -2,19 +2,19 @@
   "repo": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue",
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
-  "resume_session_id": "55af8430-24d5-44ca-909c-0cd9e20f3e99",
-  "current_handle": "ec4a6c18",
-  "current_task_id": "q21_pf_path_soft_combiner",
-  "last_started_at": "2026-07-29T05:58:38Z",
-  "last_finished_at": "2026-07-29T06:15:00Z",
+  "resume_session_id": "ec4a6c18-f854-4755-9d99-37563adf3501",
+  "current_handle": "54a322fe",
+  "current_task_id": "q30_competition_rules_final_audit",
+  "last_started_at": "2026-07-29T07:13:40Z",
+  "last_finished_at": "2026-07-29T07:20:00Z",
   "last_result": {
-    "task_id": "q21_pf_path_soft_combiner",
-    "outcome": "closed_gate_failed",
+    "task_id": "q30_competition_rules_final_audit",
+    "outcome": "done_audit",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Q21 CLOSED, gate fails all three conditions. Structural discovery: the stored 'PF mean path' is NOT a mean -- softmax_T5 reproduces it exactly, so it is the deployed likelihood-weighted ensemble at scale=5.0. The temperature sweep therefore became a nested test of the deployed scale=5.0, never previously validated, and it sits at a near-optimal interior point: only softmax_T10 beats it (+0.0526 = 1.4% of headroom), sharpening is monotonically harmful down to hard selection (-0.878), flattening and robust combiners are worse. Nested across 27 combiners: -0.0326, helps 43.2% of wells, 3-well 5th -0.7353. Closes the entire soft-combination family, extending Q11's closure of hard selection. No submission regardless: the PF-path line is 2.07 worse than deployed. Q36 still in flight (~2 h left).",
-    "next_task_id": "q30_competition_rules_final_audit"
+    "headline": "Q30 audit done. TIME-CRITICAL: merger and new-entrant deadlines are BOTH TODAY 2026-07-29 23:59 UTC. Precise standing: rank 1277/5886. CORRECTION: 54844628 is not 'fully owned' -- it requires ravaghi/wellbore-geology-prediction-artifacts via hard asserts; not a rules problem, recommendation unchanged. Metric label says MSE but the leaderboard is empirically RMSE-scale, so ledger comparisons are sound. ACTIONABLE: if 54922806 (teammate) is selected we must obtain its kernel version and dataset list for Winner's Obligations. Nothing fails on rules grounds.",
+    "next_task_id": "q35_status_summary_for_owner"
   },
   "queue_exhausted": false,
   "pending_kaggle_run": null,
@@ -25,5 +25,15 @@
     "launched_at": "2026-07-29T04:45:00Z",
     "eta_hours": 3.7,
     "next_action": "COLLECT FIRST next round: apply the gate (nested gain>0 AND 3-well 5th>0 AND helps a majority), then release or close q37"
+  },
+  "rules_facts": {
+    "merger_deadline": "2026-07-29T23:59Z (TODAY)",
+    "new_entrant_deadline": "2026-07-29T23:59Z (TODAY)",
+    "submission_deadline": "2026-08-05T23:59Z",
+    "max_daily_submissions": 5,
+    "kernels_only": true,
+    "team_count": 5886,
+    "user_rank": 1277,
+    "metric_label": "Mean Squared Error (API label; empirically RMSE-scale)"
   }
 }
