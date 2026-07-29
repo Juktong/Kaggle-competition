@@ -333,3 +333,76 @@ The operational rules above come from API metadata; the external-data clause res
 transcription in `external_data_ssl_direction_2026-07-15.md`. Dataset licence fields are not exposed by
 this API version, so only public listability was verified. `user_rank` 1277 is the PUBLIC rank; the private
 ranking is not visible and is the actual objective.
+
+## 2026-07-29 16:30 UTC — Q38: teammate provenance FULLY recovered; slot 1 is the `*1.3` variant
+
+`reports/q38_teammate_submission_provenance_recovery_2026-07-30.md`. No submission; quota 0/5.
+
+### The owner's question -- "do we have all teammate solution data?" -- is answered: YES
+
+The submissions API exposes each submission's exact **kernel slug AND scriptVersionId**, and **every
+teammate kernel pulls successfully from this account** (notebook source + metadata including
+`dataset_sources`). **This CORRECTS Q30**, which recorded an "actionable gap" and told the owner to request
+slug/version/datasets from the teammate. They were available from the API all along and the code is
+directly pullable. The request is unnecessary.
+
+Team account: 20 submissions, `joezzzzz` 11 / `leemarc223` 9.
+
+| ref | public | submitted_by | kernel slug | scriptVersionId | datasets | pulled |
+|---|---|---|---|---|---|---|
+| `54922806` | **6.563** | leemarc223 | `rogii-public-pf-frontier-rerun-20260723` | 337355891 | **7** | yes |
+| `54896975` | 6.669 | leemarc223 | `rogii-kaiwalya-public-tvt-6-626-repro` | 337097140 | **9** | yes |
+| `54923144` | 6.678 | leemarc223 | `rogii-gr-sigma-1-0-frontier-20260723` | 337362917 | **7** | yes |
+| `54853492` | 7.360 | leemarc223 | `rogii-safe-mha140-contactmean-v66` | 336687235 | 3 | yes |
+| `54777533` | 7.921 | leemarc223 | **`qwer556617123/`**`rogii-prvs-oof-meta-direct-fast` | 335598801 | 7 | yes |
+
+`54777533` ran a kernel on a **third-party account**, not our team's -- recorded for disclosure.
+`54853492` appears only as provenance bookkeeping; no decision is made about it.
+
+### The 6.626 repro package is NOT the 6.563 run
+
+| | origin/main 6.626 repro | our best 6.563 |
+|---|---|---|
+| submission | `54896975` = 6.669 | `54922806` = 6.563 |
+| kernel | `rogii-kaiwalya-public-tvt-6-626-repro` | `rogii-public-pf-frontier-rerun-20260723` |
+| datasets | 9 | 7 |
+| vs pristine base | **identical** | base **+ `*1.3`** |
+| in repo | yes (`a589fa8`) | no |
+
+### HEADLINE -- our best public submission IS the `*1.3` GR-sigma variant
+
+Normalised cell-by-cell vs our pristine base: `54922806` is **44/45 cells identical, cell 29 inserts
+`*1.3`** -- the IDENTICAL one-token change Q19 found in the public 6.213 kernel and Q36 tested on the
+honest line. `54896975` and `54923144` are both **byte-identical to base** (so "GR sigma 1.0" was an
+accurate description -- 1.0 is unmodified).
+
+Consequences: (1) **the team has already banked this change on the frontier line** -- closing `q37` was
+correct for a STRONGER reason than recorded, since it would have been a **near-duplicate of `54922806`**,
+which the submit gate forbids outright; (2) Q36's rejection is NOT contradicted -- Q36 measured the
+multiplier inside our HONEST blend, while `54922806` applies it inside the FRONTIER; different pipelines.
+
+### A controlled run-to-run pair the team already had, unrecorded
+
+`54896975` and `54923144` are normalised-IDENTICAL code run on different days -> **6.669 vs 6.678, spread
+0.009**. (Their 2 extra datasets are exactly the ones G1.3 called vestigial, consistent with the tiny
+spread.) The `*1.3` variant is 0.106-0.115 better, ~12x that spread.
+
+**This does NOT overturn Q18 and must not be conflated with it.** Two different quantities, both true:
+0.009 is MEASUREMENT PRECISION (same code, same 3 public wells); Q18's ~45% reversal is GENERALISATION
+(different models, a different 3-well draw). A precise instrument can still measure a quantity that does
+not transfer -- so the frontier's ~0.11 gain is real on the public wells and still not evidence about
+novel wells. It does sit awkwardly beside the recorded ~0.115 config-variance floor (A1), which this pair
+suggests may be too large for this pipeline; flagged for reconciliation rather than silently replaced.
+
+### Effect on the final slots: NONE, but slot 1's provenance is now closed
+
+Recommendation unchanged. What changes is that `54922806` is now fully documented -- exact kernel, version,
+7-dataset list, and a structural diff showing it is the pristine public base plus one token. **The Q30
+provenance caveat on `54922806` is CLOSED.**
+
+### One open item
+
+`kernels_pull` returns each kernel's CURRENT version; it could not be confirmed from this account that it
+equals the submitted `scriptVersionId`. A short confirmation message for the teammate is drafted in the
+report (§7) -- it asks only whether those kernels were edited after their submission dates, plus the
+provenance of the third-party kernel behind `54777533`.
