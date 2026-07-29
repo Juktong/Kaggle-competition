@@ -1698,3 +1698,53 @@ showed the 0.080 separating them is unresolvable at 3-well scale.
 **Usage-aware recommendation: 0 submissions in the next 24 h.** 40 slots remain and ZERO are required --
 the final pair is chosen from already-submitted entries. The measured criterion from `55064411` (+0.052
 against a ~0.115 floor = zero resolving power) means no current candidate justifies a slot.
+
+## Round 35 — Q29 trigger check FAILED, task re-deferred; the queue is now EMPTY
+
+`q29_final_slot_candidate_packager`. **No packaging done, no submission, quota 0/5.**
+`reports/q29_final_slot_candidate_packager_2026-07-29.md`.
+
+### Trigger check
+
+    (a) date >= 2026-08-03 ?   today is 2026-07-29   ->  FAIL (five days early)
+    (b) q36 has reported ?     done, gate FAILED     ->  PASS
+
+Condition (a) fails, so per the Q33 addendum this task **re-deferred itself rather than packaging five
+days early** — exactly the failure mode the trigger existed to prevent. Its row is now
+`status: "deferred"`, `target_date: 2026-08-03`.
+
+### THE CONSEQUENCE THAT NEEDS A HUMAN — the queue is empty
+
+`q29` was the last queued row. Queue is now `done 33 | deferred 10 | hold 1 | closed 1 | queued 0`. The
+runner prints "No queued tasks remain." and idles, and **deferred rows are never selected automatically**.
+So **nothing will re-activate q29 on 2026-08-03** — this is now a HUMAN action item. The one-line
+re-activation command is in the report §2 and in `state.json` under `endgame_action_required`.
+
+### The deliverable is NOT at risk
+
+The final-slot package is already current: Q33 (04:15 UTC) updated the board with `55064411` = 6.695 and
+flagged the zero-quota selection action; Q30 (07:15 UTC) added risk categories and the Winner's
+Obligations list. Nothing has changed since — no new submissions or scores, quota 0/5, and q36's gate
+failed so no candidate entered the board. **If q29 never runs,
+`reports/final_slot_package_corrected_gate_2026-07-26.md` remains the complete, current package.** Only
+its refresh would be missed.
+
+### Recommendation carried forward unchanged
+
+    score/diversity/provenance-first : 54922806 (6.563) + 54844628 (7.891)   worst 6.643  mean 6.603
+    our-account-first                : 54968060 (6.643) + 54844628 (7.891)   worst 6.643  mean 6.643
+
+Backup if the teammate submission is unavailable: the our-account pair, +0.000 worst / +0.040 mean.
+Backup if the public-derived stack is disallowed by team preference: `54844628` + `54804893` (8.080) --
+both ours and honest-family, but family diversity 0 and a materially worse worst case (7.891); a fallback,
+not a recommendation. Pending-score contingency: NONE outstanding; `55064411` landed at 6.695, our worst
+frontier candidate on public, and enters no slot.
+
+### Two owner actions remain
+
+1. **By 2026-08-04** — perform the final 2-submission selection on Kaggle (separate from submitting, no
+   quota cost, hard deadline 2026-08-05 23:59 UTC; otherwise Kaggle applies its default).
+2. **If `54922806` is selected** — obtain the teammate's kernel slug, version and dataset_sources list for
+   Winner's Obligations (Q30 section 4.3); not reconstructable after the deadline.
+
+A third item, the team-merger / new-entrant deadline, **expires today 2026-07-29 23:59 UTC**.
