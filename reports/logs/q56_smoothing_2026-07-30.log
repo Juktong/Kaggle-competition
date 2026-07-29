@@ -28,3 +28,4 @@ npz wells 760 | wells to run 760 | NS 32 | JOBS 2 | ARMS ['full', 'block400', 'b
   ancestor ESS drops below 2.0 at lookahead never within the window
   (this is why the block arms exist: block(L) bounds lookahead at L rows)
 [Parallel(n_jobs=2)]: Using backend LokyBackend with 2 concurrent workers.
+[Parallel(n_jobs=2)]: Done  14 tasks      | elapsed:  2.0min

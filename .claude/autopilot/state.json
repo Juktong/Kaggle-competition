@@ -6,20 +6,29 @@
   "current_handle": "c34cb597",
   "current_task_id": "q56_pf_backward_smoothing",
   "last_started_at": "2026-07-29T21:14:05Z",
-  "last_finished_at": "2026-07-29T21:14:03Z",
+  "last_finished_at": "2026-07-29T21:40:00Z",
   "last_result": {
-    "task_id": "q44_frontier_private_risk_stress",
-    "outcome": "done_no_submission_framing_change_on_slot1",
+    "task_id": "q56_pf_backward_smoothing",
+    "outcome": "smoke_gate_pass_full_run_in_flight",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Q44 (run after Q45, because its own turn died on an API-529 with no work done) modelled the DRAW instead of a point estimate, because best-of-2 keeps the BETTER of the two selected on private, so a pair's value is E[min] and its risk is that minimum's tail. Cross-family difference sd 2.40, calibrated from Q18's 29% reversal at a 1.328 gap and independently corroborated by the ledger's measured 2.54 ft output disagreement; degeneracy control reproduces Q53's +0.0005 at draw scale 0. HEADLINE: the SECOND SLOT is the largest positive term in the decision -- a diverse pair is worth -0.456 mean / -0.939 p95 versus its slot-1 alone, a second frontier member only -0.060 / -0.074, and the entire slot-1 dispute is bounded at 0.077. Best-of-2 is a call option on variance, so decorrelation and draw uncertainty both ADD value. WHATEVER HAPPENS IN SLOT 1, 54844628 HOLDS SLOT 2. DELIVERABLE: score-first's discriminator is BELOW the measured resolution -- its 0.080 public gap is 2.7 sd of Q45's 0.03 floor, and the only resolvable component (GR-sigma -0.1105) is the one Q36 measured on 760 wells as helping just 42.1% of wells with a negative median. The two pairs are tied ON MEASUREMENT, so the tie breaks on ownership/verifiability: 54968060+54844628 is at least as good and strictly better in 8 of 24 cells. Two axes the task asked to stress do NOT discriminate: dependency risk (both pairs carry identical dependency sets, and neither slot is dependency-free) and draw representativeness (gap <=0.001 at every scale). Teammate-provenance loss costs ~0.004 and its optimum is pair B.",
-    "next_task_id": "q56_pf_backward_smoothing"
+    "headline": "Q56 smoke PASSED all three gate conditions -- the first positive 3-well 5th percentile in this rotation (+0.0836, P(>0) 0.9944), nested +0.6050 at blend level, helps 91.7% of wells. The deployed PF is a single forward pass, so every toe row but the last is estimated from less information than we hold; textbook FFBSi is degenerate under this near-deterministic transition, so the ancestral-path smoother was implemented instead. The trellis twin is derived from the deployed source by four anchored insertions and verified byte-for-byte against the untouched deployed function; path degeneracy was measured before scoring and does NOT collapse (ancestor ESS ~12 at 599 rows of lookahead); the truth-column audit is clean. Two monotonicities (in alpha and in lookahead dose) plus a Savitzky-Golay control showing denoising is only ~8% of the gain point to a real mechanism rather than an artifact. The 760-well NS=32 run is in flight with ETA ~2 h; the smoke wells are easier than average so nothing is concluded yet. No submission -- can_submit=false.",
+    "next_task_id": "q57_dip_state_augmented_dp"
   },
   "queue_exhausted": false,
   "pending_kaggle_run": null,
   "pending_submission": null,
-  "pending_local_run": null,
+  "pending_local_run": {
+    "task_id": "q56_pf_backward_smoothing",
+    "what": "760-well ancestral-path PF smoother inside the DWT+PF blend, NS=32, JOBS=2, 21 arms",
+    "launched_utc": "2026-07-29T21:30:00Z",
+    "eta_min": 125,
+    "log": "reports/logs/q56_smoothing_2026-07-30.log",
+    "out": "reports/logs/q56_blend_per_well.npz",
+    "collect": "apply the 3-part gate in reports/q56_pf_backward_smoothing_2026-07-30.md section 8; do NOT relaunch, and do not start another CPU-heavy job while it runs (2 cores)",
+    "smoke_result": "GATE PASS on 12 wells: nested +0.6050, helps 91.7%, 3-well 5th +0.0836"
+  },
   "rules_facts": {
     "merger_deadline": "2026-07-29T23:59Z (TODAY)",
     "new_entrant_deadline": "2026-07-29T23:59Z (TODAY)",
