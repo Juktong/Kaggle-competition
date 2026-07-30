@@ -666,3 +666,44 @@ This does **not** change the recommendation. Q44 already found the two slot-1 op
 with ownership as the tie-breaker; this is one more independent consideration on the same side. Note the
 asymmetry it creates: **if slot 1 is `54968060`, every asset for both slots is already archived and verified
 locally; if it is `54922806`, one owner action is outstanding.**
+
+## Q47 addendum (2026-07-30 00:05 UTC) — the default selection loses slot 2, under either default rule
+
+Full checklist: `reports/q47_final_selection_ui_checklist_2026-07-30.md`.
+
+**The single highest-value zero-cost action left in this competition is the manual final selection**, because
+doing nothing does not preserve the recommended pair — it discards it.
+
+`54844628` ranks **9th of our 20 submissions by public score**, so both plausible Kaggle auto-selection rules
+exclude it:
+
+```
+"best public 2"  -> 54922806 (6.563) + 54968060 (6.643)             both FRONTIER, diversity 0
+"most recent 2"  -> 55064411 (2026-07-28) + 54990075 (2026-07-26)   both FRONTIER, diversity 0
+```
+
+Kaggle's rules language confirms a Final Submission is *"the Submission selected by the user, or
+automatically selected by Kaggle in the event not selected by the user"*, so an automatic selection **will**
+happen. The exact criterion is unverified — and it does not matter, since both candidates fail the same way.
+
+Cost of accepting the default, from Q44's measured pair values (H-hidden, measured cell):
+
+| pair | mean | p95 |
+|---|---|---|
+| `54922806` + `54844628` (recommended) | 6.1818 | 8.5017 |
+| `54922806` + `54968060` (**best-public default**) | 6.5783 | 9.3671 |
+| **cost of the default** | **+0.3965** | **+0.8654** |
+
+That is **five times** the entire slot-1 dispute (≤0.077 ft), and avoidable by two clicks at zero quota.
+
+**Mechanism limits, probed not assumed:** the Kaggle API has **no final-selection endpoint** and
+`ApiSubmission` has **no `selected` flag**, so the selection can be made only in the browser and its state
+**cannot be verified programmatically**. The owner must confirm visually and record the timestamp in the
+ledger; no future report may claim the selection is verified without that.
+
+**Deadlines:** hard **2026-08-05 23:59 UTC / 2026-08-06 07:59 Beijing**; recommended completion
+**2026-08-04 12:00 UTC / 20:00 Beijing**.
+
+**Fallback (now concrete, not hypothetical):** Q46 showed `54922806`'s submitted artifact is unarchivable by
+API. Choosing **`54968060` + `54844628`** costs **+0.0013 ft** in the evidence-supported cell, keeps both
+slots on our own account, and both artifacts are already archived and verified with git commits in this repo.
