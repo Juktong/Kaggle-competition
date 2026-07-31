@@ -1,0 +1,47 @@
+train 60 | eval 40 | prepped 40
+
+=== 1. K=6 BEAM SPREAD (Q54 required this before anything else) ===
+lam      mean row range  p90 row range  max row range  rmse b0 vs bK
+20                0.091          0.131         15.000          0.191
+60                0.070          0.175          6.000          0.192
+150               0.132          0.277          6.000          0.238
+  (row range = spread across the 6 beams at one row, in grid units ~ ft;
+   truth deviates +-19.4 ft from the anchor, and the DP path only +-3.0 -- Q54)
+
+=== 2. degeneracy control: beam average at T -> 0 must equal run_dp ===
+  lam 20     T=0.01   max|beam_avg - run_dp| = 0.0060164393
+  lam 60     T=0.01   max|beam_avg - run_dp| = 0.0000397820
+  lam 150    T=0.01   max|beam_avg - run_dp| = 0.0000000414
+  fb softmin done for lam=20
+  fb softmin done for lam=60
+  fb softmin done for lam=150
+
+=== 2b. THE OBJECTIVE ITSELF: exact Viterbi optimum vs the beam ===
+lam           beam cost     EXACT cost |    beam RMSE   exact RMSE
+20               -597.6         -617.4 |       13.169       32.609
+        exact cost lower on 38/40 wells (it is the true optimum), yet exact RMSE worse on 23/40
+60               -569.7         -591.5 |       12.170       15.390
+        exact cost lower on 31/40 wells (it is the true optimum), yet exact RMSE worse on 19/40
+150              -554.2         -565.5 |       12.478       12.628
+        exact cost lower on 25/40 wells (it is the true optimum), yet exact RMSE worse on 13/40
+
+=== 3. pooled RMSE ===
+lam            base | T=0.01   T=0.1    T=0.5    T=2      T=10     | g=0.05   g=0.2    g=1      g=5     
+20           13.169 |   13.169   13.165   13.155   13.152   13.151 |   32.433   33.129   31.799  277.706
+60           12.170 |   12.170   12.169   12.166   12.161   12.160 |   15.375   15.053   22.025   60.785
+150          12.478 |   12.478   12.469   12.445   12.434   12.429 |   12.623   11.352   12.152   21.093
+
+=== NESTED: beam average only ===
+  picks [('beam', 60.0, 0.1), ('beam', 150.0, 10.0)]
+  selected 12.566  vs base 12.601  gain +0.035 | helps 52.5% | 3-well 5th -0.007  P(>0) 0.5081  -> FAIL
+
+=== NESTED: soft-min only ===
+  picks [('base', 60.0), ('fb', 150.0, 0.2)]
+  selected 12.370  vs base 12.601  gain +0.230 | helps 32.5% | 3-well 5th -1.420  P(>0) 0.5453  -> FAIL
+
+=== NESTED: both ===
+  picks [('beam', 60.0, 0.1), ('fb', 150.0, 0.2)]
+  selected 12.370  vs base 12.601  gain +0.231 | helps 65.0% | 3-well 5th -1.419  P(>0) 0.6257  -> FAIL
+
+NOTE: ~12.2 here vs the deployed honest 8.8626 — passing would make the lever worth pursuing,
+      NOT make the artifact submittable.

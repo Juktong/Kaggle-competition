@@ -1,0 +1,99 @@
+Q44 — private-regime stress. NSIM 40000
+noise decomposition: s_F 1.6937  s_I 0.1061  -> within-family diff sd 0.150, cross-family 2.400
+public measurement noise (Q45, external, NOT applicable to a banked private score): sd 0.030
+
+=== 0. SCALE: what each uncertainty is worth, in the same units ===
+  deterministic stage terms that separate the slot-1 options:
+    GR sigma *1.3          -0.1105
+    overlap / retrieval    -0.0310  (measured, Q39; OFF slightly helps)
+    bimodal hedge          +0.0520  (Q39; Q45 re-read: ~1.7 sd of the public floor -> unresolved)
+  uncertainties:
+    public measurement sd  0.0300   -> two variants are unrankable below ~0.09
+    private draw sd (diff) 2.4000   -> 22x the largest stage term
+
+=== 1. PAIR VALUE under every scenario cell (mean and 95th pct = the bad tail) ===
+retrieval   sigma  hyp         | A 54922806+54844628    | B 54968060+54844628    | B - A
+measured    True   H-visible   | mean 6.1225 p95 8.4444 | mean 6.1783 p95 8.4893 | mean +0.0559 p95 +0.0448  P(B<A) 0.212
+measured    True   H-hidden    | mean 6.1024 p95 8.4356 | mean 6.1797 p95 8.5010 | mean +0.0773 p95 +0.0653  P(B<A) 0.163
+measured    True   mixed       | mean 6.1119 p95 8.4446 | mean 6.1788 p95 8.5032 | mean +0.0668 p95 +0.0586  P(B<A) 0.189
+measured    False  H-visible   | mean 6.1168 p95 8.4329 | mean 6.1733 p95 8.4913 | mean +0.0564 p95 +0.0583  P(B<A) 0.211
+measured    False  H-hidden    | mean 6.1735 p95 8.4925 | mean 6.1748 p95 8.4945 | mean +0.0013 p95 +0.0021  P(B<A) 0.351
+measured    False  mixed       | mean 6.1530 p95 8.4510 | mean 6.1815 p95 8.4795 | mean +0.0285 p95 +0.0285  P(B<A) 0.277
+inert       True   H-visible   | mean 6.1255 p95 8.4581 | mean 6.1814 p95 8.5027 | mean +0.0559 p95 +0.0446  P(B<A) 0.210
+inert       True   H-hidden    | mean 6.1307 p95 8.4611 | mean 6.1872 p95 8.5088 | mean +0.0566 p95 +0.0477  P(B<A) 0.211
+inert       True   mixed       | mean 6.1250 p95 8.4515 | mean 6.1808 p95 8.5052 | mean +0.0558 p95 +0.0537  P(B<A) 0.210
+inert       False  H-visible   | mean 6.1205 p95 8.4309 | mean 6.1762 p95 8.4811 | mean +0.0558 p95 +0.0503  P(B<A) 0.211
+inert       False  H-hidden    | mean 6.2151 p95 8.5183 | mean 6.1945 p95 8.5014 | mean -0.0205 p95 -0.0169  P(B<A) 0.408
+inert       False  mixed       | mean 6.1618 p95 8.4924 | mean 6.1797 p95 8.5061 | mean +0.0179 p95 +0.0138  P(B<A) 0.305
+old model   True   H-visible   | mean 6.1203 p95 8.4390 | mean 6.1769 p95 8.4959 | mean +0.0566 p95 +0.0568  P(B<A) 0.211
+old model   True   H-hidden    | mean 6.1851 p95 8.5039 | mean 6.1849 p95 8.4992 | mean -0.0002 p95 -0.0047  P(B<A) 0.354
+old model   True   mixed       | mean 6.1486 p95 8.4500 | mean 6.1764 p95 8.4781 | mean +0.0278 p95 +0.0281  P(B<A) 0.280
+old model   False  H-visible   | mean 6.1257 p95 8.4466 | mean 6.1818 p95 8.4909 | mean +0.0561 p95 +0.0443  P(B<A) 0.210
+old model   False  H-hidden    | mean 6.2524 p95 8.5616 | mean 6.1762 p95 8.4980 | mean -0.0762 p95 -0.0637  P(B<A) 0.543
+old model   False  mixed       | mean 6.1967 p95 8.4898 | mean 6.1868 p95 8.4821 | mean -0.0099 p95 -0.0076  P(B<A) 0.383
+spurious    True   H-visible   | mean 6.1108 p95 8.4575 | mean 6.1680 p95 8.5037 | mean +0.0571 p95 +0.0463  P(B<A) 0.209
+spurious    True   H-hidden    | mean 6.2736 p95 8.5658 | mean 6.1903 p95 8.4901 | mean -0.0833 p95 -0.0757  P(B<A) 0.554
+spurious    True   mixed       | mean 6.1935 p95 8.5083 | mean 6.1806 p95 8.5021 | mean -0.0129 p95 -0.0063  P(B<A) 0.388
+spurious    False  H-visible   | mean 6.1299 p95 8.4432 | mean 6.1871 p95 8.5020 | mean +0.0572 p95 +0.0588  P(B<A) 0.210
+spurious    False  H-hidden    | mean 6.3424 p95 8.6263 | mean 6.1853 p95 8.4904 | mean -0.1570 p95 -0.1359  P(B<A) 0.653
+spurious    False  mixed       | mean 6.2396 p95 8.5533 | mean 6.1883 p95 8.5054 | mean -0.0513 p95 -0.0478  P(B<A) 0.485
+
+=== 2. IS THE PUBLIC 3-WELL DRAW REPRESENTATIVE? (measured cell: retrieval -0.031, sigma False) ===
+draw noise scale       | A mean / p95           | B mean / p95           | P(B<A)
+representative (0x)    |   6.6425 /   6.6425 |   6.6430 /   6.6430 | 0.000
+mild (0.25x)           |   6.6389 /   7.3216 |   6.6394 /   7.3208 | 0.484
+as measured (1x)       |   6.1820 /   8.5033 |   6.1826 /   8.4988 | 0.353
+non-representative 1.5x |   5.7493 /   9.1599 |   5.7488 /   9.1732 | 0.323
+
+=== 3. DIVERSITY: frontier+honest vs frontier+frontier (H-hidden, measured cell) ===
+  A  54922806 + 54844628  (diverse)        mean 6.1818  p95 8.5017  p5 3.7270 | vs slot-1 alone: mean -0.4561  p95 -0.9389
+  B  54968060 + 54844628  (diverse, ours)  mean 6.1829  p95 8.5022  p5 3.7327 | vs slot-1 alone: mean -0.4560  p95 -0.9302
+  C  54922806 + 54968060  (frontier only)  mean 6.5783  p95 9.3671  p5 3.7850 | vs slot-1 alone: mean -0.0595  p95 -0.0735
+  D  55064411 + 54844628  (diverse, ours)  mean 6.2178  p95 8.5310  p5 3.7690 | vs slot-1 alone: mean -0.4721  p95 -0.9455
+  (Q18 priced the honest slot-2 as free insurance under a POINT model. With the draw modelled it
+   is not free in the mean — it is worth measuring what it buys in the tail, which is the column
+   that matters for best-of-2.)
+
+=== 4. TEAMMATE PROVENANCE AVAILABLE vs UNAVAILABLE (a selectability constraint) ===
+  teammate selectable=True  -> pool 7, best pair by mean: 54844628 + 54896975 (mean 6.1871 p95 8.4941)
+        best OURS-ONLY pair: 54844628 + 54968060 (mean 6.1872 p95 8.4801)
+  teammate selectable=False -> pool 4, best pair by mean: 54844628 + 54968060 (mean 6.1827 p95 8.4863)
+        best OURS-ONLY pair: 54844628 + 54968060 (mean 6.1827 p95 8.4863)
+
+=== 5. THE PRICE OF OWNERSHIP-FIRST (B over A), per deterministic cell ===
+retrieval   sigma  hyp            mean cost     p95 cost
+-0.031      False  H-hidden         +0.0013      +0.0021
+-0.031      False  H-visible        +0.0564      +0.0583
+-0.031      False  mixed            +0.0285      +0.0285
+-0.031      True   H-hidden         +0.0773      +0.0653
+-0.031      True   H-visible        +0.0559      +0.0448
+-0.031      True   mixed            +0.0668      +0.0586
+0.000       False  H-hidden         -0.0205      -0.0169
+0.000       False  H-visible        +0.0558      +0.0503
+0.000       False  mixed            +0.0179      +0.0138
+0.000       True   H-hidden         +0.0566      +0.0477
+0.000       True   H-visible        +0.0559      +0.0446
+0.000       True   mixed            +0.0558      +0.0537
+0.080       False  H-hidden         -0.0762      -0.0637
+0.080       False  H-visible        +0.0561      +0.0443
+0.080       False  mixed            -0.0099      -0.0076
+0.080       True   H-hidden         -0.0002      -0.0047
+0.080       True   H-visible        +0.0566      +0.0568
+0.080       True   mixed            +0.0278      +0.0281
+0.200       False  H-hidden         -0.1570      -0.1359
+0.200       False  H-visible        +0.0572      +0.0588
+0.200       False  mixed            -0.0513      -0.0478
+0.200       True   H-hidden         -0.0833      -0.0757
+0.200       True   H-visible        +0.0571      +0.0463
+0.200       True   mixed            -0.0129      -0.0063
+  WORST-CASE price of ownership-first across all 24 cells: mean +0.0773 | p95 +0.0653
+  For comparison: public measurement sd 0.030, private draw sd (diff) 2.40
+
+=== 6. HOW MUCH DOES THE PRIVATE DRAW MOVE OUR RANK? ===
+  local board density near 6.47-6.57: ~7703 teams per ft (Q45 refresh + external snapshot)
+    a private shift of 1 sd = 0.030 ft moves us ~231 ranks
+    a private shift of 1 sd = 0.500 ft moves us ~3851 ranks
+    a private shift of 1 sd = 2.400 ft moves us ~18486 ranks
+  our rank 1339 / 5914; bronze 6.470; our public 6.563 (gap 0.093 ft = ~716 ranks)
+  => at 1 sd of draw noise the rank movement is larger than the entire distance to bronze,
+     so the private ordering at our position is dominated by the draw, not by a 0.04 stage term.

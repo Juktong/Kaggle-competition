@@ -1,0 +1,59 @@
+Test wells: ['000d7d20', '00bbac68', '00e12e8b']
+Test wells: ['000d7d20', '00bbac68', '00e12e8b']
+npz wells 760 | wells to run 760 | NS 32 | JOBS 2 | ARMS ['full', 'block400', 'block100', 'block25', 'sg51', 'sg201', 'sg601'] | ALPHAS [0.25, 0.5, 1.0]
+
+=== 1. DEGENERACY CONTROL: the trellis twin vs the deployed function, byte-for-byte ===
+  seed 0   array_equal(deployed, trellis) = True   log_lik identical = True
+  seed 1   array_equal(deployed, trellis) = True   log_lik identical = True
+  seed 7   array_equal(deployed, trellis) = True   log_lik identical = True
+  ensemble: array_equal(deployed run_pf_lik_ensemble, alpha=0 arm) = True
+  mode full      |smoothed - filtered| at the final row = 1.008e-06 (must be ~0)
+  mode block400  |smoothed - filtered| at the final row = 1.008e-06 (must be ~0)
+  mode block100  |smoothed - filtered| at the final row = 1.008e-06 (must be ~0)
+  mode block25   |smoothed - filtered| at the final row = 1.008e-06 (must be ~0)
+
+=== 2. PATH DEGENERACY: ancestor ESS vs lookahead (seed 0, well 000d7d20, T=600) ===
+  lookahead   distinct anc.   ancestor ESS
+  0                     500         335.69
+  1                     500         335.69
+  2                     500         335.69
+  5                     500         335.69
+  10                    500         335.69
+  25                    500         335.69
+  50                    280         145.30
+  100                   155          79.25
+  200                    66          23.60
+  400                    41          14.02
+  599                    22          11.95
+  ancestor ESS drops below 2.0 at lookahead never within the window
+  (this is why the block arms exist: block(L) bounds lookahead at L rows)
+[Parallel(n_jobs=2)]: Using backend LokyBackend with 2 concurrent workers.
+[Parallel(n_jobs=2)]: Done  14 tasks      | elapsed:  2.0min
+[Parallel(n_jobs=2)]: Done  68 tasks      | elapsed:  9.5min
+[Parallel(n_jobs=2)]: Done 158 tasks      | elapsed: 28.1min
+[Parallel(n_jobs=2)]: Done 284 tasks      | elapsed: 47.3min
+[Parallel(n_jobs=2)]: Done 446 tasks      | elapsed: 68.2min
+[Parallel(n_jobs=2)]: Done 644 tasks      | elapsed: 94.0min
+[Parallel(n_jobs=2)]: Done 760 out of 760 | elapsed: 108.6min finished
+
+done 760 wells in 108.6 min | ok=760 bad=0
+
+=== 4. blend RMSE by arm (deployed blend `base` = 9.2987; honest line 8.8626) ===
+mode             a=0.25      a=0.5      a=1.0   helps%% / mean gain at best a
+forward          9.2903
+full             9.1911    9.1154    9.0362   a=1.00: helps 68.9% | mean +0.3686 | median +0.2044
+block400         9.2411    9.2018    9.1534   a=1.00: helps 71.1% | mean +0.1898 | median +0.1472
+block100         9.2713    9.2556    9.2343   a=1.00: helps 72.6% | mean +0.0768 | median +0.0732
+block25          9.2857    9.2817    9.2753   a=1.00: helps 72.2% | mean +0.0205 | median +0.0213
+sg51             9.2901    9.2900    9.2897   a=1.00: helps 99.2% | mean +0.0009 | median +0.0007
+sg201            9.2880    9.2862    9.2838   a=1.00: helps 99.6% | mean +0.0112 | median +0.0086
+sg601            9.2813    9.2745    9.2679   a=1.00: helps 94.6% | mean +0.0383 | median +0.0295
+
+=== 5. NESTED (splits BY WELL, arm chosen on one half, scored on the disjoint half) ===
+  picks [('full', 1.0), ('full', 1.0)]
+  selected 9.0362  vs forward 9.2903  gain +0.2541
+  helps 68.9% of held-out wells | 3-WELL bootstrap 5th -0.3238  50th +0.3071  95th +1.2561  P(>0) 0.7919
+
+GATE: nested gain > 0 AND helps a majority AND 3-well 5th > 0  ->  FAIL
+NOTE: the PF enters the honest blend at weight 0.5, so a PF-level effect is HALVED here already;
+      a further gated structural-field stage lies between this blend and the deployed 8.8626.

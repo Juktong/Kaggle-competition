@@ -42,3 +42,47 @@ banked honest base is the DWT fork — public **9.519**, internal native-mask CV
   stable OOF improvement vs the DWT base observed (evidence ...); moving to the next search space",
   not as "X is dead / we hit the ceiling". Wording should not imply a direction must be abandoned
   when the evidence only shows it did not improve on this attempt.
+
+## Directive 3 — one remote Claude context and session hygiene
+
+- For this ROGII project, use one main Claude continuation context by default. Do **not** start a
+  new independent Claude background session for each follow-up, and do **not** leave multiple
+  independent ROGII agents running unless the user explicitly asks for parallel work.
+- Before sending new instructions, inspect active Claude agents with
+  `/home/ubuntu/.local/bin/claude agents --json --all`. Stop stale ROGII agents that are still
+  marked `working` but are not the current main continuation.
+- Continue with `claude attach` or `claude --resume` whenever possible. If `--resume` creates a new
+  handle, treat it as the same continuity chain, not as a separate research session.
+- If a genuinely new independent session is required because the old one is blocked, corrupted, or
+  complete with handoff, document the old session id, new session id, reason, and current state in
+  project docs before continuing.
+- Put the full task requirements into the same main continuation prompt. Do not fragment related
+  project instructions across several chats.
+- Use max reasoning effort for ROGII Claude work unless the user later changes this rule.
+
+## Directive 4 — Notebook preflight / smoke test before any long Kaggle run
+
+Set after a Sunny-OOF fork ran ~60 min on a GPU and then failed at the OOF-consolidation cell because
+`oof_preds` was empty (the per-model training flags were left at 0) — a configuration error that a
+5-minute smoke would have surfaced immediately. **Never launch a multi-hour Kaggle notebook / GPU / CPU
+run (or a submission) before a smoke passes.** For every such run:
+
+1. **Preflight checks (fast, before the real run):**
+   - imports / file paths / packages / secrets / dataset+kernel_sources availability all resolve;
+   - the notebook executes **end-to-end to the key output cell**, either fully on a tiny input or via a
+     `SMOKE_RUN`/`FAST_MODE` toggle (small `TEST_SIZE`/few wells, single or 2 folds, few epochs, `nrows`).
+     Confirm the *actual* output-producing cells run — not just setup (the Sunny failure passed setup and
+     died at consolidation because the model cells never populated `oof_preds`).
+   - for Kaggle-only pipelines: push a **short smoke kernel** (or set `SMOKE_RUN=True` in the notebook)
+     and read the completed log **before** switching to full parameters.
+2. **Output-format validation on the smoke output:** the submission/OOF file exists; columns correct;
+   row count correct; all values finite; id set & order unchanged vs `sample_submission`; value range sane.
+   (Reuse `scripts/presubmit_gate.py` / `scripts/visible_well_audit.py` where applicable.)
+3. **Record** the preflight command(s), wall-time, result, and the commit / notebook ref in the round
+   report or ledger.
+4. **Gate:** do **not** start the full long run — and do **not** consume a competition submission —
+   until the smoke passes and the output format validates. If preflight must be skipped (e.g. the smoke
+   path is not representative), **write the specific reason and the risk** in the report before running.
+5. **When forking a heavy public notebook,** verify the flag combination actually activates the intended
+   code path on a tiny run first (model-training flags, mode flags, dataset attachments), since a fork's
+   default flags rarely match the mode you want.

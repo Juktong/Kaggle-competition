@@ -1,0 +1,20 @@
+{
+  "id": "joezzzzz/rogii-b4-guarded-codex",
+  "title": "ROGII B4 Guarded Codex",
+  "code_file": "rogii-b4-guarded-codex.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [],
+  "dataset_sources": [
+    "ravaghi/wellbore-geology-prediction-artifacts"
+  ],
+  "kernel_sources": [],
+  "competition_sources": [
+    "rogii-wellbore-geology-prediction"
+  ],
+  "model_sources": []
+}

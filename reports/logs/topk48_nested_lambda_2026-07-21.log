@@ -1,0 +1,29 @@
+wells=773
+  deployed pipeline w/ K=48 PF mean = 8.8428   (submitted 54844628 used a 24-seed PF: 8.8626)
+  -> seeds-only effect (24 -> 48, NO ranker) = +0.0198
+
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+  lam=0.00: 8.8428  gain +0.0000
+  lam=0.25: 8.7595  gain +0.0833
+  lam=0.50: 8.7152  gain +0.1276
+  lam=0.75: 8.7103  gain +0.1325
+  lam=1.00: 8.7451  gain +0.0977
+
+=== NESTED lambda (chosen on training-half wells, applied to held-out half; 5 seeds) ===
+  lambda picks: [0.75, 0.5, 0.75, 0.75, 0.75, 0.75, 1.0, 0.5, 0.75, 0.5]
+  NESTED-lambda result = 8.7303   gain vs deployed(K48) +0.1125
+                                        gain vs SUBMITTED 8.8626 +0.1323
+
+  deployable lambda (most-picked) = 0.75
+  bootstrap(400) gain vs K48 deployed: mean=+0.1308 5th=-0.0230 1st=-0.0796 frac>0=91%
+
+  GATE (+0.10 AND stably positive bootstrap): DOES NOT MEET

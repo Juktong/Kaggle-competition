@@ -1,0 +1,53 @@
+wells 760 | rows 3721471 (3721471 finite across all members)
+
+=== members (pooled RMSE) and correlation of their ERRORS with the deployed line ===
+member             pooled corr(err, deployed)
+dwt               10.2891         0.8679
+pf                11.0563         0.8305
+base               9.2987         0.9737
+s_54844628         8.8626         1.0000
+s_54878409         8.6825         0.9702
+s_a20_w25          8.6790         0.9721
+base_k96           9.2555         0.9667
+s_k96_aniso        8.6547         0.9636
+topk96_l75         8.5070         0.9445
+
+arms built: 355
+deployed s_54844628 pooled 8.8626
+
+=== top 12 arms by pooled RMSE ===
+arm                                                pooled     vs dep
+('pair', ('s_54844628', 'topk96_l75', 0.1))        8.4984    +0.3642
+('pair', ('s_54844628', 'topk96_l75', 0.2))        8.4998    +0.3629
+('pair', ('s_a20_w25', 'topk96_l75', 0.2))         8.5008    +0.3618
+('pair', ('s_a20_w25', 'topk96_l75', 0.1))         8.5014    +0.3613
+('pair', ('pf', 'topk96_l75', 0.1))                8.5015    +0.3612
+('pair', ('s_a20_w25', 'topk96_l75', 0.3))         8.5054    +0.3572
+('pair', ('s_k96_aniso', 'topk96_l75', 0.1))       8.5061    +0.3566
+('pair', ('s_54878409', 'topk96_l75', 0.1))        8.5062    +0.3564
+('single', 'topk96_l75')                           8.5070    +0.3556
+('pair', ('s_k96_aniso', 'topk96_l75', 0.2))       8.5086    +0.3540
+('pair', ('s_54878409', 'topk96_l75', 0.2))        8.5095    +0.3531
+('pair', ('s_54844628', 'topk96_l75', 0.3))        8.5111    +0.3515
+
+=== NESTED across all 355 arms, splits BY WELL ===
+  picks: ["('pair', ('s_a20_w25', 'topk96_l75', 0.1))", "('pair', ('pf', 'topk96_l75', 0.1))"]
+  selected 8.5281  vs deployed 8.8626  gain +0.3346
+  helps 58.8% of held-out wells | 3-WELL bootstrap 5th -1.3687  50th +0.1759  95th +1.9578  P(>0) 0.6108
+
+GATE: nested gain > 0 AND helps a majority AND 3-well 5th > 0  ->  FAIL
+
+=== per-arm 3-well 5th percentile vs deployed (the condition every single failed in 07-22) ===
+arm                                              3w 5th   helps%     pooled
+('single', 's_54844628')                        +0.0000     0.0%     8.8626
+('pair', ('s_54844628', 's_a20_w25', 0.9))      -0.0684    56.8%     8.8224
+('pair', ('s_54844628', 's_54878409', 0.9))     -0.0709    54.6%     8.8213
+('pair', ('s_54844628', 's_k96_aniso', 0.9))    -0.0780    62.5%     8.8134
+('pair', ('s_54844628', 'topk96_l75', 0.9))     -0.1103    64.6%     8.7843
+('pair', ('base', 's_54844628', 0.1))           -0.1312    47.1%     8.8844
+('pair', ('s_54844628', 'base_k96', 0.9))       -0.1323    49.2%     8.8743
+('pair', ('s_54844628', 's_54878409', 0.8))     -0.1391    53.4%     8.7850
+('pair', ('s_54844628', 's_a20_w25', 0.8))      -0.1406    56.1%     8.7870
+('pair', ('s_54844628', 's_k96_aniso', 0.8))    -0.1841    61.8%     8.7703
+
+arms with 3-well 5th > 0: 0 of 355

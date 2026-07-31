@@ -1,0 +1,31 @@
+{
+  "id": "leemarc223/rogii-kaiwalya-public-tvt-6-626-repro",
+  "id_no": 128202242,
+  "title": "ROGII Kaiwalya Public TVT 6.626 Repro",
+  "code_file": "rogii-kaiwalya-public-tvt-6-626-repro.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [],
+  "dataset_sources": [
+    "phongnguyn23021656/koolbox-offline",
+    "nina2025/rogii-03",
+    "pilkwang/rogii-model-package",
+    "thbdh5765/rogii-v10-fresh-artifacts",
+    "thbdh5765/rogii-v11-fresh-artifacts",
+    "chesnikovleonid/rogii-v50-dwt-phaseb-modelonly",
+    "fleongg/rogii-claude-models-pub",
+    "needless090/rogii-tabicl-mirror",
+    "ravaghi/wellbore-geology-prediction-artifacts"
+  ],
+  "kernel_sources": [],
+  "competition_sources": [
+    "rogii-wellbore-geology-prediction"
+  ],
+  "model_sources": [],
+  "docker_image": "gcr.io/kaggle-private-byod/python@sha256:37c64f7dd9c54116ecd1bcc88817c5469b88387388fade02bfa8bf3fc647d461",
+  "machine_shape": "Gpu"
+}
