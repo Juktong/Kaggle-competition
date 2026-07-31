@@ -1,0 +1,24 @@
+=== A=1 @ MIN_SEP=400 done ===
+saved /home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/struct_iso_sep400.npz: wells=760 rows=3721471 anisos=[1.0]
+=== A=1 @ MIN_SEP=800 done ===
+saved /home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/struct_iso_sep800.npz: wells=756 rows=3703139 anisos=[1.0]
+ MIN_SEP    A    W=0.15    W=0.25 |  vs A=1 same sep (W=.25)
+     150    1    8.8626    8.8477 |                  +0.0000
+     150    2    8.8230    8.7343 |                  +0.1134
+     150    3    8.8227    8.7362 |                  +0.1115
+     150    5    8.8225    8.7226 |                  +0.1251
+     150    8    8.8179    8.7052 |                  +0.1425
+     150   12    8.8155    8.6924 |                  +0.1554
+     150   20    8.8144    8.6799 |                  +0.1678
+     150   50    8.8267    8.6818 |                  +0.1659
+
+     400    1    9.4030   10.0877 |                  +0.0000
+     400   20    9.0629    9.2378 |                  +0.8499
+     400   50    9.0578    9.2178 |                  +0.8699
+
+     800    1   10.3819   12.3805 |                  +0.0000
+     800   20    9.5439   10.3085 |                  +2.0720
+     800   50    9.5292   10.2694 |                  +2.1112
+
+=> if 'vs A=1 same sep' stays clearly positive at 400/800, anisotropy itself is sound and the
+   earlier collapse was loss of real mates. If it vanishes/reverses, the advantage was leakage.

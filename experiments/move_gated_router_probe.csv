@@ -1,0 +1,4 @@
+router,pooled_rmse,delta_vs_baseline,pf_selected_splits,catastrophic_rate_plus5
+baseline_last_value,14.6844,0.0,0,0.0
+always_on_pf,14.7336,0.0492,1546,0.0084
+oof_move_gated_pf,14.6782,-0.0062,384,0.0084

@@ -1,0 +1,14 @@
+deployed (A=1,W=.15) = 8.8626
+
+=== NESTED (A, W) selection: both chosen on training-half wells, applied to held-out half ===
+  (A,W) picks: [(('50', 0.25), 6), (('20', 0.2), 2), (('12', 0.25), 2), (('2', 0.25), 1), (('20', 0.25), 1)]
+  NESTED (A,W) result = 8.7234   gain vs deployed +0.1393
+  per-seed: [8.755  8.7456 8.6885 8.7361 8.7177 8.6973]
+
+  deployable config: A=50, W=0.25
+  full-data RMSE of that fixed config = 8.6818  gain +0.1808
+  bootstrap(1000): mean=+0.1794 5th=+0.0499 1st=+0.0006 frac>0=99%
+  per-well: helped 47.9% hurt 38.6% median(gated) +0.095
+  worst 5 wells: [-6.99 -6.55 -6.35 -5.71 -5.58]  best 5: [5.97 6.04 6.17 6.44 8.94]
+
+  GATE (+0.10 AND stably positive bootstrap): MEETS

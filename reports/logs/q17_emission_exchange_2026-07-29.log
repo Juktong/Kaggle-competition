@@ -1,0 +1,54 @@
+train wells 60 | eval wells 40 (DISJOINT, same split seed as Q10)
+ALPHAS [0.0, 0.025, 0.05, 0.1, 0.15, 0.2, 0.3, 0.5, 0.75, 1.0]
+LAMS   [1.0, 5.0, 20.0, 60.0, 150.0, 400.0]
+scorer trained in 4.4s; held-out-WELL AUC (Q10 protocol) = 0.7632
+prepped 40 eval wells in 20.9s (emission computed ONCE, reused for every alpha)
+
+flat-anchor on these 40 wells: 12.722   deployed honest reference: 8.8626
+
+alpha         AUC    nested DP       flat  beats flat %      lam picks
+0          0.7511       12.601     12.722         37.5%         60/150   (15s)
+0.025      0.7546       12.599     12.722         37.5%         60/150   (15s)
+0.05       0.7585       12.542     12.722         37.5%         60/150   (15s)
+0.1        0.7671       12.539     12.722         37.5%         60/150   (15s)
+0.15       0.7772       12.029     12.722         45.0%          60/60   (15s)
+0.2        0.7881       12.598     12.722         42.5%           5/60   (15s)
+0.3        0.8074       14.205     12.722         45.0%           60/1   (15s)
+0.5        0.8088        9.903     12.722         72.5%            5/1   (15s)
+0.75       0.8715        3.506     12.722         92.5%            1/1   (15s)
+1          0.9688        0.370     12.722        100.0%            1/1   (15s)
+
+=== control: DP at every FIXED lam (no selection) ===
+alpha        AUC     lam=1    lam=5   lam=20   lam=60  lam=150  lam=400
+0         0.7511    34.169   16.009   13.169   12.170   12.478   12.987
+0.025     0.7546    26.175   16.022   12.935   12.168   12.468   12.987
+0.05      0.7585    23.718   15.926   12.877   12.168   12.408   12.987
+0.1       0.7671    20.382   13.318   12.784   12.166   12.406   12.983
+0.15      0.7772    19.088   13.106   12.712   12.029   12.465   12.517
+0.2       0.7881    17.706   12.541   12.662   12.022   12.451   12.527
+0.3       0.8074    13.902   12.613   12.507   12.003   12.445   12.631
+0.5       0.8088     9.138    8.932   11.863   12.150   12.379   12.966
+0.75      0.8715     3.506    8.338   11.430   12.185   12.571   12.587
+1         0.9688     0.370    3.842    8.565   11.127   12.478   12.787
+flat-anchor 12.722 on all rows above
+
+  within the reachable AUC range (<= 0.82), best fixed-lam DP per alpha:
+    alpha 0      AUC 0.7511 -> best   12.170 at lam=60
+    alpha 0.025  AUC 0.7546 -> best   12.168 at lam=60
+    alpha 0.05   AUC 0.7585 -> best   12.168 at lam=60
+    alpha 0.1    AUC 0.7671 -> best   12.166 at lam=60
+    alpha 0.15   AUC 0.7772 -> best   12.029 at lam=60
+    alpha 0.2    AUC 0.7881 -> best   12.022 at lam=60
+    alpha 0.3    AUC 0.8074 -> best   12.003 at lam=60
+    alpha 0.5    AUC 0.8088 -> best    8.932 at lam=5
+
+=== what AUC would a learned scorer need? ===
+  DP reaches the deployed 8.8626 at emission AUC ~ 0.8190
+  current learned-scorer AUC ~ 0.7511  ->  required improvement +0.0679 AUC
+  local exchange rate near the current operating point: 0.00 RMSE per +0.01 AUC
+
+  Q10 two-point reference: ~1.0 RMSE per +0.03 AUC (i.e. 0.35 RMSE per +0.01 AUC)
+
+GATE: a Kaggle GPU run on a tiny learned scorer is warranted only if the AUC it would need
+      is a plausible increment on the current ~0.76, given the model is a small MLP on 17
+      hand-built features and N3 already measured the TWH sweep.

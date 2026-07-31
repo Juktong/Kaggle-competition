@@ -1,0 +1,54 @@
+train wells 60 | eval wells 40 (DISJOINT)  TWHS=[1, 8]  LAMS=[1.0, 2.0, 5.0, 10.0, 20.0, 60.0]
+
+=== TWH=1: held-out-WELL scorer AUC = 0.7632 ===
+  lam         34.169   21.522   16.009   13.993   13.169   12.170
+               lam=1    lam=2    lam=5   lam=10   lam=20   lam=60
+  flat-anchor on these 40 wells: 12.722
+    select on 20 -> lam=60    | held-out 20: DP  13.212  flat  13.540
+    select on 20 -> lam=60    | held-out 20: DP  11.029  flat  11.847
+  NESTED POOLED: DP 12.170  flat 12.722  -> BEATS flat  (beats flat on 42.5% of wells)
+
+=== TWH=8: held-out-WELL scorer AUC = 0.7331 ===
+  lam         41.709   22.742   17.447   14.041   12.244   12.915
+               lam=1    lam=2    lam=5   lam=10   lam=20   lam=60
+  flat-anchor on these 40 wells: 12.722
+    select on 20 -> lam=60    | held-out 20: DP  12.769  flat  13.540
+    select on 20 -> lam=20    | held-out 20: DP  13.629  flat  11.847
+  NESTED POOLED: DP 13.206  flat 12.722  -> does NOT beat flat  (beats flat on 40.0% of wells)
+
+=== SUMMARY: does the better emission rescue the DP? ===
+TWH           AUC    nested DP         flat   beats flat %
+1          0.7632       12.170       12.722          42.5%
+8          0.7331       13.206       12.722          40.0%
+
+N1 reference (TWH=8, same protocol): nested DP 13.644 vs flat 12.722, beats flat 37.5%
+Deployed honest line ~8.86. GATE: must beat flat AND materially narrow the gap to deployed.
+
+=== failure cases, TWH=1 (gain = flat - DP; negative means the DP hurt) ===
+  wells helped 17 / hurt 23
+  worst 5:
+    3d96d897   gkey 11366.5    DP   8.061 flat   3.608 gain  -4.453
+    ddc790ff   gkey 11537.4    DP   9.507 flat   5.722 gain  -3.785
+    c96c018a   gkey 11537.4    DP  16.506 flat  12.856 gain  -3.650
+    9d5e14d4   gkey 11077.6    DP  31.725 flat  28.523 gain  -3.203
+    2acc78d4   gkey 12051.8    DP  15.970 flat  13.620 gain  -2.349
+  best 5:
+    2fa01aa6   gkey 12874.7    DP  13.828 flat  18.771 gain  +4.943
+    e25f1537   gkey 10881.6    DP   8.156 flat  12.990 gain  +4.835
+    bd4ae5da   gkey 12051.8    DP   9.401 flat  14.046 gain  +4.646
+    ae0784a8   gkey 12279.5    DP   6.312 flat  10.875 gain  +4.562
+    8a89da23   gkey 11366.5    DP  19.852 flat  24.240 gain  +4.388
+  by typewell group key (groups with >=2 eval wells):
+         n  mean_gain
+gkey                 
+11537.4  5     -1.376
+11592.0  2     -0.858
+12157.0  2     -0.780
+11366.5  3     -0.533
+11594.5  3     -0.146
+12051.8  4      0.232
+11122.5  2      0.689
+11350.9  3      1.015
+10881.6  3      1.017
+12182.0  2      1.503
+12874.7  2      2.265

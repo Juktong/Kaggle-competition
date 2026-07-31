@@ -12,7 +12,10 @@ DEFAULT_DATA_DIR = Path(r"D:\Codex\kaggle\rogii-wellbore\data")
 DEFAULT_OUTPUT_DIR = Path("experiments")
 
 REFERENCE_CANDIDATES = {
-    "current_best_7p235": Path("artifacts/sunny_physical_output/submission.csv"),
+    "current_best_7p235": [
+        Path("artifacts/sunny_physical_output/submission.csv"),
+        Path("artifacts/lucifer_baseline_repro_joezzzzz_v1/submission.csv"),
+    ],
     "david_v12_7p263": Path("artifacts/david_v12_output/submission.csv"),
     "fleongg_w052_7p588": Path("artifacts/fleongg_v5_output/submission_sp45_fleongg_w0.52.csv"),
 }
@@ -252,11 +255,15 @@ def main() -> None:
     Path("reports").mkdir(parents=True, exist_ok=True)
 
     refs: dict[str, pd.DataFrame] = {}
-    for name, path in REFERENCE_CANDIDATES.items():
-        if path.exists():
+    for name, path_or_paths in REFERENCE_CANDIDATES.items():
+        paths = path_or_paths if isinstance(path_or_paths, list) else [path_or_paths]
+        for path in paths:
+            if not path.exists():
+                continue
             sub = load_submission(path, sample)
             if sub is not None:
                 refs[name] = sub
+                break
 
     rows = []
     valid_subs: dict[str, pd.DataFrame] = {}
@@ -319,7 +326,8 @@ def main() -> None:
     metrics["risk_grade"] = metrics.apply(risk_grade, axis=1)
     metrics["estimated_public_band"] = metrics.apply(estimated_band, axis=1)
     sort_cols = [c for c in ["known_public_score", "rmse_to_current_best_7p235"] if c in metrics.columns]
-    metrics = metrics.sort_values(sort_cols, na_position="last")
+    if sort_cols:
+        metrics = metrics.sort_values(sort_cols, na_position="last")
     metrics.to_csv(args.output_dir / "local_surrogate_scores.csv", index=False)
 
     pair_rows = []
@@ -362,7 +370,9 @@ def main() -> None:
         report_lines.append("No known public-score rows were matched.")
 
     unknown = metrics[metrics["known_public_score"].isna()].copy()
-    unknown = unknown.sort_values(["risk_grade", "rmse_to_current_best_7p235"], na_position="last")
+    unknown_sort_cols = [c for c in ["risk_grade", "rmse_to_current_best_7p235"] if c in unknown.columns]
+    if unknown_sort_cols:
+        unknown = unknown.sort_values(unknown_sort_cols, na_position="last")
     unknown_cols = [
         "path",
         "risk_grade",
@@ -373,6 +383,7 @@ def main() -> None:
         "anchor_first_abs_p90",
         "jump_rate_abs_slope_gt3",
     ]
+    unknown_cols = [c for c in unknown_cols if c in unknown.columns]
     report_lines.extend(
         [
             "",

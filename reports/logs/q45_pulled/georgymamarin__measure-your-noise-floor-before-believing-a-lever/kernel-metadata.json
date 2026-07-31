@@ -1,0 +1,28 @@
+{
+  "id": "georgymamarin/measure-your-noise-floor-before-believing-a-lever",
+  "id_no": 124335614,
+  "title": "Measure your noise floor before believing a lever",
+  "code_file": "measure-your-noise-floor-before-believing-a-lever.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [
+    "exploratory data analysis",
+    "data storytelling",
+    "data visualization",
+    "geology"
+  ],
+  "dataset_sources": [
+    "georgymamarin/geosteering-world-cup-2021-expert-interpretations"
+  ],
+  "kernel_sources": [],
+  "competition_sources": [
+    "rogii-wellbore-geology-prediction"
+  ],
+  "model_sources": [],
+  "docker_image": "gcr.io/kaggle-images/python@sha256@sha256:e5452ce6268c2e8345cfe5141f31ca7ff47032aca46a7ea532bbb87481281d0c",
+  "machine_shape": "None"
+}

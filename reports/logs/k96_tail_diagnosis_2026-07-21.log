@@ -1,0 +1,30 @@
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+wells=773  deployed=8.8398  ranker(lam=.75)=8.6805  gain +0.1593
+
+per-well gain: mean=+0.076 median=+0.011
+  wells helped 54.1%   hurt 45.7%
+  worst 5 wells: [-12.34 -11.62  -7.71  -7.52  -5.42]   best 5: [ 7.4   9.34 10.03 10.45 10.67]
+  total SSE change from HURT wells only: 1.883e+07
+  total SSE change from HELPED wells only: -2.939e+07
+
+corr(per-well gain, guard signal):
+   likdisp    -0.045
+   wmax       +0.090
+   wstd       +0.084
+   neval      +0.009
+   hd         -0.042
+   dmean      +0.082
+   dmean_min  +0.131
+   smooth     +0.047
+   sel_w      -0.007
+
+saved per-well gains + guard aggregates

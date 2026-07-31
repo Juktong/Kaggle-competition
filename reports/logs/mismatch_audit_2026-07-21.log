@@ -1,0 +1,29 @@
+OOF over 760 wells: deployed 8.8626 -> candidate 8.6825  gain +0.1802
+
+=== 1. THE BOOTSTRAP MEASURED THE WRONG THING ===
+  resample 760 wells: mean=+0.1794 5th=+0.0479 25th=+0.1234 frac<0= 0.9%
+  resample 100 wells: mean=+0.1729 5th=-0.1441 25th=+0.0280 frac<0=20.4%
+  resample  20 wells: mean=+0.1701 5th=-0.5020 25th=-0.0784 frac<0=32.5%
+  resample  10 wells: mean=+0.1608 5th=-0.7752 25th=-0.1236 frac<0=35.9%
+  resample   5 wells: mean=+0.1294 5th=-1.1041 25th=-0.2112 frac<0=40.7%
+  resample   3 wells: mean=+0.1053 5th=-1.3090 25th=-0.2443 frac<0=42.0%
+  resample   1 wells: mean=+0.0341 5th=-1.7184 25th=-0.4133 frac<0=40.9%
+
+  -> the reported 'bootstrap 5th +0.0490' was for a 760-well mean.
+     The competition evaluates 3 wells, where the gain distribution is far wider.
+
+=== 2. per-well gain distribution (what a 3-well draw samples from) ===
+  mean=+0.099 median=+0.000 std=1.301
+  wells hurt 38.7%  helped 47.8%
+  percentiles: 5th -1.66 | 25th -0.32 | 75th +0.51 | 95th +1.94
+
+=== 3. the 3 test wells (they are also train wells) ===
+  000d7d20: n= 3836 dep= 3.622 cand= 3.334 gain=+0.287 | nnb= 13 closest_all=  291.7 closest_surv=  291.7
+  00bbac68: n= 6014 dep= 5.066 cand= 4.526 gain=+0.539 | nnb= 40 closest_all=  343.6 closest_surv=  343.6
+  00e12e8b: n= 4301 dep= 5.181 cand= 5.201 gain=-0.019 | nnb= 13 closest_all=  354.5 closest_surv=  354.5
+  POOLED 3 wells (OOF): dep=4.7561 cand=4.4655 gain=+0.2906
+
+=== 4. are the test wells in the weak twin subgroup? ===
+  train wells with closest_all<150ft: 39 of 760
+  the 3 test wells' closest_all: 000d7d20=291.7, 00bbac68=343.6, 00e12e8b=354.5
+  twin-subgroup pooled gain: -0.4587

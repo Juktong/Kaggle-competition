@@ -1,0 +1,30 @@
+wells=760 rows=3721471
+deployed OOF = 8.8626
+
+=== 1) residual autocorrelation along toe row index ===
+  lag     1: autocorr = +0.9998
+  lag     5: autocorr = +0.9991
+  lag    20: autocorr = +0.9942
+  lag   100: autocorr = +0.9497
+  lag   500: autocorr = +0.6365
+  lag  2000: autocorr = -0.0409
+
+=== 2) nested-fit smoothing along MD (bandwidth chosen on held-out wells) ===
+  k=    1: full-data RMSE = 8.8626  gain +0.0000
+  k=    5: full-data RMSE = 8.8623  gain +0.0004
+  k=   15: full-data RMSE = 8.8613  gain +0.0013
+  k=   51: full-data RMSE = 8.8567  gain +0.0059
+  k=  151: full-data RMSE = 8.8466  gain +0.0160
+  k=  501: full-data RMSE = 8.8800  gain -0.0173
+  k= 1501: full-data RMSE = 9.3194  gain -0.4567
+  NESTED bandwidth selection: 8.8466   gain +0.0160
+
+=== 3) residual distribution shape ===
+  mean=+0.383 std=8.854 skew=+0.223 kurtosis=+9.172
+  |r|<1ft 18.1%   |r|>10ft 16.4%   |r|>25ft 2.2%
+  GMM k=1: BIC=1438494  means=[0.4]  weights=[1.]
+  GMM k=2: BIC=1376501  means=[1.59 0.08]  weights=[0.214 0.786]
+  GMM k=3: BIC=1376913  means=[ 0.11 -5.47  8.5 ]  weights=[0.718 0.149 0.133]
+
+GATE: sequence/MTP/MDN work is justified only if residual autocorrelation is materially
+      non-zero at usable lags AND nested smoothing shows a real gain.

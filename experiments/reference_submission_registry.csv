@@ -1,0 +1,8 @@
+label,path,role,public_score,enabled,notes
+current_best_7p235,artifacts/lucifer_baseline_repro_joezzzzz_v1/submission.csv,current_best_anchor,7.235,true,"Active-account reproduction output; official score pending, but source lineage public score is 7.235."
+david_v12_7p263,artifacts/david_v12_output/submission.csv,backup_known_good,7.263,true,"Near-duplicate backup reference when local artifact exists."
+david_fastcpu_7p703,artifacts/david_fastcpu_output/submission.csv,weaker_known_good,7.703,true,"Weaker but useful calibration reference when local artifact exists."
+fleongg_branch_pending,artifacts/fleongg_branch_calibration_joezzzzz_v2/submission.csv,learned_signal_candidate,,true,"Standalone fleongg branch output submitted as 54174876; score pending."
+nickson_v5_20p579,artifacts/nickson_v5_artifact_output/submission.csv,known_bad,20.579,true,"Known bad artifact mismatch reference when local artifact exists."
+direct_overlap_11551,artifacts/wellbore_direct_overlap_output/submission.csv,known_bad,11551.955,true,"Known catastrophic train-target overlap reference when local artifact exists."
+ourmatch_7159_failed,artifacts/ourmatch_7159_output/submission.csv,known_bad,15357.198,true,"Known failed 7.159-style implementation reference when local artifact exists."

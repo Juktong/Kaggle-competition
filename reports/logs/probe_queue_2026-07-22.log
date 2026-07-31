@@ -1,0 +1,16 @@
+=== PROBE A: is pure base (no struct) SAFER than 54844628 at 3-well scale? ===
+  base vs 54844628: oofGain=-0.4360 3w[5th=-1.912 50th=-0.173 95th=+1.250] P>0=36%
+  -> removing struct is worse in OOF and does not reduce 3-well downside; struct is not the risk driver.
+
+=== PROBE B: well-family risk — do the 3 test wells resemble HIGH-error training wells? ===
+  corr(well RMSE, nnb)=-0.153  corr(well RMSE, closest_surv)=+0.108
+    000d7d20: baseline well-RMSE=3.622 (pop pctile 26)  nnb=13 closest_surv=292
+    00bbac68: baseline well-RMSE=5.066 (pop pctile 48)  nnb=40 closest_surv=344
+    00e12e8b: baseline well-RMSE=5.181 (pop pctile 50)  nnb=13 closest_surv=355
+  -> where the 3 test wells sit in the difficulty distribution (test-available proxy).
+
+=== PROBE C: anchor robustness — does a MEDIAN heel anchor change the answer? ===
+    000d7d20: heel r std=0.5ft  heel dr std=0.01  (anchor stability)
+    00bbac68: heel r std=0.9ft  heel dr std=0.01  (anchor stability)
+    00e12e8b: heel r std=1.3ft  heel dr std=0.01  (anchor stability)
+  -> high heel dispersion would make the anchor (hence struct) less reliable on that well.

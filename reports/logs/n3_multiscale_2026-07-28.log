@@ -1,0 +1,29 @@
+train wells 60 (same split as G3.2)
+median TVT extent of the 33-row horizontal window: 0.525 ft   (G3.2 typewell window at TWH=8 is 17 ft -> ~32x)
+
+=== PHASE A: AUC per decomposition level, G3.2 protocol (HW=16, TWH=8) ===
+band            scale        NCC      level    LEARNED
+A0 (raw)           1ft     0.4971     0.6412     0.7160
+A1 approx          2ft     0.5039     0.6437     0.7059
+A2 approx          4ft     0.5111     0.6460     0.7030
+A3 approx          8ft     0.5062     0.6439     0.6938
+A4 approx         16ft     0.4975     0.6228     0.6573
+D1 detail          2ft     0.4900     0.4883     0.6076
+D2 detail          4ft     0.4978     0.4880     0.6327
+D3 detail          8ft     0.5167     0.4863     0.6046
+D4 detail         16ft     0.5074     0.4826     0.6080
+
+G3.2 single-scale reference: LEARNED 0.7242, NCC 0.5010, level 0.6423
+best approximation band: A0 (raw) (scale 1 ft) LEARNED 0.7160
+
+=== PHASE B: typewell window sweep at the best band (extent-match test) ===
+TWH          window        NCC    LEARNED
+1                3ft     0.5336     0.7107
+2                5ft     0.4965     0.6998
+4                9ft     0.5300     0.6968
+8               17ft     0.4971     0.7160
+16              33ft     0.5144     0.7166
+32              65ft     0.4788     0.7476
+
+best TWH=32 (window 65 ft) LEARNED 0.7476
+GATE: a level must exceed G3.2 0.7242 to be handed to N1 as the scorer input.
