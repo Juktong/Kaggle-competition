@@ -3,36 +3,23 @@
   "branch": "codex/autonomous-queue-2026-07-15",
   "pr": "https://github.com/Juktong/Kaggle-competition/pull/3",
   "resume_session_id": "6f5484a3-b1d6-46b9-810e-88c221cdf545",
-  "current_handle": null,
-  "current_task_id": null,
-  "last_started_at": "2026-07-30T01:29:24Z",
-  "last_finished_at": "2026-07-30T01:44:24Z",
+  "current_handle": "codex_20260731T124220Z_q28_measurement_traps_ledger",
+  "current_task_id": "q28_measurement_traps_ledger",
+  "last_started_at": "2026-07-31T12:42:20Z",
+  "last_finished_at": "2026-07-31T12:50:00Z",
   "last_result": {
-    "task_id": "q48_reopen_deferred_value_check",
-    "outcome": "done_1_reopened_6_closed_4_confirmed",
+    "task_id": "q28_measurement_traps_ledger",
+    "outcome": "done_documentation_ledger_and_preflight",
     "submitted": false,
     "quota_used_today": 0,
     "quota_remaining_today": 5,
-    "headline": "Q48 reviewed 11 non-active rows: 1 re-queued, 6 closed, 4 confirmed deferred. q28 was re-opened because its own trigger fired -- four measurement traps in ~6 hours, including a 12-well smoke that PASSED the gate the 760-well run FAILED -- and is narrowed to a bounded traps ledger. The most valuable closure is q25: an ensemble is now harmful rather than unevidenced, because best-of-2 is a call option on variance and an ensemble has lower variance by construction -- simulation at Q44's implied sd gives E[min(p1,p2)] -0.954 vs E[min(E,p1)] -0.475, so an ensemble slot EXACTLY HALVES the option value (+0.479 ft) and using it twice destroys it (+0.958). q24's objective was achieved externally for free by Q45's 14-resubmission noise measurement. Also closed q23 (superseded by Q39 with no run, residual stages below Q45's readability floor), q32/q34 (merged/duplicate), and q17's held row which carried can_submit=true with no recorded reason. Every row now has an explicit reason.",
-    "next_task_id": "q28_measurement_traps_ledger"
+    "headline": "Q28 wrote reports/measurement_traps_ledger.md from existing evidence only. It keeps the four Q46-Q58 trigger incidents traceable, consolidates the earlier statistical, pipeline, artifact, and operational traps, orders a runnable pre-flight by recorded recurrence, and separates call-site code enforcement from conventions a reader must remember. No conclusion changed and no compute, kernel, submission, or quota was used.",
+    "next_task_id": "q49_transition_prior_smoke_from_research"
   },
   "queue_exhausted": false,
   "pending_kaggle_run": null,
   "pending_submission": null,
-  "pending_local_run": {
-    "runs": [
-      {
-        "task_id": "q58_honest_kernel_backward_smoothing",
-        "what": "row-level forward + ancestral-smoothed PF for 760 wells at NS=64 (the deployed config)",
-        "launched_utc": "2026-07-29T23:40:00Z",
-        "rate": "14 wells / 3.5 min -> ETA ~3.2 h (~02:50 UTC)",
-        "log": "reports/logs/q58_pf_produce_2026-07-30.log",
-        "out": "/home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/q58_pf_smoothed_preds.npz",
-        "collect": "run scripts/q58_struct_refit.py (fast, pure arithmetic); it reproduces the deployed line exactly first, then sweeps alpha x W nested against s_54844628 = 8.8626"
-      }
-    ],
-    "note": "2 cores; do not start another CPU-heavy job or relaunch. The evaluator is cheap and can be re-run freely once the producer output exists."
-  },
+  "pending_local_run": null,
   "rules_facts": {
     "merger_deadline": "2026-07-29T23:59Z (TODAY)",
     "new_entrant_deadline": "2026-07-29T23:59Z (TODAY)",
@@ -58,5 +45,5 @@
   },
   "final_pair_note": "Q44/Q45: slot 2 is settled at 54844628 on measured grounds (worth ~0.46 ft mean / ~0.94 ft tail as the decorrelated member of a best-of-2, and the only submission we hold whose error is decorrelated from the crowd). Slot 1 is TIED ON MEASUREMENT between 54922806 (teammate, 6.563) and 54968060 (ours, 6.643): the 0.080 gap is 2.7 sd of the measured 0.03 public floor, and its only resolvable component is the GR-sigma term Q36 measured as not transferring. Ownership-first costs at most +0.077 and is strictly better in 8 of 24 modelled cells. Owner's judgement, due 2026-08-04, zero quota.",
   "agent_provider": "codex",
-  "updated_at": "2026-07-31T12:45:00Z"
+  "updated_at": "2026-07-31T12:50:00Z"
 }
