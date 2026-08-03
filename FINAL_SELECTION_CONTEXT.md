@@ -23,9 +23,23 @@ For submission `54922806`, Kaggle API output retrieval may return the latest ker
 
 If `54922806` is selected, the exact submitted output should be downloaded or verified from Kaggle UI version history for the submitted version.
 
+## Fallback If Teammate Confirmation Is Not Available
+
+If teammate confirmation or the exact `54922806` submitted output cannot be obtained before the deadline, use the owned fallback pair:
+
+- `54968060`
+- `54844628`
+
+This fallback keeps both selected submissions under the `joezzzzz` account with locally archived artifacts and repository commits. It gives up the `0.080` public-score edge of `54922806` over `54968060`, but avoids depending on a teammate-side version-history artifact at the deadline.
+
 ## Operational Note
 
 When selecting final submissions in Kaggle, choose by exact submission ref ID, not by row order, file name, public rank, or recency:
 
 - `54922806`
+- `54844628`
+
+Owned fallback if needed:
+
+- `54968060`
 - `54844628`
