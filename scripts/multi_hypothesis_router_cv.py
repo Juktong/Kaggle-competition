@@ -419,6 +419,8 @@ def typewell_particle_filter_candidate(
     w = np.full(n_particles, 1.0 / n_particles)
     pred = np.full(m, fallback, dtype=float)
     spread = np.zeros(m)
+    ess_values = np.zeros(m)
+    resample_count = 0
     for i in range(m):
         dip = np.clip(dip * dip_persist + rng.normal(0, q_dip, n_particles), -dip_cap, dip_cap)
         noise = rng.normal(0, q_tvt, n_particles)
@@ -436,11 +438,14 @@ def typewell_particle_filter_candidate(
         mean = float(np.sum(w * tvt))
         pred[i] = mean
         spread[i] = float(np.sqrt(max(0.0, np.sum(w * (tvt - mean) ** 2))))
-        if 1.0 / float(np.sum(w ** 2)) < ess_frac * n_particles:
+        ess = 1.0 / float(np.sum(w ** 2))
+        ess_values[i] = ess
+        if ess < ess_frac * n_particles:
             idx = _systematic_resample(w, float(rng.random()))
             tvt = tvt[idx]
             dip = dip[idx]
             w = np.full(n_particles, 1.0 / n_particles)
+            resample_count += 1
     gr_cov = float(np.isfinite(gr_e).mean())
     return PathCandidate(
         "typewell_particle_filter",
@@ -450,8 +455,124 @@ def typewell_particle_filter_candidate(
             "pf_sigma_gr": sigma_gr,
             "pf_dip0": dip0,
             "pf_post_std": float(np.mean(spread)),
+            "pf_post_std_p90": float(np.nanpercentile(spread, 90)),
+            "pf_post_std_max": float(np.nanmax(spread)),
             "pf_mean_abs_dev": float(np.mean(np.abs(pred - fallback))),
+            "pf_max_abs_dev": float(np.nanmax(np.abs(pred - fallback))),
             "pf_gr_coverage": gr_cov,
+            "pf_ess_mean": float(np.mean(ess_values)),
+            "pf_ess_min": float(np.min(ess_values)),
+            "pf_resample_rate": float(resample_count / max(1, m)),
+        },
+    )
+
+
+def constrained_typewell_alignment_candidate(
+    hw: pd.DataFrame,
+    tw: pd.DataFrame,
+    train_valid: np.ndarray,
+    eval_idx: np.ndarray,
+    true_tvt: np.ndarray,
+    fallback: float,
+    args: argparse.Namespace,
+) -> PathCandidate | None:
+    """Constrained dynamic-programming GR/typewell alignment around the anchor.
+
+    This is intentionally conservative: the state is a bounded TVT offset around
+    the known-prefix anchor, transitions are smooth, and rows are downsampled for
+    speed. It tests whether local stretch/squeeze alignment carries routeable
+    signal before we build a heavier beam-search geosteering model.
+    """
+    if "GR" not in hw.columns or not {"TVT", "GR"}.issubset(tw.columns):
+        return None
+    twf = tw[["TVT", "GR"]].apply(pd.to_numeric, errors="coerce").dropna().sort_values("TVT")
+    if len(twf) < 30:
+        return None
+    gr = pd.to_numeric(hw["GR"], errors="coerce").to_numpy(float)
+    tw_tvt = twf["TVT"].to_numpy(float)
+    tw_gr = twf["GR"].to_numpy(float)
+
+    max_move = float(getattr(args, "align_max_move", 30.0))
+    state_step = float(getattr(args, "align_state_step", 2.0))
+    stride = int(getattr(args, "align_stride", 8))
+    trans_penalty = float(getattr(args, "align_trans_penalty", 0.08))
+    anchor_penalty = float(getattr(args, "align_anchor_penalty", 0.004))
+    min_gr_rows = int(getattr(args, "align_min_gr_rows", 50))
+    sigma_floor = float(getattr(args, "align_sigma_floor", 6.0))
+    if max_move <= 0 or state_step <= 0 or stride <= 0:
+        return None
+
+    eval_gr_mask = np.isfinite(gr[eval_idx])
+    if int(eval_gr_mask.sum()) < min_gr_rows:
+        return PathCandidate(
+            "constrained_typewell_alignment",
+            np.full(len(eval_idx), fallback, dtype=float),
+            status="fallback",
+            detail="insufficient_eval_gr",
+            diagnostics={"align_gr_coverage": float(eval_gr_mask.mean()) if len(eval_idx) else float("nan")},
+        )
+
+    prefix_gr = gr[train_valid]
+    prefix_tvt = true_tvt[train_valid]
+    prefix_resid = prefix_gr - np.interp(prefix_tvt, tw_tvt, tw_gr, left=np.nan, right=np.nan)
+    sigma_gr = _robust_std(prefix_resid, sigma_floor)
+
+    offsets = np.arange(-max_move, max_move + 1e-9, state_step, dtype=float)
+    states = np.clip(fallback + offsets, float(tw_tvt.min()), float(tw_tvt.max()))
+    keep = np.r_[True, np.diff(states) > 1e-9]
+    states = states[keep]
+    offsets = offsets[keep]
+    if len(states) < 5:
+        return None
+
+    sample_pos = np.arange(0, len(eval_idx), stride, dtype=int)
+    finite_sample = np.isfinite(gr[eval_idx[sample_pos]])
+    if int(finite_sample.sum()) < max(10, min_gr_rows // max(1, stride)):
+        sample_pos = np.flatnonzero(eval_gr_mask)
+    obs_gr = gr[eval_idx[sample_pos]]
+    n_steps = len(sample_pos)
+    n_states = len(states)
+    if n_steps == 0:
+        return None
+
+    typewell_at_states = np.interp(states, tw_tvt, tw_gr)
+    transition = trans_penalty * (offsets[:, None] - offsets[None, :]) ** 2
+    anchor_cost = anchor_penalty * offsets**2
+    costs = np.full((n_steps, n_states), np.inf, dtype=float)
+    back = np.zeros((n_steps, n_states), dtype=np.int16)
+
+    g0 = obs_gr[0]
+    obs0 = np.zeros(n_states) if not np.isfinite(g0) else ((g0 - typewell_at_states) / sigma_gr) ** 2
+    costs[0] = obs0 + anchor_cost
+    for i in range(1, n_steps):
+        g = obs_gr[i]
+        obs = np.zeros(n_states) if not np.isfinite(g) else ((g - typewell_at_states) / sigma_gr) ** 2
+        prev = costs[i - 1][:, None] + transition
+        back[i] = np.argmin(prev, axis=0)
+        costs[i] = prev[back[i], np.arange(n_states)] + obs + anchor_cost
+
+    path_state = np.zeros(n_steps, dtype=int)
+    path_state[-1] = int(np.argmin(costs[-1]))
+    for i in range(n_steps - 1, 0, -1):
+        path_state[i - 1] = int(back[i, path_state[i]])
+    sampled_offsets = offsets[path_state]
+    full_offsets = np.interp(np.arange(len(eval_idx), dtype=float), sample_pos.astype(float), sampled_offsets)
+    pred = fallback + np.clip(full_offsets, -max_move, max_move)
+    jumps = np.abs(np.diff(full_offsets)) if len(full_offsets) > 1 else np.array([0.0])
+    return PathCandidate(
+        "constrained_typewell_alignment",
+        pred,
+        detail=(
+            f"sigma_gr={sigma_gr:.2f};states={n_states};stride={stride};"
+            f"cost={float(np.min(costs[-1])):.2f}"
+        ),
+        diagnostics={
+            "align_sigma_gr": sigma_gr,
+            "align_gr_coverage": float(eval_gr_mask.mean()),
+            "align_cost": float(np.min(costs[-1]) / max(1, n_steps)),
+            "align_move_abs_p90": float(np.nanpercentile(np.abs(full_offsets), 90)),
+            "align_jump_abs_p90": float(np.nanpercentile(jumps, 90)),
+            "align_state_count": float(n_states),
         },
     )
 
@@ -549,6 +670,10 @@ def candidate_paths(
     pf = typewell_particle_filter_candidate(hw, tw, train_valid, eval_idx, true_tvt, fallback, args)
     if pf is not None:
         candidates.append(pf)
+
+    align = constrained_typewell_alignment_candidate(hw, tw, train_valid, eval_idx, true_tvt, fallback, args)
+    if align is not None:
+        candidates.append(align)
 
     if "GR" in hw.columns:
         gr_full = pd.to_numeric(hw["GR"], errors="coerce").interpolate(limit_direction="both").to_numpy(float)
@@ -1041,6 +1166,13 @@ def main() -> int:
     parser.add_argument("--min-ncc-gain", type=float, default=0.05)
     parser.add_argument("--max-prefix-shift-abs", type=float, default=10.0)
     parser.add_argument("--min-eval-improvement", type=float, default=0.03)
+    parser.add_argument("--align-max-move", type=float, default=30.0)
+    parser.add_argument("--align-state-step", type=float, default=2.0)
+    parser.add_argument("--align-stride", type=int, default=8)
+    parser.add_argument("--align-trans-penalty", type=float, default=0.08)
+    parser.add_argument("--align-anchor-penalty", type=float, default=0.004)
+    parser.add_argument("--align-min-gr-rows", type=int, default=50)
+    parser.add_argument("--align-sigma-floor", type=float, default=6.0)
     parser.add_argument("--baseline-method", default="last_value")
     args = parser.parse_args()
 

@@ -564,3 +564,27 @@ V3 stratified blend audit, V4 submission-level honest-model diversity, V5 visibl
 tool. Recommended first: V1+V2 (labeled-info foundation), V4→S-A (deliverable), V5 (audit tool). No GPU
 until V1/V2 show positive labeled-info signal and (for S-B) the external-data rule is manually confirmed.
 Scripts: scratchpad_probes/ssl_gr_encoder_preflight.py, marker_predictability_probe.py.
+
+## 15. Round 2026-07-15 — Direction F (external data / SSL-facies encoder) assessment
+
+Full write-up: `reports/external_data_ssl_direction_2026-07-15.md`; new-direction backlog:
+`reports/next_direction_backlog_2026-07-15.md`; smoke skeleton (gated): `kaggle_smoke_ssl/`.
+
+- **Compliance:** the standard Kaggle framework allows freely/publicly-available external data +
+  pretrained models in code competitions unless the Host prohibits; the **ROGII-specific external-data
+  clause is login/JS-gated → NEEDS MANUAL CONFIRMATION** before any external-data-dependent submission.
+  Submission notebook runs offline (`enable_internet:false`) → external data must be a public Kaggle
+  Dataset. FORCE-2020 (GR present, NLOD-2.0/CC-BY-4.0, offline-packageable) is the primary resource;
+  Volve is CC-BY-NC-SA (restricted); foundation-model weights unconfirmed.
+- **Local preflight (the GPU gate):** a learned self-supervised contrastive GR encoder (ROGII-only)
+  gives RMSE 15.95 / corr(err,DWT) 0.723 / **blend weight −0.096**, i.e. identical to the random-conv
+  ROCKET probe — representation quality is not the bottleneck; the GR channel is already saturated by
+  DWT. Facies-branch preflight (GR→formation classifier features) corroborates (see F report).
+- **Verdict:** external-data SSL/facies pretraining is **not a warranted Kaggle-GPU candidate on current
+  evidence** (predicted to fail the positive-weight acceptance gate). The smoke kernel + FORCE dataset
+  prep are prepared and ready but **not run/pushed**. No submission planned; rule confirmation still
+  required regardless.
+- **Next search space (from the backlog):** genuinely-new information channels or a real independent
+  pipeline's OOF (measured ρ vs DWT), a single-submission guarded honest+overlap slot, and a
+  non-submitting hidden-test-density diagnostic for transductive feasibility — rather than further
+  GR-representation residual/blend variants (all land on the blend-neutral frontier).

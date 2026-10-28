@@ -78,8 +78,23 @@ Only meaningful if the local-acceptance criterion (positive-weight blend) can be
    "competition_sources":["rogii-wellbore-geology-prediction"],"kernel_sources":[],"model_sources":[]}
   ```
   Notebook stages: load FORCE GR (offline) → build windows → train encoder (GPU) → embed ROGII
-  train/test wells → save embeddings.parquet. (Not instantiated as a runnable notebook because the
-  preflight fails the acceptance gate — see verdict.)
+  train/test wells → save embeddings.npz.
+- **Skeleton INSTANTIATED (ready, but GATED — do not full-run yet):** `kaggle_smoke_ssl/` in the repo:
+  `smoke_ssl_encoder_kernel.py` (script kernel: offline FORCE+ROGII load → contrastive GR encoder on
+  GPU with a `SMOKE` toggle → export `/kaggle/working/gr_ssl_embeddings.npz`; no submission),
+  `smoke_kernel-metadata.json` (`enable_gpu:true`, `enable_internet:false`, dataset_sources placeholder),
+  `DATASET_PREP.md` (offline FORCE-2020 GR Kaggle-Dataset build steps). It is prepared but **not pushed
+  or run**: the §3 preflight fails the local acceptance gate, so a GPU run is not warranted yet.
+
+## 3b. Facies branch — supervised GR→formation classifier features  `scratchpad_probes/facies_gr_preflight.py`
+- **Design:** train a GR→formation(Geology) classifier on ROGII TRAIN typewell (GR, Geology) [43
+  formation classes] as a proxy for an external-facies encoder (at real test the classifier is applied
+  to test-available horizontal GR; Geology labels are never read at test); predicted-facies probs +
+  entropy as residual features; honest well-OOF; nested blend-weight sign vs DWT.
+- **Result:** FACIES_RESULT_PLACEHOLDER
+- **Prior context:** Direction C (unsupervised facies-token alignment) already only tied DWT's oracle,
+  so the supervised-facies prior is low even before the empirical result; FORCE lithofacies add a
+  cross-basin domain gap on top of the same GR-channel saturation.
 
 ## 5. Verdict & next
 

@@ -1,0 +1,15 @@
+{
+  "id": "joezzzzz/rogii-gr-ssl-encoder-smoke",
+  "title": "ROGII GR SSL Encoder Smoke",
+  "code_file": "smoke_ssl_encoder_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "dataset_sources": ["REPLACE_WITH/force-2020-gr-windows"],
+  "competition_sources": ["rogii-wellbore-geology-prediction"],
+  "kernel_sources": [],
+  "model_sources": []
+}

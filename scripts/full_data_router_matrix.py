@@ -135,6 +135,17 @@ def candidate_matrix_for_split(
 
     rows = []
     method_to_candidate = {candidate.method: candidate for candidate in candidates}
+    base_diag_fields = {
+        "method",
+        "status",
+        "detail",
+        "eval_rows",
+        "rmse",
+        "mae",
+        "bias",
+        "sse",
+        "pred_std",
+    }
     for row in diag_rows:
         method = str(row["method"])
         candidate = method_to_candidate.get(method)
@@ -142,6 +153,7 @@ def candidate_matrix_for_split(
         holdout_row = holdout.get(method, {})
         eval_rmse = float(row["rmse"])
         shape = path_shape_metrics(values, fallback)
+        diagnostics = {k: v for k, v in row.items() if k not in base_diag_fields}
         rows.append(
             {
                 "well": well,
@@ -169,6 +181,7 @@ def candidate_matrix_for_split(
                 "holdout_delta_rmse_vs_baseline": holdout_row.get("holdout_delta_rmse_vs_baseline", float("nan")),
                 "holdout_status": holdout_row.get("holdout_status", ""),
                 "holdout_detail": holdout_row.get("holdout_detail", ""),
+                **diagnostics,
                 **shape,
             }
         )
@@ -480,6 +493,14 @@ def main() -> int:
     parser.add_argument("--min-ncc-gain", type=float, default=0.05)
     parser.add_argument("--max-prefix-shift-abs", type=float, default=10.0)
     parser.add_argument("--min-eval-improvement", type=float, default=0.03)
+    # constrained GR/typewell alignment candidate
+    parser.add_argument("--align-max-move", type=float, default=30.0)
+    parser.add_argument("--align-state-step", type=float, default=2.0)
+    parser.add_argument("--align-stride", type=int, default=8)
+    parser.add_argument("--align-trans-penalty", type=float, default=0.08)
+    parser.add_argument("--align-anchor-penalty", type=float, default=0.004)
+    parser.add_argument("--align-min-gr-rows", type=int, default=50)
+    parser.add_argument("--align-sigma-floor", type=float, default=6.0)
     # typewell particle-filter candidate (tuned on real train-well prototype)
     parser.add_argument("--pf-particles", type=int, default=300)
     parser.add_argument("--pf-kappa", type=float, default=0.02)

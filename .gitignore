@@ -58,3 +58,6 @@ kaggle_kernel_*/
 Thumbs.db
 .vscode/
 .idea/
+
+# Local Claude worktrees
+.claude/worktrees/
