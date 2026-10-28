@@ -1,0 +1,45 @@
+train wells 60 | eval wells 40 (DISJOINT)  TWHS=[1]  LAMS=[60.0, 100.0, 150.0, 250.0, 400.0, 800.0]
+
+=== TWH=1: held-out-WELL scorer AUC = 0.7632 ===
+  lam         12.170   12.241   12.478   12.461   12.987   13.132
+              lam=60  lam=100  lam=150  lam=250  lam=400  lam=800
+  flat-anchor on these 40 wells: 12.722
+    select on 20 -> lam=60    | held-out 20: DP  13.212  flat  13.540
+    select on 20 -> lam=100   | held-out 20: DP  11.626  flat  11.847
+  NESTED POOLED: DP 12.444  flat 12.722  -> BEATS flat  (beats flat on 40.0% of wells)
+
+=== SUMMARY: does the better emission rescue the DP? ===
+TWH           AUC    nested DP         flat   beats flat %
+1          0.7632       12.444       12.722          40.0%
+
+N1 reference (TWH=8, same protocol): nested DP 13.644 vs flat 12.722, beats flat 37.5%
+Deployed honest line ~8.86. GATE: must beat flat AND materially narrow the gap to deployed.
+
+=== failure cases, TWH=1 (gain = flat - DP; negative means the DP hurt) ===
+  wells helped 16 / hurt 24
+  worst 5:
+    3d96d897   gkey 11366.5    DP   8.061 flat   3.608 gain  -4.453
+    c96c018a   gkey 11537.4    DP  16.506 flat  12.856 gain  -3.650
+    7ff89f8f   gkey 10845.5    DP  17.605 flat  14.151 gain  -3.454
+    9d5e14d4   gkey 11077.6    DP  31.725 flat  28.523 gain  -3.203
+    2acc78d4   gkey 12051.8    DP  15.970 flat  13.620 gain  -2.349
+  best 5:
+    e25f1537   gkey 10881.6    DP   8.156 flat  12.990 gain  +4.835
+    2fa01aa6   gkey 12874.7    DP  14.011 flat  18.771 gain  +4.760
+    bd4ae5da   gkey 12051.8    DP   9.401 flat  14.046 gain  +4.646
+    ae0784a8   gkey 12279.5    DP   6.312 flat  10.875 gain  +4.562
+    ae8959c3   gkey 10956.6    DP  16.127 flat  19.746 gain  +3.619
+  by typewell group key (groups with >=2 eval wells):
+         n  mean_gain
+gkey                 
+11366.5  3     -1.775
+11592.0  2     -0.843
+12157.0  2     -0.784
+11537.4  5     -0.780
+11594.5  3     -0.146
+12051.8  4      0.232
+11122.5  2      0.700
+10881.6  3      0.970
+11350.9  3      1.025
+12182.0  2      1.492
+12874.7  2      2.173

@@ -1,0 +1,57 @@
+train typewells 773
+
+=== test well 000d7d20  (typewell group key 11871.5, 505 candidates with >= 50 ft overlap) ===
+  SELF-MATCH (its own train copy): corr 1.0000, rank 1 of 505  -- excluded from the analogue set below
+  train well         corr    overlap  same_group  xy_sep_ft
+  ee4aecac         1.0000       557ft        True     11691
+  8cc21f01         1.0000       648ft        True     18207
+  a056d01e         1.0000       648ft        True     10543
+  1295a25b         1.0000       648ft        True     10812
+  1d3fbf02         1.0000       595ft        True     18993
+  correlation distribution over 504 non-self candidates: max 1.0000  p99 1.0000  p50 0.1885
+  DEPLOYED gate: same-group train wells 13, surviving the 150 ft guard 13, closest mate 292 ft, closest surviving 292 ft  -> gate PASS
+  fingerprint top-5 also in the deployed surviving-neighbour set: 5/5  ['ee4aecac', '8cc21f01', 'a056d01e', '1295a25b', '1d3fbf02']
+
+=== test well 00bbac68  (typewell group key 12367.0, 413 candidates with >= 50 ft overlap) ===
+  SELF-MATCH (its own train copy): corr 1.0000, rank 25 of 413  -- excluded from the analogue set below
+  train well         corr    overlap  same_group  xy_sep_ft
+  2ab29395         1.0000       526ft        True      6309
+  2f19d536         1.0000       646ft        True     10896
+  da2d4d7c         1.0000       564ft        True      5935
+  ab18d3fc         1.0000       830ft        True      3595
+  3bfee975         1.0000       682ft        True      4918
+  correlation distribution over 412 non-self candidates: max 1.0000  p99 1.0000  p50 0.0689
+  DEPLOYED gate: same-group train wells 40, surviving the 150 ft guard 40, closest mate 295 ft, closest surviving 295 ft  -> gate PASS
+  fingerprint top-5 also in the deployed surviving-neighbour set: 5/5  ['2ab29395', '2f19d536', 'da2d4d7c', 'ab18d3fc', '3bfee975']
+
+=== test well 00e12e8b  (typewell group key 11871.5, 707 candidates with >= 50 ft overlap) ===
+  SELF-MATCH (its own train copy): corr 1.0000, rank 14 of 707  -- excluded from the analogue set below
+  train well         corr    overlap  same_group  xy_sep_ft
+  000d7d20         1.0000       648ft        True     16499
+  389ae58f         1.0000       986ft        True      6643
+  e5ff9fd2         1.0000      1009ft        True      8334
+  1d3fbf02         1.0000       595ft        True      2875
+  8cc21f01         1.0000       963ft        True      2271
+  correlation distribution over 706 non-self candidates: max 1.0000  p99 1.0000  p50 -0.0454
+  DEPLOYED gate: same-group train wells 13, surviving the 150 ft guard 13, closest mate 354 ft, closest surviving 354 ft  -> gate PASS
+  fingerprint top-5 also in the deployed surviving-neighbour set: 5/5  ['000d7d20', '389ae58f', 'e5ff9fd2', '1d3fbf02', '8cc21f01']
+=== does the fingerprint find matches the deployed GROUP KEY misses? ===
+(group key = round(max(typewell.TVT),1) -- truncation-sensitive by construction)
+
+000d7d20: near-identical (corr>0.9999) on the overlap: 13
+   deployed same-group set: 13
+   near-identical AND same-group : 13
+   near-identical but NOT same-group (missed by the key): 0  []
+   same-group but NOT near-identical: 0
+
+00bbac68: near-identical (corr>0.9999) on the overlap: 40
+   deployed same-group set: 40
+   near-identical AND same-group : 40
+   near-identical but NOT same-group (missed by the key): 0  []
+   same-group but NOT near-identical: 0
+
+00e12e8b: near-identical (corr>0.9999) on the overlap: 13
+   deployed same-group set: 13
+   near-identical AND same-group : 13
+   near-identical but NOT same-group (missed by the key): 0  []
+   same-group but NOT near-identical: 0

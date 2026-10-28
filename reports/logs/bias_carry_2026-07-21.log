@@ -1,0 +1,20 @@
+wells=760 rows=3721471
+
+f=0.10  (bias measured on first 10% of toe rows, carried into the rest)
+  corr(early bias, later bias) = +0.3769
+  nested lambda = 1.267
+  later-rows RMSE: no carry 9.2938 -> with carry 8.8335   gain +0.4603
+
+f=0.20  (bias measured on first 20% of toe rows, carried into the rest)
+  corr(early bias, later bias) = +0.4970
+  nested lambda = 1.232
+  later-rows RMSE: no carry 9.6796 -> with carry 8.7667   gain +0.9128
+
+f=0.30  (bias measured on first 30% of toe rows, carried into the rest)
+  corr(early bias, later bias) = +0.5874
+  nested lambda = 1.299
+  later-rows RMSE: no carry 10.0458 -> with carry 8.6199   gain +1.4260
+
+NOTE: this is an UPPER BOUND on L1 -- real heel rows are further from the far toe, and the
+      model's heel regime differs (TVT_input is known there and used as an input).
+GATE: if this upper bound is well under +0.10, L1 does not justify its 2-4 h run.

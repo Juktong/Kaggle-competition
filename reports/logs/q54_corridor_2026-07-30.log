@@ -1,0 +1,25 @@
+train 60 | eval 40 (same split seed as Q10/Q40)
+prepped 40 wells | flat-anchor 12.722 | deployed honest 8.8626
+
+=== degeneracy control: C = inf vs the unconstrained run_dp ===
+  lam 5      max|corridor(inf) - run_dp| = 0.0000000000
+  lam 20     max|corridor(inf) - run_dp| = 0.0000000000
+  lam 60     max|corridor(inf) - run_dp| = 0.0000000000
+  lam 150    max|corridor(inf) - run_dp| = 0.0000000000
+
+=== pooled RMSE by (lam, corridor C) — and how often the corridor BINDS ===
+lam                 C=2           C=3           C=5          C=10          C=20         C=inf
+5                12.972        12.887        13.048        13.164        13.325        16.009
+20               12.982        12.950        12.664        12.612        13.139        13.169
+60               12.992        12.970        12.321        12.138        12.170        12.170
+150              13.025        12.991        12.501        12.478        12.478        12.478
+bind%             21.9%         14.7%          5.3%          1.4%          0.4%          0.0%
+
+=== NESTED (corridor + lam) vs the unconstrained DP, splits BY WELL ===
+  picks [(60.0, 10.0), (150.0, 10.0)]
+  selected 12.570  vs unconstrained 12.601  gain +0.031
+  helps 2.5% of held-out wells | 3-WELL bootstrap 5th -0.518  50th +0.000  95th +1.528  P(>0) 0.0724
+
+GATE: nested gain > 0 AND helps a majority AND 3-well 5th > 0  ->  FAIL
+NOTE: this line is ~12.2 vs the deployed honest 8.8626 — passing would make the transition lever
+      worth pursuing, NOT make the artifact submittable.

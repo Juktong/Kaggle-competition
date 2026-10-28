@@ -1,0 +1,50 @@
+{
+  "name": "B4_guarded_54727655",
+  "timestamp": "2026-07-15T13:52Z",
+  "candidate": "/home/ubuntu/.claude/jobs/16baec36/tmp/b4_out/submission.csv",
+  "baseline": null,
+  "decision": "PASS",
+  "hard_ok": true,
+  "visible_pooled_rmse": 0.0,
+  "warnings": [],
+  "checks": {
+    "format": {
+      "rows": 14151,
+      "sample_rows": 14151,
+      "same_set": true,
+      "same_order": true,
+      "missing": 0,
+      "extra": 0
+    },
+    "finite": {
+      "n_nonfinite": 0
+    },
+    "range": {
+      "min": 11587.05,
+      "max": 12240.01,
+      "mean": 11903.631252208324,
+      "band": [
+        9606.18,
+        13240.01
+      ],
+      "n_out_of_band": 0
+    },
+    "visible_rmse": {
+      "per_well": {
+        "000d7d20": {
+          "n": 3836,
+          "rmse": 0.0
+        },
+        "00bbac68": {
+          "n": 6014,
+          "rmse": 0.0
+        },
+        "00e12e8b": {
+          "n": 4301,
+          "rmse": 0.0
+        }
+      },
+      "pooled": 0.0
+    }
+  }
+}

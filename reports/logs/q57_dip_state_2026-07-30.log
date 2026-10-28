@@ -1,0 +1,50 @@
+train 60 | eval 40 (same split seed as Q10/Q40/Q54)
+prepped 40 wells | flat-anchor 12.722 | l1 lam=60 baseline 12.170 | deployed honest 8.8626
+
+=== 1. DEGENERACY: dip grid {0} and nu=0 must reproduce run_dp with lam=mu ===
+  mu 60     max|dip_dp(ndip=1,nu=0) - run_dp| = 0.0000000000
+  ndip 1   mu 60     nu 0       pooled 12.170  mean cost -569.7
+  ndip 3   mu 60     nu 0       pooled 14.850  mean cost -624.4
+  ndip 3   mu 60     nu 0.25    pooled 15.935  mean cost -605.7
+  ndip 3   mu 60     nu 1       pooled 17.279  mean cost -586.7
+  ndip 5   mu 60     nu 0       pooled 19.929  mean cost -633.6
+  ndip 5   mu 60     nu 0.25    pooled 18.725  mean cost -611.7
+  ndip 5   mu 60     nu 1       pooled 16.569  mean cost -589.9
+
+=== 4. pooled RMSE (rows = dip grid size x nu, cols = mu) ===
+ndip / nu               mu=60
+1 / 0                  12.170
+3 / 0                  14.850
+3 / 0.25               15.935
+3 / 1                  17.279
+5 / 0                  19.929
+5 / 0.25               18.725
+5 / 1                  16.569
+
+=== 5. ACTIVATION (well 0; an inert arm must be visible as inert) ===
+ndip / nu / mu      dip!=0   dip chg   mean|dip|  accum pull   path dev  truth dev
+1 / 0 / 60            0.0%      0.0%       0.000         0.0        4.9       36.0
+3 / 0 / 60           42.4%     41.7%       0.424        15.0       16.1       36.0
+3 / 0.25 / 60        23.4%     10.7%       0.234        18.0       20.1       36.0
+3 / 1 / 60           15.0%      2.8%       0.150         7.0       28.1       36.0
+5 / 0 / 60           46.2%     53.9%       0.645        18.0       21.1       36.0
+5 / 0.25 / 60        25.6%     11.5%       0.274        18.0       20.1       36.0
+5 / 1 / 60           15.0%      2.8%       0.150         7.0       28.1       36.0
+  (Q54: at the optimum the DP path deviates ~3.0 ft from the anchor while truth deviates 19.4;
+   accum pull = |mean dip| x steps is Q40's quantity — what the dip term is worth end-to-end)
+
+=== 6. Q55 CHECK: does augmentation buy COST that does not become RMSE? ===
+  ndip=1 nu=0 mu=60    cost     -569.7   rmse  12.170   <- the deployed objective (= run_dp lam=60)
+  ndip=5 nu=0 mu=60    cost     -633.6   rmse  19.929
+  ndip=3 nu=0 mu=60    cost     -624.4   rmse  14.850
+  ndip=5 nu=0.25 mu=60 cost     -611.7   rmse  18.725
+  ndip=3 nu=0.25 mu=60 cost     -605.7   rmse  15.935
+
+=== 7. NESTED (splits BY WELL, both directions) ===
+  picks [('ndip=1', 'mu=60', 'nu=0'), ('ndip=1', 'mu=60', 'nu=0')]
+  selected 12.170  vs TVT-only baseline 12.170  gain +0.000
+  helps 0.0% of held-out wells | 3-WELL bootstrap 5th +0.000  50th +0.000  95th +0.000  P(>0) 0.0000
+
+GATE: nested gain > 0 AND helps a majority AND 3-well 5th > 0  ->  FAIL
+NOTE: this line is ~12.2 vs the deployed honest 8.8626 — passing would make state augmentation
+      worth pursuing, NOT make the artifact submittable.

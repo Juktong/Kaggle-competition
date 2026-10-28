@@ -1,0 +1,51 @@
+path files: 773
+  200 wells
+  400 wells
+  600 wells
+usable wells 773 | rows 3783989
+max |paths.mean(0) - stored mean| over wells: 78.99  -> stored `mean` is NOT the uniform mean
+
+=== references on these 773 wells ===
+  PF mean           10.9307   (Q11 reference 10.9905)
+  ORACLE best-of-96  7.1259   (Q11 reference  7.1579)
+  worst-of-96       22.0396   (Q11 reference 22.1407)
+  deployed honest    8.8626
+  oracle headroom vs PF mean: +3.8048 | tail risk -11.1090
+
+=== every combiner, pooled (lower is better) ===
+combiner               RMSE   vs PF mean     % headroom
+pf_mean             10.9307       0.0000           0.0%
+softmax_T0.25       11.6884      -0.7577         -19.9%
+softmax_T0.5        11.5916      -0.6609         -17.4%
+softmax_T1          11.4264      -0.4957         -13.0%
+softmax_T2          11.1957      -0.2650          -7.0%
+softmax_T5          10.9307      -0.0000          -0.0%
+softmax_T10         10.8781       0.0526           1.4%
+softmax_T25         10.9616      -0.0309          -0.8%
+softmax_T100        11.1552      -0.2245          -5.9%
+topm_1              11.8088      -0.8781         -23.1%
+topm_2              11.3623      -0.4316         -11.3%
+topm_4              11.1853      -0.2546          -6.7%
+topm_8              11.0703      -0.1396          -3.7%
+topm_16             11.0826      -0.1519          -4.0%
+topm_32             11.1229      -0.1922          -5.1%
+topm_64             11.1816      -0.2509          -6.6%
+topm_96             11.5320      -0.6013         -15.8%
+median              12.0408      -1.1101         -29.2%
+trim_0.05           11.5819      -0.6512         -17.1%
+trim_0.1            11.6361      -0.7054         -18.5%
+trim_0.2            11.7447      -0.8140         -21.4%
+trim_0.35           11.8583      -0.9276         -24.4%
+interp_0.1          10.9363      -0.0056          -0.1%
+interp_0.25         10.9802      -0.0495          -1.3%
+interp_0.5          11.1470      -0.2163          -5.7%
+interp_0.75         11.4258      -0.4951         -13.0%
+interp_1            11.8088      -0.8781         -23.1%
+
+NESTED across all 27 combiners (picks ['interp_0.1', 'softmax_T10'])
+  selected 10.9633  vs PF mean 10.9307  gain -0.0326  (-0.9% of oracle headroom)
+  Q11 prior top-K ranker converted +0.1492 = 3.9%
+  helps 43.2% of held-out wells | 3-WELL bootstrap 5th -0.7353  50th -0.0069  95th +0.3942  P(>0) 0.4563
+
+GATE: beat the PF mean nested AND 3-well 5th > 0 AND help a majority of wells;
+      and to matter for a submission it must also come materially closer to the deployed 8.8626.

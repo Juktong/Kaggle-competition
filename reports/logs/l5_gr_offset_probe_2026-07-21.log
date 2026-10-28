@@ -1,0 +1,15 @@
+  [0/50]
+  [20/50]
+  [40/50]
+
+pairs sampled: 4508 matched points
+  true dTVT     : std=220.06 ft  mean=-48.11
+  GR diff       : std=30.06     |dGR/dTVT| median=0.703 /ft
+  predicted dTVT: std=60.04 ft
+
+  corr(predicted dTVT, true dTVT) = +0.0197
+  corr(raw GR diff, true dTVT)    = -0.0872
+  best scalar a=0.0832: residual std 220.02 vs baseline 220.06  -> variance explained 0.0%
+
+GATE: a materially non-zero correlation would mean the structural field is ignoring a usable,
+      test-available correction for level mismatch between a target and its mates.

@@ -1,0 +1,10 @@
+wells=760
+  intercept (toe-start level): std=4.72 ft
+  slope (start->end drift)   : std=13.28 ft, median|slope|=6.20
+  linear fit explains median R2=0.271 of within-well residual variance
+  corr(level, slope) = -0.350
+
+  corr(first-100-row bias, whole-well bias) = +0.213  -> explains 5% of variance
+  corr(first-50-row bias, whole-well bias) = +0.144
+  corr(first-200-row bias, whole-well bias) = +0.281
+  corr(first-500-row bias, whole-well bias) = +0.415

@@ -1,0 +1,28 @@
+pairs=4878 (pos 2439)  feat_dim=17  train_wells=60
+
+=== training (CPU, tiny MLP) ===
+/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue/scripts/g32_learned_alignment_smoke.py:120: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:838.)
+  tot += float(l) * len(b)
+  ep0: loss=0.6870  val_auc=0.6427
+  ep1: loss=0.6739  val_auc=0.6848
+  ep2: loss=0.6623  val_auc=0.7014
+  ep3: loss=0.6500  val_auc=0.7104
+  ep4: loss=0.6374  val_auc=0.7153
+  ep5: loss=0.6256  val_auc=0.7182
+  ep6: loss=0.6155  val_auc=0.7212
+  ep7: loss=0.6080  val_auc=0.7242
+
+=== baselines on the IDENTICAL validation pairs ===
+  NCC shape (z-scored)     AUC = 0.5010
+  level  -|GRh - GRtw|     AUC = 0.6423
+  LEARNED scorer           AUC = 0.7242
+
+=== DP with the learned emission vs flat-anchor (masked-toe eval wells) ===
+  lam=   5.0  DP(learned emission) =  16.167   flat-anchor =  13.103   worse than flat
+  lam=  20.0  DP(learned emission) =  12.885   flat-anchor =  13.103   BEATS flat
+  lam=  60.0  DP(learned emission) =  12.527   flat-anchor =  13.103   BEATS flat
+  lam= 150.0  DP(learned emission) =  12.912   flat-anchor =  13.103   BEATS flat
+  G3.1 reference (|GR diff| emission): converged to flat from ABOVE, never crossed
+
+GATE: the learned scorer must beat NCC materially AND its DP must beat the flat-anchor baseline.

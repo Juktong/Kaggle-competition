@@ -1,0 +1,50 @@
+rows 3721471 | wells 760 | segment features 13
+deployed line: pooled RMSE 8.8626 | mean signed residual -0.3832 | median -0.1533
+
+=== 1. TAXONOMY: mean signed residual by quintile of each segment ===
+feature                    q1        q2        q3        q4        q5     spread
+nnb                    -0.281    +0.002    -0.623    -0.838    -0.175    +0.840
+closest_all            -0.208    -0.590    -0.118    -0.433    -0.567    +0.471
+closest_surv           -0.295    -0.267    -0.138    -0.769    -0.445    +0.631
+dwt_pf_disagree        -0.196    -0.133    -0.090    -0.573    -0.924    +0.833
+struct_contrib         -0.016    +0.033    -0.288    +0.016    -1.662    +1.694
+row_frac               -0.282    -0.388    -0.466    -0.395    -0.386    +0.184
+rows_from_anchor       -0.167    -0.402    -0.440    -0.514    -0.394    +0.347
+prefix_frac            -0.420    -0.471    -0.402    +0.296    -0.916    +1.212
+well_md                +0.419    -1.175    -0.223    -0.526    -0.419    +1.594
+gr_std                 -0.261    -0.516    -0.480    -0.051    -0.609    +0.559
+gr_std_toe             -0.463    -0.531    -0.088    -0.152    -0.682    +0.594
+mean_incl              -0.627    +0.393    -0.557    -0.399    -0.728    +1.120
+tortuosity             -0.073    -0.365    -0.294    -0.283    -0.905    +0.832
+
+=== 2. OUT-OF-FOLD group-constant correction, GroupKFold(5) BY WELL ===
+  (estimate each group mean signed residual on TRAIN wells, subtract it on HELD-OUT wells)
+feature              OOF RMSE    vs base    helps%  3-well 5th
+nnb                    8.8903    -0.0277     45.3%     -0.3833
+closest_all            8.8826    -0.0200     46.7%     -0.3207
+closest_surv           8.8927    -0.0300     47.1%     -0.3592
+dwt_pf_disagree        8.8695    -0.0069     48.8%     -0.3625
+struct_contrib         8.8562    +0.0065     46.3%     -0.5101
+row_frac               8.8624    +0.0003     48.6%     -0.2614
+rows_from_anchor       8.8639    -0.0013     49.1%     -0.2718
+prefix_frac            8.8860    -0.0233     45.4%     -0.4201
+well_md                8.8660    -0.0034     48.8%     -0.4320
+gr_std                 8.8843    -0.0216     48.7%     -0.3272
+gr_std_toe             8.8915    -0.0288     45.7%     -0.3626
+mean_incl              8.9044    -0.0418     47.5%     -0.4231
+tortuosity             8.8947    -0.0321     46.8%     -0.3727
+
+=== 3. best segment, and the gate ===
+  best feature: struct_contrib   OOF 8.8562  gain +0.0065  helps 46.3%  3-well 5th -0.5101
+  GATE: gain > 0 AND helps a majority AND 3-well 5th > 0  ->  FAIL
+  segments with a positive OOF gain: 2 of 13
+  segments clearing the 3-well 5th:   0 of 13
+
+=== 4. does coarsening rescue Q16? group-level signed-residual R^2, OOF by well ===
+  struct_contrib     OOF R^2 = -0.00042
+  row_frac           OOF R^2 = -0.00181
+  rows_from_anchor   OOF R^2 = -0.00217
+  well_md            OOF R^2 = -0.00263
+  dwt_pf_disagree    OOF R^2 = -0.00342
+  closest_all        OOF R^2 = -0.00640
+  Q16 reference (row-level GBM, same protocol): R^2 = -0.0802

@@ -1,0 +1,28 @@
+train wells 60 | eval wells 40 (DISJOINT)  TWH=1 SUB=10
+scorer trained
+  [0/100]
+  [20/100]
+  [40/100]
+  [60/100]
+  [80/100]
+
+path rows 9600 over 100 wells
+
+=== eval-well references (pooled row-weighted) ===
+  PF mean path (default)   7.6571 | ORACLE best   4.5414 | worst  16.3061
+  deployed honest 8.8626 | flat-anchor is not defined for these path sets
+
+=== ranker arms, selection on HELD-OUT wells ===
+feature set                pooled   vs PF mean  headroom used wells helped
+prior (14)                 8.0556      -0.3985         -12.8%        45.0%
+TWH1 (10)                  8.2175      -0.5604         -18.0%        32.5%
+both (24)                  7.8468      -0.1897          -6.1%        40.0%
+
+prior ledger: the earlier top-K ranker reached +0.1492 pooled and still failed the gate
+              (5th pct negative, 45.7%% of wells hurt, no guard constructible)
+
+=== per-well gain of the best arm (both (24)) vs the PF mean default ===
+  mean -0.3943 median -0.0714 std 3.2860 | helped 40.0% hurt 60.0%
+  3-WELL bootstrap of the mean gain: 5th -3.1085 50th -0.2723 95th +4.8850  P(gain>0) 0.2696
+
+GATE: must convert materially more headroom than the prior +0.1492 AND survive the 3-well scale.

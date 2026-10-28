@@ -1,0 +1,50 @@
+{
+  "name": "deployed_54844628_reference",
+  "timestamp": "unset",
+  "candidate": "/home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/dep_out/submission.csv",
+  "baseline": null,
+  "decision": "PASS",
+  "hard_ok": true,
+  "visible_pooled_rmse": 3.6771948107037087,
+  "warnings": [],
+  "checks": {
+    "format": {
+      "rows": 14151,
+      "sample_rows": 14151,
+      "same_set": true,
+      "same_order": true,
+      "missing": 0,
+      "extra": 0
+    },
+    "finite": {
+      "n_nonfinite": 0
+    },
+    "range": {
+      "min": 11594.993154564603,
+      "max": 12240.753778126718,
+      "mean": 11904.250841902116,
+      "band": [
+        9606.18,
+        13240.01
+      ],
+      "n_out_of_band": 0
+    },
+    "visible_rmse": {
+      "per_well": {
+        "000d7d20": {
+          "n": 3836,
+          "rmse": 3.1039950555769837
+        },
+        "00bbac68": {
+          "n": 6014,
+          "rmse": 3.9717620186305287
+        },
+        "00e12e8b": {
+          "n": 4301,
+          "rmse": 3.719945153003129
+        }
+      },
+      "pooled": 3.6771948107037087
+    }
+  }
+}

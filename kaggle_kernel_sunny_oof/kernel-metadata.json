@@ -1,0 +1,27 @@
+{
+  "id": "joezzzzz/rogii-sunny-oof-codex",
+  "title": "ROGII Sunny OOF Codex",
+  "code_file": "rogii-sunny-oof-codex.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [
+    "gpu"
+  ],
+  "dataset_sources": [
+    "henryjavier/rogii-datasets-processed",
+    "needless090/rogii-tabicl-mirror",
+    "ravaghi/wellbore-geology-prediction-artifacts"
+  ],
+  "kernel_sources": [
+    "thbdh5765/rogii-v4-aeroridge-cache-tabicl",
+    "ravaghi/wellbore-geology-prediction-hill-climbing"
+  ],
+  "competition_sources": [
+    "rogii-wellbore-geology-prediction"
+  ],
+  "model_sources": []
+}

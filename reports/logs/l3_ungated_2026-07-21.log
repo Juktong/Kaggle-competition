@@ -1,0 +1,20 @@
+rows=3721471 ungated=12.7% (473525 rows, 103 wells)
+deployed=8.8626
+  on UNGATED rows only: base RMSE=12.8093  struct RMSE=62.2345
+
+fixed small weights on ungated rows (full-data, for shape):
+  W=0.02: 8.8709  gain -0.0082
+  W=0.05: 8.9231  gain -0.0604
+  W=0.10: 9.1141  gain -0.2515
+  W=0.15: 9.4278  gain -0.5652
+
+NESTED weight fit on ungated rows only (fit half the wells, apply to held-out half):
+  fitted weight (mean) = 0.0109
+  NESTED = 8.8845   gain -0.0218
+
+sub-gate refinement: ungated rows that are still reasonably close to a mate
+  closest<1500: rows=6.1%  NESTED=8.8862  gain -0.0236
+  closest<2000: rows=8.5%  NESTED=8.8418  gain +0.0208
+  closest<3000: rows=10.4%  NESTED=8.8445  gain +0.0181
+
+GATE: >= +0.10 with stably positive bootstrap.

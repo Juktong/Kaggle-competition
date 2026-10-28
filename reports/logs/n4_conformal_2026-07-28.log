@@ -1,0 +1,104 @@
+wells with both OOF and features: 760
+pooled OOF RMSE over these wells: 8.8626
+
+=== does any test-available feature correlate with the per-well OOF RMSE? ===
+feature           pearson  spearman
+nnb               -0.1528   -0.1722
+closest_surv       0.1082    0.1448
+prefix_frac       -0.1163   -0.1192
+toe_md             0.1183    0.1458
+prefix_md          0.0255    0.0077
+well_md            0.1217    0.1484
+gr_std             0.0498    0.0301
+gr_std_toe         0.1383    0.0972
+mean_incl         -0.0391   -0.0432
+tortuosity        -0.0283   -0.0140
+
+strongest by |spearman|: nnb (-0.1528)
+
+calibration wells 380 | validation wells 380
+
+=== A. MARGINAL split conformal (no conditioning) ===
+level     width_ft   coverage
+0.80         9.986      0.853
+0.90        13.431      0.942
+0.95        17.530      0.966
+
+=== B. MONDRIAN split conformal, binned on nnb (4 bins) ===
+
+ level 0.80
+  bin range                 n_cal  n_val   width_ft  coverage
+  [    -inf,    15.0)     91    107     11.404     0.879
+  [    15.0,    26.0)     91     96     10.905     0.854
+  [    26.0,    37.0)     88     88     11.112     0.875
+  [    37.0,     inf)    110     89      8.113     0.865
+  width separation (max/min across bins): 1.406
+
+ level 0.90
+  bin range                 n_cal  n_val   width_ft  coverage
+  [    -inf,    15.0)     91    107     16.972     0.935
+  [    15.0,    26.0)     91     96     13.776     0.927
+  [    26.0,    37.0)     88     88     13.449     0.955
+  [    37.0,     inf)    110     89     11.068     0.966
+  width separation (max/min across bins): 1.533
+
+ level 0.95
+  bin range                 n_cal  n_val   width_ft  coverage
+  [    -inf,    15.0)     91    107     19.087     0.944
+  [    15.0,    26.0)     91     96     17.186     0.969
+  [    26.0,    37.0)     88     88     19.789     0.989
+  [    37.0,     inf)    110     89     17.471     0.989
+  width separation (max/min across bins): 1.151
+
+=== C. width separation by feature (level 0.90, 4 bins) ===
+feature               w_min      w_max   sep(max/min)
+nnb                  11.068     16.972          1.533
+closest_surv         11.112     17.909          1.612
+prefix_frac          11.729     16.601          1.415
+toe_md               12.127     16.972          1.400
+prefix_md            12.226     17.186          1.406
+well_md              11.289     17.186          1.522
+gr_std               11.632     15.800          1.358
+gr_std_toe           11.271     16.521          1.466
+mean_incl            11.729     14.983          1.277
+tortuosity           12.916     16.317          1.263
+
+best separation: closest_surv = 1.612x  (coverage range 0.878..0.948)
+
+=== E. information content of the test-available features ===
+5-fold CV R^2 predicting log(per-well OOF RMSE): 0.0736
+spearman(predicted, actual per-well RMSE):        0.2457
+true per-well RMSE spread: median 5.181  p90 12.138  max 44.375  -> max/median 8.56x
+
+average interval width at MATCHED empirical coverage (validation wells):
+scheme                        avg_width   coverage
+marginal (unconditional)         13.431      0.942
+mondrian on closest_surv         13.758      0.921
+mondrian on nnb                  13.966      0.945
+
+=== D. the 3 visible test wells in the distribution ===
+well           rmse      pct      nnb  clos_surv  pfx_frac    toe_md
+000d7d20      3.622    0.264       13      291.7     0.273      3836
+00bbac68      5.066    0.480       40      343.6     0.204      6014
+00e12e8b      5.181    0.499       13      354.5     0.326      4301
+
+fleet per-well RMSE: median 5.181  p90 12.138  max 44.375
+
+wrote /home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/n4_well_uncertainty.csv
+=== per-well OOF RMSE distribution (honest line, 760 wells) ===
+  p10      2.478
+  p25      3.551
+  p50      5.181
+  p75      8.337
+  p90     12.138
+  p95     16.620
+  p99     29.867
+  max     44.375   mean    6.776
+
+=== pooled RMSE of a RANDOM 3-well draw (20k draws, row-weighted like the LB) ===
+  5th 3.491  25th 5.040  median 6.708  75th 8.990  95th 15.138  99th 25.374
+  actual 3 test wells (train-copy OOF): 4.756  -> percentile 0.207
+  banked public score of the same model: 7.891 -> percentile 0.651 of the 3-well draw distribution
+
+=== transfer gap ===
+  OOF on the 3 test wells 4.756  vs public 7.891  -> ratio 1.659

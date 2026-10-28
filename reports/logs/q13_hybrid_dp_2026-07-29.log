@@ -1,0 +1,38 @@
+train wells 60 | eval wells 40 (DISJOINT)  TWH=1  WS=[0.0, 0.25, 0.5, 1.0]
+scorers trained
+  [0/40]
+  [10/40]
+  [20/40]
+  [30/40]
+
+rows 19083 per weight, over 40 eval wells
+
+=== |argmax error| in ft, by self weight (0 = typewell only) ===
+w              mean     median        p90   within 5ft
+0           185.756    137.520    412.920       0.045
+0.25        162.816    120.750    386.266       0.054
+0.5         156.445    115.640    385.890       0.046
+1           149.408    112.420    383.858       0.036
+
+=== the UNCERTAINTY gate: does self help where the typewell emission is ambiguous? ===
+typewell margin band          n  tw-only err   w=0.25    w=0.5     w=1     
+0.00-0.00                  3817      209.919   -45.491  -55.616  -63.970
+0.00-0.01                  3816      198.068   -37.342  -45.072  -51.540
+0.01-0.01                  3817      186.767   -26.307  -32.521  -39.457
+0.01-0.02                  3816      174.083   -11.902  -16.659  -24.026
+0.02-0.48                  3817      159.944     6.344    3.315   -2.750
+  (cells are hybrid minus typewell-only mean |error|; negative = the hybrid helps)
+
+  corr(typewell margin, hybrid advantage) at w=1 : -0.0915
+  per-well: hybrid helps on 67.5% of eval wells (mean delta -31.4154 ft)
+
+=== DP on the hybrid emission (Q10 transition rule, nested lam) ===
+  flat-anchor on these 40 wells: 12.722  | deployed honest 8.8626 | Q10 typewell-only DP 12.170
+  w            lam=5   lam=10   lam=20   lam=60  lam=100       nested
+  0           16.089   14.368   13.297   12.772   12.861       12.861
+  0.25        20.530   16.021   14.452   13.177   13.031       14.479
+  0.5         22.921   17.981   15.551   13.656   13.256       13.256
+  1           30.378   21.966   16.610   14.501   13.789       13.789
+
+GATE: the hybrid must beat typewell-only overall, or in a gate band that the margin predicts,
+      AND the emission gain must survive into a trajectory that narrows the gap to deployed.

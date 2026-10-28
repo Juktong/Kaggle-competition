@@ -1,0 +1,44 @@
+hedge rows 4301/14151 (30.4%), unique delta [2.]
+
+=== static weight scan: rmse vs each scored reference ===
+w        54968060 (6.643) 54990075 (6.690) 54844628 (7.891)  max|d| vs   non-hom
+                                                        54968060  vs 6.643
+0                1.1026         1.1391         2.0066      2.000       YES
+0.25             0.8270         1.1906         2.0978      1.500       YES
+0.5              0.5513         1.2998         2.2198      1.000       YES
+0.75             0.2757         1.4538         2.3677      0.500        no
+1                0.0000         1.6399         2.5370      0.000        no
+1.25             0.2757         1.8485         2.7238      0.500        no
+1.5              0.5513         2.0729         2.9246      1.000       YES
+2                1.1026         2.5519         3.3583      2.000       YES
+
+closed form: rmse vs 54968060 = |w-1| * 2.0 * sqrt(4301/14151) = |w-1| * 1.1026
+
+=== sanity of the extreme variants (w=0 hedge OFF, w=2 double) ===
+  w=0  min 11591.7 max 12239.2  finite True
+     000d7d20 n=3836  span    15.2  max|step|  0.069  p99|step|  0.045
+     00bbac68 n=6014  span    39.3  max|step|  1.000  p99|step|  0.061
+     00e12e8b n=4301  span    22.8  max|step|  0.073  p99|step|  0.057
+  w=2  min 11595.7 max 12239.2  finite True
+     000d7d20 n=3836  span    15.2  max|step|  0.069  p99|step|  0.045
+     00bbac68 n=6014  span    39.3  max|step|  1.000  p99|step|  0.061
+     00e12e8b n=4301  span    22.8  max|step|  0.073  p99|step|  0.057
+
+=== local proxy: does the +2.0 hedge help or hurt on train-copy truth? ===
+rows with truth: 14151/14151
+well                  n  w=0 (off)   w=1 (on)
+000d7d20           3836     1.6367     1.6367
+00bbac68           6014     4.1912     4.1912
+00e12e8b           4301     2.1818     2.8288
+POOLED            14151     3.1046     3.2594   -> hedge ON changes the proxy by +0.1548
+
+  mean residual on the hedged well BEFORE the hedge: -0.1895 ft  (a +2.0 shift helps iff this is negative)
+  mean residual on the hedged well AFTER  the hedge: +1.8105 ft
+
+  NOTE: train-copy truth is a PROXY (different heel/toe split; its level ~3.5 vs public ~7.9).
+        It gives the SIGN and rough size, not the public delta.
+  if mean residual on hedged rows were -2.0 ft -> hedge-OFF public would be 6.363 (delta -0.280)
+  if mean residual on hedged rows were -1.0 ft -> hedge-OFF public would be 6.457 (delta -0.186)
+  if mean residual on hedged rows were +0.0 ft -> hedge-OFF public would be 6.551 (delta -0.092)
+  if mean residual on hedged rows were +1.0 ft -> hedge-OFF public would be 6.643 (delta +0.000)
+  if mean residual on hedged rows were +2.0 ft -> hedge-OFF public would be 6.734 (delta +0.091)

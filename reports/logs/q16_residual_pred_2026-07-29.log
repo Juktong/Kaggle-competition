@@ -1,0 +1,25 @@
+rows 3721471 over 760 wells | features 15
+signed residual: mean -0.3832  std 8.8544  |  RMSE of the deployed line 8.8626
+  fold done (2977947 train / 743524 test rows)
+  fold done (2976770 train / 744701 test rows)
+  fold done (2977520 train / 743951 test rows)
+  fold done (2976782 train / 744689 test rows)
+  fold done (2976865 train / 744606 test rows)
+
+=== signed-residual predictability, GroupKFold BY WELL ===
+  CV R^2                : -0.0802
+  corr(pred, actual)    : 0.0721
+  N4 reference (magnitude, log per-well RMSE): 0.0736
+
+=== if we applied the correction, what happens? ===
+  correction strength                    pooled  vs deployed
+  resid - 0 * predicted                  8.8626       0.0000
+  resid - 0.25 * predicted               8.8379       0.0247
+  resid - 0.5 * predicted                8.8874      -0.0248
+  resid - 1 * predicted                  9.2024      -0.3398
+
+  per-well gain at strength 0.5: mean -0.0034 median +0.0011 | helped 50.4% hurt 49.6%
+  3-WELL bootstrap: 5th -0.9333  50th +0.0072  95th +0.8933  P(gain>0) 0.5078
+
+GATE: a bounded residual correction needs a materially positive signed-residual R^2 AND a
+      3-well bootstrap 5th percentile > 0.
