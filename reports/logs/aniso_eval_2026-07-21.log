@@ -1,0 +1,24 @@
+=== anisotropic field produced ===
+
+saved /home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/struct_aniso.npz: wells=760 rows=3721471 anisos=[1.0, 2.0, 3.0, 5.0]
+rows=3721471 wells=760 gated=87.3%
+  deployed (A=1, W=0.15) = 8.8626
+
+fixed W=0.15, varying anisotropy:
+  A= 1: 8.8626   gain vs deployed +0.0000
+  A= 2: 8.8230   gain vs deployed +0.0396
+  A= 3: 8.8227   gain vs deployed +0.0399
+  A= 5: 8.8225   gain vs deployed +0.0401
+
+nested-W refit per anisotropy (fit half the wells, apply to held-out half, 3 seeds):
+  A= 1: nested=8.9517  fitted W=0.203  gain vs deployed -0.0890
+  A= 2: nested=8.8433  fitted W=0.241  gain vs deployed +0.0194
+  A= 3: nested=8.8244  fitted W=0.239  gain vs deployed +0.0382
+  A= 5: nested=8.8051  fitted W=0.248  gain vs deployed +0.0575
+
+two-field combination (isotropic + anisotropic, 2 nested coefficients):
+  A=1 + A= 2: nested=8.8436   gain vs deployed +0.0190
+  A=1 + A= 3: nested=8.8299   gain vs deployed +0.0328
+  A=1 + A= 5: nested=8.8024   gain vs deployed +0.0603
+
+GATE: >= +0.10 vs deployed with stably positive bootstrap.

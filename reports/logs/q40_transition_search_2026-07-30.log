@@ -1,0 +1,68 @@
+train 60 | eval 40 (same split seed as Q10/Q17)
+prepped 40 wells | prefix drift per DP step: mean +0.045  median +0.000  |mu|>1 in 2% of wells
+flat-anchor 12.722 | deployed honest reference 8.8626
+
+variant  params                         pooled
+l1       {'lam': 5.0}                   16.009
+l1       {'lam': 20.0}                  13.169
+l1       {'lam': 60.0}                  12.170
+l1       {'lam': 150.0}                 12.478
+l1       {'lam': 400.0}                 12.987
+l2       {'lam': 5.0}                   26.269
+l2       {'lam': 20.0}                  16.942
+l2       {'lam': 60.0}                  14.315
+l2       {'lam': 150.0}                 13.975
+l2       {'lam': 400.0}                 14.353
+drift    {'lam': 5.0}                   17.371
+drift    {'lam': 20.0}                  16.018
+drift    {'lam': 60.0}                  16.158
+drift    {'lam': 150.0}                 23.898
+drift    {'lam': 400.0}                 24.020
+curv     {'lam': 5.0}                   37.056
+curv     {'lam': 20.0}                  18.368
+curv     {'lam': 60.0}                  23.641
+curv     {'lam': 150.0}                 28.516
+curv     {'lam': 400.0}                 32.062
+huber    {'lam': 5.0, 'hub': 5.0}       19.494
+huber    {'lam': 5.0, 'hub': 15.0}      22.042
+huber    {'lam': 20.0, 'hub': 5.0}      13.981
+huber    {'lam': 20.0, 'hub': 15.0}     15.439
+huber    {'lam': 60.0, 'hub': 5.0}      14.858
+huber    {'lam': 60.0, 'hub': 15.0}     13.981
+huber    {'lam': 150.0, 'hub': 5.0}     12.313
+huber    {'lam': 150.0, 'hub': 15.0}     14.511
+huber    {'lam': 400.0, 'hub': 5.0}     12.540
+huber    {'lam': 400.0, 'hub': 15.0}     12.712
+l1curv   {'lam': 5.0, 'lam2': 20.0}     14.865
+l1curv   {'lam': 5.0, 'lam2': 60.0}     18.006
+l1curv   {'lam': 5.0, 'lam2': 150.0}     27.227
+l1curv   {'lam': 20.0, 'lam2': 20.0}     12.969
+l1curv   {'lam': 20.0, 'lam2': 60.0}     14.188
+l1curv   {'lam': 20.0, 'lam2': 150.0}     15.258
+l1curv   {'lam': 60.0, 'lam2': 20.0}     12.600
+l1curv   {'lam': 60.0, 'lam2': 60.0}     12.509
+l1curv   {'lam': 60.0, 'lam2': 150.0}     12.453
+l1curv   {'lam': 150.0, 'lam2': 20.0}     12.643
+l1curv   {'lam': 150.0, 'lam2': 60.0}     12.649
+l1curv   {'lam': 150.0, 'lam2': 150.0}     12.787
+l1curv   {'lam': 400.0, 'lam2': 20.0}     12.928
+l1curv   {'lam': 400.0, 'lam2': 60.0}     12.763
+l1curv   {'lam': 400.0, 'lam2': 150.0}     12.787
+
+=== nested, BY WELL: each variant family vs the l1 baseline family ===
+family         nested    l1 base       gain    helps%                      picks
+l1             12.601     12.601     +0.000      0.0%        ["l1{'lam': 60.0}"]
+l2             14.955     12.601     -2.355     42.5%       ["l2{'lam': 150.0}"]
+drift          24.076     12.601    -11.475     42.5%    ["drift{'lam': 150.0}"]
+curv           18.368     12.601     -5.767     40.0%      ["curv{'lam': 20.0}"]
+huber          15.444     12.601     -2.844     37.5% ["huber{'hub': 5.0, 'lam': 150.0}"]
+l1curv         12.854     12.601     -0.253     57.5% ["l1curv{'lam': 400.0, 'lam2': 60.0}"]
+
+=== ALL families pooled into one nested selection (the honest question) ===
+  nested-over-everything 14.452  vs l1 baseline 12.601  gain -1.851
+  helps 20.0% of held-out wells | 3-WELL bootstrap 5th -5.845  50th -0.365  95th +2.847  P(>0) 0.3111
+  picks: [('l1', {'lam': 60.0}), ('l2', {'lam': 60.0})]
+
+GATE: nested gain > 0 AND helps > 50% of wells AND 3-well 5th > 0  ->  FAIL
+NOTE: this line is ~12.2 vs the deployed honest 8.8626, so passing here would make the
+      transition lever worth pursuing, NOT make this artifact submittable.

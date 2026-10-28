@@ -1,0 +1,55 @@
+wells 773  (SMOKE_N=0)
+
+=== sanity: are the indices finite and scale-sane? ===
+                      min        50%         max
+span_ft          389.9820  4829.9713  10049.9502
+T_incline          0.2404     0.7414      2.2103
+nseg_incline       0.0000    10.0000     28.0000
+Gamma_incline      0.0000     2.1999     18.1325
+freq_incline       0.0000     2.0979      5.1284
+amp_med_incline    0.0000     1.5570      4.8433
+TQG_incline        0.0000     2.3814     49.6505
+T_azimuth          0.3961     1.2043      3.0462
+nseg_azimuth       1.0000    12.0000     30.0000
+Gamma_azimuth      1.1321     4.5624     15.7603
+freq_azimuth       0.8547     2.6114      5.1284
+amp_med_azimuth    0.9011     2.8635      7.7973
+TQG_azimuth        0.4256     8.9922     57.4998
+TQG_Q3D            1.0408     9.5000     57.5383
+dls_mean           0.7399     1.5690      4.1240
+dls_p90            1.4443     3.1513      7.2665
+dls_max            2.1405     5.5228     12.7497
+non-finite counts: none
+wrote /home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/n7_tortuosity.csv
+
+=== correlation vs the banked per-well honest OOF RMSE (760 wells) ===
+feature              pearson   spearman
+span_ft               0.1182     0.1461
+T_incline             0.0306     0.0344
+nseg_incline          0.0620     0.0929
+Gamma_incline         0.1184     0.1105
+freq_incline         -0.0196    -0.0128
+amp_med_incline       0.0852     0.0954
+TQG_incline           0.0445     0.0632
+T_azimuth            -0.0643    -0.0758
+nseg_azimuth          0.0269     0.0353
+Gamma_azimuth        -0.0032    -0.0128
+freq_azimuth         -0.0771    -0.1021
+amp_med_azimuth      -0.0105     0.0100
+TQG_azimuth          -0.0567    -0.0599
+TQG_Q3D              -0.0470    -0.0522
+dls_mean             -0.0409    -0.0470
+dls_p90              -0.0450    -0.0523
+dls_max              -0.0130    -0.0079
+
+=== 5-fold CV R^2 on log(per-well OOF RMSE) -- N4 measured 0.0736 for its feature set ===
+  N4 feature set alone          : 0.0736
+  tortuosity family alone       : 0.0292
+  N4 + tortuosity               : 0.0765
+
+GATE: the tortuosity family must beat 0.0736 to justify touching the model.
+rows 584179 over 120 wells
+local tortuosity (deg/100ft): p5 1.038  p50 1.896  p95 3.271
+
+ROW-LEVEL pooled  pearson(loc_tort, |err|) = -0.0204   spearman = -0.0416
+WITHIN-WELL spearman: mean -0.0831  median -0.0964  std 0.3712  frac|rho|>0.2 0.608  (n=120 wells)

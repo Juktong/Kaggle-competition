@@ -1,0 +1,42 @@
+pairs: train=9686 val=2420  win=64 neg_min=10.0ft  build 1.8s
+
+  [0] NCC baseline (no learning) : val_auc=0.524  acc@median=0.513
+
+  [1] Siamese avgpool (2026-07-20 reproduction)
+/home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/siamese_v2.py:126: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:838.)
+  l.backward(); opt.step(); tot += float(l) * len(b)
+      ep0: loss=0.6928 val_auc=0.585
+      ep1: loss=0.6835 val_auc=0.596
+      ep2: loss=0.6716 val_auc=0.605
+      ep3: loss=0.6689 val_auc=0.618
+      ep4: loss=0.6666 val_auc=0.621
+      ep5: loss=0.6672 val_auc=0.636
+  [1 siam_avg] best val_auc=0.636   vs NCC 0.524  -> +0.112
+
+  [2] Siamese flatten (position-preserving)
+      ep0: loss=0.6825 val_auc=0.619
+      ep1: loss=0.6627 val_auc=0.634
+      ep2: loss=0.6510 val_auc=0.635
+      ep3: loss=0.6387 val_auc=0.636
+      ep4: loss=0.6277 val_auc=0.634
+      ep5: loss=0.6192 val_auc=0.634
+  [2 siam_flat] best val_auc=0.636   vs NCC 0.524  -> +0.112
+
+  [3] Joint 2-channel CNN
+      ep0: loss=0.6864 val_auc=0.595
+      ep1: loss=0.6708 val_auc=0.625
+      ep2: loss=0.6607 val_auc=0.638
+      ep3: loss=0.6526 val_auc=0.647
+      ep4: loss=0.6430 val_auc=0.641
+      ep5: loss=0.6374 val_auc=0.631
+  [3 joint_2ch] best val_auc=0.647   vs NCC 0.524  -> +0.123
+
+=== SUMMARY (identical val pairs) ===
+  NCC (incumbent)        0.524
+  siam_avg  (old arch)   0.636   +0.112 vs NCC
+  siam_flat (pos-keep)   0.636   +0.112 vs NCC
+  joint_2ch              0.647   +0.123 vs NCC
+
+GATE: a learned scorer must BEAT NCC materially to justify DP/top-K integration + GPU time.
+done in 84.9s -> /home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/siamese_v2_med.json

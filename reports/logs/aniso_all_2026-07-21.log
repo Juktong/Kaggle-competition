@@ -1,0 +1,19 @@
+rows=3721471 wells=760 gated=87.3%  anisos=['1', '2', '3', '5', '8', '12', '20', '50']
+  deployed (A=1, W=0.15) = 8.8626
+
+   A |  fixed W=.15 |   nested-W   fitW |  gain(fix)  gain(nest)
+   1 |       8.8626 |     8.9517  0.203 |    +0.0000     -0.0890
+   2 |       8.8230 |     8.8433  0.241 |    +0.0396     +0.0194
+   3 |       8.8227 |     8.8244  0.239 |    +0.0399     +0.0382
+   5 |       8.8225 |     8.8051  0.248 |    +0.0401     +0.0575
+   8 |       8.8179 |     8.7812  0.258 |    +0.0447     +0.0815
+  12 |       8.8155 |     8.7611  0.266 |    +0.0471     +0.1015
+  20 |       8.8144 |     8.7415  0.276 |    +0.0483     +0.1211
+  50 |       8.8267 |     8.7472  0.292 |    +0.0360     +0.1154
+
+BEST single field: A=20  nested=8.7415  gain +0.1211
+conservative (A=20, W unchanged 0.15): 8.8144  gain +0.0483
+  [A=20 nested-W] bootstrap(400): mean=+0.1533 5th=+0.0106 frac>0=96% | wells helped 47.9% hurt 38.6% median +0.000
+  [A=20 fixed W=.15] bootstrap(400): mean=+0.0484 5th=-0.0042 frac>0=93% | wells helped 46.7% hurt 39.7% median +0.000
+
+GATE: >= +0.10 with stably positive bootstrap.

@@ -1,0 +1,30 @@
+=== dump finished: 37105 rows, 773 path files ===
+FULL VERDICT: 37104 paths, 773 wells
+
+  deployed (PF weighted mean)  = 8.8428   <- incumbent 54844628 pipeline (OOF 8.8626)
+  max-likelihood path pick     = 9.0027
+  ORACLE best path (upper bnd) = 7.4726
+  ranker[ridge] hard-pick        = 8.8584   gain vs deployed -0.0156
+  ranker[ridge] shrink lam=0.75  = 8.8325   gain vs deployed +0.0103
+  ranker[ridge] shrink lam=0.50  = 8.8212   gain vs deployed +0.0216
+  ranker[ridge] shrink lam=0.25  = 8.8247   gain vs deployed +0.0181
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+/home/ubuntu/.local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+  ranker[lgbm ] hard-pick        = 8.7451   gain vs deployed +0.0977
+  ranker[lgbm ] shrink lam=0.75  = 8.7103   gain vs deployed +0.1325
+  ranker[lgbm ] shrink lam=0.50  = 8.7152   gain vs deployed +0.1276
+  ranker[lgbm ] shrink lam=0.25  = 8.7595   gain vs deployed +0.0833
+
+  BEST: ranker[lgbm] lam=0.75 -> 8.7103  (gain +0.1325 vs deployed 8.8428)
+  bootstrap gain (200 well-resamples): mean=+0.1371 5th=-0.0231 frac>0=92%
+
+  DECISION THRESHOLD was +0.10 with a stably positive bootstrap.
+  -> DOES NOT MEET the threshold.

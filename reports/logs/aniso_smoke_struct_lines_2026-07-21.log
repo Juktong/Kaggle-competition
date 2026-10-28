@@ -1,0 +1,3 @@
+"data":"[struct] train reference pool: 773 wells in 54 typewell groups\n"
+"data":"[struct] per-well: 000d7d20:nb=13,closest=0ft,ok(dropped=1) | 00bbac68:nb=40,closest=0ft,ok(dropped=1) | 00e12e8b:nb=13,closest=0ft,ok(dropped=1)\n"
+"data":"[struct] applied W=0.25 to 14151/14151 rows (100.0%); mean|diff|=2.421ft max|diff|=10.014ft; mean|struct-base|=9.68ft\n"

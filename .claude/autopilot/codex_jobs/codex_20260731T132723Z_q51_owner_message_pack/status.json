@@ -1,0 +1,13 @@
+{
+  "handle": "codex_20260731T132723Z_q51_owner_message_pack",
+  "task_id": "q51_owner_message_pack",
+  "state": "failed",
+  "detail": "codex exec exited 1",
+  "pid": 392901,
+  "started_at": "2026-07-31T13:27:23Z",
+  "updated_at": "2026-07-31T13:27:25Z",
+  "log_file": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue/.claude/autopilot/codex_jobs/codex_20260731T132723Z_q51_owner_message_pack/codex.jsonl",
+  "last_message_file": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue/.claude/autopilot/codex_jobs/codex_20260731T132723Z_q51_owner_message_pack/last_message.md",
+  "returncode": 1,
+  "finished_at": "2026-07-31T13:27:25Z"
+}

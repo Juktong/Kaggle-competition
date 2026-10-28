@@ -1,0 +1,28 @@
+wells=400  feat_dim=15  K=5
+
+=== training ===
+/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue/scripts/g33_multi_hypothesis_smoke.py:89: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:838.)
+  print(f"   K={K} ep{ep:3d}: bestK-loss={float(err.min(1).values.mean()):.4f}", flush=True)
+   K=1 ep  0: bestK-loss=1.9911
+   K=1 ep 20: bestK-loss=1.4527
+   K=1 ep 40: bestK-loss=1.0474
+   K=1 ep 59: bestK-loss=0.6559
+   K=5 ep  0: bestK-loss=1.7413
+   K=5 ep 20: bestK-loss=0.5758
+   K=5 ep 40: bestK-loss=0.3905
+   K=5 ep 59: bestK-loss=0.2754
+
+=== G3.3 results (100 held-out wells, K=5) ===
+  hypothesis diversity: mean std of offset across K = 9.734 ft  (nonzero => hypotheses differ)
+  flat-anchor baseline                  RMSE = 15.833
+  K=1 regression                        RMSE = 18.475
+  K=5 argmax-probability (ACHIEVABLE) RMSE = 16.877
+  K=5 probability-weighted mean       RMSE = 16.848
+  K=5 ORACLE best-of-K (upper bound)  RMSE = 12.768
+  deployed honest pipeline OOF reference      ~8.86
+
+  ORACLE MARGIN over K=1 = +5.707 ft   ACHIEVABLE MARGIN = +1.598 ft
+
+GATE: multi-hypothesis pays only if the ACHIEVABLE margin is materially positive.
+      A large oracle margin with ~zero achievable margin repeats the top-K / selector finding.

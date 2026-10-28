@@ -1,0 +1,25 @@
+Test wells: ['000d7d20', '00bbac68', '00e12e8b']
+  [5/30]
+  [10/30]
+  [15/30]
+  [20/30]
+  [25/30]
+  [30/30]
+
+=== G3.5 prefix-cut smoke: 30 wells, CUT=0.7 ===
+  held-out prefix rows: median 493 | toe rows: median 5182
+  bias  on held-out prefix: mean -0.507 std 3.228
+  bias  on toe            : mean +0.444 std 7.632
+  rmse  hold 4.507 | toe 11.056
+
+  [CONFOUNDED] corr(bias_hold, bias_toe_SAME-truncated-run) = +0.6589  -> 43.4% (shares the truncation degradation; NOT the deployment quantity)
+
+  corr(bias_hold,  bias_toe)  = +0.1862   -> explains 3.5% of toe-bias variance
+  corr(drift_hold, drift_toe) = +0.1431   -> explains 2.0% of toe-drift variance
+
+  best scalar a=0.408: toe-bias std 7.632 -> residual std 7.500
+  variance of toe bias removed = 3.4% (IN-SAMPLE upper bound)
+
+GATE: the prefix-cut signal must explain a material share of toe bias for a bounded correction
+      to be worth building. Prior reference (2026-07-21): the raw heel level explained ~5% (100
+      rows) to ~17% (500 rows) of whole-well bias variance.

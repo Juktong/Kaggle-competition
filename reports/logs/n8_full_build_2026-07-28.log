@@ -1,0 +1,29 @@
+targets=773  az_tols=[15.0, 30.0, 45.0, 90.0, 180.0]  (SMOKE_N=0)
+  [0/773]
+  [50/773]
+  [100/773]
+  [150/773]
+  [200/773]
+  [250/773]
+  [300/773]
+  [350/773]
+  [400/773]
+  [450/773]
+  [500/773]
+  [550/773]
+  [600/773]
+  [650/773]
+  [700/773]
+  [750/773]
+
+saved /home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/n8_struct_azimuth.npz: wells=760 rows=3721471
+
+=== filter effect ===
+az_tol     mean nnb    nnb=0 % lost nearest %
+15            11.79       2.6%          12.2%
+30            14.26       1.4%          11.3%
+45            14.82       1.3%          11.2%
+90            14.95       1.1%          10.9%
+180           28.09       0.0%           0.0%
+
+median azimuth spread among surviving neighbours: 26.7 deg

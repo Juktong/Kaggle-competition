@@ -1,0 +1,13 @@
+Test wells: ['000d7d20', '00bbac68', '00e12e8b']
+000d7d20: toe_rows=3836 seeds=4  per-row std across seeds: mean=0.230ft median=0.155 p95=0.636 max=0.92
+   pairwise seed-pair RMSE: mean=0.469ft min=0.304 max=0.694
+00bbac68: toe_rows=6014 seeds=4  per-row std across seeds: mean=2.219ft median=0.326 p95=7.639 max=8.32
+   pairwise seed-pair RMSE: mean=4.825ft min=0.635 max=8.461
+00e12e8b: toe_rows=4301 seeds=4  per-row std across seeds: mean=4.001ft median=4.219 p95=5.908 max=8.01
+   pairwise seed-pair RMSE: mean=6.733ft min=2.345 max=9.223
+
+POOLED (3 wells): per-row seed std mean=2.222ft median=0.469 p95=7.395
+INTERP: this ft-scale per-row seed spread bounds the H-hidden run-to-run PF noise (frontier PF is
+        deterministic given seed_base; on VISIBLE wells the overlap override pins output so seed
+        variance there is ~0). The observed 6.563/6.669/6.678 public spread (0.115) is CONFIG
+        variance across frontier branches, not same-config seed noise.

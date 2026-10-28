@@ -1,0 +1,31 @@
+{
+  "id": "leemarc223/rogii-gr-sigma-1-0-frontier-20260723",
+  "id_no": 128335924,
+  "title": "ROGII GR Sigma 1.0 Frontier 20260723",
+  "code_file": "rogii-gr-sigma-1-0-frontier-20260723.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [
+    "gpu"
+  ],
+  "dataset_sources": [
+    "phongnguyn23021656/koolbox-offline",
+    "nina2025/rogii-03",
+    "pilkwang/rogii-model-package",
+    "thbdh5765/rogii-v10-fresh-artifacts",
+    "fleongg/rogii-claude-models-pub",
+    "needless090/rogii-tabicl-mirror",
+    "ravaghi/wellbore-geology-prediction-artifacts"
+  ],
+  "kernel_sources": [],
+  "competition_sources": [
+    "rogii-wellbore-geology-prediction"
+  ],
+  "model_sources": [],
+  "docker_image": "gcr.io/kaggle-private-byod/python@sha256:37c64f7dd9c54116ecd1bcc88817c5469b88387388fade02bfa8bf3fc647d461",
+  "machine_shape": "Gpu"
+}

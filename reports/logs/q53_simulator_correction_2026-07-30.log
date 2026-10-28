@@ -1,0 +1,44 @@
+Q53 — corrected decomposition. PRISTINE 6.6735 | SIGMA_EDGE -0.1105
+
+=== the two axes, and what each cell does to the two candidate pairs ===
+retrieval sigma     | A: 54922806+54844628         | B: 54968060+54844628         | price of B (our-account)
+-0.031    True      | worst 6.5630  mean 6.5475 | worst 6.6430  mean 6.6430 | worst +0.0800  mean +0.0955
+-0.031    False     | worst 6.6425  mean 6.6028 | worst 6.6430  mean 6.6430 | worst +0.0005  mean +0.0402
+0.000     True      | worst 6.5630  mean 6.5630 | worst 6.6430  mean 6.6430 | worst +0.0800  mean +0.0800
+0.000     False     | worst 6.6735  mean 6.6182 | worst 6.6430  mean 6.6430 | worst -0.0305  mean +0.0248
+0.080     True      | worst 6.6430  mean 6.6030 | worst 6.6430  mean 6.6430 | worst +0.0000  mean +0.0400
+0.080     False     | worst 6.7535  mean 6.6582 | worst 6.6430  mean 6.6430 | worst -0.1105  mean -0.0152
+
+  (retrieval +0.080 with sigma=True is the OLD, confounded model; -0.031 is the measured value)
+
+=== tie structure: how many pairs are within 0.01 of the best worst case? ===
+  retrieval -0.031 sigma_transfers=True  -> best worst 6.5630, 6 pair(s) tied, top = 54844628 + 54922806
+  retrieval -0.031 sigma_transfers=False -> best worst 6.6380, 11 pair(s) tied, top = 54896975 + 54922806
+  retrieval +0.000 sigma_transfers=True  -> best worst 6.5630, 6 pair(s) tied, top = 54844628 + 54922806
+  retrieval +0.000 sigma_transfers=False -> best worst 6.6430, 6 pair(s) tied, top = 54922806 + 54968060
+  retrieval +0.080 sigma_transfers=True  -> best worst 6.6430, 11 pair(s) tied, top = 54844628 + 54922806
+  retrieval +0.080 sigma_transfers=False -> best worst 6.6430, 6 pair(s) tied, top = 54922806 + 54968060
+  (Q18 under the old model reported 9 tied pairs at 6.643)
+
+=== H-hidden score of the two slot-1 options, per cell ===
+retrieval sigma           54922806       54968060        gap
+-0.031    True              6.5320         6.6430     0.1110
+-0.031    False             6.6425         6.6430     0.0005
+0.000     True              6.5630         6.6430     0.0800
+0.000     False             6.6735         6.6430    -0.0305
+0.080     True              6.6430         6.6430     0.0000
+0.080     False             6.7535         6.6430    -0.1105
+
+=== four views under the MEASURED cell (retrieval -0.031) ===
+
+--- sigma_transfers = True ---
+  score-first        54844628 + 54922806      worst 6.5630  mean 6.5475
+  diversity-first    54844628 + 54922806      worst 6.5630  mean 6.5475
+  provenance-first   54844628 + 54922806      worst 6.5630  mean 6.5475
+  our-account-first  54844628 + 54968060      worst 6.6430  mean 6.6430
+
+--- sigma_transfers = False ---
+  score-first        54896975 + 54922806      worst 6.6380  mean 6.6013
+  diversity-first    54844628 + 54922806      worst 6.6425  mean 6.6028
+  provenance-first   54844628 + 54922806      worst 6.6425  mean 6.6028
+  our-account-first  54844628 + 54968060      worst 6.6430  mean 6.6430

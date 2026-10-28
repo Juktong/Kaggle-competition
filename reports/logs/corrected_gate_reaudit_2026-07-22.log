@@ -1,0 +1,15 @@
+baseline s_54844628 OOF=8.8626  (public 7.891)
+
+candidate           OOF  oofGain | ref760_5th |   3w_5th  3w_25th  3w_50th    P>0 |       gate
+s_54878409       8.6825  +0.1802 |    +0.0501 |   -1.262   -0.244   +0.098    58% |       FAIL
+s_a20_w25        8.6790  +0.1837 |    +0.0495 |   -1.196   -0.222   +0.090    59% |       FAIL
+s_k96_aniso      8.6547  +0.2080 |    +0.0555 |   -1.520   -0.290   +0.130    58% |       FAIL
+base_k96         9.2555  -0.3928 |    -0.6542 |   -2.021   -0.688   -0.144    41% |       FAIL
+topk96_l75       8.5070  +0.3556 |    +0.1397 |   -1.946   -0.396   +0.171    59% |       FAIL
+dwt             10.2891  -1.4264 |    -1.9261 |   -6.067   -2.593   -1.057    29% |       FAIL
+pf              11.0563  -2.1936 |    -2.6032 |   -7.493   -3.240   -1.303    28% |       FAIL
+base             9.2987  -0.4360 |    -0.6919 |   -1.910   -0.674   -0.168    37% |       FAIL
+
+note: dwt/pf/base are worse than baseline in OOF so they are trivial fails, shown for scale.
+residual-correction / router / L3-ungated were all OOF-negative vs baseline in prior rounds,
+so they fail the corrected gate a fortiori and are not re-run here.

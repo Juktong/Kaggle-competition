@@ -1,0 +1,18 @@
+rows=3721471 wells=760 groups=41  deployed=8.8626
+
+=== D3 group-level corrections (nested by well, 3 seeds) ===
+  offset                     shrink_n=0       -> 9.3779   gain -0.5153
+  offset                     shrink_n=5000    -> 9.2518   gain -0.3892
+  offset                     shrink_n=50000   -> 8.9993   gain -0.1366
+  trend_rowfrac              shrink_n=0       -> 9.4882   gain -0.6255
+
+=== D4 multi-signal router (nested by well, 3 seeds) ===
+  candidate cur            standalone = 8.8626
+  candidate base_noStruct  standalone = 9.2987
+  candidate dwt_only       standalone = 10.2891
+  classifier available: True
+  oracle route mix: cur=38%, base_noStruct=31%, dwt_only=31%
+  ORACLE router (upper bound)  = 7.3763
+  NESTED multi-signal router   = 9.4684   gain -0.6057
+
+GATE for both: >= +0.10 vs deployed with stably positive bootstrap.

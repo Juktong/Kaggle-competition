@@ -52,9 +52,27 @@ kaggle_kernel_*/
 !kaggle_kernel_henry_v10_sunny80_blend/**
 !kaggle_kernel_david_v12_budget_guarded_clean_gpu/
 !kaggle_kernel_david_v12_budget_guarded_clean_gpu/**
+!kaggle_kernel_b4_guarded/
+!kaggle_kernel_b4_guarded/**
+!kaggle_kernel_dwt_affine/
+!kaggle_kernel_dwt_affine/**
+!kaggle_kernel_dwt_detbase/
+!kaggle_kernel_dwt_detbase/**
+!kaggle_kernel_sunny_oof/
+!kaggle_kernel_sunny_oof/**
+!kaggle_kernel_sunny_oof_smoke/
+!kaggle_kernel_sunny_oof_smoke/**
 
 # OS / editor noise
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
+!kaggle_kernel_dwt_pf_blend/
+!kaggle_kernel_dwt_pf_blend/**
+!kaggle_kernel_struct_field_blend/
+!kaggle_kernel_struct_field_blend/**
+
+# evidence logs referenced by reports/ are deliberately tracked
+!reports/logs/*.log
+!kaggle_kernel_kaiwalya_6626_smoke/kernel-metadata.json

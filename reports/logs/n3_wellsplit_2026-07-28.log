@@ -1,0 +1,12 @@
+train wells 60 | validation wells 40 (DISJOINT)
+TWH        window    LEARNED        NCC      level
+1              3ft     0.7632     0.5058     0.7352   (val pairs 3256)
+4              9ft     0.7433     0.4853     0.6652   (val pairs 3254)
+8             17ft     0.7331     0.4979     0.6450   (val pairs 3242)
+16            33ft     0.7457     0.5394     0.6047   (val pairs 3234)
+32            65ft     0.7482     0.4864     0.5815   (val pairs 3182)
+64           129ft     0.7453     0.4856     0.5729   (val pairs 3064)
+
+pair-split (leaky) said: TWH=8 -> 0.7160, TWH=32 -> 0.7476  (delta +0.0316)
+well-split says        : TWH=8 -> 0.7331, TWH=32 -> 0.7482  (delta +0.0151)
+TWH=32 well-split AUC across 3 seeds: 0.7482 0.7307 0.7444  (std 0.0075)

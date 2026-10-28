@@ -1,0 +1,196 @@
+[{"stream_name":"stderr","time":7.460927317,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":7.462128643,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":7.462136394,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":7.462140558,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":8.131458013,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.131507621,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.131514572,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.131519794,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":9.257938667,"data":"[A2-SMOKE] FAST=1 overlap-OFF\n"}
+,{"stream_name":"stdout","time":9.306992899,"data":"[A2] guarded overlap override FORCED OFF (overlap-OFF ablation)\n"}
+,{"stream_name":"stdout","time":9.307886017,"data":"submission profile: vp_balanced_modelpkg_005\n"}
+,{"stream_name":"stdout","time":9.30791005,"data":"sp45_blend_weight: 0.6\n"}
+,{"stream_name":"stdout","time":9.307920469,"data":"visible_prefix_profile: balanced\n"}
+,{"stream_name":"stdout","time":9.307924344,"data":"visible_prefix_final_selection: profile\n"}
+,{"stream_name":"stdout","time":9.307927114,"data":"visible_prefix_cut_fracs: (0.5, 0.65, 0.75)\n"}
+,{"stream_name":"stdout","time":9.30792968,"data":"guarded_overlap_override: False\n"}
+,{"stream_name":"stdout","time":9.458394539,"data":"using koolbox dir: /kaggle/input/datasets/phongnguyn23021656/koolbox-offline\n"}
+,{"stream_name":"stdout","time":9.458473025,"data":"install /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/alembic-1.17.2-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":11.477258799,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/alembic-1.17.2-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":11.513117909,"data":"Installing collected packages: alembic\n"}
+,{"stream_name":"stdout","time":11.513565432,"data":"  Attempting uninstall: alembic\n"}
+,{"stream_name":"stdout","time":11.680801424,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/alembic-1.17.2-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":11.680842658,"data":"Installing collected packages: alembic\n"}
+,{"stream_name":"stdout","time":11.680848802,"data":"  Attempting uninstall: alembic\n"}
+,{"stream_name":"stdout","time":11.706954494,"data":"    Found existing installation: alembic 1.18.4\n"}
+,{"stream_name":"stdout","time":11.728143387,"data":"    Uninstalling alembic-1.18.4:\n"}
+,{"stream_name":"stdout","time":11.813394577,"data":"      Successfully uninstalled alembic-1.18.4\n"}
+,{"stream_name":"stdout","time":11.909615796,"data":"    Found existing installation: alembic 1.18.4\n"}
+,{"stream_name":"stdout","time":11.909653743,"data":"    Uninstalling alembic-1.18.4:\n"}
+,{"stream_name":"stdout","time":11.90965811,"data":"      Successfully uninstalled alembic-1.18.4\n"}
+,{"stream_name":"stdout","time":12.042760543,"data":"Successfully installed alembic-1.17.2\n"}
+,{"stream_name":"stdout","time":12.245656442,"data":"Successfully installed alembic-1.17.2\n"}
+,{"stream_name":"stdout","time":12.24569388,"data":"install /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/colorlog-6.10.1-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":13.313330933,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/colorlog-6.10.1-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":13.342634671999999,"data":"colorlog is already installed with the same version as the provided wheel. Use --force-reinstall to force an installation of the wheel.\n"}
+,{"stream_name":"stdout","time":13.516057655000001,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/colorlog-6.10.1-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":13.516092983,"data":"colorlog is already installed with the same version as the provided wheel. Use --force-reinstall to force an installation of the wheel.\n"}
+,{"stream_name":"stdout","time":13.516107877,"data":"install /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/joblib-1.5.2-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":14.557802607,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/joblib-1.5.2-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":14.618360178,"data":"Installing collected packages: joblib\n"}
+,{"stream_name":"stdout","time":14.618499014,"data":"  Attempting uninstall: joblib\n"}
+,{"stream_name":"stdout","time":14.760583734,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/joblib-1.5.2-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":14.760621239,"data":"Installing collected packages: joblib\n"}
+,{"stream_name":"stdout","time":14.760625109,"data":"  Attempting uninstall: joblib\n"}
+,{"stream_name":"stdout","time":14.937882511,"data":"    Found existing installation: joblib 1.5.3\n"}
+,{"stream_name":"stdout","time":14.954940016,"data":"    Uninstalling joblib-1.5.3:\n"}
+,{"stream_name":"stdout","time":15.063314786,"data":"      Successfully uninstalled joblib-1.5.3\n"}
+,{"stream_name":"stdout","time":15.14045565,"data":"    Found existing installation: joblib 1.5.3\n"}
+,{"stream_name":"stdout","time":15.14048585,"data":"    Uninstalling joblib-1.5.3:\n"}
+,{"stream_name":"stdout","time":15.140489495,"data":"      Successfully uninstalled joblib-1.5.3\n"}
+,{"stream_name":"stdout","time":15.286883757,"data":"Successfully installed joblib-1.5.2\n"}
+,{"stream_name":"stdout","time":15.489582942,"data":"Successfully installed joblib-1.5.2\n"}
+,{"stream_name":"stdout","time":15.489618361,"data":"install /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/koolbox-0.1.3-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":16.546748013,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/koolbox-0.1.3-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":16.580440221,"data":"Installing collected packages: koolbox\n"}
+,{"stream_name":"stdout","time":16.625539681,"data":"Successfully installed koolbox-0.1.3\n"}
+,{"stream_name":"stdout","time":16.749702334,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/koolbox-0.1.3-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":16.749757699,"data":"Installing collected packages: koolbox\n"}
+,{"stream_name":"stdout","time":16.749764494,"data":"Successfully installed koolbox-0.1.3\n"}
+,{"stream_name":"stdout","time":16.749769488,"data":"install /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/optuna-4.6.0-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":17.977743159,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/optuna-4.6.0-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":18.058054874,"data":"Installing collected packages: optuna\n"}
+,{"stream_name":"stdout","time":18.058381589,"data":"  Attempting uninstall: optuna\n"}
+,{"stream_name":"stdout","time":18.176291014,"data":"    Found existing installation: optuna 4.9.0\n"}
+,{"stream_name":"stdout","time":18.180564633,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/optuna-4.6.0-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":18.180598901,"data":"Installing collected packages: optuna\n"}
+,{"stream_name":"stdout","time":18.180605024,"data":"  Attempting uninstall: optuna\n"}
+,{"stream_name":"stdout","time":18.180609944,"data":"    Found existing installation: optuna 4.9.0\n"}
+,{"stream_name":"stdout","time":18.215030226,"data":"    Uninstalling optuna-4.9.0:\n"}
+,{"stream_name":"stdout","time":18.390240406,"data":"      Successfully uninstalled optuna-4.9.0\n"}
+,{"stream_name":"stdout","time":18.418059212,"data":"    Uninstalling optuna-4.9.0:\n"}
+,{"stream_name":"stdout","time":18.418094368,"data":"      Successfully uninstalled optuna-4.9.0\n"}
+,{"stream_name":"stdout","time":18.775961916,"data":"Successfully installed optuna-4.6.0\n"}
+,{"stream_name":"stdout","time":18.978994648,"data":"Successfully installed optuna-4.6.0\n"}
+,{"stream_name":"stdout","time":18.979051289,"data":"install /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/packaging-25.0-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":20.117292252,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/packaging-25.0-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":20.14798958,"data":"Installing collected packages: packaging\n"}
+,{"stream_name":"stdout","time":20.148249111,"data":"  Attempting uninstall: packaging\n"}
+,{"stream_name":"stdout","time":20.319952348,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/packaging-25.0-py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":20.320013948,"data":"Installing collected packages: packaging\n"}
+,{"stream_name":"stdout","time":20.320043663,"data":"  Attempting uninstall: packaging\n"}
+,{"stream_name":"stdout","time":20.467165621,"data":"    Found existing installation: packaging 26.1\n"}
+,{"stream_name":"stdout","time":20.473749702,"data":"    Uninstalling packaging-26.1:\n"}
+,{"stream_name":"stdout","time":20.502271433,"data":"      Successfully uninstalled packaging-26.1\n"}
+,{"stream_name":"stdout","time":20.582550899,"data":"Successfully installed packaging-25.0\n"}
+,{"stream_name":"stdout","time":20.670095103,"data":"    Found existing installation: packaging 26.1\n"}
+,{"stream_name":"stdout","time":20.670130902,"data":"    Uninstalling packaging-26.1:\n"}
+,{"stream_name":"stdout","time":20.670136584,"data":"      Successfully uninstalled packaging-26.1\n"}
+,{"stream_name":"stdout","time":20.670140703,"data":"Successfully installed packaging-25.0\n"}
+,{"stream_name":"stdout","time":20.670144722,"data":"install /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/python_dateutil-2.9.0.post0-py2.py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":21.931038939,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/python_dateutil-2.9.0.post0-py2.py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":21.997288042,"data":"python-dateutil is already installed with the same version as the provided wheel. Use --force-reinstall to force an installation of the wheel.\n"}
+,{"stream_name":"stdout","time":22.133889373,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/python_dateutil-2.9.0.post0-py2.py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":22.133926673,"data":"python-dateutil is already installed with the same version as the provided wheel. Use --force-reinstall to force an installation of the wheel.\n"}
+,{"stream_name":"stdout","time":22.133935042,"data":"install /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/pytz-2025.2-py2.py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":23.243622919,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/pytz-2025.2-py2.py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":23.283745942,"data":"pytz is already installed with the same version as the provided wheel. Use --force-reinstall to force an installation of the wheel.\n"}
+,{"stream_name":"stdout","time":23.44614969,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/pytz-2025.2-py2.py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":23.446187516,"data":"pytz is already installed with the same version as the provided wheel. Use --force-reinstall to force an installation of the wheel.\n"}
+,{"stream_name":"stdout","time":23.446193984,"data":"install /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/six-1.17.0-py2.py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":24.52344022,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/six-1.17.0-py2.py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":24.551952804,"data":"six is already installed with the same version as the provided wheel. Use --force-reinstall to force an installation of the wheel.\n"}
+,{"stream_name":"stdout","time":24.726287429,"data":"Processing /kaggle/input/datasets/phongnguyn23021656/koolbox-offline/six-1.17.0-py2.py3-none-any.whl\n"}
+,{"stream_name":"stdout","time":24.726325477,"data":"six is already installed with the same version as the provided wheel. Use --force-reinstall to force an installation of the wheel.\n"}
+,{"stream_name":"stdout","time":27.227749531,"data":"koolbox mode: external | module: /usr/local/lib/python3.12/dist-packages/koolbox/__init__.py\n"}
+,{"stream_name":"stderr","time":347.525373049,"data":"[Parallel(n_jobs=4)]: Using backend ThreadingBackend with 4 concurrent workers.\n"}
+,{"stream_name":"stderr","time":347.525416094,"data":"\n"}
+,{"stream_name":"stderr","time":347.525423051,"data":"[Parallel(n_jobs=4)]: Using backend ThreadingBackend with 4 concurrent workers.\n"}
+,{"stream_name":"stderr","time":354.92950434,"data":"[Parallel(n_jobs=4)]: Done   3 out of   3 | elapsed:    7.5s finished\n"}
+,{"stream_name":"stderr","time":354.929570643,"data":"\n"}
+,{"stream_name":"stderr","time":354.929580013,"data":"[Parallel(n_jobs=4)]: Done   3 out of   3 | elapsed:    7.5s finished\n"}
+,{"stream_name":"stdout","time":357.169844996,"data":"Loading lightgbm-1 from disk...\n"}
+,{"stream_name":"stdout","time":359.938705509,"data":"Loaded lightgbm-1 with overall RMSE: 10.7668\n"}
+,{"stream_name":"stdout","time":359.938916835,"data":"\n"}
+,{"stream_name":"stdout","time":362.521659089,"data":"Loading lightgbm-2 from disk...\n"}
+,{"stream_name":"stdout","time":365.732256518,"data":"Loaded lightgbm-2 with overall RMSE: 10.4852\n"}
+,{"stream_name":"stdout","time":365.732339218,"data":"\n"}
+,{"stream_name":"stdout","time":374.51668536,"data":"Loading lightgbm-3 from disk...\n"}
+,{"stream_name":"stdout","time":376.64933194,"data":"Loaded lightgbm-3 with overall RMSE: 10.4733\n"}
+,{"stream_name":"stdout","time":376.64937172,"data":"\n"}
+,{"stream_name":"stdout","time":381.833563032,"data":"Loading catboost-1 from disk...\n"}
+,{"stream_name":"stdout","time":385.082981582,"data":"Loaded catboost-1 with overall RMSE: 10.5750\n"}
+,{"stream_name":"stdout","time":385.083025197,"data":"\n"}
+,{"stream_name":"stdout","time":385.083029799,"data":"Loading catboost-2 from disk...\n"}
+,{"stream_name":"stdout","time":388.302737545,"data":"Loaded catboost-2 with overall RMSE: 10.5550\n"}
+,{"stream_name":"stdout","time":388.302785016,"data":"\n"}
+,{"stream_name":"stdout","time":390.337635612,"data":"Training Ridge\n"}
+,{"stream_name":"stdout","time":390.337676248,"data":"\n"}
+,{"stream_name":"stdout","time":391.647087746,"data":"--- Fold 0 - root_mean_squared_error: 9.4973 - Time: 0.68 s\n"}
+,{"stream_name":"stdout","time":392.619326139,"data":"--- Fold 1 - root_mean_squared_error: 10.8118 - Time: 0.71 s\n"}
+,{"stream_name":"stdout","time":393.536523298,"data":"--- Fold 2 - root_mean_squared_error: 9.3836 - Time: 0.67 s\n"}
+,{"stream_name":"stdout","time":394.417142957,"data":"--- Fold 3 - root_mean_squared_error: 11.4277 - Time: 0.63 s\n"}
+,{"stream_name":"stdout","time":395.159241303,"data":"--- Fold 4 - root_mean_squared_error: 10.8220 - Time: 0.69 s\n"}
+,{"stream_name":"stdout","time":395.15931152,"data":"\n"}
+,{"stream_name":"stdout","time":395.159316279,"data":"------ Overall root_mean_squared_error: 10.4197 - Mean root_mean_squared_error: 10.3885 ± 0.8064 - Time: 6.72 s\n"}
+,{"stream_name":"stdout","time":395.773984123,"data":"\n"}
+,{"stream_name":"stdout","time":395.774027675,"data":"Processing 1/3: 000d7d20...\n"}
+,{"stream_name":"stdout","time":395.774034803,"data":"  Physical model OK\n"}
+,{"stream_name":"stdout","time":452.345772424,"data":"  PF 128-seed lik-ensemble OK scales=(3.0, 5.0, 8.0, 12.0)\n"}
+,{"stream_name":"stdout","time":452.345813055,"data":"  Beam 14-config ensemble OK\n"}
+,{"stream_name":"stdout","time":452.345819712,"data":"  Selector code=0 variant=pf_scale_5_hold_0.2 n_eval=3836 z_span=100.020\n"}
+,{"stream_name":"stdout","time":452.603798177,"data":"  Added 3836 rows\n"}
+,{"stream_name":"stdout","time":452.603840691,"data":"\n"}
+,{"stream_name":"stdout","time":452.603847982,"data":"Processing 2/3: 00bbac68...\n"}
+,{"stream_name":"stdout","time":452.603854107,"data":"  Physical model OK\n"}
+,{"stream_name":"stdout","time":539.853327009,"data":"  PF 128-seed lik-ensemble OK scales=(3.0, 5.0, 8.0, 12.0)\n"}
+,{"stream_name":"stdout","time":539.853388782,"data":"  Beam 14-config ensemble OK\n"}
+,{"stream_name":"stdout","time":539.853393727,"data":"  Selector code=3 variant=pf_scale_5_hold_0.15 n_eval=6014 z_span=176.490\n"}
+,{"stream_name":"stdout","time":540.278105313,"data":"  Added 6014 rows\n"}
+,{"stream_name":"stdout","time":540.278148445,"data":"\n"}
+,{"stream_name":"stdout","time":540.278155722,"data":"Processing 3/3: 00e12e8b...\n"}
+,{"stream_name":"stdout","time":540.278167037,"data":"  Physical model OK\n"}
+,{"stream_name":"stdout","time":603.600925468,"data":"  PF 128-seed lik-ensemble OK scales=(3.0, 5.0, 8.0, 12.0)\n"}
+,{"stream_name":"stdout","time":603.600962881,"data":"  Beam 14-config ensemble OK\n"}
+,{"stream_name":"stdout","time":603.60096746,"data":"  Selector code=2 variant=pf_scale_12_beam_0.2_hold_0.15 n_eval=4301 z_span=144.810\n"}
+,{"stream_name":"stdout","time":603.683395578,"data":"  Added 4301 rows\n"}
+,{"stream_name":"stdout","time":603.979010216,"data":"projection applied to 3 wells\n"}
+,{"stream_name":"stdout","time":603.979047727,"data":"wrote projected submission.csv (14151, 2)\n"}
+,{"stream_name":"stdout","time":604.506067877,"data":"saved sp45_projection_submission.csv (14151, 2)\n"}
+,{"stream_name":"stdout","time":604.552343782,"data":"DATA: /kaggle/input/competitions/rogii-wellbore-geology-prediction | OUT: /kaggle/working | cores: 4 | FAST: True\n"}
+,{"stream_name":"stdout","time":609.776872855,"data":"trackers compiled.\n"}
+,{"stream_name":"stdout","time":610.294908225,"data":"train wells: 40 | test wells: 3\n"}
+,{"stream_name":"stdout","time":610.912654566,"data":"building lik-PF + features (test)...\n"}
+,{"stream_name":"stdout","time":663.056628061,"data":"INFERENCE mode - loading models from /kaggle/input/datasets/fleongg/rogii-claude-models-pub\n"}
+,{"stream_name":"stdout","time":665.101827972,"data":"submission.csv written (14151 rows) in 55s\n"}
+,{"stream_name":"stdout","time":665.513314545,"data":"                             file  w_sp45  w_learned  rows     mean_tvt    std_tvt  rmse_vs_sp45  p95_abs_vs_sp45\n"}
+,{"stream_name":"stdout","time":665.513348435,"data":"submission_sp45_learned_w0.50.csv    0.50       0.50 14151 11904.865424 278.764544      2.030177         4.393054\n"}
+,{"stream_name":"stdout","time":665.513354677,"data":"submission_sp45_learned_w0.52.csv    0.52       0.48 14151 11904.831357 278.750188      1.948970         4.217331\n"}
+,{"stream_name":"stdout","time":665.513359463,"data":"submission_sp45_learned_w0.55.csv    0.55       0.45 14151 11904.780256 278.728690      1.827160         3.953748\n"}
+,{"stream_name":"stdout","time":665.513365004,"data":"submission_sp45_learned_w0.58.csv    0.58       0.42 14151 11904.729155 278.707234      1.705349         3.690165\n"}
+,{"stream_name":"stdout","time":665.513370106,"data":"submission_sp45_learned_w0.60.csv    0.60       0.40 14151 11904.695088 278.692954      1.624142         3.514443\n"}
+,{"stream_name":"stdout","time":665.514299697,"data":"wrote final submission.csv from submission_sp45_learned_w0.60.csv (14151, 2)\n"}
+,{"stream_name":"stdout","time":665.603843101,"data":"overlap probe: candidate same-well copies 3/3\n"}
+,{"stream_name":"stdout","time":665.664573824,"data":"guarded overlap override disabled; keeping current submission.csv\n"}
+,{"stream_name":"stdout","time":666.133049385,"data":"Visible-prefix calibration: {'profile': 'balanced', 'include_pf': True, 'cal_seeds': 24, 'final_seeds': 48, 'particles': 350, 'cut_fracs': (0.5, 0.65, 0.75), 'variants': 104, 'skip_bimodal': False, 'vp_skip_requires_low_trust': False, 'vp_low_trust_threshold': 0.25, 'contact_override': False, 'final_selection': 'profile'}\n"}
+,{"stream_name":"stdout","time":666.133089957,"data":"[gold 1/3] calibrating 000d7d20\n"}
+,{"stream_name":"stdout","time":700.045617088,"data":"  report: {'status': 'ok', 'best_name': 'contact_md_lookup_astnu', 'best_score': 0.005882313423171247, 'default_score': 1.7740152226177544, 'gain': 1.7681329091945832, 'consistency': 1.0}\n"}
+,{"stream_name":"stdout","time":700.050785081,"data":"[gold 2/3] calibrating 00bbac68\n"}
+,{"stream_name":"stdout","time":749.968206312,"data":"  report: {'status': 'ok', 'best_name': 'contact_md_lookup_ancc', 'best_score': 0.009562921926560589, 'default_score': 6.640202380868526, 'gain': 6.630639458941966, 'consistency': 1.0}\n"}
+,{"stream_name":"stdout","time":749.969848034,"data":"[gold 3/3] calibrating 00e12e8b\n"}
+,{"stream_name":"stdout","time":789.238492198,"data":"  report: {'status': 'ok', 'best_name': 'contact_md_lookup_egfdl', 'best_score': 0.0074289175919011186, 'default_score': 6.098563683588402, 'gain': 6.091134765996501, 'consistency': 1.0}\n"}
+,{"stream_name":"stdout","time":789.471283743,"data":"Visible-prefix selected submission.csv: {'selected_profile': 'balanced', 'selected_sha256': '4eec541a47605870dc4a67bfc62b3aeced206707afd393d99c3095cbc0e9fd03', 'self_verified_anchor_sha256': '4eec541a47605870dc4a67bfc62b3aeced206707afd393d99c3095cbc0e9fd03', 'elapsed_sec': 123.65374541282654, 'wells': 3, 'candidates_with_final_values': 14151, 'bimodal_guard_enabled': False, 'bimodal_guard_requires_low_trust': False, 'bimodal_guard_low_trust_threshold': 0.25, 'bimodal_guard_wells': [], 'contact_override_enabled': False, 'final_selection': 'profile', 'chosen_path': '/kaggle/working/submission_gold_prefix_balanced.csv', 'profiles': {'conservative': {'file': '/kaggle/working/submission_gold_prefix_conservative.csv', 'rows': 14151, 'sha256': '0382613abf8a16d6b69838282717172c00df0dfbdcc75fac77a355cafd6e02a3', 'applied_wells': 3, 'mean_abs_move': 0.3724543311985465, 'max_abs_move': 2.3821046022463594}, 'balanced': {'file': '/kaggle/working/submission_gold_prefix_balanced.csv', 'rows': 14151, 'sha256': '4eec541a47605870dc4a67bfc62b3aeced206707afd393d99c3095cbc0e9fd03', 'applied_wells': 0, 'mean_abs_move': 0.0, 'max_abs_move': 0.0}, 'aggressive': {'file': '/kaggle/working/submission_gold_prefix_aggressive.csv', 'rows': 14151, 'sha256': '22a81004fb5749a050061102f84236f3566ae39c635cde046fa74891f966eaf7', 'applied_wells': 3, 'mean_abs_move': 0.9340431081391362, 'max_abs_move': 6.063538987536188}}}\n"}
+,{"stream_name":"stdout","time":836.958118255,"data":"model package p95 diff 29.515 \u003e 25.000\n"}
+,{"stream_name":"stdout","time":837.121488332,"data":"PF seed-branch hedge: {'skip_separation': 2, 'applied': 1}\n"}
+,{"stream_name":"stdout","time":837.267898509,"data":"Submission audit: {'rows': 14151, 'columns': ['id', 'tvt'], 'id_order_matches_sample': True, 'tvt_min': 11594.21749270502, 'tvt_max': 12239.276968459366, 'tvt_mean': 11905.302960421868, 'tvt_std': 278.02864825627904, 'sha256_submission_csv': 'e814b984782e8fc737def26c9cd523de5c52fb735561235481bfe50145371556'}\n"}
+,{"stream_name":"stderr","time":843.520150714,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":843.520188476,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":843.685424968,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":843.685457089,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":844.386883842,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":844.752581885,"data":"[NbConvertApp] Writing 421069 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":847.435310448,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":850.031925905,"data":"[NbConvertApp] Support files will be in __results___files/\n"}
+,{"stream_name":"stderr","time":850.032022807,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":850.032619854,"data":"[NbConvertApp] Writing 1988377 bytes to __results__.html\n"}
+]

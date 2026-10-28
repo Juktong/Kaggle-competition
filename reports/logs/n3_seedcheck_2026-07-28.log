@@ -1,0 +1,8 @@
+TWH    metric     seeds 0..4 -> mean +/- std
+1      LEARNED    0.7632 0.7635 0.7678 0.7702 0.7628  ->  0.7655 +/- 0.0030
+1      level      0.7352  (no training)
+8      LEARNED    0.7331 0.7258 0.7329 0.7298 0.7282  ->  0.7300 +/- 0.0028
+8      level      0.6450  (no training)
+
+TWH=1 minus TWH=8 (G3.2 value): +0.0355   seed-noise scale 0.0041   ratio 8.7x
+G3.2 recorded LEARNED 0.7242 on a random PAIR split of the same 60 wells.

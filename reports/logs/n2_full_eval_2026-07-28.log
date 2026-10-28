@@ -1,0 +1,31 @@
+variant columns: ['struct_deployed_repro', 'struct_increment', 'struct_increment_iso']
+aligned rows 3721471 over 760 wells
+
+mechanism metrics (from the builder):
+  nearest-point well identity switches: mean 0.0021  median 0.0001
+  fraction of k=12 points sharing the nearest point's well: mean 0.9938  p10 0.9929
+
+variant                         rows    pooled    vs 8.8626  vs struct
+struct_deployed_repro        3721471    8.8626      -0.0000    -0.0000
+struct_increment             3721471   10.5466      -1.6840    -1.6839
+struct_increment_iso         3721471    8.9629      -0.1003    -0.1003
+
+=== 3-WELL GATE vs the deployed 54844628 (the only gate that decides) ===
+
+struct_increment
+  pooled gain vs deployed: -1.6839  (over 760 wells)
+  per-well gain: mean -1.4451 median -0.6856 std 3.0398 | helped 24.6% hurt 61.8%
+  3-WELL bootstrap: 1st -8.0138  5th -5.5224  25th -2.9110  50th -1.4046  95th +1.3749
+  P(gain>0) = 0.1938
+  760-well REFERENCE (not a gate): mean -1.6864 5th -2.0130
+  actual 3 test wells (OOF proxy): -1.9368
+  GATE PASS: False   (conditional: False)
+
+struct_increment_iso
+  pooled gain vs deployed: -0.1003  (over 760 wells)
+  per-well gain: mean -0.1005 median +0.0000 std 1.3319 | helped 40.8% hurt 45.7%
+  3-WELL bootstrap: 1st -3.6476  5th -1.7148  25th -0.1548  50th -0.0001  95th +1.0264
+  P(gain>0) = 0.4602
+  760-well REFERENCE (not a gate): mean -0.1011 5th -0.2261
+  actual 3 test wells (OOF proxy): -2.9738
+  GATE PASS: False   (conditional: False)

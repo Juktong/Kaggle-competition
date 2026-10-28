@@ -1,0 +1,13 @@
+{
+  "handle": "codex_20260731T134224Z_q52_next_queue_builder_after_q38_q51",
+  "task_id": "q52_next_queue_builder_after_q38_q51",
+  "state": "failed",
+  "detail": "codex exec exited 1",
+  "pid": 393505,
+  "started_at": "2026-07-31T13:42:24Z",
+  "updated_at": "2026-07-31T13:42:26Z",
+  "log_file": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue/.claude/autopilot/codex_jobs/codex_20260731T134224Z_q52_next_queue_builder_after_q38_q51/codex.jsonl",
+  "last_message_file": "/home/ubuntu/workstation/JoeProject/Kaggle-competition/.claude/worktrees/autonomous-queue/.claude/autopilot/codex_jobs/codex_20260731T134224Z_q52_next_queue_builder_after_q38_q51/last_message.md",
+  "returncode": 1,
+  "finished_at": "2026-07-31T13:42:26Z"
+}

@@ -1,0 +1,35 @@
+train wells 60 | eval wells 60 (DISJOINT)  TWH=1
+  typewell: scorer trained
+  self: scorer trained
+  both: scorer trained
+
+per-well AUC table: 60 eval wells
+
+=== pooled over wells (mean of per-well AUC) ===
+  typewell   0.7472
+  self       0.6439
+  both       0.7484
+
+=== stratified by the well-level prefix-coverage gate (test-available) ===
+coverage band         n   typewell       self       both  self-typewell both-typewell
+0.56-0.72            12     0.7695     0.6374     0.7665        -0.1320      -0.0030
+0.72-0.75            12     0.7560     0.6480     0.7512        -0.1079      -0.0048
+0.75-0.78            12     0.7332     0.6108     0.7136        -0.1224      -0.0196
+0.78-0.82            12     0.7161     0.7108     0.7563        -0.0053       0.0403
+0.82-0.92            12     0.7613     0.6124     0.7546        -0.1489      -0.0067
+
+=== is there ANY coverage threshold where self or both wins? ===
+cov >=      wells  self-typewell  both-typewell
+0.00           60        -0.1033         0.0012
+0.30           60        -0.1033         0.0012
+0.40           60        -0.1033         0.0012
+0.50           60        -0.1033         0.0012
+0.60           59        -0.1004         0.0015
+0.70           52        -0.1006         0.0004
+0.80           22        -0.0792         0.0149
+
+  wells where self beats typewell: 21.7%   both beats typewell: 51.7%
+  corr(coverage, self-typewell) = 0.0867
+  corr(coverage, both-typewell) = 0.0604
+
+GATE: a coverage band must show self or both beating typewell to justify a gated candidate.

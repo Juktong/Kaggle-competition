@@ -1,0 +1,6 @@
+area,branch_id,status,action,evidence,next_command,blocks_release
+ledger_updates,NO_UNAPPLIED_UPDATES,PASS,No dry-run ledger updates were detected in the latest poll.,submission_updates=0; kernel_updates=0,python3 scripts/poll_and_refresh_state.py,False
+baseline_anchor,B01_baseline_anchor_valid,ACTION_READY,Promote the active-account baseline anchor and allow dependent candidate review.,status=complete; public_score=7.182,python3 scripts/poll_and_refresh_state.py --apply-submission-updates,False
+fleongg_calibration,B04_fleongg_weak,ACTION_READY,Downweight Fleongg blend slots and rerank toward SP45/plateau alternatives.,baseline=7.182; fleongg=7.787; margin=0.10,rerun next_submission_batch_plan after marking Fleongg as weak calibration,False
+degnonguidi_reference,B06_degnonguidi_error_or_defer,ACTION_READY,"Record Degnonguidi terminal status or deferral, then rerun plan without waiting on it.",status=ERROR; version=6,"update kernel ledger, record deferral reason, rerun poll_and_refresh_state.py",False
+release_sequence,RELEASE_BLOCKED,WAIT,Do not prepare or submit official slots until external blockers and validation errors clear.,pending=0; running=0; release_gates=['BLOCKED_STRATEGY_PIVOT']; validation_errors=0,python3 scripts/poll_and_refresh_state.py,True

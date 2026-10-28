@@ -1,0 +1,19 @@
+Test wells: ['000d7d20', '00bbac68', '00e12e8b']
+  [0/60]
+  [8/60]
+  [16/60]
+  [24/60]
+  [32/60]
+  [40/60]
+  [48/60]
+  [56/60]
+
+rows=272803  deployed-PF RMSE=10.8517
+  variant1 wider-emission RMSE=10.8171  corr(err,baseErr)=0.8755
+  variant2 trim+procnoise RMSE=10.8682  corr(err,baseErr)=0.9290
+  blend base+0.3*(v1-base): RMSE=10.5527 gain vs PF +0.2989
+  blend base+0.5*(v1-base): RMSE=10.4897 gain vs PF +0.3619
+  blend base+0.3*(v2-base): RMSE=10.6929 gain vs PF +0.1588
+  blend base+0.5*(v2-base): RMSE=10.6647 gain vs PF +0.1869
+
+GATE: a variant helps only if corr(err) is materially <1 AND blending lowers RMSE.

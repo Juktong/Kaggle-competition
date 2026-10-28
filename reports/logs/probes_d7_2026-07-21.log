@@ -1,0 +1,25 @@
+rows=3721471 wells=760 gated=87.3%
+  DWT 10.2891  PF 11.0563  struct 26.0024  base 9.2987  DEPLOYED 8.8626
+
+=== P1  3-way weight re-optimization (nested, non-negative, sum-to-1) ===
+  fitted gated weights (mean): DWT=0.378 PF=0.415 struct=0.206
+  deployed equivalent        : DWT=0.425 PF=0.425 struct=0.150
+  NESTED 3-way refit = 9.0312   gain -0.1685
+
+=== P2  robust combiners of DWT & PF ===
+  mean (incumbent)         8.8626  gain +0.0000
+  shrink-to-median 0.75    9.0105  gain -0.1479
+  closer-to-struct pick    9.4559  gain -0.5933
+
+=== P3  continuous W(nnb, closest) vs the binary gate ===
+  W ~ nnb  : 9.0685  gain -0.2059
+  W ~ clo  : 8.9278  gain -0.0651
+  W ~ both : 8.9503  gain -0.0877
+
+=== P4  monotone (isotonic) calibration of the final prediction ===
+  isotonic: 9.7482  gain -0.8855
+
+=== P5  per-well nested weight (upper bound on well-specific weighting) ===
+  (global weight applied per gated well) 8.9542
+
+GATE: >= +0.10 vs deployed with stably positive bootstrap.
