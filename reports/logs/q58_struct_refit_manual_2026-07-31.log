@@ -1,0 +1,39 @@
+rows 3721471 | wells 760 | struct aligned by (well, ridx), 0 missing
+finite rows 3721471 (100.0%)
+
+=== 0. REPRODUCTION CONTROL: rebuild the deployed line from base + struct + gate ===
+  deployed s_54844628 RMSE            8.8626   (ledger: 8.8626)
+  base (0.5*dwt + 0.5*pf) RMSE        9.2987   (ledger: 9.2987)
+  rebuilt (meta gate nnb>=4 & closest<1000, W=0.15) RMSE 8.8626
+  rows differing by >0.01: 9 of 3721471 | max |diff| 0.0182  -> float32 rounding
+  gated rows: 87.3% (ledger: 87%)
+  implied W recovered from the deployed column: median 0.1500 (p5 0.1497, p95 0.1503) on gated rows, 0.0000 off-gate
+  REPRODUCED -> the stage is fully characterised by (meta gate, W=0.15).
+
+=== 1. producer coverage: 3721471 of 3721471 aligned rows (100.0%) ===
+  usable rows 3721471 | NS=64 forward vs the stored deployed pf column:
+    RMSE(stored pf)      11.0563
+    RMSE(our forward)    11.0684
+    max|our fwd - stored pf| 44.1797   mean|diff| 0.5830
+    RMSE(our smoothed)   10.6418
+
+=== 2. blend and full-line RMSE by (alpha, W), meta gate nnb>=4 & closest<1000 ===
+alpha         blend       W=0.00      W=0.05      W=0.10      W=0.15      W=0.20      W=0.30
+0.00         9.2914       9.2914      9.0968      8.9538      8.8652      8.8324      8.9360
+0.25         9.1949       9.1949      9.0064      8.8700      8.7882      8.7623      8.8797
+0.50         9.1208       9.1208      8.9371      8.8058      8.7292      8.7087      8.8366
+0.75         9.0698       9.0698      8.8894      8.7616      8.6886      8.6718      8.8070
+1.00         9.0422       9.0422      8.8637      8.7377      8.6666      8.6518      8.7911
+  reference on these rows: deployed line 8.8626 | deployed base 9.2987
+
+=== 3. NESTED over (alpha, W), splits BY WELL, both directions ===
+  picks [('alpha=1.00', 'W=0.30'), ('alpha=1.00', 'W=0.10')]
+  selected 8.9595  vs DEPLOYED LINE 8.8626  gain -0.0969
+  helps 60.0% of held-out wells | 3-WELL bootstrap 5th -1.4233  50th +0.1190  95th +1.2777  P(>0) 0.5684
+
+GATE: nested gain > 0 AND helps a majority AND 3-well 5th > 0  ->  FAIL
+
+=== 4. does the structural-field stage keep the smoother gain? ===
+  alpha=0 : blend 9.2914 -> line(W=0.15, unchanged stage) 8.8652   (stage worth +0.4262)
+  alpha=1 : blend 9.0422 -> line(W=0.15, unchanged stage) 8.6666   (stage worth +0.3756)
+  smoother at blend level +0.2492  ->  after the unchanged stage +0.1986  (carry-through 80%)

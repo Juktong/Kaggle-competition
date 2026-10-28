@@ -6,3 +6,10 @@ degeneracy control: array_equal(deployed run_particle_filter, trellis twin) = Tr
 [Parallel(n_jobs=2)]: Done  14 tasks      | elapsed:  3.5min
 [Parallel(n_jobs=2)]: Done  68 tasks      | elapsed: 15.3min
 [Parallel(n_jobs=2)]: Done 158 tasks      | elapsed: 35.3min
+[Parallel(n_jobs=2)]: Done 284 tasks      | elapsed: 61.9min
+[Parallel(n_jobs=2)]: Done 446 tasks      | elapsed: 95.9min
+[Parallel(n_jobs=2)]: Done 644 tasks      | elapsed: 137.8min
+[Parallel(n_jobs=2)]: Done 760 out of 760 | elapsed: 161.2min finished
+
+done 760 wells in 161.2 min | ok=760 bad=0
+wrote /home/ubuntu/.claude/jobs/rogii_sprint_shared/tmp/q58_pf_smoothed_preds.npz (760 wells, 3721471 rows)
